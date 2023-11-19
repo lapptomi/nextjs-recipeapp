@@ -10,4 +10,6 @@ COPY . .
 
 RUN npx prisma generate
 
-CMD ["npm", "run", "dev"]
+# RUN npm run build <- fix build for ci/cd
+
+CMD ["npm", "start"]
