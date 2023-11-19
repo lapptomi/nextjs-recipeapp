@@ -11,7 +11,7 @@ services:
       - NEXTAUTH_SECRET=secretkey
     build:
       context: ./
-      dockerfile: Dockerfile
+      dockerfile: dev.Dockerfile
       # dockerfile: dev.Dockerfile
     volumes:
       - ./src:/usr/src/app/src
