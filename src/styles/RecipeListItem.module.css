@@ -1,0 +1,28 @@
+.imagelistitem {
+  min-width: 300px;
+  min-height: 300px;
+  transition: transform 0.5s ease;
+}
+
+.imagelistitem:hover {
+  transform: scale(1.02);
+  transition: transform 0.2s ease;
+  cursor: pointer;
+}
+
+.itemdescription {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+  color: white;
+}
+
+.itembackground {
+  background: linear-gradient(
+    to bottom, 
+    rgba(0,0,0,1) 0%,
+    rgba(0,0,0,0.3) 70%,
+    rgba(0,0,0,0) 100%
+    );
+};

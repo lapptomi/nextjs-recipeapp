@@ -1,0 +1,43 @@
+.main {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.recipecontainer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  max-width: 1200px;
+  min-height: 300px;
+  flex-wrap: wrap;
+  margin-bottom: 40px;
+}
+
+.headercontainer {
+  height: 400px;
+  min-width: 100%;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-image: url("https://cdn.loveandlemons.com/wp-content/uploads/2020/03/pantry-recipes-2.jpg");
+}
+
+.headertitle {
+  padding: 40px;
+  color: white;
+  background: linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,0.5) 70%, rgba(0,0,0,0) 100%);
+}
+
+.recipedatacontainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-height: 400px;
+  background: white;
+  gap: 40px;
+  padding: 40px;
+  width: 100%;
+}

@@ -1,0 +1,31 @@
+.nav {
+  display: flex;
+  flex-direction: row;
+  background-color: rgb(17, 17, 17);
+  width: 100%;
+  padding: 15px 50px 15px 50px;
+  height: 60px;
+  justify-content: space-between;
+}
+
+.navbarleft {
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+  align-items: center;
+}
+
+.navbarcenter {
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+  justify-content: center;
+  align-items: center;
+}
+
+.navbarright {
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+  align-items: center;
+}

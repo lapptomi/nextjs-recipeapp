@@ -1,0 +1,39 @@
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 100px;
+  background: white;
+  flex-wrap: wrap;
+  padding: 100px 20px;
+  min-height: 500px;
+  width: auto;
+}
+
+.column {
+  display: flex;
+  flex-direction: column;
+  width: 600px;
+  gap: 20px;
+}
+
+.title {
+  font-weight: bold;
+  font-size: 40px;
+  color: black;
+}
+
+.subheader {
+  display: flex;
+  font-size: 20px;
+  color: black;
+  animation-duration: 5s;
+  animation-iteration-count: infinite;
+}
+
+.imagecontainer {
+  height: 400px;
+  width: 400px;
+  background-size: 'cover';
+  opacity: 0.8;
+}

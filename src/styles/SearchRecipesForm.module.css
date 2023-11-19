@@ -1,0 +1,18 @@
+
+.main {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: white;
+  min-height: 100px;
+  padding: 20px;
+}
+
+.filterform {
+  justify-content: center;
+  max-width: 600px;
+  flex-wrap: wrap;
+  display: flex;
+  gap: 20px;
+}

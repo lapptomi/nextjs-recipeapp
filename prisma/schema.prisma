@@ -1,0 +1,52 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+// env("DATABASE_URL")
+// postgresql://postgres:postgres@localhost:5432/postgres?schema=public
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        Int             @id @default(autoincrement())
+  email     String          @unique
+  username  String          @unique
+  password  String
+  recipes   Recipe[]
+  comments  RecipeComment[]
+  createdAt DateTime        @default(now())
+  updatedAt DateTime        @updatedAt
+}
+
+model Recipe {
+  id           Int             @id @default(autoincrement())
+  title        String
+  description  String
+  instructions String
+  ingredients  String[]
+  author       User            @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  authorId     Int
+  rating       Int             @default(0)
+  cookingTime  Int             @default(0)
+  servings     Int             @default(0)
+  image        String?
+  comments     RecipeComment[]
+  createdAt    DateTime        @default(now())
+  updatedAt    DateTime        @updatedAt
+}
+
+model RecipeComment {
+  id        Int      @id @default(autoincrement())
+  recipeId  Int
+  author    User     @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  recipe    Recipe   @relation(fields: [recipeId], references: [id], onDelete: Cascade)
+  authorId  Int
+  message   String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}

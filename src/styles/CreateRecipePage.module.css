@@ -1,0 +1,23 @@
+.formcontainer {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  width: 70vw;
+  background-color: white;
+  border-radius: 15px;
+  padding: 20px;
+}
+
+.formimagecontainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background: rgba(211, 211, 211, 0.266);
+  min-height: 150px;
+  padding: 20px;
+  width: 100%;
+}
