@@ -15,7 +15,10 @@
 ![Material UI](https://img.shields.io/badge/Material--UI-0081CB?style=for-the-badge&logo=mui&logoColor=white)
 
 
-# App hosted on Fly.io
+# App hosted on Vercel
+### [View Hosted Application](https://nextjs-recipeapp.vercel.app/)
+
+# App hosted on Fly.io (OLD)
 ### [View Hosted Application](https://recipeapp-pro.fly.dev/)
 
 
