@@ -9,7 +9,6 @@ services:
     build:
       context: ./
       dockerfile: dev.Dockerfile
-      # dockerfile: dev.Dockerfile
     volumes:
       - ./src:/usr/src/app/src
     ports:
