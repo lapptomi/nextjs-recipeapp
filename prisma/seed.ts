@@ -18,7 +18,7 @@ export const createSeed = async () => {
 createSeed();
 
 
-export const seed = async () => {
+const seed = async () => {
   const user = await prisma.user.create({
     data: {
       email: 'testemail222@testmail.com',
@@ -94,58 +94,6 @@ export const seed = async () => {
       authorId: user2.id,
       cookingTime: 45,
       servings: 4,
-    }
-  });
-};
-
-const seed2 = async () => {
-  await prisma.user.deleteMany({});
-  await prisma.recipe.deleteMany({});
-  // await prisma.comment.deleteMany({});
-
-  const user = await prisma.user.create({
-    data: {
-      email: 'asd',
-      username: 'randomusername',
-      password: 'asd',
-    }
-  });
-
-  for (let i = 0; i < 9; i++) {
-    await prisma.recipe.create({
-      data: {
-        title: 'Chicken soup',
-        description: 'A delicious chicken soup',
-        ingredients: ['Pizza', '1 dl water', '2 spoons of salt', '2 spoons of pepper'],
-        instructions: `
-          Prepare the pizza dough using the pizza base kit and water following packet directions.
-          
-          Turn dough onto a lightly floured surface and knead until smooth.
-          Use a rolling pin to roll out to a 25cm disc.
-          Place on the prepared tray. Set aside in a warm place for 10 mins.
-        `,
-        authorId: user.id,
-        cookingTime: 30,
-        servings: 6,
-      }
-    });
-  }
-
-  await prisma.recipe.create({
-    data: {
-      title: 'page 2 recipe',
-      description: 'A delicious chicken soup',
-      ingredients: ['Pizza', '1 dl water', '2 spoons of salt', '2 spoons of pepper'],
-      instructions: `
-        Prepare the pizza dough using the pizza base kit and water following packet directions.
-        
-        Turn dough onto a lightly floured surface and knead until smooth.
-        Use a rolling pin to roll out to a 25cm disc.
-        Place on the prepared tray. Set aside in a warm place for 10 mins.
-      `,
-      authorId: user.id,
-      cookingTime: 30,
-      servings: 6,
     }
   });
 };

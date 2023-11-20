@@ -5,8 +5,8 @@ import type { NewUser } from '@/types';
 import { initTestDb } from './init_db';
 
 const user: NewUser = {
-  username: 'test123',
-  email: 'tes123123t@test.com',
+  username: 'test123321',
+  email: 'tes123123t@aasd.com',
   password: 'testpassword123',
 };
 
