@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "postinstall": "prisma generate",
-    
+
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
@@ -42,7 +42,6 @@
     "@types/react-dom": "^18",
     "eslint": "^8",
     "eslint-config-next": "14.0.3",
-
 
     "@jest/globals": "^29.7.0",
     "@typescript-eslint/eslint-plugin": "^5.62.0",
