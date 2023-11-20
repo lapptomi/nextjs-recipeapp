@@ -1,24 +1,6 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-
-
 import { PrismaClient, Recipe, User } from '@prisma/client';
 
 const prisma = new PrismaClient();
-
-const createSeed2 = async () => {
-  try {
-    await prisma.recipe.deleteMany();
-    await prisma.user.deleteMany();
-    await prisma.recipeComment.deleteMany();
-
-    await seed();
-    await prisma.$disconnect();
-  } catch (e) {
-    console.error(e);
-    await prisma.$disconnect();
-    process.exit(1);
-  }
-};
 
 export const createSeed = async () => {
   try {
