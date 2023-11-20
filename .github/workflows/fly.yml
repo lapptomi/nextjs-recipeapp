@@ -31,9 +31,11 @@ jobs:
         if: always()
         run: docker-compose -f "docker-compose.dev.yml" down
 
-      - uses: superfly/flyctl-actions/setup-flyctl@master
-      - name: Fly.io deploy
-        if: ${{ success() && github.ref == 'refs/heads/main' }}
-        run: flyctl deploy --remote-only
-        env:
-          FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
+      # TODO: fix Fly.io deploy (npm run build fails because of missing DATABASE_URL)
+
+      #- uses: superfly/flyctl-actions/setup-flyctl@master
+      #- name: Fly.io deploy
+      #  if: ${{ success() && github.ref == 'refs/heads/main' }}
+      #  run: flyctl deploy --remote-only
+      #  env:
+      #    FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
