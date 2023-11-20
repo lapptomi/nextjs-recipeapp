@@ -14,8 +14,12 @@ describe('User Actions', () => {
   beforeEach((done) => {
     initTestDb().then(() => done());
   });
+
+  test('returns right amount of users', async () => {
+    expect((await userActions.getAll()).length).toBe(2);
+  });
   
-  test('creates user with valid credentials', async () => {    
+  test('creates user with valid credentials', async () => {
     expect((await userActions.getAll()).length).toBe(2);
 
     const createdUser = await userActions.create(user);
