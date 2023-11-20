@@ -1,12 +1,9 @@
 "use client";
 
 import { useState } from 'react';
-
 import { Pagination } from '@mui/material';
-
 import RecipeListItem from './RecipeListItem';
 import styles from '../styles/RecipeList.module.css';
-
 import type { Recipe } from '@prisma/client';
 
 const recipeImages = [

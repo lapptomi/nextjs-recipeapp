@@ -6,14 +6,10 @@ import React, { useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Alert, Button, Grid, Link, TextField, Typography } from "@mui/material";
 import { signIn } from "next-auth/react";
-
 import '@/app/globals.css';
-
 import { useForm } from "react-hook-form";
-
 import { APPLICATION_NAME } from "../config/constants";
 import { UserSchema } from "../types";
-
 import type { z } from "zod";
 import { userActions } from "@/actions";
 

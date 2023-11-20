@@ -1,10 +1,8 @@
 "use client";
 
 import React, { useState } from "react";
-
 import { Alert, Box, Button, Grid, Link, TextField, Typography } from "@mui/material";
 import { signIn } from "next-auth/react";
-
 import { APPLICATION_NAME } from "@/config/constants";
 
 const LoginForm: React.FC = () => {

@@ -15,7 +15,7 @@ export const createSeed = async () => {
   }
 };
 
-// createSeed();
+createSeed();
 
 
 export const seed = async () => {

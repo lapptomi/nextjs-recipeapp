@@ -1,11 +1,10 @@
 import { beforeEach, describe, expect, test } from '@jest/globals';
-
-import { createSeed } from '../prisma/seed';
 import { recipeActions } from '../src/actions';
+import { initTestDb } from './init_db';
 
 describe.only('Recipe actions', () => {
   beforeEach((done) => {
-    createSeed().then(() => done());
+    initTestDb().then(() => done());
   });
 
   test('returns right amount of recipes', async () => {

@@ -1,14 +1,12 @@
 "use client";
 
 import * as React from 'react';
-
 import { Notifications } from '@mui/icons-material';
 import { Avatar, Badge, Button, List, ListItem, ListItemAvatar, ListItemText, Typography } from '@mui/material';
 import Divider from '@mui/material/Divider';
 import IconButton from '@mui/material/IconButton';
 import Menu from '@mui/material/Menu';
 import Tooltip from '@mui/material/Tooltip';
-
 import type { Session } from 'next-auth';
 
 interface Props {

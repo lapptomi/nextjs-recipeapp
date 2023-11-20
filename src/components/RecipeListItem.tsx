@@ -3,9 +3,7 @@
 import { AccessTime, Person } from "@mui/icons-material";
 import { Chip, Container, ImageListItem, ImageListItemBar, Rating, Typography } from "@mui/material";
 import Link from "next/link";
-
 import styles from "@/styles/RecipeListItem.module.css";
-
 import type { RecipeWithAuthor } from "../types";
 
 interface Props {

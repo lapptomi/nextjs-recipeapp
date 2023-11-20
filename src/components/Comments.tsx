@@ -2,7 +2,6 @@ import React from "react";
 
 import { Avatar, Divider, List, ListItem, ListItemAvatar, ListItemText, Typography } from "@mui/material";
 import Link from "next/link";
-
 import type { RecipeComment, User } from "@prisma/client";
 
 

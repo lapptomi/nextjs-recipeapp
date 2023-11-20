@@ -1,5 +1,4 @@
 import { Typography } from '@mui/material';
-
 import styles from '@/styles/TitleHeader.module.css';
 
 const TitleHeader = ({ title }: { title?: string }) => {

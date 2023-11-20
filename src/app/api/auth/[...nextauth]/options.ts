@@ -1,8 +1,7 @@
 import CredentialsProvider from 'next-auth/providers/credentials';
 import GitHubProvider from 'next-auth/providers/github';
-
+import bcrypt from 'bcryptjs';
 import { prisma } from '../../../../config/db';
-
 import type { NextAuthOptions } from 'next-auth';
 
 export const options: NextAuthOptions = {
@@ -77,16 +76,16 @@ export const options: NextAuthOptions = {
 
         const user = await prisma.user.findUnique({ where: {
           email: credentials?.email,
-          password: credentials?.password,
         }});
 
         if (!user) {
           throw new Error('Invalid credentials');
         }
 
+        const passwordsMatch = await bcrypt.compare(credentials?.password, user.password);
         const validCredentials = (
           credentials?.email === user.email  &&
-          credentials?.password === user.password
+          passwordsMatch
         );
 
         if (validCredentials) {

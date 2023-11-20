@@ -18,9 +18,6 @@
 # App hosted on Vercel
 ### [View Hosted Application](https://nextjs-recipeapp.vercel.app/)
 
-# App hosted on Fly.io (OLD)
-### [View Hosted Application](https://recipeapp-pro.fly.dev/)
-
 
 # Running app locally  
 

@@ -1,9 +1,8 @@
 import { beforeEach, describe, expect, test } from '@jest/globals';
-
-import { createSeed } from '../prisma/seed';
 import { userActions } from '../src/actions';
 
 import type { NewUser } from '@/types';
+import { initTestDb } from './init_db';
 
 const user: NewUser = {
   username: 'test123',
@@ -11,12 +10,10 @@ const user: NewUser = {
   password: 'testpassword123',
 };
 
-
 describe('User Actions', () => {
   beforeEach((done) => {
-    createSeed().then(() => done());
+    initTestDb().then(() => done());
   });
-
   
   test('creates user with valid credentials', async () => {    
     expect((await userActions.getAll()).length).toBe(2);

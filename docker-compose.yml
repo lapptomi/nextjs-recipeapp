@@ -1,8 +1,5 @@
 version: '3.8'
 
-# SQLITE DATABASE_URL=file:./dev.db
-# DATABASE_URL="postgresql://{POSTGRES_USER}:{POSTGRES_PASSWORD}@localhost:{PORT}/{POSTGRES_DB}?schema=public"
-
 services:
   recipe-app:
     image: recipe-app
@@ -19,7 +16,7 @@ services:
       - postgres
 
   postgres:
-    image: postgres
+    image: postgres:16-alpine
     environment:
       POSTGRES_PASSWORD: postgres
       POSTGRES_USER: postgres

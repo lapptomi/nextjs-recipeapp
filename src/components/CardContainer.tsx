@@ -1,7 +1,6 @@
 "use client";
 
 import { Avatar, Button, Card, CardContent, CardMedia, Divider, Rating, Typography } from "@mui/material";
-
 import styles from '@/styles/CardContainer.module.css';
 
 const CardContainer = () => {

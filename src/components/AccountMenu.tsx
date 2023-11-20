@@ -14,9 +14,7 @@ import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import Tooltip from '@mui/material/Tooltip';
 import Link from 'next/link';
-
 import { handleSignOut } from '../actions/authentication';
-
 import type { Session } from 'next-auth';
 
 interface Props {

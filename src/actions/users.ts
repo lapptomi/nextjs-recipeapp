@@ -5,6 +5,7 @@ import { UserSchema } from "../types";
 
 import type { NewUser} from "../types";
 import type { User } from "@prisma/client";
+import * as bcrypt from "bcryptjs";
 
 export const getAll = async (): Promise<User[]> => {
   try {
@@ -26,10 +27,17 @@ export const findById = async (id: number): Promise<User | null> => {
   }
 };
   
-export const create = async (newUser: NewUser): Promise<User | null> => {
+export const create = async (user: NewUser): Promise<User | null> => {
   try {
-    const validatedUser = UserSchema.parse(newUser);
-    const createdUser = await prisma.user.create({ data: validatedUser });
+    const validatedUser = UserSchema.parse(user);
+    const hashedPassword = await bcrypt.hash(validatedUser.password, 10);
+
+    const createdUser = await prisma.user.create({
+      data: {
+        ...validatedUser,
+        password: hashedPassword,
+      }
+  });
     return createdUser;
   } catch (error) {
     throw new Error(error as any);

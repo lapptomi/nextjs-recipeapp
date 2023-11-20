@@ -2,11 +2,9 @@
 
 import type { ChangeEvent } from "react";
 import React from "react";
-
 import { SearchOutlined } from "@mui/icons-material";
 import { Button, FormControl, InputAdornment, InputLabel, MenuItem, Select, TextField } from "@mui/material";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-
 import styles from '@/styles/SearchRecipesForm.module.css';
 
 interface Props {
