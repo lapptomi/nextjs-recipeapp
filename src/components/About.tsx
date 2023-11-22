@@ -3,8 +3,11 @@
 "use client";
 
 import { useLayoutEffect, useState } from 'react';
+
 import { animated, useSpringRef, useTransition } from '@react-spring/web';
+
 import styles from '@/styles/About.module.css';
+
 import CardContainer from './CardContainer';
 
 const IMAGES = [

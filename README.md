@@ -49,11 +49,15 @@ And opening http://localhost:5555 in your browser.
 
 
 # Environment Variables
-This application uses two .env variables:  
+This application uses environment variables listed below:  
 ```
 DATABASE_URL=(SQL database url, uses SQLite by default = "file:./dev.db"  )
 NEXTAUTH_SECRET=(any string)
 NEXTAUTH_URL=(any string for Fly.io)
+AWS_BUCKET_NAME=(aws s3 bucket name)
+AWS_BUCKET_REGION=(aws s3 bucket region)
+AWS_ACCESS_KEY_ID_(aws access key)
+AWS_SECRET_ACCESS_KEY=(aws secret access key)
 ```
 
 # Info

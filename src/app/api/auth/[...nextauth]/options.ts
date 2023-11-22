@@ -1,7 +1,10 @@
+/* eslint-disable no-null/no-null */
+import bcrypt from 'bcryptjs';
 import CredentialsProvider from 'next-auth/providers/credentials';
 import GitHubProvider from 'next-auth/providers/github';
-import bcrypt from 'bcryptjs';
+
 import { prisma } from '../../../../config/db';
+
 import type { NextAuthOptions } from 'next-auth';
 
 export const options: NextAuthOptions = {
@@ -18,7 +21,8 @@ export const options: NextAuthOptions = {
     strategy: "jwt",
   
     // Seconds - How long until an idle session expires and is no longer valid.
-    maxAge: 24 * 60 * 60,  // 30 days
+    // maxAge: 24 * 60 * 60,  // 30 days
+    maxAge: 60 * 5,  // 30 days
   
     // Seconds - Throttle how frequently to write to database to extend a session.
     // Use it to limit write operations. Set to 0 to always update the database.

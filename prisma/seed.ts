@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { PrismaClient, Recipe, User } from '@prisma/client';
 
 const prisma = new PrismaClient();
@@ -50,6 +51,7 @@ const seed = async () => {
       authorId: user.id,
       cookingTime: 30,
       servings: 6,
+      image: "recipeimage.jpeg",
       comments: {
         create: [
           {
@@ -67,8 +69,8 @@ const seed = async () => {
 
   const recipe2 = await prisma.recipe.create({
     data: {
-      title: 'Pepperoni pizza',
-      description: 'A easy and delicious pepperoni pizza',
+      title: 'Shrimp salad',
+      description: 'A easy and delicious shrimp salad',
       ingredients: ['Chicken', 'water', 'salt', 'pepper'],
       instructions: `
       Instructions: 1. In a large mixing bowl, combine the flour, yeast, sugar, and salt. Mix well.
@@ -92,6 +94,7 @@ const seed = async () => {
       10. Remove from the oven and let it cool for a few minutes before slicing and serving. Enjoy your homemade pizza!
       `,
       authorId: user2.id,
+      image: "recipeimage2.jpeg",
       cookingTime: 45,
       servings: 4,
     }

@@ -1,11 +1,12 @@
 "use server";
 
+import * as bcrypt from "bcryptjs";
+
 import { prisma } from "../config/db";
 import { UserSchema } from "../types";
 
 import type { NewUser} from "../types";
 import type { User } from "@prisma/client";
-import * as bcrypt from "bcryptjs";
 
 export const getAll = async (): Promise<User[]> => {
   try {
@@ -37,7 +38,7 @@ export const create = async (user: NewUser): Promise<User | null> => {
         ...validatedUser,
         password: hashedPassword,
       }
-  });
+    });
     return createdUser;
   } catch (error) {
     throw new Error(error as any);

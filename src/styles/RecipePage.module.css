@@ -10,7 +10,7 @@
   justify-content: space-between;
   align-items: center;
   width: 100%;
-  max-width: 1200px;
+  max-width: 1920px;
   min-height: 300px;
   flex-wrap: wrap;
   margin-bottom: 40px;
@@ -22,7 +22,6 @@
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  background-image: url("https://cdn.loveandlemons.com/wp-content/uploads/2020/03/pantry-recipes-2.jpg");
 }
 
 .headertitle {

@@ -1,21 +1,40 @@
-/* eslint-disable @next/next/no-img-element */
+"use client";
+
+import { useEffect, useState } from "react";
 
 import { AccessTime, Person } from "@mui/icons-material";
-import { Chip, Container, ImageListItem, ImageListItemBar, Rating, Typography } from "@mui/material";
+import { Chip, Container, ImageListItem, ImageListItemBar, LinearProgress, Rating, Typography } from "@mui/material";
+import Image from "next/image";
 import Link from "next/link";
+
+import { getSignedImageUrl } from "@/actions/aws_s3";
 import styles from "@/styles/RecipeListItem.module.css";
+
 import type { RecipeWithAuthor } from "../types";
 
 interface Props {
-  recipe: RecipeWithAuthor & { img: any };
+  recipe: RecipeWithAuthor;
 }
 
 const RecipeListItem: React.FC<Props> = ({ recipe }) => {
+  const [loading, setLoading] = useState(true);
+  const [imageUrl, setImageUrl] = useState('');
+    
+  useEffect(() => {
+    getSignedImageUrl(recipe?.image || '')
+      .then((response) => {
+        if (response) {
+          setImageUrl(response);
+        }
+      }).catch((error) => console.log('Error fetching presigned URL:', error))
+      .finally(() => setLoading(false));
+  }, [recipe.image]);
+
   return (
-    <Link href={`/recipes/${recipe.id}`} key={recipe.img}>
+    <Link href={`/recipes/${recipe.id}`} key={recipe.title}>
       <ImageListItem
         className={styles.imagelistitem}
-        key={recipe.img}
+        key={recipe.title}
       >
         <ImageListItemBar
           className={styles.itembackground}
@@ -29,12 +48,18 @@ const RecipeListItem: React.FC<Props> = ({ recipe }) => {
             </div>
           }
         />
-        <img
-          style={{ position: 'absolute', zIndex: -1 }}
-          src={`${recipe.img}?w=248&fit=crop&auto=format`}
-          alt={recipe.title}
-          loading="lazy"
-        />
+        {loading ? (
+          <LinearProgress color="primary" />
+        ) : (
+          <Image
+            alt="recipe image"
+            width={300}
+            height={300}  
+            src={imageUrl}
+            quality={20}
+            loading="lazy"
+          />
+        )}
         <ImageListItemBar
           position='bottom'
           actionIcon={

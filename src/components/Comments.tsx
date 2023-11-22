@@ -2,6 +2,7 @@ import React from "react";
 
 import { Avatar, Divider, List, ListItem, ListItemAvatar, ListItemText, Typography } from "@mui/material";
 import Link from "next/link";
+
 import type { RecipeComment, User } from "@prisma/client";
 
 
@@ -10,7 +11,6 @@ interface Props {
 }
 
 const Comments = async ({ comments }: Props) => {
-
   return (
     <List style={{ display: 'flex', flexDirection: 'column', width: '100%', background: 'white' }}>
       <Divider>

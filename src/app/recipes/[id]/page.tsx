@@ -2,6 +2,7 @@ import { AccessTime, Person } from '@mui/icons-material';
 import { Avatar, Divider, List, ListItem, Rating, Typography } from '@mui/material';
 import { getServerSession } from 'next-auth';
 
+import { getSignedImageUrl } from '@/actions/aws_s3';
 import { options } from '@/app/api/auth/[...nextauth]/options';
 import Comments from '@/components/Comments';
 import RecipeCommentForm from '@/components/RecipeCommentForm';
@@ -17,7 +18,6 @@ interface Props {
 
 const RecipePage = async ({ params }: Props) => {
   const session = await getServerSession(options);
-
   const recipeWithComments = await prisma.recipe.findUnique({
     where: {
       id: parseInt(params.id)
@@ -31,7 +31,8 @@ const RecipePage = async ({ params }: Props) => {
       }
     },
   });
-  
+  const recipeHeader = await getSignedImageUrl(recipeWithComments?.image || '');
+
   if (!recipeWithComments) {
     return <TitleHeader title="Recipe not found" />;
   }
@@ -39,7 +40,14 @@ const RecipePage = async ({ params }: Props) => {
   return (
     <div className={styles.main}>
       <div className={styles.recipecontainer}>                      
-        <div className={styles.headercontainer}>
+        <div
+          className={styles.headercontainer}
+          style={{
+            backgroundImage: `url(${recipeHeader})`,
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+            backgroundRepeat: 'no-repeat',
+          }}>
           <div className={styles.headertitle}>
             <Typography variant="h4">{recipeWithComments.title.toUpperCase()}</Typography>
             <div style={{ display: 'flex',  alignItems: 'center' }}>

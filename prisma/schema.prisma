@@ -16,6 +16,7 @@ model User {
   email     String          @unique
   username  String          @unique
   password  String
+  image     String?
   recipes   Recipe[]
   comments  RecipeComment[]
   createdAt DateTime        @default(now())

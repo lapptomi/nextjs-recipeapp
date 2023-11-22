@@ -11,6 +11,7 @@ export const RecipeSchema = z.object({
   instructions: z.string().min(4).max(4000),
   cookingTime: z.number().optional(),
   servings: z.number().optional(),
+  image: z.string().optional(),
 });
 
 export const UserSchema = z.object({
