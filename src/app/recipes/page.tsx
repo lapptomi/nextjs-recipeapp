@@ -9,11 +9,7 @@ const BrowseRecipesPage = async () => {
     <div>
       <TitleHeader title="BROWSE RECIPES" />
       {/* <SearchRecipesForm /> */}
-      {recipes.length > 0 ? (
-        <RecipeList recipes={recipes} />
-      ) : (
-        <div>No recipes found</div>
-      )}
+      <RecipeList recipes={recipes} />
     </div>
   );
 };

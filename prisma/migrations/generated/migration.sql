@@ -15,7 +15,7 @@ CREATE TABLE "User" (
 CREATE TABLE "Recipe" (
     "id" SERIAL NOT NULL,
     "title" TEXT NOT NULL,
-    "description" TEXT NOT NULL,
+    "description" TEXT,
     "instructions" TEXT NOT NULL,
     "ingredients" TEXT[],
     "authorId" INTEGER NOT NULL,

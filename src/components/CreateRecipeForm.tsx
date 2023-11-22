@@ -19,10 +19,10 @@ import type { NewRecipe } from '../types';
 const CreateRecipeForm = () => {
   const { data: session } = useSession();
 
-  const [image, setImage] = useState<string | undefined>(undefined);
+  const [image, setImage] = useState<File | undefined>(undefined);
 
   const handleImageChange = (event: any) => {
-    setImage(URL.createObjectURL(event.target.files[0]));
+    setImage(event.target.files[0]);
   };
 
   const handleFormSubmit = (data: NewRecipe) => {
@@ -30,8 +30,11 @@ const CreateRecipeForm = () => {
       return;
     }
 
-    recipeActions.create(data)
-      .then((recipe: any) => {
+    const formData = new FormData();
+    formData.append('image', image as any);
+
+    recipeActions.create(data, formData)
+      .then((recipe) => {
         window.location.replace(`/recipes/${recipe.id}`);
       })
       .catch((error) => {
@@ -215,7 +218,12 @@ const CreateRecipeForm = () => {
         </Button>
         {image && (
           <div>
-            <Image alt="asd" width={100} height={100} src={image} />
+            <Image
+              alt="recipe image"
+              width={100}
+              height={100}
+              src={URL.createObjectURL(image)}
+            />
             <IconButton size="large">
               <Delete onClick={() => setImage(undefined)} />
             </IconButton>

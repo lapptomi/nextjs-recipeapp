@@ -31,7 +31,7 @@ const RecipePage = async ({ params }: Props) => {
       }
     },
   });
-  const recipeHeader = await getSignedImageUrl(recipeWithComments?.image || '');
+  const recipeImage = await getSignedImageUrl(recipeWithComments?.image || '');
 
   if (!recipeWithComments) {
     return <TitleHeader title="Recipe not found" />;
@@ -43,7 +43,7 @@ const RecipePage = async ({ params }: Props) => {
         <div
           className={styles.headercontainer}
           style={{
-            backgroundImage: `url(${recipeHeader})`,
+            backgroundImage: `url(${recipeImage})`,
             backgroundSize: 'cover',
             backgroundPosition: 'center',
             backgroundRepeat: 'no-repeat',

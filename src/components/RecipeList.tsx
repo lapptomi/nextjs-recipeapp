@@ -16,6 +16,10 @@ interface Props {
 const RecipeList: React.FC<Props> = ({ recipes }) => {
   const [pageNumber, setPageNumber] = useState(0);
 
+  if (!recipes) {
+    return <div>No recipes found</div>;
+  }
+
   const pageSize = 9;
   const pageRecipes = recipes.slice(
     pageNumber * pageSize,
@@ -31,7 +35,7 @@ const RecipeList: React.FC<Props> = ({ recipes }) => {
       width: '100%',
       margin: '30px 0px 30px 0px',
     }}>
-      {/* TODO: add better navigation */}
+      {/* TODO: add better pagination */}
       <Pagination
         count={Math.ceil(recipes.length / pageSize)}
         color="primary"
@@ -39,10 +43,7 @@ const RecipeList: React.FC<Props> = ({ recipes }) => {
       />
       <div className={styles.recipelist}>
         {pageRecipes.map((recipe) => (
-          <RecipeListItem
-            key={recipe.id}
-            recipe={recipe}
-          />
+          <RecipeListItem key={recipe.id} recipe={recipe} />
         ))}
       </div>
     </div>

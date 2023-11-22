@@ -4,7 +4,7 @@ import type { Recipe, User } from "@prisma/client";
 
 export const RecipeSchema = z.object({
   title: z.string().min(4).max(18),
-  description: z.string().min(4).max(18),
+  description: z.string().max(50).optional(),
   ingredients: z.array(z.object({
     ingredient: z.string().min(4).max(18),
   })).min(1).max(200),
