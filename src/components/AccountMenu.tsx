@@ -6,10 +6,9 @@ import * as React from 'react';
 import { AddBox, Person } from '@mui/icons-material';
 import Logout from '@mui/icons-material/Logout';
 import Settings from '@mui/icons-material/Settings';
-import { Typography } from '@mui/material';
+import { Button, Typography } from '@mui/material';
 import Avatar from '@mui/material/Avatar';
 import Divider from '@mui/material/Divider';
-import IconButton from '@mui/material/IconButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
@@ -38,12 +37,12 @@ const AccountMenu: React.FC<Props> = ({ user }) => {
   return (
     <>
       <Tooltip title="Account settings">
-        <IconButton style={{ gap: 10 }} color="info" onClick={handleClick} size="small">
+        <Button style={{ gap: 10 }} color="info" onClick={handleClick} size="small">
           <Avatar sx={{ width: 32, height: 32 }}>
             {user?.name ? user.name[0] : ''}
           </Avatar>
-          <Typography>{user?.name || ''}</Typography>
-        </IconButton>
+          <Typography variant="body2">{user?.name || ''}</Typography>
+        </Button>
       </Tooltip>
       
       <Menu

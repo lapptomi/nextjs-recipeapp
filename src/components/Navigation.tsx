@@ -1,5 +1,5 @@
-import { Add, LocalDiningOutlined, Search } from '@mui/icons-material';
-import { Button, IconButton, Tooltip, Typography } from '@mui/material';
+import { Add, FormatListBulletedOutlined, LocalDiningOutlined } from '@mui/icons-material';
+import { Button, Tooltip, Typography } from '@mui/material';
 import { getServerSession } from 'next-auth';
 
 import styles from '@/styles/Navigation.module.css';
@@ -27,23 +27,23 @@ const Navigation = async () => {
 
       <div className={styles.navbarright}>
         <Tooltip title="Browse recipes">
-          <IconButton color="info" size="small" href="/recipes">
-            <Search color="primary" />
+          <Button color="info" size="small" href="/recipes">
+            <FormatListBulletedOutlined color="primary" />
             <Typography variant="overline">
               Browse
             </Typography>
-          </IconButton>
+          </Button>
         </Tooltip>
 
         {session && session.user ? (
           <>
             <Tooltip title="Create new recipe">
-              <IconButton color="info" size="small" href="/recipes/create">
+              <Button color="info" size="small" href="/recipes/create">
                 <Add color="primary" />
                 <Typography variant="overline">
                   Create
                 </Typography>
-              </IconButton>
+              </Button>
             </Tooltip>
 
             <NotificationMenu user={session.user} />
