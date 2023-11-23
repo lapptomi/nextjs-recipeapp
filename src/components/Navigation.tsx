@@ -51,10 +51,10 @@ const Navigation = async () => {
           </>
         ) : (
           <>
-            <Button size="small" color="info" href='/login'>
+            <Button size="small" color="info" href='/auth/login'>
               Sign in
             </Button>
-            <Button size="small" variant="contained" href='/register'>
+            <Button size="small" variant="contained" href='/auth/register'>
               Sign up
             </Button>
           </>

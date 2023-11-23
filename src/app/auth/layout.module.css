@@ -1,0 +1,10 @@
+.maingrid {
+  background-image: url("https://images.squarespace-cdn.com/content/v1/5c4ece0e3917ee277d32eaf3/1596527501411-CIRIZCOIALL3UTE1WSK9/dishes-compressed.gif");
+  filter: blur(15px) brightness(0.3);
+  transform: scale(1.3);
+  z-index: -1;
+  background-repeat: no-repeat;
+  background-color: gray;
+  background-size: cover;
+  background-position: center;
+}

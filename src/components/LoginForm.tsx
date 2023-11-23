@@ -74,7 +74,7 @@ const LoginForm: React.FC = () => {
           </Link>
         </Grid>
         <Grid item>
-          <Link href="/register" variant="body2">
+          <Link href="/auth/register" variant="body2">
             Dont have an account? Sign Up
           </Link>
         </Grid>

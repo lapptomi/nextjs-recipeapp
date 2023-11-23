@@ -1,11 +1,8 @@
-import Box from '@mui/material/Box';
-import Grid from '@mui/material/Grid';
-import Paper from '@mui/material/Paper';
+import { Box, Grid, Paper } from "@mui/material";
 
-import LoginForm from '@/components/LoginForm';
-import styles from '@/styles/LoginPage.module.css';
+import styles from "./layout.module.css";
 
-const LoginPage = () => {
+const PageLayout = ({ children }: any) => {
   return (
     <Grid container sx={{ height: '100vh' }}>
       <Grid
@@ -14,6 +11,7 @@ const LoginPage = () => {
         className={styles.maingrid}
       />
       <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
+        {/* TODO: use css instead of Mui styling */}
         <Box
           sx={{
             my: 8,
@@ -23,11 +21,11 @@ const LoginPage = () => {
             alignItems: 'center',
           }}
         >
-          <LoginForm />
+          {children}
         </Box>
       </Grid>
     </Grid>
   );
 };
 
-export default LoginPage;
+export default PageLayout;

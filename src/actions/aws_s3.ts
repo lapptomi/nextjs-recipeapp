@@ -29,7 +29,6 @@ export const uploadImageToS3 = async (image: File) => {
   });
 
   const uploadedImage = await s3Client.send(uploadCommand);
-
   return uploadedImage;
 };
 

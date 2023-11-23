@@ -10,11 +10,12 @@ import { useSession } from 'next-auth/react';
 import { useFieldArray, useForm } from 'react-hook-form';
 
 import { recipeActions } from '@/actions';
-import styles from '@/styles/CreateRecipePage.module.css';
 
+import styles from '../styles/CreateRecipeForm.module.css';
 import { RecipeSchema } from '../types';
 
 import type { NewRecipe } from '../types';
+
 
 const CreateRecipeForm = () => {
   const { data: session } = useSession();

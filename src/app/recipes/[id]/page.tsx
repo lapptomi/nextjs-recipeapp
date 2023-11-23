@@ -8,7 +8,8 @@ import Comments from '@/components/Comments';
 import RecipeCommentForm from '@/components/RecipeCommentForm';
 import TitleHeader from '@/components/TitleHeader';
 import { prisma } from '@/config/db';
-import styles from '@/styles/RecipePage.module.css';
+
+import styles from './page.module.css';
 
 interface Props {
   params: {

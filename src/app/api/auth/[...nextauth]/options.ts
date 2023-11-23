@@ -9,7 +9,8 @@ import type { NextAuthOptions } from 'next-auth';
 
 export const options: NextAuthOptions = {
   pages: {
-    signIn: "/login",
+    signIn: "/auth/login",
+    signOut: "/auth/logout",
   },
   session: {
     // Choose how you want to save the user session.

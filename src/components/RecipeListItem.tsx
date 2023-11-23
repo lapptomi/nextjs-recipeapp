@@ -18,7 +18,7 @@ interface Props {
 
 const RecipeListItem: React.FC<Props> = ({ recipe }) => {
   const [imageUrl, setImageUrl] = useState<string>('');
-    
+
   useEffect(() => {
     if (recipe.image) {
       getSignedImageUrl(recipe.image)
@@ -27,7 +27,9 @@ const RecipeListItem: React.FC<Props> = ({ recipe }) => {
             setImageUrl(response);
           }
         })
-        .catch((error) => console.log(error));
+        .catch((error) => {
+          console.log(error);
+        });
     }
   }, [recipe.image]);
 
@@ -46,6 +48,8 @@ const RecipeListItem: React.FC<Props> = ({ recipe }) => {
             </div>
           }
         />
+
+        
         {imageUrl ? (
           <Image
             alt={recipe.id.toString()}
@@ -58,6 +62,7 @@ const RecipeListItem: React.FC<Props> = ({ recipe }) => {
         ) : (
           <Restaurant style={{ width: '100%', height: '100%', opacity: 0.1 }} />
         )}
+
         <ImageListItemBar
           position='bottom'
           actionIcon={

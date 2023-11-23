@@ -9,11 +9,9 @@ import { signIn } from "next-auth/react";
 import '@/app/globals.css';
 import { useForm } from "react-hook-form";
 import { APPLICATION_NAME } from "../config/constants";
+import type { NewUser} from "../types";
 import { UserSchema } from "../types";
-import type { z } from "zod";
 import { userActions } from "@/actions";
-
-type UserFormVals = z.infer<typeof UserSchema>;
 
 const RegisterForm: React.FC = () => {
   const [error, setError] = useState('');
@@ -23,7 +21,7 @@ const RegisterForm: React.FC = () => {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<UserFormVals>({
+  } = useForm<NewUser>({
     defaultValues: {
       email: '',
       username: '',
@@ -32,11 +30,7 @@ const RegisterForm: React.FC = () => {
     resolver: zodResolver(UserSchema),
   });
 
-  const handleFormSubmit = ({
-    email,
-    username,
-    password,
-  }: UserFormVals) => {
+  const handleFormSubmit = ({ email, username, password }: NewUser) => {
     if (password !== confirm) {
       setError('Passwords do not match');
       return;
@@ -123,7 +117,7 @@ const RegisterForm: React.FC = () => {
           </Link>
         </Grid>
         <Grid item>
-          <Link href="/register" variant="body2">
+          <Link href="/auth/register" variant="body2">
               Dont have an account? Sign Up
           </Link>
         </Grid>
