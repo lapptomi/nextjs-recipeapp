@@ -13,14 +13,12 @@ import Tooltip from '@mui/material/Tooltip';
 import type { Session } from 'next-auth';
 
 interface Props {
-  user: Session['user'];
+  user?: Session['user'];
 }
 
-const NotificationMenu: React.FC<Props> = ({ user }) => {
+const NotificationMenu: React.FC<Props> = () => {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
-
-  console.log('user = ', user);
 
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);

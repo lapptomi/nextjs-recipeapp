@@ -37,31 +37,33 @@ const RecipeListItem: React.FC<Props> = ({ recipe }) => {
     <Link href={`/recipes/${recipe.id}`}>
       <ImageListItem className={styles.imagelistitem}>
         <ImageListItemBar
-          className={styles.itembackground}
           title={recipe.title}
           subtitle={`@${recipe.author?.username}`}
           position="top"
           actionIcon={
-            <div style={{ display: 'flex', flexDirection: 'column' }}>
+            <div className={styles.imagelist_top}>
               <Rating readOnly value={recipe.rating || 2} />
-              <Typography variant="caption" color="white">12 ratings</Typography>
+              <Typography variant="caption" color="white">
+                {recipe.rating || 0} ratings
+              </Typography>
             </div>
           }
         />
 
-        
-        {imageUrl ? (
-          <Image
-            alt={recipe.id.toString()}
-            src={imageUrl}
-            quality={20}
-            loading="lazy"
-            fill
-            style={{ zIndex: -1 }}
-          />
-        ) : (
-          <Restaurant style={{ width: '100%', height: '100%', opacity: 0.1 }} />
-        )}
+        <div className={styles.recipebackground}>
+          {imageUrl ? (
+            <Image
+              alt={recipe.id.toString()}
+              src={imageUrl}
+              quality={30}
+              loading="lazy"
+              layout="fill"
+              style={{ zIndex: -1 }}
+            />
+          ) : (
+            <Restaurant className={styles.placeholdericon} />
+          )}
+        </div>
 
         <ImageListItemBar
           position='bottom'

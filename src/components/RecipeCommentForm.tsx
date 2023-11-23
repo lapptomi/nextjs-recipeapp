@@ -42,11 +42,7 @@ const RecipeCommentForm: React.FC<Props> = ({ recipe }) => {
         console.log('ERROR = ', err);
       });
   };
-
-  const handleErrors = (errors: any) => {
-    console.log('ERRORS = ', errors);
-  };
-
+  
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
       <TextField
@@ -65,7 +61,7 @@ const RecipeCommentForm: React.FC<Props> = ({ recipe }) => {
         <Button
           size="small"
           variant="contained"
-          onClick={handleSubmit(handleFormSubmit, handleErrors)}
+          onClick={handleSubmit(handleFormSubmit, (error) => console.log(error))}
         >
           SEND COMMENT
         </Button>

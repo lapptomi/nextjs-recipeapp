@@ -1,5 +1,3 @@
-/* eslint-disable jsx-a11y/alt-text */
-/* eslint-disable @next/next/no-img-element */
 "use client";
 
 import { useLayoutEffect, useState } from 'react';
@@ -7,8 +5,6 @@ import { useLayoutEffect, useState } from 'react';
 import { animated, useSpringRef, useTransition } from '@react-spring/web';
 
 import styles from '@/styles/About.module.css';
-
-import CardContainer from './CardContainer';
 
 const IMAGES = [
   'https://images.unsplash.com/photo-1551782450-a2132b4ba21d',
@@ -51,9 +47,7 @@ const About = () => {
     <div className={styles.container}>
       {transitions((springs: any, item: any) => (
         <animated.div style={springs}>
-          {false ? (
-            <CardContainer />
-          ) : <img className={styles.imagecontainer} src={IMAGES[item]} />}
+          <img className={styles.imagecontainer} src={IMAGES[item]} />
         </animated.div>
       ))}
       <div className={styles.column}>
