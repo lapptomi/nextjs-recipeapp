@@ -1,3 +1,4 @@
+/* eslint-disable no-null/no-null */
 "use server";
 
 import {
@@ -20,10 +21,10 @@ const s3Client = new S3Client({
   },
 });
 
-export const uploadImageToS3 = async (image: File) => {
+export const uploadImageToS3 = async (image: File, imageName: string) => {
   const uploadCommand = new PutObjectCommand({
     Bucket: bucketName,
-    Key: image.name,
+    Key: imageName,
     Body: Buffer.from(await image.arrayBuffer()),
     ContentType: image.type,
   });
@@ -34,7 +35,7 @@ export const uploadImageToS3 = async (image: File) => {
 
 export const getSignedImageUrl = async (imageName: string) => {
   if (!imageName) {
-    return undefined;
+    return null;
   }
 
   const getObjectCommand = new GetObjectCommand({
@@ -43,7 +44,7 @@ export const getSignedImageUrl = async (imageName: string) => {
   });
 
   const signedUrl = await getSignedUrl(s3Client, getObjectCommand, {
-    expiresIn: 3600, // URL expiration time in seconds
+    expiresIn: 3600, // URL expiration time in seconds (1h)
   });
 
   return signedUrl;

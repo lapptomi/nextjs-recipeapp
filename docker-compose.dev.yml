@@ -12,7 +12,7 @@ services:
     volumes:
       - ./src:/usr/src/app/src
     ports:
-      - 4000:3000
+      - 3000:3000
     container_name: recipe-app-dev
     depends_on:
       - postgres

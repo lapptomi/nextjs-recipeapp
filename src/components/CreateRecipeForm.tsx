@@ -1,71 +1,62 @@
+/* eslint-disable no-null/no-null */
 "use client";
-
-import { useState } from 'react';
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import { AccessTime, Add, CloudUpload, Delete, Description, DiningRounded, Group, Title } from '@mui/icons-material';
 import { Alert, Button, FormControl, IconButton, InputAdornment, Step, StepLabel, Stepper, TextField, Typography } from '@mui/material';
 import Image from 'next/image';
-import { useSession } from 'next-auth/react';
 import { useFieldArray, useForm } from 'react-hook-form';
 
 import { recipeActions } from '@/actions';
 
 import styles from '../styles/CreateRecipeForm.module.css';
-import { RecipeSchema } from '../types';
+import { NewRecipeSchema } from '../types';
 
 import type { NewRecipe } from '../types';
 
-
 const CreateRecipeForm = () => {
-  const { data: session } = useSession();
-
-  const [image, setImage] = useState<File | undefined>(undefined);
-
-  const handleImageChange = (event: any) => {
-    setImage(event.target.files[0]);
+  const {
+    register,
+    handleSubmit,
+    control,
+    formState: { errors },
+    setValue,
+    watch,
+    clearErrors,
+  } = useForm<NewRecipe>({
+    defaultValues: {
+      title: '',
+      description: '',
+      // TODO: change ingredients to string[] instead of object[]
+      ingredients: [{ ingredient: 'Add ingredient...'}],
+      instructions: '',
+      cookingTime: 0,
+      servings: 0,
+      image: null,
+    },
+    resolver: zodResolver(NewRecipeSchema),
+  });
+  const { fields, append, remove } = useFieldArray({
+    control: control,
+    name: "ingredients",
+  });
+  const handleAddIngredient = (event: any) => {
+    append({ ingredient: event.target.value });
   };
+  const selectedImage = watch('image');
 
   const handleFormSubmit = (data: NewRecipe) => {
-    if (!session || !session.user) {
-      return;
-    }
-
+    const { image, ...rest } = data;
     const formData = new FormData();
-    formData.append('image', image as any);
-
-    recipeActions.create(data, formData)
+    formData.append('image', image as File);
+    
+    recipeActions.create(rest, formData)
       .then((recipe) => {
         window.location.replace(`/recipes/${recipe.id}`);
       })
       .catch((error) => {
         window.alert(`Something went wrong! ${error.message}`);
       });
-  };
-
-  const {
-    register,
-    handleSubmit,
-    control,
-    formState: { errors },
-  } = useForm<NewRecipe>({
-    defaultValues: {
-      title: '',
-      description: '',
-      ingredients: [{ ingredient: 'Add ingredient...'}],
-      instructions: '',
-      cookingTime: 0,
-      servings: 0,
-    },
-    resolver: zodResolver(RecipeSchema),
-  });
-  const { fields, append, remove } = useFieldArray({
-    control: control,
-    name: "ingredients",
-  });
-
-  const handleAddIngredient = (event: any) => {
-    append({ ingredient: event.target.value });
   };
 
   return (
@@ -208,28 +199,38 @@ const CreateRecipeForm = () => {
       </div>
 
       <div className={styles.formimagecontainer}>
+        <Typography variant="caption" color="error">
+          {errors.image && errors.image.message}
+        </Typography>
         <Button component="label" startIcon={<CloudUpload />}>
           <Typography variant="subtitle1">Upload recipe image</Typography>
           <input  
             type="file"
             hidden
             accept="image/png, image/jpeg"
-            onChange={handleImageChange}
+            {...register('image')}
+            onChange={(event: any) => setValue('image', event.target.files[0])}
           />
         </Button>
-        {image && (
+        {selectedImage && (
           <div>
             <Image
               alt="recipe image"
               width={100}
               height={100}
-              src={URL.createObjectURL(image)}
+              src={URL.createObjectURL(selectedImage as any)}
             />
             <IconButton size="large">
-              <Delete onClick={() => setImage(undefined)} />
+              <Delete onClick={() => {
+                setValue('image', null);
+                clearErrors('image');
+              }} />
             </IconButton>
           </div>
         )}
+        <Typography variant="caption">
+          {selectedImage && selectedImage.name}
+        </Typography>
       </div>
 
       {Object.keys(errors).length !== 0 && (

@@ -1,13 +1,8 @@
-"use client";
-
-import { useEffect, useState } from "react";
-
 import { AccessTime, Person, Restaurant } from "@mui/icons-material";
 import { Chip, Container, ImageListItem, ImageListItemBar, Rating, Typography } from "@mui/material";
 import Image from "next/image";
 import Link from "next/link";
 
-import { getSignedImageUrl } from "@/actions/aws_s3";
 import styles from "@/styles/RecipeListItem.module.css";
 
 import type { RecipeWithAuthor } from "../types";
@@ -17,22 +12,6 @@ interface Props {
 }
 
 const RecipeListItem: React.FC<Props> = ({ recipe }) => {
-  const [imageUrl, setImageUrl] = useState<string>('');
-
-  useEffect(() => {
-    if (recipe.image) {
-      getSignedImageUrl(recipe.image)
-        .then((response) => {
-          if (response) {
-            setImageUrl(response);
-          }
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-    }
-  }, [recipe.image]);
-
   return (
     <Link href={`/recipes/${recipe.id}`}>
       <ImageListItem className={styles.imagelistitem}>
@@ -51,10 +30,10 @@ const RecipeListItem: React.FC<Props> = ({ recipe }) => {
         />
 
         <div className={styles.recipebackground}>
-          {imageUrl ? (
+          {recipe.image ? (
             <Image
-              alt={recipe.id.toString()}
-              src={imageUrl}
+              alt={recipe.title}
+              src={recipe.image}
               quality={30}
               loading="lazy"
               layout="fill"
