@@ -2,7 +2,7 @@
 
 import { getServerSession } from 'next-auth';
 
-import { getSignedImageUrl, uploadImageToS3 } from './aws_s3';
+import { uploadImageToS3 } from './aws_s3';
 import { options } from '../app/api/auth/[...nextauth]/options';
 import { prisma } from '../config/db';
 import { NewRecipeImageSchema, NewRecipeSchema } from '../types';
@@ -16,6 +16,9 @@ export const getAll = async (): Promise<RecipeWithAuthor[]> => {
       include: { author: true },
     });
 
+    return recipes;
+
+    /*
     return await Promise.all(recipes.map(async (recipe) => {
       // Get pre-signed URL for recipe background image from AWS S3
       const preSignedUrl = recipe.image && await getSignedImageUrl(recipe.image);
@@ -24,6 +27,7 @@ export const getAll = async (): Promise<RecipeWithAuthor[]> => {
         image: preSignedUrl
       };
     }));
+    */
   } catch (error) {
     throw new Error(`Error getting recipes: ${(error as any).message}`);
   }
