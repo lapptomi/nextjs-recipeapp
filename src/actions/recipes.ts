@@ -51,7 +51,7 @@ export const create = async (recipeData: NewRecipe, imageData: FormData) => {
     const session = await getServerSession(options);
     if (!session) throw new Error('Not authenticated');
 
-    const image = imageData.get('image') as File;    
+    const image = imageData.get('image') as any;    
     const validImage = NewRecipeImageSchema.safeParse(image);
 
     const recipe = NewRecipeSchema.parse({

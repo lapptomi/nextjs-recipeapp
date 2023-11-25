@@ -21,7 +21,7 @@ const s3Client = new S3Client({
   },
 });
 
-export const uploadImageToS3 = async (image: File, imageName: string) => {
+export const uploadImageToS3 = async (image: any, imageName: string) => {
   const uploadCommand = new PutObjectCommand({
     Bucket: bucketName,
     Key: imageName,

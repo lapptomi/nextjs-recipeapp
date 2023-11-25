@@ -48,7 +48,7 @@ const CreateRecipeForm = () => {
   const handleFormSubmit = (data: NewRecipe) => {
     const { image, ...rest } = data;
     const formData = new FormData();
-    formData.append('image', image as File);
+    formData.append('image', image as any);
     
     recipeActions.create(rest, formData)
       .then((recipe) => {
