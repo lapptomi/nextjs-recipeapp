@@ -3,7 +3,8 @@ name: Test And Deploy To Fly.io
 on:
   push:
     branches:
-      - main
+      # - main
+      - dev
 
 jobs:
   test_and_deploy:
