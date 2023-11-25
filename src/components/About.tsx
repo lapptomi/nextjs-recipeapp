@@ -1,10 +1,9 @@
-/* eslint-disable @next/next/no-img-element */
-/* eslint-disable jsx-a11y/alt-text */
 "use client";
 
 import { useLayoutEffect, useState } from 'react';
 
 import { animated, useSpringRef, useTransition } from '@react-spring/web';
+import Image from 'next/image';
 
 import styles from '@/styles/About.module.css';
 
@@ -49,7 +48,13 @@ const About = () => {
     <div className={styles.container}>
       {transitions((springs: any, item: any) => (
         <animated.div style={springs}>
-          <img className={styles.imagecontainer} src={IMAGES[item]} />
+          <Image
+            alt="food"
+            width={400}
+            height={400}
+            className={styles.imagecontainer}
+            src={IMAGES[item]}
+          />
         </animated.div>
       ))}
       <div className={styles.column}>

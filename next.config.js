@@ -15,7 +15,7 @@ const nextConfig = {
       }
     ],
     // Cache images for 1 minute
-    // minimumCacheTTL: 60
+    minimumCacheTTL: 60
   }
 };
 

@@ -1,5 +1,3 @@
-"use client";
-
 import { Avatar, Button, Card, CardContent, CardMedia, Divider, Rating, Typography } from "@mui/material";
 
 import styles from '@/styles/CardContainer.module.css';
@@ -7,7 +5,9 @@ import styles from '@/styles/CardContainer.module.css';
 const CardContainer = () => {
   return (
     <Card className={styles.wrapper}>
-      <CardMedia className={styles.header} />
+      <CardMedia className={styles.header}>
+        text
+      </CardMedia>
       <CardContent className={styles.cardcontent}>
         <div className={styles.ratingwrapper}>
           <Avatar />

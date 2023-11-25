@@ -2,10 +2,10 @@
 /* eslint-disable jsx-a11y/alt-text */
 import { Button } from '@mui/material';
 
+import styles from './page.module.css';
 import About from '../components/About';
 import CardContainer from '../components/CardContainer';
 import { APPLICATION_NAME } from '../config/constants';
-import styles from '../styles/page.module.css';
 
 const Home: React.FC = async () => {
   return (

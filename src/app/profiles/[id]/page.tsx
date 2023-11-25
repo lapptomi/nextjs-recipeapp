@@ -97,7 +97,7 @@ const ProfilePage = async ({ params }: ProfilePageParams) => {
                 </div>
 
               </div>
-              <Button variant="contained">
+              <Button variant="contained" size="small">
                 <GroupAdd />
               Follow
               </Button>
