@@ -2,10 +2,9 @@
 
 import { getServerSession } from 'next-auth';
 
-import { uploadImageToS3 } from './aws_s3';
 import { options } from '../app/api/auth/[...nextauth]/options';
 import { prisma } from '../config/db';
-import { NewRecipeImageSchema, NewRecipeSchema } from '../types';
+import { NewRecipeSchema } from '../types';
 
 import type { NewRecipe, RecipeWithAuthor } from '../types';
 import type { Recipe } from '@prisma/client';
@@ -50,30 +49,33 @@ export const create = async (recipeData: NewRecipe, imageData: FormData) => {
     // TODO: clean up this mess
     const session = await getServerSession(options);
     if (!session) throw new Error('Not authenticated');
+    console.log(imageData);
 
-    const image = imageData.get('image') as any;    
-    const validImage = NewRecipeImageSchema.safeParse(image);
+    // const image = imageData.get('image') as any;    
+    // const validImage = NewRecipeImageSchema.safeParse(image);
 
     const recipe = NewRecipeSchema.parse({
       ...recipeData,
-      image: validImage?.success ? validImage.data : undefined,
+      image: undefined,
     });
 
     // Create unique name for s3 bucket
-    const uniqueName = `${new Date().toISOString()}_${image.name}`;
+    // const uniqueName = `${new Date().toISOString()}_${image.name}`;
 
     const createdRecipe = await prisma.recipe.create({
       data: {
         ...recipe,
         authorId: Number(session.user.id),
         ingredients: recipe.ingredients.map((i) => (i.ingredient)),
-        image: validImage?.success ? uniqueName : undefined,
+        image: undefined,
       }
     });
 
+    /*
     if (validImage.success) {
       await uploadImageToS3(validImage.data, uniqueName);
     }
+    */
 
     return createdRecipe;
   } catch (error) {
