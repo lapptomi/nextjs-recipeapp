@@ -19,16 +19,25 @@ export const getAll = async (): Promise<User[]> => {
   }
 };
   
-export const findById = async (id: number): Promise<User | null> => {
+export const findById = async (id: number) => {
   try {
-    const user = await prisma.user.findUnique({ where: { id } });
+    const user = await prisma.user.findUnique({
+      where: { id  },
+      include: { 
+        recipes: {
+          include: {
+            author: true
+          }
+        }
+      }
+    });
     return user;
   } catch (error) {
     throw new Error(error as any);
   }
 };
   
-export const create = async (user: NewUser): Promise<User | null> => {
+export const create = async (user: NewUser) => {
   try {
     const validatedUser = UserSchema.parse(user);
     const hashedPassword = await bcrypt.hash(validatedUser.password, 10);
@@ -45,7 +54,7 @@ export const create = async (user: NewUser): Promise<User | null> => {
   }
 };
   
-export const deleteById = async (id: number): Promise<User | null> => {
+export const deleteById = async (id: number) => {
   try {
     const deletedUser = await prisma.user.delete({ where: { id } });
     return deletedUser;

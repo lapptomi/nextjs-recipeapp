@@ -1,5 +1,5 @@
 import { AccessTime, Person, Restaurant } from "@mui/icons-material";
-import { Chip, Container, ImageListItem, ImageListItemBar, Rating, Typography } from "@mui/material";
+import { Chip, Container, ImageListItem, ImageListItemBar, Rating, Tooltip, Typography } from "@mui/material";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -15,8 +15,29 @@ const RecipeListItem: React.FC<Props> = ({ recipe }) => {
   return (
     <Link href={`/recipes/${recipe.id}`}>
       <ImageListItem className={styles.imagelistitem}>
+
+        <div className={styles.recipebackground}>
+          {recipe.image ? (
+            <Image
+              alt={recipe.title}
+              src={recipe.image}
+              quality={30}
+              loading="lazy"
+              layout="fill"
+            />
+          ) : (
+            <Restaurant className={styles.placeholdericon} />
+          )}
+        </div>
+
         <ImageListItemBar
-          title={recipe.title}
+          title={
+            <Tooltip title={`Open recipe ${recipe.title}`}>
+              <Typography variant="subtitle1" color="white">
+                {recipe.title}
+              </Typography>
+            </Tooltip>
+          }
           subtitle={`@${recipe.author?.username}`}
           position="top"
           actionIcon={
@@ -28,21 +49,6 @@ const RecipeListItem: React.FC<Props> = ({ recipe }) => {
             </div>
           }
         />
-
-        <div className={styles.recipebackground}>
-          {recipe.image ? (
-            <Image
-              alt={recipe.title}
-              src={recipe.image}
-              quality={30}
-              loading="lazy"
-              layout="fill"
-              style={{ zIndex: -1 }}
-            />
-          ) : (
-            <Restaurant className={styles.placeholdericon} />
-          )}
-        </div>
 
         <ImageListItemBar
           position='bottom'

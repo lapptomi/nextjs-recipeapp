@@ -1,5 +1,6 @@
 import { AccessTime, Person } from '@mui/icons-material';
-import { Avatar, Divider, List, ListItem, Rating, Typography } from '@mui/material';
+import { Avatar, Divider, List, ListItem, Tooltip, Typography } from '@mui/material';
+import Link from 'next/link';
 import { getServerSession } from 'next-auth';
 
 import { getSignedImageUrl } from '@/actions/aws_s3';
@@ -21,7 +22,7 @@ const RecipePage = async ({ params }: Props) => {
   const session = await getServerSession(options);
   const recipeWithComments = await prisma.recipe.findUnique({
     where: {
-      id: parseInt(params.id)
+      id: parseFloat(params.id)
     },
     include: {
       author: true,
@@ -51,19 +52,31 @@ const RecipePage = async ({ params }: Props) => {
           }}>
           <div className={styles.headertitle}>
             <Typography variant="h4">{recipeWithComments.title.toUpperCase()}</Typography>
-            <div style={{ display: 'flex',  alignItems: 'center' }}>
-              <Avatar sx={{ width: 80, height: 80 }} />
-              <div>
-                <Typography variant="body1">
-                  {recipeWithComments.author?.username}
-                </Typography>
-                <Rating
-                  size="large"
-                  name="simple-controlled"
-                  value={recipeWithComments.rating || 2}
-                />
-              </div>
+            
+            <div style={{ display: 'flex', flexDirection: 'row',  alignItems: 'center' }}>
+              <Link href={`/profiles/${recipeWithComments.author?.id}`}>
+                <Tooltip title={`View profile of ${recipeWithComments.author.username}`}>
+                  <div style={{
+                    display: 'flex',
+                    flexDirection: 'row',
+                    alignItems: 'center',
+                    gap: 10,
+                  
+                  }}>
+                    <Avatar sx={{ width: 80, height: 80 }} />
+                    <div>
+                      <Typography variant="subtitle1">
+                        Created By
+                      </Typography>
+                      <Typography variant="h5">
+                        {recipeWithComments.author?.username}
+                      </Typography>
+                    </div>
+                  </div>
+                </Tooltip>
+              </Link>
             </div>
+
           </div>
         </div>
 
