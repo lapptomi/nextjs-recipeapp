@@ -1,3 +1,5 @@
+import { Typography } from '@mui/material';
+
 import { recipeActions } from '@/actions';
 import RecipeListItem from '@/components/RecipeListItem';
 import TitleHeader from '@/components/TitleHeader';
@@ -14,9 +16,15 @@ const BrowseRecipesPage = async () => {
       {/*  <RecipeList recipes={recipes} /> */}
 
       <div className={styles.recipelist}>
-        {recipes.map((recipe) => (
-          <RecipeListItem key={recipe.id} recipe={recipe} />
-        ))}
+        {recipes.length > 0 ? (
+          recipes.map((recipe) => (
+            <RecipeListItem key={recipe.id} recipe={recipe} />
+          ))) : (
+          <div>
+            <Typography variant="h4">No recipes found.</Typography>
+            <Typography variant="body1">Be the first to create one!</Typography>
+          </div>
+        )}
       </div>
     </div>
   );

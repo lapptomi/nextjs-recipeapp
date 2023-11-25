@@ -40,17 +40,18 @@ const CreateRecipeForm = () => {
     control: control,
     name: "ingredients",
   });
+
   const handleAddIngredient = (event: any) => {
     append({ ingredient: event.target.value });
   };
+
   const selectedImage = watch('image');
 
   const handleFormSubmit = (data: NewRecipe) => {
-    const { image, ...rest } = data;
     const formData = new FormData();
-    formData.append('image', image as any);
-    
-    recipeActions.create(rest, formData)
+    formData.append('image', selectedImage as any);
+
+    recipeActions.create(data, formData)
       .then((recipe) => {
         window.location.replace(`/recipes/${recipe.id}`);
       })

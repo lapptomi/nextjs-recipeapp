@@ -28,7 +28,6 @@ const Home: React.FC = async () => {
         <CardContainer />
         <CardContainer />
         <CardContainer />
-        <CardContainer />
       </div>
 
       <About />

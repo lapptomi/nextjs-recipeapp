@@ -2,6 +2,7 @@
 
 import { getServerSession } from 'next-auth';
 
+import { getSignedImageUrl, uploadImageToS3 } from './aws_s3';
 import { options } from '../app/api/auth/[...nextauth]/options';
 import { prisma } from '../config/db';
 import { NewRecipeSchema } from '../types';
@@ -15,9 +16,6 @@ export const getAll = async (): Promise<RecipeWithAuthor[]> => {
       include: { author: true },
     });
 
-    return recipes;
-
-    /*
     return await Promise.all(recipes.map(async (recipe) => {
       // Get pre-signed URL for recipe background image from AWS S3
       const preSignedUrl = recipe.image && await getSignedImageUrl(recipe.image);
@@ -26,7 +24,6 @@ export const getAll = async (): Promise<RecipeWithAuthor[]> => {
         image: preSignedUrl
       };
     }));
-    */
   } catch (error) {
     throw new Error(`Error getting recipes: ${(error as any).message}`);
   }
@@ -44,39 +41,37 @@ export const getById = async (id: number): Promise<RecipeWithAuthor | null> => {
   }
 };
 
-export const create = async (recipeData: NewRecipe, imageData: FormData) => {
+export const create = async (recipeData: NewRecipe, formData: FormData) => {
   try {
     // TODO: clean up this mess
     const session = await getServerSession(options);
-    if (!session) throw new Error('Not authenticated');
-    console.log(imageData);
+    if (!session) {
+      throw new Error('Not authenticated');
+    };
 
-    // const image = imageData.get('image') as any;    
-    // const validImage = NewRecipeImageSchema.safeParse(image);
-
+    const imageFile = formData.get('image');
     const recipe = NewRecipeSchema.parse({
       ...recipeData,
-      image: undefined,
+      image: recipeData.image && imageFile,
     });
 
     // Create unique name for s3 bucket
-    // const uniqueName = `${new Date().toISOString()}_${image.name}`;
+    const imageName = recipe.image ? `${new Date().toISOString()}_${recipe.image.name}` : undefined;
 
     const createdRecipe = await prisma.recipe.create({
       data: {
         ...recipe,
         authorId: Number(session.user.id),
         ingredients: recipe.ingredients.map((i) => (i.ingredient)),
-        image: undefined,
+        image: imageName,
       }
     });
-
-    /*
-    if (validImage.success) {
-      await uploadImageToS3(validImage.data, uniqueName);
+    
+    // Upload image to s3 bucket if recipe was created successfully
+    if (imageName && createdRecipe) {
+      await uploadImageToS3(imageFile, imageName);
     }
-    */
-
+    
     return createdRecipe;
   } catch (error) {
     throw new Error(`Error creating recipe: ${(error as any).message}`);
