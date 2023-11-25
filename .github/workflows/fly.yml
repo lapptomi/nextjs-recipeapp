@@ -13,25 +13,6 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Start containers
-        run: docker-compose -f "docker-compose.dev.yml" up -d --build
-
-      - name: Install node
-        uses: actions/setup-node@v4
-        with:
-          node-version: 18
-
-      - name: Install dependencies
-        run: npm ci
-
-      # TODO: fix tests since they are unpredictable and fail randomly
-      #- name: Run Jest tests
-      #  run: npm run test
-
-      - name: Stop containers
-        if: always()
-        run: docker-compose -f "docker-compose.dev.yml" down
-
       - name: Install Vercel CLI
         run: npm install --global vercel@latest
 
