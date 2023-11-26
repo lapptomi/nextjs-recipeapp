@@ -1,4 +1,4 @@
-# Nextjs Recipe App  [![Test And Deploy To Fly.io](https://github.com/lapptomi/nextjs-recipeapp/actions/workflows/fly.yml/badge.svg)](https://github.com/lapptomi/nextjs-recipeapp/actions/workflows/fly.yml)
+# Nextjs Recipe App  [![Deploy To Vercel](https://github.com/lapptomi/nextjs-recipeapp/actions/workflows/fly.yml/badge.svg)](https://github.com/lapptomi/nextjs-recipeapp/actions/workflows/fly.yml)
 
 *Web application written in Typescript to learn and try out [Next.js](https://nextjs.org/).*
 
