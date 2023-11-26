@@ -3,12 +3,12 @@ import { z } from "zod";
 import type { Recipe, User } from "@prisma/client";
 
 const NewRecipeImageSchema = z.object({
-  lastModified: z.number().optional(),
-  lastModifiedDate: z.date().optional(),
+  lastModified: z.any().optional(),
+  lastModifiedDate: z.any().optional(),
   name: z.string(),
   size: z.number(),
   type: z.string(),
-  webkitRelativePath: z.string().optional(),
+  webkitRelativePath: z.any().optional(),
 }).refine((file) => file.type === 'image/jpeg' || file.type === 'image/png', {
   message: 'Image must be of type image/jpeg or image/png',
 }).refine((file) => file.size < 1_000_000, {

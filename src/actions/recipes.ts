@@ -7,7 +7,7 @@ import { options } from '../app/api/auth/[...nextauth]/options';
 import { prisma } from '../config/db';
 import { NewRecipeSchema } from '../types';
 
-import type { NewRecipe, RecipeWithAuthor } from '../types';
+import type { RecipeWithAuthor } from '../types';
 import type { Recipe } from '@prisma/client';
 
 export const getAll = async (): Promise<RecipeWithAuthor[]> => {
@@ -41,19 +41,14 @@ export const getById = async (id: number): Promise<RecipeWithAuthor | null> => {
   }
 };
 
-export const create = async (recipeData: NewRecipe, formData: FormData) => {
+export const create = async (formData: FormData) => {
   try {
-    // TODO: clean up this mess
     const session = await getServerSession(options);
     if (!session) {
       throw new Error('Not authenticated');
     };
-
-    const imageFile = formData.get('image');
-    const recipe = NewRecipeSchema.parse({
-      ...recipeData,
-      image: recipeData.image && imageFile,
-    });
+    const image = formData.get('image');
+    const recipe = NewRecipeSchema.parse(JSON.parse(formData.get('document') as any));
 
     // Create unique name for s3 bucket
     const imageName = recipe.image ? `${new Date().toISOString()}_${recipe.image.name}` : undefined;
@@ -66,10 +61,10 @@ export const create = async (recipeData: NewRecipe, formData: FormData) => {
         image: imageName,
       }
     });
-    
+
     // Upload image to s3 bucket if recipe was created successfully
-    if (imageName && createdRecipe) {
-      await uploadImageToS3(imageFile, imageName);
+    if (image && createdRecipe && imageName) {
+      await uploadImageToS3(image, imageName);
     }
     
     return createdRecipe;

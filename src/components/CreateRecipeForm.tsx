@@ -27,7 +27,6 @@ const CreateRecipeForm = () => {
     defaultValues: {
       title: '',
       description: '',
-      // TODO: change ingredients to string[] instead of object[]
       ingredients: [{ ingredient: 'Add ingredient...'}],
       instructions: '',
       cookingTime: 0,
@@ -48,16 +47,18 @@ const CreateRecipeForm = () => {
   const selectedImage = watch('image');
 
   const handleFormSubmit = (data: NewRecipe) => {
-    const formData = new FormData();
+    const formData = new FormData();    
+    formData.append('document', JSON.stringify(data));
     formData.append('image', selectedImage as any);
 
-    recipeActions.create(data, formData)
+    recipeActions.create(formData)
       .then((recipe) => {
         window.location.replace(`/recipes/${recipe.id}`);
       })
       .catch((error) => {
         window.alert(`Something went wrong! ${error.message}`);
       });
+      
   };
 
   return (
