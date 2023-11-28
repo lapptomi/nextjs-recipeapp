@@ -1,12 +1,30 @@
 version: '3.8'
 
 services:
-  recipe-app:
-    image: recipe-app
+  recipe-app-dev:
+    image: recipe-app-dev
+    environment:
+      - DATABASE_URL=postgresql://postgres:postgres@postgres:5432/postgres?schema=public
+      - NEXTAUTH_SECRET=secretkey
     build:
       context: ./
-      dockerfile: Dockerfile
+      dockerfile: dev.Dockerfile
+    volumes:
+      - ./src:/usr/src/app/src
     ports:
       - 3000:3000
-    container_name: recipe-app
+    container_name: recipe-app-dev
+    depends_on:
+      - postgres
 
+  postgres:
+    image: postgres:16-alpine
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_USER: postgres
+      POSTGRES_DB: postgres
+    ports:
+      - 5432:5432
+    #volumes:
+    #  - ./prisma/migrations/generated/migration.sql:/docker-entrypoint-initdb.d/init.sql

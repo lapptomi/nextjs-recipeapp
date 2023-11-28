@@ -54,9 +54,7 @@ const ProfilePage = async ({ params }: ProfilePageParams) => {
               height: 100,
             }}>
               {/* TODO: add <Image /> here if user has profile picture */}
-              <Avatar
-                style={{ width: '100%', height: '100%' }}
-              />
+              <Avatar  style={{ width: '100%', height: '100%' }} />
             </div>
             
             <div>
@@ -112,6 +110,9 @@ const ProfilePage = async ({ params }: ProfilePageParams) => {
 
         <div style={{
           background: 'white',
+          display: 'flex',
+          flexDirection: 'column',
+          gap: 30,
           padding: 30,
         }}>
           <Divider>
@@ -140,6 +141,12 @@ const ProfilePage = async ({ params }: ProfilePageParams) => {
             ))}
           </div>
         </div>
+
+        <Divider>
+          <Typography variant="h5">
+            {user.recipes.length} PUBLIC RECIPES
+          </Typography>
+        </Divider>
 
         <div style={{
           display: 'flex',

@@ -2,7 +2,7 @@
 
 import * as bcrypt from "bcryptjs";
 
-import { prisma } from "../config/db";
+import { prisma } from "../lib/db";
 import { UserSchema } from "../types";
 
 import type { NewUser} from "../types";

@@ -8,7 +8,7 @@ import { options } from '@/app/api/auth/[...nextauth]/options';
 import Comments from '@/components/Comments';
 import RecipeCommentForm from '@/components/RecipeCommentForm';
 import TitleHeader from '@/components/TitleHeader';
-import { prisma } from '@/config/db';
+import { prisma } from '@/lib/db';
 
 import styles from './page.module.css';
 

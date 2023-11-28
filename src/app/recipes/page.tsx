@@ -1,23 +1,37 @@
 import { Typography } from '@mui/material';
 
-import { recipeActions } from '@/actions';
 import RecipeListItem from '@/components/RecipeListItem';
+import SearchRecipesForm from '@/components/SearchRecipesForm';
 import TitleHeader from '@/components/TitleHeader';
+import { BASE_URL } from '@/lib/constants';
+import { prisma } from '@/lib/db';
 
 import styles from './page.module.css';
 
-const BrowseRecipesPage = async () => {
-  const recipes = await recipeActions.getAll();
+interface Params {
+  searchParams: {
+    page?: string;
+    pageSize?: string;
+  };
+}
+
+const BrowseRecipesPage = async ({ searchParams }: Params) => {
+  const totalCount = await prisma.recipe.count();
+  const pageSize = searchParams.pageSize ? parseInt(searchParams.pageSize) : 9;
+  const recipes = await fetch(`${BASE_URL}/api/recipes?page=${searchParams.page}&pageSize=${pageSize}`, {
+    cache: 'no-cache', // disable caching for dev purposes
+  }).then((response) => response.json()
+    .then((data) => data)
+    .catch((error) => console.log('ERROR = ', error)));
 
   return (
     <div>
       <TitleHeader title="BROWSE RECIPES" />
-      {/* <SearchRecipesForm /> */}
-      {/*  <RecipeList recipes={recipes} /> */}
+      <SearchRecipesForm totalCount={totalCount} pageSize={pageSize} />
 
       <div className={styles.recipelist}>
         {recipes.length > 0 ? (
-          recipes.map((recipe) => (
+          recipes.map((recipe: any) => (
             <RecipeListItem key={recipe.id} recipe={recipe} />
           ))) : (
           <div>

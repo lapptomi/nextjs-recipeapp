@@ -5,9 +5,8 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { AccessTime, Add, CloudUpload, Delete, Description, DiningRounded, Group, Title } from '@mui/icons-material';
 import { Alert, Button, FormControl, IconButton, InputAdornment, Step, StepLabel, Stepper, TextField, Typography } from '@mui/material';
 import Image from 'next/image';
+import { useRouter } from 'next/navigation';
 import { useFieldArray, useForm } from 'react-hook-form';
-
-import { recipeActions } from '@/actions';
 
 import styles from '../styles/CreateRecipeForm.module.css';
 import { NewRecipeSchema } from '../types';
@@ -40,25 +39,21 @@ const CreateRecipeForm = () => {
     name: "ingredients",
   });
 
-  const handleAddIngredient = (event: any) => {
-    append({ ingredient: event.target.value });
-  };
-
   const selectedImage = watch('image');
+  const router = useRouter();
 
   const handleFormSubmit = (data: NewRecipe) => {
     const formData = new FormData();    
     formData.append('document', JSON.stringify(data));
     formData.append('image', selectedImage as any);
 
-    recipeActions.create(formData)
-      .then((recipe) => {
-        window.location.replace(`/recipes/${recipe.id}`);
-      })
+    fetch('/api/recipes', { method: 'POST', body: formData })
+      .then((response) => response.json())
+      .then((data) => router.push(`/recipes/${data.id}`))
       .catch((error) => {
         window.alert(`Something went wrong! ${error.message}`);
+        console.log('ERROR = ', error);
       });
-      
   };
 
   return (
@@ -146,7 +141,10 @@ const CreateRecipeForm = () => {
             />
           );
         })}
-        <Button size="small" onClick={handleAddIngredient}>
+        <Button
+          size="small"
+          onClick={(event: any) => append({ ingredient: event.target.value })}
+        >
           <Add color="primary" />
           <Typography variant="caption">ADD INGREDIENT</Typography>
         </Button>

@@ -9,7 +9,7 @@ export const createSeed = async () => {
     await prisma.user.deleteMany();
     await prisma.recipeComment.deleteMany();
 
-    await seed();
+    await seed2();
   } catch (error) {
     await prisma.$disconnect();
     process.exit(1);
@@ -17,6 +17,31 @@ export const createSeed = async () => {
 };
 
 createSeed();
+
+const seed2 = async () => {
+  const user = await prisma.user.create({
+    data: {
+      email: 'testemail222@testmail.com',
+      username: 'randomusername222',
+      password: 'testpassword',
+    }
+  });
+
+  for (let i = 0; i < 12; i++) {
+    
+    await prisma.recipe.create({
+      data: {
+        title: `Test recipe ${i}`,
+        ingredients: ['Pizza', '1 dl water', '2 spoons of salt', '2 spoons of pepper'],
+        instructions: `test`,
+        authorId: user.id,
+        cookingTime: 30,
+        servings: 6,
+      }
+    });
+  }
+  
+};
 
 
 const seed = async () => {

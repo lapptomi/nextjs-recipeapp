@@ -4,7 +4,7 @@ import * as React from 'react';
 
 import { ThemeProvider } from '@mui/material/styles';
 
-import { theme } from '../config/theme';
+import { theme } from './theme';
 
 export const ThemeRegistry = ({ children }: { children: React.ReactNode }) => {
   return (

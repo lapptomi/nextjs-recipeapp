@@ -7,7 +7,7 @@ import styles from '@/styles/Navigation.module.css';
 import AccountMenu from './AccountMenu';
 import NotificationMenu from './NotificationMenu';
 import { options } from '../app/api/auth/[...nextauth]/options';
-import { APPLICATION_NAME } from '../config/constants';
+import { APPLICATION_NAME } from '../lib/constants';
 
 const Navigation = async () => {
   const session = await getServerSession(options);

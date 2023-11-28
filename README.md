@@ -28,14 +28,14 @@
 ### Development
 The application can be started in development mode by command:  
 ```
-docker-compose -f docker-compose.dev.yml up
+docker-compose -f up
 ```
 And going to http://localhost:3000 in your browser.
 
 ### Production
 The application can be started in production mode by command:  
 ```
-docker-compose up
+npm run build && npm start
 ```  
 And going to http://localhost:3000 in your browser.
 

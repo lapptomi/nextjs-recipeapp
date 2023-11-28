@@ -5,7 +5,7 @@ import { Button } from '@mui/material';
 import styles from './page.module.css';
 import About from '../components/About';
 import CardContainer from '../components/CardContainer';
-import { APPLICATION_NAME } from '../config/constants';
+import { APPLICATION_NAME } from '../lib/constants';
 
 const Home: React.FC = async () => {
   return (

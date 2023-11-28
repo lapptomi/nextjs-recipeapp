@@ -1,4 +1,4 @@
-import { prisma } from "../src/config/db";
+import { prisma } from "../src/lib/db";
 
 export const initTestDb = async () => {
   await prisma.recipeComment.deleteMany();

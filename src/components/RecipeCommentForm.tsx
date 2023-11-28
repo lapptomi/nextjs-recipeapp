@@ -5,7 +5,7 @@ import { Button, TextField } from "@mui/material";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
-import { createComment } from "@/actions/comments";
+import { createComment } from "@/actions/recipes";
 
 import type { Recipe } from "@prisma/client";
 

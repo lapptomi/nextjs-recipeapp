@@ -8,7 +8,7 @@ import { Alert, Button, Grid, Link, TextField, Typography } from "@mui/material"
 import { signIn } from "next-auth/react";
 import '@/app/globals.css';
 import { useForm } from "react-hook-form";
-import { APPLICATION_NAME } from "../config/constants";
+import { APPLICATION_NAME } from "../lib/constants";
 import type { NewUser} from "../types";
 import { UserSchema } from "../types";
 import { userActions } from "@/actions";

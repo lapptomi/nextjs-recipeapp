@@ -4,7 +4,7 @@ import { getServerSession } from 'next-auth';
 
 import { getSignedImageUrl, uploadImageToS3 } from './aws_s3';
 import { options } from '../app/api/auth/[...nextauth]/options';
-import { prisma } from '../config/db';
+import { prisma } from '../lib/db';
 import { NewRecipeSchema } from '../types';
 
 import type { RecipeWithAuthor } from '../types';

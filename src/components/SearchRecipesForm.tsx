@@ -1,45 +1,35 @@
 "use client";
 
-import type { ChangeEvent } from "react";
 import React from "react";
 
 import { SearchOutlined } from "@mui/icons-material";
-import { Button, FormControl, InputAdornment, InputLabel, MenuItem, Select, TextField } from "@mui/material";
+import { Button, FormControl, InputAdornment, InputLabel, MenuItem, Pagination, Select, TextField } from "@mui/material";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
 import styles from '@/styles/SearchRecipesForm.module.css';
 
 interface Props {
-  handleSubmit?: any;
+  totalCount: number;
+  pageSize: number;
 }
 
-const SearchRecipesForm: React.FC<Props> = ({ handleSubmit }) => {
+const SearchRecipesForm: React.FC<Props> = ({ totalCount, pageSize }) => {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
 
-  const handleClick = (event: ChangeEvent<HTMLSelectElement>) => {
-    // now you got a read/write object
-    const current = new URLSearchParams(Array.from(searchParams.entries())); // -> has to use this form
-    
-    // update as necessary
-    const value = event.target.value.trim();
+  const handleClick = () => {
+    const current = new URLSearchParams(Array.from(searchParams.entries()));
 
-    if (!value) {
-      current.delete("selected");
-    } else {
-      current.set("selected", event.target.value);
-    }
+    current.set("selected", "123");
 
     // cast to string
     const search = current.toString();
     // or const query = `${'?'.repeat(search.length && 1)}${search}`;
-    const query = search ? `?${search}` : "?asd";
-    console.log('query', query);
+    const query = search ? `?${search}` : "";
 
-    router.push(`${pathname}${query}`);
-
-    handleSubmit(query);
+    // Add query params here
+    router.push(`${pathname}${query}&test=lol`);
   };
 
   return (
@@ -50,8 +40,8 @@ const SearchRecipesForm: React.FC<Props> = ({ handleSubmit }) => {
           <FormControl variant="standard" style={{ minWidth: 120 }}>
             <InputLabel size="small">Sort By</InputLabel>
             <Select value={10}>
-              <MenuItem value={10}>date newest</MenuItem>
-              <MenuItem value={20}>date Oldest</MenuItem>
+              <MenuItem value={10}>Date Newest</MenuItem>
+              <MenuItem value={20}>Date Oldest</MenuItem>
               <MenuItem value={30}>Thirty</MenuItem>
             </Select>
           </FormControl>
@@ -113,14 +103,19 @@ const SearchRecipesForm: React.FC<Props> = ({ handleSubmit }) => {
               ),
             }}
           />
-          <Button onClick={() => console.log('search')}>
+          <Button onClick={() => router.replace('/recipes')}>
             Clear
           </Button>
-          <Button variant="contained" onClick={() => handleClick}>
-          Search
+          <Button variant="contained" onClick={() => handleClick()}>
+            Search
           </Button>
         </div>
       </div>
+      <Pagination
+        onChange={(_event, value) => router.push(`${pathname}?page=${value}`)}
+        count={Math.ceil(totalCount / pageSize)}
+        page={parseInt(searchParams.get('page') || '1')}
+      />
     </div>
   );
 };
