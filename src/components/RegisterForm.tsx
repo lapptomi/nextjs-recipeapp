@@ -1,4 +1,3 @@
-/* eslint-disable import/order */
 "use client";
 
 import React, { useState } from "react";
@@ -8,10 +7,11 @@ import { Alert, Button, Grid, Link, TextField, Typography } from "@mui/material"
 import { signIn } from "next-auth/react";
 import '@/app/globals.css';
 import { useForm } from "react-hook-form";
+
 import { APPLICATION_NAME } from "../lib/constants";
-import type { NewUser} from "../types";
 import { UserSchema } from "../types";
-import { userActions } from "@/actions";
+
+import type { NewUser} from "../types";
 
 const RegisterForm: React.FC = () => {
   const [error, setError] = useState('');
@@ -36,7 +36,16 @@ const RegisterForm: React.FC = () => {
       return;
     }
 
-    userActions.create({ email, username, password })
+    fetch('/api/users', {
+      method: 'POST',
+      body: JSON.stringify({ email, username, password }),
+    })
+      .then((response) => {
+        if (response.status !== 201) {
+          throw new Error('Error creating user');
+        }
+        return response.json();
+      })
       .then(() => {
         signIn('credentials', {
           email,
@@ -45,7 +54,8 @@ const RegisterForm: React.FC = () => {
           callbackUrl: '/recipes',
         });
       })
-      .catch((error: any) => {
+      .catch((error) => {
+        console.error('Error:', error.message);
         setError(error.message);
       });
   };

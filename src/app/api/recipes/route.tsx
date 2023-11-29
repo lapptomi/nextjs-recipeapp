@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 
-import { getSignedImageUrl, uploadImageToS3 } from "@/actions/aws_s3";
+import { getSignedImageUrl, uploadImageToS3 } from "@/lib/actions/aws_s3";
 import { prisma } from "@/lib/db";
 import { NewRecipeSchema } from "@/types";
 
@@ -19,6 +19,12 @@ export const GET = async (req: NextRequest) => {
       include: { author: true },
       skip: (page - 1) * pageSize,
       take: pageSize,
+      where: {
+        title: {
+          mode: 'insensitive',
+          contains: reqParams.get('title') || '',
+        }
+      },
     });
 
     const withImages = await Promise.all(recipes.map(async (recipe) => {
@@ -52,7 +58,6 @@ export const POST = async (req: Request) => {
    
     // Create unique name for s3 bucket
     const imageName = recipe.image ? `${new Date().toISOString()}_${recipe.image.name}` : undefined;
-
     const createdRecipe = await prisma.recipe.create({
       data: {
         ...recipe,

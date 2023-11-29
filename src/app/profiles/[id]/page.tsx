@@ -1,14 +1,12 @@
 /* eslint-disable no-null/no-null */
-/* eslint-disable @next/next/no-img-element */
-/* eslint-disable jsx-a11y/alt-text */
 import React from "react";
 
 import { GroupAdd } from "@mui/icons-material";
 import { Avatar, Button, Divider, List, ListItem, ListItemAvatar, ListItemText, Typography } from "@mui/material";
 
-import { userActions } from "@/actions";
 import RecipeListItem from "@/components/RecipeListItem";
 import TitleHeader from "@/components/TitleHeader";
+import { BASE_URL } from "@/lib/constants";
 
 interface ProfilePageParams {
   params: {
@@ -17,7 +15,11 @@ interface ProfilePageParams {
 }
 
 const ProfilePage = async ({ params }: ProfilePageParams) => {
-  const user = await userActions.findById(parseFloat(params.id));
+  const user = await fetch(`${BASE_URL}/api/users/${params.id}`, {
+    cache: 'no-cache', // disable caching for dev purposes
+  }).then((response) => response.json()
+    .catch((error) => console.log('ERROR = ', error))
+  );
 
   if (!user) {
     return <TitleHeader title="PROFILE NOT FOUND" />;
@@ -127,7 +129,7 @@ const ProfilePage = async ({ params }: ProfilePageParams) => {
             gap: 20,
             flexWrap: 'wrap',          
           }}>
-            {user.recipes.map((recipe) => (
+            {user.recipes.map((recipe: any) => (
               <div key={recipe.id}>
                 {/* TODO: Add image background */}
                 <RecipeListItem
@@ -154,7 +156,7 @@ const ProfilePage = async ({ params }: ProfilePageParams) => {
           gap: 20,       
           background: 'white', 
         }}>
-          {user.recipes.map((recipe) => (
+          {user.recipes.map((recipe: any) => (
             <List
               key={recipe.id}
               sx={{ width: '100%' }}
@@ -173,7 +175,7 @@ const ProfilePage = async ({ params }: ProfilePageParams) => {
                         variant="body2"
                         color="text.primary"
                       >
-                        {recipe.createdAt.toISOString()}
+                        {recipe.createdAt}
                       </Typography>
                       {`- ${recipe.description}`}
                     </React.Fragment>

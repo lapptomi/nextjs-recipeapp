@@ -3,11 +3,11 @@ import { Avatar, Divider, List, ListItem, Tooltip, Typography } from '@mui/mater
 import Link from 'next/link';
 import { getServerSession } from 'next-auth';
 
-import { getSignedImageUrl } from '@/actions/aws_s3';
 import { options } from '@/app/api/auth/[...nextauth]/options';
 import Comments from '@/components/Comments';
 import RecipeCommentForm from '@/components/RecipeCommentForm';
 import TitleHeader from '@/components/TitleHeader';
+import { getSignedImageUrl } from '@/lib/actions/aws_s3';
 import { prisma } from '@/lib/db';
 
 import styles from './page.module.css';

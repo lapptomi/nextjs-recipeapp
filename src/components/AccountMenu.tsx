@@ -5,7 +5,6 @@ import * as React from 'react';
 
 import { AddBox, Person } from '@mui/icons-material';
 import Logout from '@mui/icons-material/Logout';
-import Settings from '@mui/icons-material/Settings';
 import { Button, Typography } from '@mui/material';
 import Avatar from '@mui/material/Avatar';
 import Divider from '@mui/material/Divider';
@@ -14,8 +13,7 @@ import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import Tooltip from '@mui/material/Tooltip';
 import Link from 'next/link';
-
-import { handleSignOut } from '../actions/authentication';
+import { signOut } from 'next-auth/react';
 
 import type { Session } from 'next-auth';
 
@@ -61,24 +59,25 @@ const AccountMenu: React.FC<Props> = ({ user }) => {
             Profile
           </MenuItem>
         </Link>
+
+        <Link href={'/recipes/create'}>
+          <MenuItem onClick={handleClose}>
+            <ListItemIcon>
+              <AddBox color="primary" fontSize="small" />
+            </ListItemIcon>
+            Create New Recipe
+          </MenuItem>
+        </Link>
         
-        <MenuItem onClick={handleClose}>
-          <ListItemIcon>
-            <AddBox color="primary" fontSize="small" />
-          </ListItemIcon>
-          Create New Recipe
-        </MenuItem>
-
         <Divider />
-  
-        <MenuItem onClick={handleClose}>
-          <ListItemIcon>
-            <Settings fontSize="small" />
-          </ListItemIcon>
-          Settings
-        </MenuItem>
 
-        <MenuItem onClick={handleSignOut}>
+        <MenuItem
+          onClick={() => {
+            if (window.confirm('Are you sure you want to sign out?')) {
+              signOut({ callbackUrl: '/recipes' });
+            }
+          }}
+        >
           <ListItemIcon>
             <Logout fontSize="small" />
           </ListItemIcon>

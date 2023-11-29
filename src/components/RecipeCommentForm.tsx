@@ -5,8 +5,6 @@ import { Button, TextField } from "@mui/material";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
-import { createComment } from "@/actions/recipes";
-
 import type { Recipe } from "@prisma/client";
 
 const CommentSchema = z.object({
@@ -33,14 +31,24 @@ const RecipeCommentForm: React.FC<Props> = ({ recipe }) => {
     resolver: zodResolver(CommentSchema),
   });
 
-  const handleFormSubmit = (data: any) => {    
-    createComment(data)
+  const handleFormSubmit = (data: any) => {
+    fetch('/api/recipes/comments', {
+      method: 'POST',
+      body: JSON.stringify(data),
+    })
+      .then((response) => {
+        if (response.status !== 201) {
+          throw new Error('Error creating comment');
+        }
+        return response.json();
+      })
       .then(() => {
         window.location.reload();
       })
-      .catch((err) => {
-        console.log('ERROR = ', err);
+      .catch((error) => {
+        console.error('Error:', error.message);
       });
+      
   };
   
   return (

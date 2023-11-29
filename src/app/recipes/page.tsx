@@ -12,23 +12,24 @@ interface Params {
   searchParams: {
     page?: string;
     pageSize?: string;
+    title?: string;
   };
 }
 
 const BrowseRecipesPage = async ({ searchParams }: Params) => {
   const totalCount = await prisma.recipe.count();
-  const pageSize = searchParams.pageSize ? parseInt(searchParams.pageSize) : 9;
-  const recipes = await fetch(`${BASE_URL}/api/recipes?page=${searchParams.page}&pageSize=${pageSize}`, {
+  const queryParams = Object.entries(searchParams).map(([key, value]) => `${key}=${value}`).join('&');
+
+  const recipes = await fetch(`${BASE_URL}/api/recipes?${queryParams}`, {
     cache: 'no-cache', // disable caching for dev purposes
   }).then((response) => response.json()
-    .then((data) => data)
-    .catch((error) => console.log('ERROR = ', error)));
+    .catch((error) => console.log('ERROR = ', error))
+  );
 
   return (
     <div>
       <TitleHeader title="BROWSE RECIPES" />
-      <SearchRecipesForm totalCount={totalCount} pageSize={pageSize} />
-
+      <SearchRecipesForm totalCount={totalCount} />
       <div className={styles.recipelist}>
         {recipes.length > 0 ? (
           recipes.map((recipe: any) => (

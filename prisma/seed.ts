@@ -9,7 +9,8 @@ export const createSeed = async () => {
     await prisma.user.deleteMany();
     await prisma.recipeComment.deleteMany();
 
-    await seed2();
+    // await seed();
+    // await seed2();
   } catch (error) {
     await prisma.$disconnect();
     process.exit(1);
