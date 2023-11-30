@@ -18,16 +18,28 @@ const Home: React.FC = async () => {
             Your favourite recipe app. <br />
             Rate recipes, share your own, and so much more!
           </h3>
-          <Button variant="contained" href='/recipes' color="warning">
+          <Button variant="contained" href='/recipes' color="primary">
             Get Started
           </Button>
         </div>
       </div>
 
       <div className={styles.cardcontainer}>
-        <CardContainer />
-        <CardContainer />
-        <CardContainer />
+        <CardContainer
+          title="Personal"
+          price={0}
+          description="Some random description"
+        />
+        <CardContainer
+          title="Professional"
+          price={10}
+          description="Some random description"
+        />
+        <CardContainer
+          title="Enterprise"
+          price={1337}
+          description="Some random description"
+        />
       </div>
 
       <About />

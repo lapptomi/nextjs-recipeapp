@@ -1,45 +1,60 @@
-import { Avatar, Button, Card, CardContent, CardMedia, Divider, Rating, Typography } from "@mui/material";
+import React from "react";
+
+import { Check } from "@mui/icons-material";
+import { Button, Card, CardContent, CardMedia, Divider, Typography } from "@mui/material";
 
 import styles from '@/styles/CardContainer.module.css';
 
-const CardContainer = () => {
+interface Props {
+  title: string;
+  price: number;
+  description: string;
+  items?: string[];
+}
+
+const CardContainer: React.FC<Props> = (props) => {
   return (
     <Card className={styles.wrapper}>
       <CardMedia className={styles.header}>
-        text
-      </CardMedia>
-      <CardContent className={styles.cardcontent}>
-        <div className={styles.ratingwrapper}>
-          <Avatar />
-          <div>
-            <Typography variant="body2">Username</Typography>
-            <Rating
-              readOnly
-              size="small"
-              name="simple-controlled"
-              value={2}
-            />
-          </div>
-        </div>
+        <Typography variant="h4">
+          {props.title}
+        </Typography>
 
-        <div>
-          <Typography variant="body1">
-            Chicken Soup
+        <Typography variant="h3" fontWeight="bold">
+          ${props.price}
+          <Typography display="inline" variant="h5" color="text.secondary">
+            / Month
           </Typography>
-          <Typography variant="caption">
-            Random Description
-          </Typography>
-        </div>
+        </Typography>
+        
+        <Typography variant="caption">
+          {props.description}
+        </Typography>
+      </CardMedia>
+      
+      <CardContent className={styles.cardcontent}>
         <Divider />
-        <Typography variant="subtitle1">
-          Instructions
-        </Typography>
-        <Typography variant="body2" color="text.secondary">
-          Lizards are a widespread group of squamate reptiles, with over 6,000
-          species, ranging across all continents except Antarctica ...
-        </Typography>
-        <Button>
-          <Typography variant="caption" color="secondary">Read More</Typography>
+        <div style={{
+          display: 'flex',
+          flexDirection: 'column',
+          padding: '30px',
+          gap: 5
+        }}>
+          {['itemitem 1', 'itemitem 2', 'item item 3','itemitem 1', 'itemitem 2', 'item item 3'].map((item, index) => (
+            <div key={index} style={{
+              display: 'flex',
+              gap: '20px',
+            }}>
+              <Check color="primary" /> 
+              <Typography>
+                {item}
+              </Typography>
+            </div>
+          ))}
+        </div>        
+
+        <Button size="small" variant="contained" href='/recipes' color="primary">
+          Get Started
         </Button>
       </CardContent>
     </Card>
