@@ -1,4 +1,4 @@
-import { AccessTime, Person } from '@mui/icons-material';
+import { AccessTime, Person, Share, ThumbDown, ThumbUpSharp } from '@mui/icons-material';
 import { Avatar, Divider, List, ListItem, ListItemAvatar, ListItemText, Tooltip, Typography } from '@mui/material';
 import axios from 'axios';
 import Link from 'next/link';
@@ -48,24 +48,34 @@ const RecipePage = async ({ params }: Props) => {
           <div className={styles.headertitle}>
             <Typography variant="h4">{recipe.title.toUpperCase()}</Typography>
             
-            <div style={{ display: 'flex', flexDirection: 'row',  alignItems: 'center' }}>
+            <div style={{
+              display: 'flex',
+              flexDirection: 'column',
+            }}>
               <Link href={`/profiles/${recipe.author?.id}`}>
-                <Tooltip title={`View profile of ${recipe.author.username}`}>
-                  <div className={styles.avatarcontainer}>
-                    <Avatar sx={{ width: 80, height: 80 }} />
-                    <div>
-                      <Typography variant="subtitle1">
-                        Created By
-                      </Typography>
-                      <Typography variant="h5">
-                        {recipe.author?.username}
-                      </Typography>
-                    </div>
+                <div className={styles.avatarcontainer}>
+                  <Avatar sx={{ width: 80, height: 80 }} />
+                  <div>
+                    <Typography variant="subtitle1">
+                      Created By
+                    </Typography>
+                    <Typography variant="h5">
+                      {recipe.author?.username}
+                    </Typography>
                   </div>
-                </Tooltip>
+                </div>
               </Link>
             </div>
-
+            <div style={{
+              display: 'flex',
+              flexDirection: 'row',
+              gap: 10,
+              alignItems: 'center',
+            }}>
+              <Share color="primary" /> Share
+              <ThumbUpSharp color="primary" /> 12
+              <ThumbDown color="primary" /> 2
+            </div>
           </div>
         </div>
 
@@ -120,9 +130,14 @@ const RecipePage = async ({ params }: Props) => {
                   <ListItemText
                     primary={
                       <Typography variant='body1'>
-                        <Link href={`/profiles/${comment.authorId}`}>
-                          {comment.author.username}
-                        </Link>
+                        <Tooltip title={`View profile of ${comment.author.username}`}>
+                          <Link href={`/profiles/${comment.authorId}`}>
+                            {comment.author.username}-
+                            <Typography variant="caption">
+                              {new Date(comment.createdAt).toISOString().split('T')[0]} 
+                            </Typography>
+                          </Link>
+                        </Tooltip>
                       </Typography>
                     }
                     secondary={comment.message}
