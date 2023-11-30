@@ -4,6 +4,7 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { AccessTime, Add, CloudUpload, Delete, Description, DiningRounded, Group, Title } from '@mui/icons-material';
 import { Alert, Button, FormControl, IconButton, InputAdornment, Step, StepLabel, Stepper, TextField, Typography } from '@mui/material';
+import axios from 'axios';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { useFieldArray, useForm } from 'react-hook-form';
@@ -47,13 +48,12 @@ const CreateRecipeForm = () => {
     formData.append('document', JSON.stringify(data));
     formData.append('image', selectedImage as any);
 
-    fetch('/api/recipes', { method: 'POST', body: formData })
-      .then((response) => response.json())
-      .then((data) => router.push(`/recipes/${data.id}`))
-      .catch((error) => {
-        window.alert(`Something went wrong! ${error.message}`);
-        console.log('ERROR = ', error);
-      });
+    axios.post('/api/recipes', formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data'
+      },
+    }).then(({ data }) => router.push(`/recipes/${data.id}`))
+      .catch((error) => console.log('ERROR = ', error));
   };
 
   return (

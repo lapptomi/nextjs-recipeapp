@@ -1,4 +1,5 @@
 import { Typography } from '@mui/material';
+import axios from 'axios';
 
 import RecipeListItem from '@/components/RecipeListItem';
 import SearchRecipesForm from '@/components/SearchRecipesForm';
@@ -20,11 +21,9 @@ const BrowseRecipesPage = async ({ searchParams }: Params) => {
   const totalCount = await prisma.recipe.count();
   const queryParams = Object.entries(searchParams).map(([key, value]) => `${key}=${value}`).join('&');
 
-  const recipes = await fetch(`${BASE_URL}/api/recipes?${queryParams}`, {
-    cache: 'no-cache', // disable caching for dev purposes
-  }).then((response) => response.json()
-    .catch((error) => console.log('ERROR = ', error))
-  );
+  const recipes = await axios.get(`${BASE_URL}/api/recipes?${queryParams}`)
+    .then((response) => response.data)
+    .catch((error) => console.log('ERROR = ', error));
 
   return (
     <div>

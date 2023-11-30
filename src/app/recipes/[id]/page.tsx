@@ -1,16 +1,17 @@
 import { AccessTime, Person } from '@mui/icons-material';
-import { Avatar, Divider, List, ListItem, Tooltip, Typography } from '@mui/material';
+import { Avatar, Divider, List, ListItem, ListItemAvatar, ListItemText, Tooltip, Typography } from '@mui/material';
+import axios from 'axios';
 import Link from 'next/link';
 import { getServerSession } from 'next-auth';
 
 import { options } from '@/app/api/auth/[...nextauth]/options';
-import Comments from '@/components/Comments';
 import RecipeCommentForm from '@/components/RecipeCommentForm';
 import TitleHeader from '@/components/TitleHeader';
-import { getSignedImageUrl } from '@/lib/actions/aws_s3';
-import { prisma } from '@/lib/db';
+import { BASE_URL } from '@/lib/constants';
 
 import styles from './page.module.css';
+
+import type { Recipe, RecipeComment, User } from '@prisma/client';
 
 interface Props {
   params: {
@@ -18,24 +19,18 @@ interface Props {
   }
 }
 
+interface RecipeWithComments extends Recipe {
+  comments: Array<RecipeComment & { author: User }>;
+  author: User;
+}
+
 const RecipePage = async ({ params }: Props) => {
   const session = await getServerSession(options);
-  const recipeWithComments = await prisma.recipe.findUnique({
-    where: {
-      id: parseFloat(params.id)
-    },
-    include: {
-      author: true,
-      comments: {
-        include: {
-          author: true,
-        }
-      }
-    },
-  });
-  const recipeImage = await getSignedImageUrl(recipeWithComments?.image || '');
+  const recipe = await axios.get<RecipeWithComments>(`${BASE_URL}/api/recipes/${params.id}`)
+    .then((response) => response.data)
+    .catch((error) => console.log('ERROR = ', error));
 
-  if (!recipeWithComments) {
+  if (!recipe) {
     return <TitleHeader title="Recipe not found" />;
   }
 
@@ -45,31 +40,25 @@ const RecipePage = async ({ params }: Props) => {
         <div
           className={styles.headercontainer}
           style={{
-            backgroundImage: `url(${recipeImage})`,
+            backgroundImage: `url(${recipe.image})`,
             backgroundSize: 'cover',
             backgroundPosition: 'center',
             backgroundRepeat: 'no-repeat',
           }}>
           <div className={styles.headertitle}>
-            <Typography variant="h4">{recipeWithComments.title.toUpperCase()}</Typography>
+            <Typography variant="h4">{recipe.title.toUpperCase()}</Typography>
             
             <div style={{ display: 'flex', flexDirection: 'row',  alignItems: 'center' }}>
-              <Link href={`/profiles/${recipeWithComments.author?.id}`}>
-                <Tooltip title={`View profile of ${recipeWithComments.author.username}`}>
-                  <div style={{
-                    display: 'flex',
-                    flexDirection: 'row',
-                    alignItems: 'center',
-                    gap: 10,
-                  
-                  }}>
+              <Link href={`/profiles/${recipe.author?.id}`}>
+                <Tooltip title={`View profile of ${recipe.author.username}`}>
+                  <div className={styles.avatarcontainer}>
                     <Avatar sx={{ width: 80, height: 80 }} />
                     <div>
                       <Typography variant="subtitle1">
                         Created By
                       </Typography>
                       <Typography variant="h5">
-                        {recipeWithComments.author?.username}
+                        {recipe.author?.username}
                       </Typography>
                     </div>
                   </div>
@@ -85,16 +74,16 @@ const RecipePage = async ({ params }: Props) => {
             <Typography variant="h5">ABOUT</Typography>
             <Typography variant="overline">
               <AccessTime color="primary" />
-              {recipeWithComments.cookingTime} minutes
+              {recipe.cookingTime} minutes
             </Typography>
             <Typography variant="overline">
               <Person color="primary" />
-              {recipeWithComments.servings} servings
+              {recipe.servings} servings
             </Typography>
           </Divider>
           
           <Typography variant="body1">
-            {recipeWithComments.description}
+            {recipe.description}
           </Typography>
 
           <Divider>
@@ -102,7 +91,7 @@ const RecipePage = async ({ params }: Props) => {
           </Divider>
 
           <List dense={true}>
-            {recipeWithComments.ingredients.map((ingredient, index) => (
+            {recipe.ingredients.map((ingredient, index) => (
               <ListItem key={ingredient}>
                 <Typography key={index} variant="body2">
                   - {ingredient} <br/>
@@ -115,13 +104,35 @@ const RecipePage = async ({ params }: Props) => {
             <Typography variant="h5">INSTRUCTIONS</Typography>
           </Divider>
           <Typography variant="body1" style={{ whiteSpace: 'pre-line' }}>
-            {recipeWithComments.instructions}
+            {recipe.instructions}
           </Typography>
           
           <div>
-            <Comments comments={recipeWithComments.comments ?? []} />
-            {session?.user && recipeWithComments
-              ? <RecipeCommentForm recipe={recipeWithComments} />
+            <List style={{ display: 'flex', flexDirection: 'column', width: '100%', background: 'white' }}>
+              <Divider>
+                <Typography variant="body1">{recipe.comments.length} COMMENTS</Typography>
+              </Divider>
+              {(recipe.comments ?? []).map((comment, index) => (
+                <ListItem key={index} className={styles.recipecomment}>
+                  <ListItemAvatar>
+                    <Avatar />
+                  </ListItemAvatar>
+                  <ListItemText
+                    primary={
+                      <Typography variant='body1'>
+                        <Link href={`/profiles/${comment.authorId}`}>
+                          {comment.author.username}
+                        </Link>
+                      </Typography>
+                    }
+                    secondary={comment.message}
+                  />
+                </ListItem>
+              ))}
+            </List>
+
+            {session?.user && recipe
+              ? <RecipeCommentForm recipe={recipe} />
               : <Typography variant="body1">Please sign in to comment...</Typography>
             }
           </div>

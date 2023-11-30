@@ -4,6 +4,7 @@ import React, { useState } from "react";
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Alert, Button, Grid, Link, TextField, Typography } from "@mui/material";
+import axios from "axios";
 import { signIn } from "next-auth/react";
 import '@/app/globals.css';
 import { useForm } from "react-hook-form";
@@ -30,32 +31,22 @@ const RegisterForm: React.FC = () => {
     resolver: zodResolver(UserSchema),
   });
 
-  const handleFormSubmit = ({ email, username, password }: NewUser) => {
-    if (password !== confirm) {
+  const handleFormSubmit = (newUser: NewUser) => {
+    if (newUser.password !== confirm) {
       setError('Passwords do not match');
       return;
     }
 
-    fetch('/api/users', {
-      method: 'POST',
-      body: JSON.stringify({ email, username, password }),
-    })
-      .then((response) => {
-        if (response.status !== 201) {
-          throw new Error('Error creating user');
-        }
-        return response.json();
-      })
+    axios.post('/api/users', newUser)
       .then(() => {
         signIn('credentials', {
-          email,
-          password,
+          email: newUser.email,
+          password: newUser.password,
           redirect: true,
           callbackUrl: '/recipes',
         });
-      })
-      .catch((error) => {
-        console.error('Error:', error.message);
+      }).catch((error) => {
+        console.log('ERROR = ', error);
         setError(error.message);
       });
   };

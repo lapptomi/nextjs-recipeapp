@@ -3,6 +3,7 @@ import React from "react";
 
 import { GroupAdd } from "@mui/icons-material";
 import { Avatar, Button, Divider, List, ListItem, ListItemAvatar, ListItemText, Typography } from "@mui/material";
+import axios from "axios";
 
 import RecipeListItem from "@/components/RecipeListItem";
 import TitleHeader from "@/components/TitleHeader";
@@ -15,11 +16,9 @@ interface ProfilePageParams {
 }
 
 const ProfilePage = async ({ params }: ProfilePageParams) => {
-  const user = await fetch(`${BASE_URL}/api/users/${params.id}`, {
-    cache: 'no-cache', // disable caching for dev purposes
-  }).then((response) => response.json()
-    .catch((error) => console.log('ERROR = ', error))
-  );
+  const user = await axios.get(`${BASE_URL}/api/users/${params.id}`)
+    .then((response) => response.data)
+    .catch((error) => console.log('ERROR = ', error));
 
   if (!user) {
     return <TitleHeader title="PROFILE NOT FOUND" />;
@@ -131,12 +130,11 @@ const ProfilePage = async ({ params }: ProfilePageParams) => {
           }}>
             {user.recipes.map((recipe: any) => (
               <div key={recipe.id}>
-                {/* TODO: Add image background */}
                 <RecipeListItem
                   key={recipe.id}
                   recipe={{
                     ...recipe,
-                    image: null,
+                    image: null, // TODO: add image here
                   }}
                 />
               </div>

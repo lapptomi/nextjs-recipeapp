@@ -2,6 +2,7 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button, TextField } from "@mui/material";
+import axios from "axios";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
@@ -32,23 +33,9 @@ const RecipeCommentForm: React.FC<Props> = ({ recipe }) => {
   });
 
   const handleFormSubmit = (data: any) => {
-    fetch('/api/recipes/comments', {
-      method: 'POST',
-      body: JSON.stringify(data),
-    })
-      .then((response) => {
-        if (response.status !== 201) {
-          throw new Error('Error creating comment');
-        }
-        return response.json();
-      })
-      .then(() => {
-        window.location.reload();
-      })
-      .catch((error) => {
-        console.error('Error:', error.message);
-      });
-      
+    axios.post('/api/recipes/comments', data)
+      .then(() => window.location.reload())
+      .catch((error) => console.log('ERROR = ', error));  
   };
   
   return (
