@@ -25,8 +25,6 @@ const BrowseRecipesPage = async ({ searchParams }: Params) => {
     .then((response) => response.data)
     .catch((error) => console.log('ERROR = ', error));
 
-  console.log('recipes = ', recipes);
-
   return (
     <div>
       <TitleHeader title="BROWSE RECIPES" />
