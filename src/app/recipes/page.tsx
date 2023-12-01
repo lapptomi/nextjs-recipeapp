@@ -25,12 +25,14 @@ const BrowseRecipesPage = async ({ searchParams }: Params) => {
     .then((response) => response.data)
     .catch((error) => console.log('ERROR = ', error));
 
+  console.log('recipes = ', recipes);
+
   return (
     <div>
       <TitleHeader title="BROWSE RECIPES" />
       <SearchRecipesForm totalCount={totalCount} />
       <div className={styles.recipelist}>
-        {recipes.length > 0 ? (
+        {recipes && recipes.length > 0 ? (
           recipes.map((recipe: any) => (
             <RecipeListItem key={recipe.id} recipe={recipe} />
           ))) : (
