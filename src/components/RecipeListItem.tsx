@@ -6,12 +6,16 @@ import Link from "next/link";
 import styles from "@/styles/RecipeListItem.module.css";
 
 import type { RecipeWithAuthor } from "../types";
+import type { RecipeRating } from "@prisma/client";
 
 interface Props {
-  recipe: RecipeWithAuthor;
+  recipe: RecipeWithAuthor & { ratings: RecipeRating[] };
 }
 
 const RecipeListItem: React.FC<Props> = ({ recipe }) => {
+  const likes = recipe.ratings.filter((rating) => rating.type === 'LIKE').length;
+  const dislikes = recipe.ratings.filter((rating) => rating.type === 'DISLIKE').length;
+
   return (
     <Link href={`/recipes/${recipe.id}`}>
       <ImageListItem className={styles.imagelistitem}>
@@ -42,9 +46,12 @@ const RecipeListItem: React.FC<Props> = ({ recipe }) => {
           position="top"
           actionIcon={
             <div className={styles.imagelist_top}>
-              <Rating readOnly value={recipe.rating || 2} />
+              <Rating
+                readOnly
+                value={likes / (likes + dislikes) * 5}
+              />
               <Typography variant="caption" color="white">
-                {recipe.rating || 0} ratings
+                {recipe.ratings.length} ratings
               </Typography>
             </div>
           }

@@ -19,6 +19,7 @@ model User {
   image     String?
   recipes   Recipe[]
   comments  RecipeComment[]
+  ratings   RecipeRating[]
   createdAt DateTime        @default(now())
   updatedAt DateTime        @updatedAt
 }
@@ -31,13 +32,28 @@ model Recipe {
   ingredients  String[]
   author       User            @relation(fields: [authorId], references: [id], onDelete: Cascade)
   authorId     Int
-  rating       Int             @default(0)
   cookingTime  Int             @default(0)
   servings     Int             @default(0)
+  ratings      RecipeRating[]
   image        String?
   comments     RecipeComment[]
   createdAt    DateTime        @default(now())
   updatedAt    DateTime        @updatedAt
+}
+
+enum RecipeRatingType {
+  LIKE
+  DISLIKE
+}
+
+model RecipeRating {
+  id           Int             @id @default(autoincrement())
+  author       User            @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  recipe       Recipe          @relation(fields: [recipeId], references: [id], onDelete: Cascade)
+  authorId     Int
+  recipeId     Int
+  type         RecipeRatingType
+  @@unique([authorId, recipeId])
 }
 
 model RecipeComment {

@@ -18,6 +18,7 @@ export const GET = async (_req: NextRequest, { params }: Params) => {
         id: Number(params.id)
       },
       include: {
+        ratings: true,
         author: true,
         comments: {
           include: {

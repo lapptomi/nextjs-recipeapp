@@ -1,3 +1,6 @@
+-- CreateEnum
+CREATE TYPE "RecipeRatingType" AS ENUM ('LIKE', 'DISLIKE');
+
 -- CreateTable
 CREATE TABLE "User" (
     "id" SERIAL NOT NULL,
@@ -19,7 +22,6 @@ CREATE TABLE "Recipe" (
     "instructions" TEXT NOT NULL,
     "ingredients" TEXT[],
     "authorId" INTEGER NOT NULL,
-    "rating" INTEGER NOT NULL DEFAULT 0,
     "cookingTime" INTEGER NOT NULL DEFAULT 0,
     "servings" INTEGER NOT NULL DEFAULT 0,
     "image" TEXT,
@@ -27,6 +29,16 @@ CREATE TABLE "Recipe" (
     "updatedAt" TIMESTAMP(3) NOT NULL,
 
     CONSTRAINT "Recipe_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "RecipeRating" (
+    "id" SERIAL NOT NULL,
+    "authorId" INTEGER NOT NULL,
+    "recipeId" INTEGER NOT NULL,
+    "type" "RecipeRatingType" NOT NULL,
+
+    CONSTRAINT "RecipeRating_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
@@ -47,8 +59,17 @@ CREATE UNIQUE INDEX "User_email_key" ON "User"("email");
 -- CreateIndex
 CREATE UNIQUE INDEX "User_username_key" ON "User"("username");
 
+-- CreateIndex
+CREATE UNIQUE INDEX "RecipeRating_authorId_recipeId_key" ON "RecipeRating"("authorId", "recipeId");
+
 -- AddForeignKey
 ALTER TABLE "Recipe" ADD CONSTRAINT "Recipe_authorId_fkey" FOREIGN KEY ("authorId") REFERENCES "User"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "RecipeRating" ADD CONSTRAINT "RecipeRating_authorId_fkey" FOREIGN KEY ("authorId") REFERENCES "User"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "RecipeRating" ADD CONSTRAINT "RecipeRating_recipeId_fkey" FOREIGN KEY ("recipeId") REFERENCES "Recipe"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "RecipeComment" ADD CONSTRAINT "RecipeComment_authorId_fkey" FOREIGN KEY ("authorId") REFERENCES "User"("id") ON DELETE CASCADE ON UPDATE CASCADE;

@@ -16,7 +16,10 @@ export const GET = async (req: NextRequest) => {
     const pageSize = parseInt(reqParams.get('pageSize') || '9');
 
     const recipes = await prisma.recipe.findMany({
-      include: { author: true },
+      include: {
+        author: true,
+        ratings: true,
+      },
       skip: (page - 1) * pageSize,
       take: pageSize,
       where: {

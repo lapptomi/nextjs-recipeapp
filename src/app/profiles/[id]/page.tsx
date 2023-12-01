@@ -67,10 +67,9 @@ const ProfilePage = async ({ params }: ProfilePageParams) => {
                 flexDirection: 'row',
                 gap: 10,
               }}>
-              
                 <div>
                   <Typography variant="caption">
-                  Recipes
+                    Recipes
                   </Typography>
                   <Typography variant="h6">
                     {user.recipes.length}

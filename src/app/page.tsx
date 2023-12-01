@@ -4,7 +4,7 @@ import { Button } from '@mui/material';
 
 import styles from './page.module.css';
 import About from '../components/About';
-import CardContainer from '../components/CardContainer';
+import PricingCard from '../components/PricingCard';
 import { APPLICATION_NAME } from '../lib/constants';
 
 const Home: React.FC = async () => {
@@ -25,17 +25,16 @@ const Home: React.FC = async () => {
       </div>
 
       <div className={styles.cardcontainer}>
-        <CardContainer
+        <PricingCard
           title="Personal"
-          price={0}
           description="Some random description"
         />
-        <CardContainer
+        <PricingCard
           title="Professional"
           price={10}
           description="Some random description"
         />
-        <CardContainer
+        <PricingCard
           title="Enterprise"
           price={1337}
           description="Some random description"

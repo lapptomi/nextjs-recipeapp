@@ -19,6 +19,7 @@ export const GET = async (_req: NextRequest, { params }: Params) => {
       include: { 
         recipes: {
           include: {
+            ratings: true,
             author: true
           }
         }

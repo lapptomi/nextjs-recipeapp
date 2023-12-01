@@ -1,17 +1,18 @@
-import { AccessTime, Person, Share, ThumbDown, ThumbUpSharp } from '@mui/icons-material';
+import { AccessTime, Person } from '@mui/icons-material';
 import { Avatar, Divider, List, ListItem, ListItemAvatar, ListItemText, Tooltip, Typography } from '@mui/material';
 import axios from 'axios';
 import Link from 'next/link';
 import { getServerSession } from 'next-auth';
 
 import { options } from '@/app/api/auth/[...nextauth]/options';
+import LikeButtons from '@/components/LikeButtons';
 import RecipeCommentForm from '@/components/RecipeCommentForm';
 import TitleHeader from '@/components/TitleHeader';
 import { BASE_URL } from '@/lib/constants';
 
 import styles from './page.module.css';
 
-import type { Recipe, RecipeComment, User } from '@prisma/client';
+import type { Recipe, RecipeComment, RecipeRating, User } from '@prisma/client';
 
 interface Props {
   params: {
@@ -22,6 +23,7 @@ interface Props {
 interface RecipeWithComments extends Recipe {
   comments: Array<RecipeComment & { author: User }>;
   author: User;
+  ratings: RecipeRating[];
 }
 
 const RecipePage = async ({ params }: Props) => {
@@ -66,16 +68,7 @@ const RecipePage = async ({ params }: Props) => {
                 </div>
               </Link>
             </div>
-            <div style={{
-              display: 'flex',
-              flexDirection: 'row',
-              gap: 10,
-              alignItems: 'center',
-            }}>
-              <Share color="primary" /> Share
-              <ThumbUpSharp color="primary" /> 12
-              <ThumbDown color="primary" /> 2
-            </div>
+            <LikeButtons recipe={recipe} />
           </div>
         </div>
 
@@ -120,27 +113,28 @@ const RecipePage = async ({ params }: Props) => {
           <div>
             <List style={{ display: 'flex', flexDirection: 'column', width: '100%', background: 'white' }}>
               <Divider>
-                <Typography variant="body1">{recipe.comments.length} COMMENTS</Typography>
+                <Typography variant="body1">
+                  {recipe.comments.length} COMMENTS
+                </Typography>
               </Divider>
               {(recipe.comments ?? []).map((comment, index) => (
                 <ListItem key={index} className={styles.recipecomment}>
                   <ListItemAvatar>
                     <Avatar />
                   </ListItemAvatar>
-                  <ListItemText
-                    primary={
-                      <Typography variant='body1'>
-                        <Tooltip title={`View profile of ${comment.author.username}`}>
-                          <Link href={`/profiles/${comment.authorId}`}>
-                            {comment.author.username}-
-                            <Typography variant="caption">
-                              {new Date(comment.createdAt).toISOString().split('T')[0]} 
-                            </Typography>
-                          </Link>
-                        </Tooltip>
-                      </Typography>
-                    }
-                    secondary={comment.message}
+                  <ListItemText primary={
+                    <Typography variant='body1'>
+                      <Tooltip title={`View profile of ${comment.author.username}`}>
+                        <Link href={`/profiles/${comment.authorId}`}>
+                          {comment.author.username}-
+                          <Typography variant="caption">
+                            {new Date(comment.createdAt).toISOString().split('T')[0]} 
+                          </Typography>
+                        </Link>
+                      </Tooltip>
+                    </Typography>
+                  }
+                  secondary={comment.message}
                   />
                 </ListItem>
               ))}
