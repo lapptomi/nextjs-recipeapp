@@ -8,7 +8,7 @@ const TitleHeader = ({ title }: { title?: string }) => {
       <div className={styles.image} />
       <div className={styles.headertitle}>
         <Typography variant="h5" color="white">
-          {title || ''}
+          {title?.toUpperCase() || ''}
         </Typography>
       </div>
     </div>

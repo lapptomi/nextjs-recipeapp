@@ -5,11 +5,10 @@ import Link from "next/link";
 
 import styles from "@/styles/RecipeListItem.module.css";
 
-import type { RecipeWithAuthor } from "../types";
-import type { RecipeRating } from "@prisma/client";
+import type { RecipeIncludeRelations } from "@/types";
 
 interface Props {
-  recipe: RecipeWithAuthor & { ratings: RecipeRating[] };
+  recipe: RecipeIncludeRelations;
 }
 
 const RecipeListItem: React.FC<Props> = ({ recipe }) => {

@@ -27,7 +27,7 @@ const PricingCard: React.FC<Props> = (props) => {
             <Typography variant="h3" fontWeight="bold" color="primary">
               ${props.price}
             </Typography>
-            <Typography variant="h5" fontWeight="bold" color="text.secondary">
+            <Typography variant="h5" fontWeight="bold">
               / month
             </Typography>
           </div>
@@ -35,7 +35,9 @@ const PricingCard: React.FC<Props> = (props) => {
           <Typography variant="h3" fontWeight="bold">Free</Typography>
         )}
 
-        <Typography variant="body1"> {props.description}</Typography>
+        <Typography variant="body1" color="text.secondary">
+          {props.description}
+        </Typography>
       </CardMedia>
       
       <CardContent className={styles.cardcontent}>

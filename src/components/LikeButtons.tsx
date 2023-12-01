@@ -5,12 +5,17 @@ import { Button, Tooltip, Typography } from "@mui/material";
 import axios from "axios";
 import { useSession } from "next-auth/react";
 
-import type { RecipeRating } from "@prisma/client";
+import type { RecipeIncludeRelations } from "@/types";
+import type { RecipeRating, RecipeRatingType } from "@prisma/client";
 
-const LikeButtons = ({ recipe }: any) => {
+interface Props {
+  recipe: RecipeIncludeRelations;
+}
+
+const LikeButtons: React.FC<Props> = ({ recipe }) => {
   const session = useSession();
 
-  const updateRating = async (ratingType: 'LIKE' | 'DISLIKE') => {
+  const updateRating = async (ratingType: RecipeRatingType) => {
     axios.post(`/api/recipes/ratings`, {
       recipeId: recipe.id,
       authorId: session.data?.user.id,
@@ -46,7 +51,7 @@ const LikeButtons = ({ recipe }: any) => {
           }
         >
           <Typography color="white">
-            {recipe.ratings.filter((rating: any) => rating.type === 'LIKE').length}
+            {recipe.ratings.filter((rating) => rating.type === 'LIKE').length}
           </Typography>
         </Button>
       </Tooltip>
@@ -60,7 +65,7 @@ const LikeButtons = ({ recipe }: any) => {
           }
         >
           <Typography color="white">
-            {recipe.ratings.filter((rating: any) => rating.type === 'DISLIKE').length}
+            {recipe.ratings.filter((rating) => rating.type === 'DISLIKE').length}
           </Typography>
         </Button>   
       </Tooltip>

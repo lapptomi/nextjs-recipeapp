@@ -9,6 +9,9 @@ import { prisma } from '@/lib/db';
 
 import styles from './page.module.css';
 
+import type { RecipeIncludeRelations } from '@/types';
+
+
 interface Params {
   searchParams: {
     page?: string;
@@ -21,7 +24,7 @@ const BrowseRecipesPage = async ({ searchParams }: Params) => {
   const totalCount = await prisma.recipe.count();
   const queryParams = Object.entries(searchParams).map(([key, value]) => `${key}=${value}`).join('&');
 
-  const recipes = await axios.get(`${BASE_URL}/api/recipes?${queryParams}`)
+  const recipes = await axios.get<RecipeIncludeRelations[]>(`${BASE_URL}/api/recipes?${queryParams}`)
     .then((response) => response.data)
     .catch((error) => console.log('ERROR = ', error));
 

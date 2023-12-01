@@ -12,7 +12,7 @@ import { BASE_URL } from '@/lib/constants';
 
 import styles from './page.module.css';
 
-import type { Recipe, RecipeComment, RecipeRating, User } from '@prisma/client';
+import type { RecipeIncludeRelations } from '@/types';
 
 interface Props {
   params: {
@@ -20,15 +20,9 @@ interface Props {
   }
 }
 
-interface RecipeWithComments extends Recipe {
-  comments: Array<RecipeComment & { author: User }>;
-  author: User;
-  ratings: RecipeRating[];
-}
-
 const RecipePage = async ({ params }: Props) => {
   const session = await getServerSession(options);
-  const recipe = await axios.get<RecipeWithComments>(`${BASE_URL}/api/recipes/${params.id}`)
+  const recipe = await axios.get<RecipeIncludeRelations>(`${BASE_URL}/api/recipes/${params.id}`)
     .then((response) => response.data)
     .catch((error) => console.log('ERROR = ', error));
 

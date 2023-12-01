@@ -11,7 +11,7 @@ export const POST = async (req: NextRequest) => {
   try {
     const session = await getServerSession(options);
     if (!session) throw new Error("Not authenticated");
-    
+
     const body = await req.json();
 
     const createdRating = await prisma.recipeRating.upsert({

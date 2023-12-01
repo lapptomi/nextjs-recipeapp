@@ -32,7 +32,7 @@ const RecipeCommentForm: React.FC<Props> = ({ recipe }) => {
     resolver: zodResolver(CommentSchema),
   });
 
-  const handleFormSubmit = (data: any) => {
+  const handleFormSubmit = (data: CommentForm) => {
     axios.post('/api/recipes/comments', data)
       .then(() => window.location.reload())
       .catch((error) => console.log('ERROR = ', error));  

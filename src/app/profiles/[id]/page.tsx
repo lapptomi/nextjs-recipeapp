@@ -9,6 +9,8 @@ import RecipeListItem from "@/components/RecipeListItem";
 import TitleHeader from "@/components/TitleHeader";
 import { BASE_URL } from "@/lib/constants";
 
+import type { UserIncludeRelations } from "@/types";
+
 interface ProfilePageParams {
   params: {
     id: string;
@@ -16,7 +18,7 @@ interface ProfilePageParams {
 }
 
 const ProfilePage = async ({ params }: ProfilePageParams) => {
-  const user = await axios.get(`${BASE_URL}/api/users/${params.id}`)
+  const user = await axios.get<UserIncludeRelations>(`${BASE_URL}/api/users/${params.id}`)
     .then((response) => response.data)
     .catch((error) => console.log('ERROR = ', error));
 
