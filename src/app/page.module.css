@@ -11,16 +11,16 @@
   gap: 20px;
 }
 
-.image1 {
+.backgroundimage {
   width: 100%;
   height: 100%;
-  background-image: url("https://media0.giphy.com/media/oESgZ6uNs9xgQulYiK/giphy.gif?cid=ecf05e47742cvfn7a83uu4w877ct7kpil70pcxwh7qzuqfkf&ep=v1_gifs_search&rid=giphy.gif&ct=g");
   background-size: cover;
   background-repeat: no-repeat;
   position: absolute;
   z-index: -1;
   filter: blur(15px) brightness(0.5);
   transform: scale(1.1);
+  background-color: blanchedalmond;
 }
 
 .headercontainer {

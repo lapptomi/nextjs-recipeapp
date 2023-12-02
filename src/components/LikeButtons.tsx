@@ -1,6 +1,6 @@
 "use client";
 
-import { Share, ThumbUpSharp } from "@mui/icons-material";
+import { Share, ThumbDown, ThumbUpSharp } from "@mui/icons-material";
 import { Button, Tooltip, Typography } from "@mui/material";
 import axios from "axios";
 import { useSession } from "next-auth/react";
@@ -61,7 +61,7 @@ const LikeButtons: React.FC<Props> = ({ recipe }) => {
           disabled={!session.data?.user}
           onClick={() => updateRating('DISLIKE')}
           startIcon={
-            <ThumbUpSharp color={userHasRated('DISLIKE') ? 'primary' : 'info'}/>
+            <ThumbDown color={userHasRated('DISLIKE') ? 'primary' : 'info'}/>
           }
         >
           <Typography color="white">

@@ -1,6 +1,5 @@
-/* eslint-disable @next/next/no-img-element */
-/* eslint-disable jsx-a11y/alt-text */
 import { Button } from '@mui/material';
+import Image from 'next/image';
 
 import styles from './page.module.css';
 import About from '../components/About';
@@ -11,7 +10,13 @@ const Home: React.FC = async () => {
   return (
     <>
       <div className={styles.header}>
-        <img className={styles.image1} />
+        <Image
+          className={styles.backgroundimage}
+          src={'https://media0.giphy.com/media/oESgZ6uNs9xgQulYiK/giphy.gif?cid=ecf05e47742cvfn7a83uu4w877ct7kpil70pcxwh7qzuqfkf&ep=v1_gifs_search&rid=giphy.gif&ct=g'}
+          alt="food"
+          quality={10}
+          layout="fill"
+        />
         <div className={styles.headercontainer}>
           <h1 className={styles.title}>{APPLICATION_NAME}</h1>
           <h3 className={styles.subheader2}>

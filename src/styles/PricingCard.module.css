@@ -5,10 +5,16 @@
   min-width: 350px;
 }
 
-.header {
+.container {
   padding: 30px;
   display: flex;
   flex-direction: column;
+}
+
+.pricing {
+  display: flex;
+  gap: 10px;
+  align-items: baseline;
 }
 
 .cardcontent {

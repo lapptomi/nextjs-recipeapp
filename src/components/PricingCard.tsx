@@ -15,15 +15,10 @@ interface Props {
 const PricingCard: React.FC<Props> = (props) => {
   return (
     <Card className={styles.wrapper}>
-      <CardMedia className={styles.header}>
+      <CardMedia className={styles.container}>
         <Typography variant="h4">{props.title}</Typography>
-
         {props.price ? (
-          <div style={{
-            display: 'flex',
-            gap: '10px',
-            alignItems: 'baseline'
-          }}>
+          <div className={styles.pricing}>
             <Typography variant="h3" fontWeight="bold" color="primary">
               ${props.price}
             </Typography>
@@ -34,7 +29,6 @@ const PricingCard: React.FC<Props> = (props) => {
         ) : (
           <Typography variant="h3" fontWeight="bold">Free</Typography>
         )}
-
         <Typography variant="body1" color="text.secondary">
           {props.description}
         </Typography>
@@ -42,13 +36,9 @@ const PricingCard: React.FC<Props> = (props) => {
       
       <CardContent className={styles.cardcontent}>
         <Divider />
-        <div style={{
-          display: 'flex',
-          flexDirection: 'column',
-          padding: '30px',
-          gap: 5
-        }}>
-          {'Some Random Text.'.repeat(4).split(' ').map((item, index) => (
+
+        <div className={styles.container}>
+          {'Random text'.repeat(4).split(' ').map((item, index) => (
             <div key={index} style={{ display: 'flex', gap: '20px' }}>
               <Check /> 
               <Typography>

@@ -1,0 +1,25 @@
+.main {
+  min-height: 100vh;
+}
+
+.footer {
+  color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 300px;
+  background-color: black;
+}
+
+.footertitle {
+  display: flex;
+  align-items: center;
+}
+
+.divider {
+  width: 50%;
+  margin: 10px;
+  background: white;
+  opacity: 0.3;
+}
