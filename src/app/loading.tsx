@@ -1,7 +1,6 @@
 import { CircularProgress, LinearProgress } from "@mui/material";
 
 const Loading = () => {
-  // Global loading screen
   return (
     <div>
       <LinearProgress />  

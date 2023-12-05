@@ -8,14 +8,28 @@ import { NewRecipeSchema } from "@/types";
 import { options } from "../auth/[...nextauth]/options";
 
 import type { NextRequest} from "next/server";
+import type { URLSearchParams } from "url";
+
+const parseQueryParams = (reqParams: URLSearchParams) => {
+  const DEFAULT_PAGE = 1;
+  const DEFAULT_PAGE_SIZE = 9;
+
+  const page = parseInt(reqParams.get('page') || `${DEFAULT_PAGE}`);
+  const pageSize = parseInt(reqParams.get('pageSize') || `${DEFAULT_PAGE_SIZE}`);
+  const sortBy = reqParams.get('sortby') as 'date_asc' | 'date_desc' | undefined;
+  const title = reqParams.get('title') || '';
+
+  return { title, page, pageSize, sortBy };
+};
 
 export const GET = async (req: NextRequest) => {
   try {
-    const reqParams = req.nextUrl.searchParams;
-    const page = parseInt(reqParams.get('page') || '1');
-    const pageSize = parseInt(reqParams.get('pageSize') || '9');
+    const { page, pageSize, sortBy, title } = parseQueryParams(req.nextUrl.searchParams);
 
     const recipes = await prisma.recipe.findMany({
+      orderBy: {
+        createdAt: sortBy === 'date_asc' ? 'asc' : 'desc',
+      },
       include: {
         author: true,
         ratings: true,
@@ -25,7 +39,7 @@ export const GET = async (req: NextRequest) => {
       where: {
         title: {
           mode: 'insensitive',
-          contains: reqParams.get('title') || '',
+          contains: title,
         }
       },
     });
@@ -33,10 +47,7 @@ export const GET = async (req: NextRequest) => {
     const withImages = await Promise.all(recipes.map(async (recipe) => {
       // Get pre-signed URL for recipe background image from AWS S3
       const preSignedUrl = recipe.image && await getSignedImageUrl(recipe.image);
-      return {
-        ...recipe,
-        image: preSignedUrl
-      };
+      return { ...recipe, image: preSignedUrl };
     }));
 
     return NextResponse.json(withImages, { status: 200 });

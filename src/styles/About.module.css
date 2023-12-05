@@ -1,8 +1,7 @@
 .container {
   display: flex;
-  justify-content: center;
+  justify-content: space-around;
   align-items: center;
-  gap: 100px;
   background: white;
   flex-wrap: wrap;
   padding: 100px 20px;

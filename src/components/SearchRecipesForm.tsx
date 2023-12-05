@@ -18,13 +18,13 @@ const SearchRecipesForm: React.FC<Props> = ({ totalCount }) => {
   const searchParams = useSearchParams();
 
   const [searchField, setSearchField] = useState('');
-  const [sortBy, setSortBy] = useState<'date_asc' | 'date_desc'>('date_asc');
+  const [sortBy, setSortBy] = useState<'date_asc' | 'date_desc'>('date_desc');
 
 
   const handleSubmit = () => {
     const current = new URLSearchParams(Array.from(searchParams.entries()));
 
-    current.set("sort", sortBy);
+    current.set("sortby", sortBy);
     current.set("title", searchField);
 
     const search = current.toString();
@@ -35,68 +35,23 @@ const SearchRecipesForm: React.FC<Props> = ({ totalCount }) => {
   return (
     <div className={styles.main}>
       <form className={styles.filterform} onSubmit={handleSubmit}>
-        <div style={{ display: 'flex', gap: 20, flexWrap: 'wrap' }}>
+        
+        <FormControl variant="standard" style={{ minWidth: 120 }}>
+          <InputLabel size="small">Sort By</InputLabel>
+          <Select value={sortBy} onChange={(event) => setSortBy(event.target.value as any)}>
+            <MenuItem  value={'date_asc'}>
+              Oldest
+            </MenuItem>
+            <MenuItem value={'date_desc'}>
+              Newest
+            </MenuItem>
+          </Select>
+        </FormControl>
 
-          <FormControl variant="standard" style={{ minWidth: 120 }}>
-            <InputLabel size="small">Sort By</InputLabel>
-            <Select value={sortBy} onChange={(event) => setSortBy(event.target.value as any)}>
-              <MenuItem  value={'date_asc'}>
-                Date Newest
-              </MenuItem>
-              <MenuItem value={'date_desc'}>
-                Date Oldest
-              </MenuItem>
-            </Select>
-          </FormControl>
-
-          <div>
-            <FormControl variant="standard" sx={{ minWidth: 120 }}>
-              <InputLabel size="small">Type</InputLabel>
-              <Select label="Date" value={0}>
-                <MenuItem value={0}>
-                  <em>-</em>
-                </MenuItem>
-                <MenuItem value={10}>Fish</MenuItem>
-                <MenuItem value={20}>Date Oldest</MenuItem>
-                <MenuItem value={30}>Thirty</MenuItem>
-              </Select>
-            </FormControl>
-          </div>
-
-          <div>
-            <FormControl variant="standard" sx={{ minWidth: 120 }}>
-              <InputLabel size="small">Category</InputLabel>
-              <Select label="Date" value={0}>
-                <MenuItem value={0}>
-                  <em>-</em>
-                </MenuItem>
-                <MenuItem value={10}>Fish</MenuItem>
-                <MenuItem value={20}>Date Oldest</MenuItem>
-                <MenuItem value={30}>Thirty</MenuItem>
-              </Select>
-            </FormControl>
-          </div>
-
-          <div>
-            <FormControl variant="standard" sx={{ minWidth: 120 }}>
-              <InputLabel size="small">Allergies</InputLabel>
-              <Select label="Date" value={0}>
-                <MenuItem value={0}>
-                  <em>-</em>
-                </MenuItem>
-                <MenuItem value={10}>Fish</MenuItem>
-                <MenuItem value={20}>Date Oldest</MenuItem>
-                <MenuItem value={30}>Thirty</MenuItem>
-              </Select>
-            </FormControl>
-          </div>
-        </div>
-
-        <div>
+        <div style={{ display: 'flex', flexDirection: 'column' }}>
           <TextField
-            style={{ width: 300  }}
             label="Search"
-            placeholder='Enter recipe name or ingredient...'
+            placeholder='Enter recipe name...'
             size="small"
             onChange={(event) => setSearchField(event.target.value)}
             InputProps={{
@@ -107,12 +62,14 @@ const SearchRecipesForm: React.FC<Props> = ({ totalCount }) => {
               ),
             }}
           />
-          <Button onClick={() => router.replace('/recipes')}>
-            Clear
-          </Button>
-          <Button variant="contained" onClick={handleSubmit}>
-            Search
-          </Button>
+          <div>
+            <Button onClick={() => router.replace('/recipes')}>
+              Clear
+            </Button>
+            <Button variant="contained" onClick={handleSubmit}>
+              Search
+            </Button>
+          </div>
         </div>
       </form>
       <Pagination

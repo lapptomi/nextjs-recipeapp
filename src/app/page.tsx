@@ -1,6 +1,8 @@
 import { Button } from '@mui/material';
 import Image from 'next/image';
 
+import ReviewSpring from '@/components/ReviewSpring';
+
 import styles from './page.module.css';
 import About from '../components/About';
 import PricingCard from '../components/PricingCard';
@@ -28,6 +30,8 @@ const Home: React.FC = async () => {
           </Button>
         </div>
       </div>
+
+      <ReviewSpring />
 
       <div className={styles.cardcontainer}>
         <PricingCard
