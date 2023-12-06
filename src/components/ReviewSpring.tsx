@@ -9,7 +9,6 @@ import styles from '@/styles/About.module.css';
 
 import ReviewCard from './ReviewCard';
 
-
 const data = [
   {
     username: "Fake User",
@@ -64,15 +63,19 @@ const ReviewSpring = () => {
 
   return (
     <div className={styles.container}>
-      {transitions((springs: any, item: any) => (
-        <animated.div style={springs}>
-          <ReviewCard
-            username={data[item].username}
-            title={data[item].username}
-            description={data[item].description}
-          />
-        </animated.div>
-      ))}
+      <div style={{
+        minHeight: '100%',
+      }}>
+        {transitions((springs: any, item: any) => (
+          <animated.div style={springs}>
+            <ReviewCard
+              username={data[item].username}
+              title={data[item].username}
+              description={data[item].description}
+            />
+          </animated.div>
+        ))}
+      </div>
       <div className={styles.column}>
         <div className={styles.title}>ABOUT</div>
         <div className={styles.subheader}>
