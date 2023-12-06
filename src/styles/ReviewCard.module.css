@@ -2,7 +2,7 @@
   display: flex;
   flex-direction: column;
   width: 400px;
-  border: solid 2px rgba(0, 0, 0, 0.1)
+  border: solid 2px rgba(0, 0, 0, 0.1);
 }
 
 .ratingwrapper {

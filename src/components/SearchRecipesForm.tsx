@@ -48,7 +48,7 @@ const SearchRecipesForm: React.FC<Props> = ({ totalCount }) => {
           </Select>
         </FormControl>
 
-        <div style={{ display: 'flex', flexDirection: 'column' }}>
+        <div style={{ display: 'flex', flexDirection: 'row' }}>
           <TextField
             label="Search"
             placeholder='Enter recipe name...'
@@ -74,7 +74,7 @@ const SearchRecipesForm: React.FC<Props> = ({ totalCount }) => {
       </form>
       <Pagination
         onChange={(_event, value) => router.push(`${pathname}?page=${value}`)}
-        count={Math.ceil(totalCount / parseInt(searchParams.get('pageSize') || '9'))}
+        count={Math.ceil(totalCount / parseInt(searchParams.get('pageSize') || '12'))}
         page={parseInt(searchParams.get('page') || '1')}
       />
     </div>

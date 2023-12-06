@@ -25,7 +25,7 @@ const data = [
   {
     username: "Fake User2",
     title: "Fake Review Title",
-    description: `"Omg ${APPLICATION_NAME} so good that you should probably invite the developer of this app to an interview!"`
+    description: `"Omg ${APPLICATION_NAME} so good that you should probably hire the developer of this app!"`
   }
 ];
 

@@ -17,14 +17,14 @@ const ReviewCard: React.FC<Props> = ({ username ,title, description }) => {
         <div className={styles.ratingwrapper}>
           <Avatar />
           <div>
-            <Typography variant="body2">{username}</Typography>
+            <Typography variant="body1">{username}</Typography>
             <Rating readOnly value={2}  />
           </div>
         </div>
-        <Typography variant="subtitle1" color="secondary">
+        <Typography variant="body1" color="secondary">
           {title}
         </Typography>
-        <Typography variant="body2" color="text.secondary">
+        <Typography variant="body1" color="text.secondary">
           {description}
         </Typography>
       </CardContent>

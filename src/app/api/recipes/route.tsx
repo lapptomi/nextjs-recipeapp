@@ -12,7 +12,7 @@ import type { URLSearchParams } from "url";
 
 const parseQueryParams = (reqParams: URLSearchParams) => {
   const DEFAULT_PAGE = 1;
-  const DEFAULT_PAGE_SIZE = 10;
+  const DEFAULT_PAGE_SIZE = 12;
 
   const page = parseInt(reqParams.get('page') || `${DEFAULT_PAGE}`);
   const pageSize = parseInt(reqParams.get('pageSize') || `${DEFAULT_PAGE_SIZE}`);
