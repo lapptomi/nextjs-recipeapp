@@ -1,14 +1,17 @@
-import { Button } from '@mui/material';
+import { Button, Typography } from '@mui/material';
 import Image from 'next/image';
 
-import ReviewSpring from '@/components/ReviewSpring';
-
 import styles from './page.module.css';
-import About from '../components/About';
+import ImageSlider from '../components/ImageSlider';
 import PricingCard from '../components/PricingCard';
 import { APPLICATION_NAME } from '../lib/constants';
 
 const Home: React.FC = async () => {
+  const IMAGES = [
+    'https://images.unsplash.com/photo-1551782450-a2132b4ba21d',
+    'https://images.immediate.co.uk/production/volatile/sites/2/2016/04/Sri-Lankan-Vegetarian-Curry-Recipe-d485816.jpg?quality=90&crop=11px,225px,5024px,4563px&resize=556,505'
+  ];
+
   return (
     <>
       <div className={styles.header}>
@@ -31,7 +34,22 @@ const Home: React.FC = async () => {
         </div>
       </div>
 
-      <ReviewSpring />
+      <div className={styles.aboutcontainer}>
+        <ImageSlider items={IMAGES} />
+        <div className={styles.column}>
+          <Typography variant="h3" fontWeight="bold">ABOUT</Typography>
+          <Typography variant="body1" color="text.secondary">
+            Lorem ipsum dolor sit amet. 
+            Ad porro necessitatibus ut internos nihil et consequatur aliquid id dolor rerum ad quasiearum eum velit quis aut velit deleniti.
+            Ut laborum iusto est quisquam minus vel illo officia sit voluptatum dolorum id voluptas officia?
+            Et quasi modi At Quis sunt est consequuntur illo.
+            Lorem ipsum dolor sit amet. 
+            Ad porro necessitatibus ut internos nihil et consequatur aliquid id dolor rerum ad quasiearum eum velit quis aut velit deleniti.
+            Ut laborum iusto est quisquam minus vel illo officia sit voluptatum dolorum id voluptas officia?
+            Et quasi modi At Quis sunt est consequuntur illo.
+          </Typography>
+        </div>
+      </div>
 
       <div className={styles.cardcontainer}>
         <PricingCard
@@ -49,8 +67,6 @@ const Home: React.FC = async () => {
           description="Some random description"
         />
       </div>
-
-      <About />
     </>
   );
 };

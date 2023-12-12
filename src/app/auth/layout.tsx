@@ -1,8 +1,17 @@
 import { Box, Grid, Paper } from "@mui/material";
+import { redirect } from "next/navigation";
+import { getServerSession } from "next-auth";
 
 import styles from "./layout.module.css";
+import { options } from "../api/auth/[...nextauth]/options";
 
-const PageLayout = ({ children }: any) => {
+const PageLayout = async ({ children }: any) => {
+  const session = await getServerSession(options);
+
+  if (session?.user) {
+    redirect('/');
+  }
+
   return (
     <Grid container sx={{ height: '100vh' }}>
       <Grid

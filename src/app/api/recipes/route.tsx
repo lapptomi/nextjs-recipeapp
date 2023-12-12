@@ -1,8 +1,9 @@
 import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 
-import { getSignedImageUrl, uploadImageToS3 } from "@/lib/actions/aws_s3";
+import { uploadImageToS3 } from "@/lib/actions/aws_s3";
 import { prisma } from "@/lib/db";
+import { recipesWithPreSignedUrl } from "@/lib/utils";
 import { NewRecipeSchema } from "@/types";
 
 import { options } from "../auth/[...nextauth]/options";
@@ -44,11 +45,7 @@ export const GET = async (req: NextRequest) => {
       },
     });
 
-    const withImages = await Promise.all(recipes.map(async (recipe) => {
-      // Get pre-signed URL for recipe background image from AWS S3
-      const preSignedUrl = recipe.image && await getSignedImageUrl(recipe.image);
-      return { ...recipe, image: preSignedUrl };
-    }));
+    const withImages = await recipesWithPreSignedUrl(recipes);
 
     return NextResponse.json(withImages, { status: 200 });
   } catch (error) {

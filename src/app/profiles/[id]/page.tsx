@@ -2,12 +2,15 @@
 import React from "react";
 
 import { GroupAdd } from "@mui/icons-material";
-import { Avatar, Button, Divider, List, ListItem, ListItemAvatar, ListItemText, Typography } from "@mui/material";
+import { Avatar, Button, Divider, Typography } from "@mui/material";
 import axios from "axios";
 
 import RecipeListItem from "@/components/RecipeListItem";
 import TitleHeader from "@/components/TitleHeader";
 import { BASE_URL } from "@/lib/constants";
+import { recipesWithPreSignedUrl } from "@/lib/utils";
+
+import styles from './page.module.css';
 
 import type { UserIncludeRelations } from "@/types";
 
@@ -26,9 +29,11 @@ const ProfilePage = async ({ params }: ProfilePageParams) => {
     return <TitleHeader title="PROFILE NOT FOUND" />;
   }
 
+  const recipes = await recipesWithPreSignedUrl(user.recipes);
+
   return (
     <div>
-      <TitleHeader title={`PROFILE OF ${user?.username}`.toUpperCase()} />
+      <TitleHeader title={`PROFILE OF ${user.username}`.toUpperCase()} />
 
       <div style={{
         display: 'flex',
@@ -62,7 +67,7 @@ const ProfilePage = async ({ params }: ProfilePageParams) => {
             
             <div>
               <Typography variant="h5">
-                {user?.username}
+                {user.username}
               </Typography>
               <div style={{
                 display: 'flex',
@@ -74,7 +79,7 @@ const ProfilePage = async ({ params }: ProfilePageParams) => {
                     Recipes
                   </Typography>
                   <Typography variant="h6">
-                    {user.recipes.length}
+                    {recipes.length}
                   </Typography>
                 </div>
               
@@ -99,7 +104,7 @@ const ProfilePage = async ({ params }: ProfilePageParams) => {
               </div>
               <Button variant="contained" size="small">
                 <GroupAdd />
-              Follow
+                Follow
               </Button>
             </div>
           </div>
@@ -119,71 +124,23 @@ const ProfilePage = async ({ params }: ProfilePageParams) => {
         }}>
           <Divider>
             <Typography variant="h5">
-              {user.recipes.length} PUBLIC RECIPES
+              {recipes.length} PUBLIC RECIPES
             </Typography>
           </Divider>
           
-          <div style={{
-            display: 'flex',
-            flexDirection: 'row',
-            gap: 20,
-            flexWrap: 'wrap',          
-          }}>
-            {user.recipes.map((recipe: any) => (
-              <div key={recipe.id}>
-                <RecipeListItem
-                  key={recipe.id}
-                  recipe={{
-                    ...recipe,
-                    image: null, // TODO: add image here
-                  }}
-                />
+          <div className={styles.container}>
+            {recipes && recipes.length > 0 ? (
+              <div className={styles.recipegrid}>
+                {recipes.map((recipe) => (
+                  <RecipeListItem key={recipe.id} recipe={recipe as any} />
+                ))}
               </div>
-            ))}
+            ) : (
+              <div>
+                <Typography variant="h4">No recipes found.</Typography>
+              </div>
+            )}
           </div>
-        </div>
-
-        <Divider>
-          <Typography variant="h5">
-            {user.recipes.length} PUBLIC RECIPES
-          </Typography>
-        </Divider>
-
-        <div style={{
-          display: 'flex',
-          flexDirection: 'column',
-          gap: 20,       
-          background: 'white', 
-        }}>
-          {user.recipes.map((recipe: any) => (
-            <List
-              key={recipe.id}
-              sx={{ width: '100%' }}
-            >
-              <ListItem alignItems="flex-start">
-                <ListItemAvatar>
-                  <Avatar />
-                </ListItemAvatar>
-                <ListItemText
-                  primary={recipe.title}
-                  secondary={
-                    <React.Fragment>
-                      <Typography
-                        sx={{ display: 'inline' }}
-                        component="span"
-                        variant="body2"
-                        color="text.primary"
-                      >
-                        {recipe.createdAt}
-                      </Typography>
-                      {`- ${recipe.description}`}
-                    </React.Fragment>
-                  }
-                />
-              </ListItem>
-              <Divider variant="inset" component="li" />
-            </List>
-          ))}
         </div>
 
       </div>

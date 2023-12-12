@@ -37,7 +37,7 @@ const AccountMenu: React.FC<Props> = ({ user }) => {
       <Tooltip title="Account settings">
         <Button style={{ gap: 10 }} color="info" onClick={handleClick} size="small">
           <Avatar sx={{ width: 32, height: 32 }}>
-            {user?.name ? user.name[0] : ''}
+            {user.name ? user.name[0] : ''}
           </Avatar>
           <Typography variant="body2">{user?.name || ''}</Typography>
         </Button>

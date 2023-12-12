@@ -44,11 +44,8 @@ const RecipePage = async ({ params }: Props) => {
           <div className={styles.headertitle}>
             <Typography variant="h4">{recipe.title.toUpperCase()}</Typography>
             
-            <div style={{
-              display: 'flex',
-              flexDirection: 'column',
-            }}>
-              <Link href={`/profiles/${recipe.author?.id}`}>
+            <div style={{ display: 'flex', flexDirection: 'column' }}>
+              <Link href={`/profiles/${recipe.author.id}`}>
                 <div className={styles.avatarcontainer}>
                   <Avatar sx={{ width: 80, height: 80 }} />
                   <div>

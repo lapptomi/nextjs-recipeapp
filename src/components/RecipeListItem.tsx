@@ -11,20 +11,19 @@ interface Props {
   recipe: RecipeIncludeRelations;
 }
 
-const RecipeListItem: React.FC<Props> = ({ recipe }) => {
+const RecipeListItem: React.FC<Props> = async ({ recipe }) => {
   const likes = recipe.ratings.filter((rating) => rating.type === 'LIKE').length;
   const dislikes = recipe.ratings.filter((rating) => rating.type === 'DISLIKE').length;
 
   return (
-    <Link href={`/recipes/${recipe.id}`}>
+    <Link key={recipe.id} href={`/recipes/${recipe.id}`}>
       <ImageListItem className={styles.imagelistitem}>
-
         <div className={styles.recipebackground}>
           {recipe.image ? (
             <Image
               alt={recipe.title}
               src={recipe.image}
-              quality={30}
+              quality={20}
               loading="lazy"
               layout="fill"
             />

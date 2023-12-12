@@ -48,7 +48,7 @@ const PricingCard: React.FC<Props> = (props) => {
           ))}
         </div>        
 
-        <Button size="small" variant="contained" href='/recipes' color="primary">
+        <Button size="small" variant="contained" href='/auth/login' color="primary">
           Get Started
         </Button>
       </CardContent>
