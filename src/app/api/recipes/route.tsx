@@ -44,10 +44,14 @@ export const GET = async (req: NextRequest) => {
         }
       },
     });
+    const totalCount = await prisma.recipe.count();
 
     const withImages = await recipesWithPreSignedUrl(recipes);
 
-    return NextResponse.json(withImages, { status: 200 });
+    return NextResponse.json({
+      recipes: withImages,
+      totalCount: totalCount,
+    }, { status: 200 });
   } catch (error) {
     return NextResponse.json(
       { error: `Error getting recipes: ${error}` }, 

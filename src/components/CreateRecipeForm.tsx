@@ -3,7 +3,7 @@
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import { AccessTime, Add, CloudUpload, Delete, Description, DiningRounded, Group, Title } from '@mui/icons-material';
-import { Alert, Button, FormControl, IconButton, InputAdornment, Step, StepLabel, Stepper, TextField, Typography } from '@mui/material';
+import { Alert, Button, FormControl, IconButton, InputAdornment, TextField, Typography } from '@mui/material';
 import axios from 'axios';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
@@ -61,13 +61,15 @@ const CreateRecipeForm = () => {
       className={styles.formcontainer}
       onSubmit={handleSubmit(handleFormSubmit, (error) => console.log('ERROR = ', error))}
     >
-      <Stepper activeStep={0} alternativeLabel style={{ width: '100%' }}>
+      {/*
+        <Stepper activeStep={0} alternativeLabel style={{ width: '100%' }}>
         {['Recipe Info', 'Settings', 'Confirm'].map((label) => (
           <Step key={label}>
             <StepLabel>{label}</StepLabel>
           </Step>
         ))}
       </Stepper>
+      */}
       <Typography variant="overline">
         create new recipe
       </Typography>
@@ -241,7 +243,7 @@ const CreateRecipeForm = () => {
 
       <div>
         <Button color="error">Cancel</Button>
-        <Button variant="contained" type="submit">Next</Button>
+        <Button variant="contained" type="submit">Submit</Button>
       </div>
     </form>
   );

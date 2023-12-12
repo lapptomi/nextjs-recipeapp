@@ -5,7 +5,6 @@ import RecipeListItem from '@/components/RecipeListItem';
 import SearchRecipesForm from '@/components/SearchRecipesForm';
 import TitleHeader from '@/components/TitleHeader';
 import { BASE_URL } from '@/lib/constants';
-import { prisma } from '@/lib/db';
 
 import styles from './page.module.css';
 
@@ -20,12 +19,14 @@ interface Params {
 }
 
 const BrowseRecipesPage = async ({ searchParams }: Params) => {
-  const totalCount = await prisma.recipe.count();
   const queryParams = Object.entries(searchParams).map(([key, value]) => `${key}=${value}`).join('&');
 
-  const recipes = await axios.get<RecipeIncludeRelations[]>(`${BASE_URL}/api/recipes?${queryParams}`)
+  const data = await axios.get(`${BASE_URL}/api/recipes?${queryParams}`)
     .then((response) => response.data)
     .catch((error) => console.log(error));
+
+  const recipes = data.recipes as RecipeIncludeRelations[];
+  const totalCount = data.totalCount || 1;
 
   return (
     <div>
