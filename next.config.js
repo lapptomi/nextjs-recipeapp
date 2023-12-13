@@ -15,6 +15,9 @@ const nextConfig = {
     // Cache images for 1 minute
     minimumCacheTTL: 60
   },
+  images: {
+    unoptimized: true,
+  },
 };
 
 module.exports = nextConfig;
