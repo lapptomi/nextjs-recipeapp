@@ -38,7 +38,7 @@ const PricingCard: React.FC<Props> = (props) => {
         <Divider />
 
         <div className={styles.container}>
-          {'Random text'.repeat(4).split(' ').map((item, index) => (
+          {Array(5).fill('Hello world').map((item, index) => (
             <div key={index} style={{ display: 'flex', gap: '20px' }}>
               <Check /> 
               <Typography>
@@ -48,7 +48,7 @@ const PricingCard: React.FC<Props> = (props) => {
           ))}
         </div>        
 
-        <Button size="small" variant="contained" href='/auth/login' color="primary">
+        <Button size="small" variant="contained" href='/recipes' color="primary">
           Get Started
         </Button>
       </CardContent>

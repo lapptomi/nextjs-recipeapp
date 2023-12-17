@@ -1,3 +1,4 @@
+import { People } from '@mui/icons-material';
 import { Button, Typography } from '@mui/material';
 import Image from 'next/image';
 
@@ -36,7 +37,7 @@ const Home: React.FC = async () => {
 
       <div className={styles.aboutcontainer}>
         <ImageSlider items={IMAGES} />
-        <div className={styles.column}>
+        <div className={styles.abouttext}>
           <Typography variant="h3" fontWeight="bold">ABOUT</Typography>
           <Typography variant="body1" color="text.secondary">
             Lorem ipsum dolor sit amet. 
@@ -66,6 +67,24 @@ const Home: React.FC = async () => {
           price={1337}
           description="Some random description"
         />
+      </div>
+
+      <div className={styles.joincontainer}>
+        <div style={{
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          
+        }}>
+          <Typography style={{ padding: 20 }} color="white" variant="h4" fontWeight="bold">
+            {'Sign Up Today For Free!'.toUpperCase()}
+          </Typography>
+
+          <Button variant="outlined" href='/auth/register' color="info">
+            Create free account
+          </Button>
+        </div>
+        <People color="disabled" className={styles.joinsvg} />
       </div>
     </>
   );
