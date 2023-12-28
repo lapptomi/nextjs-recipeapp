@@ -1,7 +1,5 @@
 import { z } from "zod";
 
-import type { Prisma } from "@prisma/client";
-
 const NewRecipeImageSchema = z.object({
   lastModified: z.any().optional(),
   lastModifiedDate: z.any().optional(),
@@ -38,23 +36,3 @@ export const UserSchema = z.object({
 export type NewUser = z.infer<typeof UserSchema>;
 
 export type NewRecipe = z.infer<typeof NewRecipeSchema>;
-
-export type RecipeIncludeRelations = Prisma.RecipeGetPayload<{
-  include: {
-    author: true;
-    ratings: true;
-    comments: {
-      include: {
-        author: true;
-      }
-    }
-  }
-}>;
-
-export type UserIncludeRelations = Prisma.UserGetPayload<{
-  include: {
-    recipes: true;
-    ratings: true;
-    comments: true;
-  }
-}>;

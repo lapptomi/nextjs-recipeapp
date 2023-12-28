@@ -7,6 +7,7 @@
   background-size: cover;
   background-repeat: no-repeat;
   position: relative;
+  background-color: black;
 }
 
 .headertitle {
@@ -14,11 +15,4 @@
   align-items: center;
   justify-content: center;
   height: 200px;
-}
-
-.image {
-  max-height: 200px;
-  background-color: black;
-  z-index: -1;
-  filter: brightness(0.1);
 }

@@ -8,11 +8,11 @@ import axios from "axios";
 import RecipeListItem from "@/components/RecipeListItem";
 import TitleHeader from "@/components/TitleHeader";
 import { BASE_URL } from "@/lib/constants";
-import { recipesWithPreSignedUrl } from "@/lib/utils";
 
 import styles from './page.module.css';
 
-import type { UserIncludeRelations } from "@/types";
+import type { UserWithRelations } from "@/app/api/users/[id]/route";
+
 
 interface ProfilePageParams {
   params: {
@@ -21,15 +21,13 @@ interface ProfilePageParams {
 }
 
 const ProfilePage = async ({ params }: ProfilePageParams) => {
-  const user = await axios.get<UserIncludeRelations>(`${BASE_URL}/api/users/${params.id}`)
-    .then((response) => response.data)
-    .catch((error) => console.log('ERROR = ', error));
+  const response = await axios.get<UserWithRelations>(`${BASE_URL}/api/users/${params.id}`);
+  const user = response.data;
 
   if (!user) {
     return <TitleHeader title="PROFILE NOT FOUND" />;
   }
-
-  const recipes = await recipesWithPreSignedUrl(user.recipes);
+  const recipes = user.recipes;
 
   return (
     <div>
@@ -108,7 +106,13 @@ const ProfilePage = async ({ params }: ProfilePageParams) => {
               </Button>
             </div>
           </div>
-          <div style={{ background: 'white', width: '50%' }}>
+          <div style={{ 
+            background: 'white',
+            width: '50%',
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}>
             <Typography variant="body1">
               Some random data here
             </Typography>
@@ -132,7 +136,7 @@ const ProfilePage = async ({ params }: ProfilePageParams) => {
             {recipes && recipes.length > 0 ? (
               <div className={styles.recipegrid}>
                 {recipes.map((recipe) => (
-                  <RecipeListItem key={recipe.id} recipe={recipe as any} />
+                  <RecipeListItem key={recipe.id} recipe={recipe} />
                 ))}
               </div>
             ) : (
@@ -142,7 +146,6 @@ const ProfilePage = async ({ params }: ProfilePageParams) => {
             )}
           </div>
         </div>
-
       </div>
     </div>
   );

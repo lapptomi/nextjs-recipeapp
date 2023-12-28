@@ -5,10 +5,16 @@ import Link from "next/link";
 
 import styles from "@/styles/RecipeListItem.module.css";
 
-import type { RecipeIncludeRelations } from "@/types";
+import type { Prisma } from "@prisma/client";
+
 
 interface Props {
-  recipe: RecipeIncludeRelations;
+  recipe: Prisma.RecipeGetPayload<{
+    include: {
+      ratings: true;
+      author: true;
+    }
+  }>
 }
 
 const RecipeListItem: React.FC<Props> = async ({ recipe }) => {

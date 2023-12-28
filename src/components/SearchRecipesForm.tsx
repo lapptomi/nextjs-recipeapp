@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useCallback, useState } from "react";
 
 import { SearchOutlined } from "@mui/icons-material";
 import { Button, FormControl, InputAdornment, InputLabel, MenuItem, Pagination, Select, TextField } from "@mui/material";
@@ -12,33 +12,47 @@ interface Props {
   totalCount: number;
 }
 
+const createQuery = (params: URLSearchParams) => {
+  const search = params.toString();
+  return search ? `?${search}` : "";
+};
+
 const SearchRecipesForm: React.FC<Props> = ({ totalCount }) => {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
+  const pageSize = Math.ceil(totalCount / 12);
 
-  const [searchField, setSearchField] = useState('');
   const [sortBy, setSortBy] = useState<'date_asc' | 'date_desc'>('date_desc');
+  const [searchField, setSearchField] = useState('');
 
-
-  const handleSubmit = () => {
+  // TODO: refactor pagination and search form
+  const handleSubmit = useCallback(() => {
     const current = new URLSearchParams(Array.from(searchParams.entries()));
+    current.set('title', searchField);
+    current.set('sortby', sortBy);
+    current.set('page', "1");
 
-    current.set("sortby", sortBy);
-    current.set("title", searchField);
+    router.push(`${pathname}${createQuery(current)}`);
+  }, [searchParams, searchField, sortBy, router, pathname]);
 
-    const search = current.toString();
-    const query = search ? `?${search}` : "";
-    router.push(`${pathname}${query}`);
-  };
+  const handlePageChange = useCallback((event: React.ChangeEvent<unknown>, value: number) => {
+    event.preventDefault();
+    const current = new URLSearchParams(Array.from(searchParams.entries()));
+    current.set('page', String(value));
+    router.push(`${pathname}${createQuery(current)}`);
+  },  [searchParams, router, pathname]);
 
   return (
     <div className={styles.main}>
-      <form className={styles.filterform} onSubmit={handleSubmit}>
-        
-        <FormControl variant="standard" style={{ minWidth: 120 }}>
+      <form className={styles.filterform}>
+        <FormControl variant="standard">
           <InputLabel size="small">Sort By</InputLabel>
-          <Select value={sortBy} onChange={(event) => setSortBy(event.target.value as any)}>
+          <Select
+            name="sortBy"
+            value={sortBy}
+            onChange={(event) => setSortBy(event.target.value as any)}
+          >
             <MenuItem  value={'date_asc'}>
               Oldest
             </MenuItem>
@@ -51,9 +65,9 @@ const SearchRecipesForm: React.FC<Props> = ({ totalCount }) => {
         <div style={{ display: 'flex', flexDirection: 'row' }}>
           <TextField
             label="Search"
+            onChange={(event) => setSearchField(event.target.value)}
             placeholder='Enter recipe name...'
             size="small"
-            onChange={(event) => setSearchField(event.target.value)}
             InputProps={{
               endAdornment: (
                 <InputAdornment position="end">
@@ -73,8 +87,8 @@ const SearchRecipesForm: React.FC<Props> = ({ totalCount }) => {
         </div>
       </form>
       <Pagination
-        onChange={(_event, value) => router.push(`${pathname}?page=${value}`)}
-        count={Math.ceil(totalCount / parseInt(searchParams.get('pageSize') || '12'))}
+        onChange={(event, value) => handlePageChange(event, value)}
+        count={pageSize}
         page={parseInt(searchParams.get('page') || '1')}
       />
     </div>

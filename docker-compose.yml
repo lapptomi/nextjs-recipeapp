@@ -3,9 +3,8 @@ version: '3.8'
 services:
   recipe-app-dev:
     image: recipe-app-dev
-    environment:
-      - DATABASE_URL=postgresql://postgres:postgres@postgres:5432/postgres?schema=public
-      - NEXTAUTH_SECRET=secretkey
+    #environment:
+    #  - DATABASE_URL=postgresql://postgres:postgres@postgres:5432/postgres?schema=public
     build:
       context: ./
       dockerfile: dev.Dockerfile

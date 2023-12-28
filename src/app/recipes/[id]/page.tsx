@@ -12,7 +12,7 @@ import { BASE_URL } from '@/lib/constants';
 
 import styles from './page.module.css';
 
-import type { RecipeIncludeRelations } from '@/types';
+import type { RecipeWithRelations } from '@/app/api/recipes/[id]/route';
 
 interface Props {
   params: {
@@ -22,10 +22,9 @@ interface Props {
 
 const RecipePage = async ({ params }: Props) => {
   const session = await getServerSession(options);
-  const recipe = await axios.get<RecipeIncludeRelations>(`${BASE_URL}/api/recipes/${params.id}`)
-    .then((response) => response.data)
-    .catch((error) => console.log('ERROR = ', error));
-
+  const response = await axios.get<RecipeWithRelations>(`${BASE_URL}/api/recipes/${params.id}`);
+  const recipe = response.data;
+  
   if (!recipe) {
     return <TitleHeader title="Recipe not found" />;
   }
@@ -53,7 +52,7 @@ const RecipePage = async ({ params }: Props) => {
                       Created By
                     </Typography>
                     <Typography variant="h5">
-                      {recipe.author?.username}
+                      {recipe.author.username}
                     </Typography>
                   </div>
                 </div>
@@ -136,7 +135,6 @@ const RecipePage = async ({ params }: Props) => {
               : <Typography variant="body1">Please sign in to comment...</Typography>
             }
           </div>
-
         </div>
       </div>
     </div>

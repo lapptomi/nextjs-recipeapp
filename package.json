@@ -8,7 +8,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "test": "DATABASE_URL=postgres://postgres:postgres@localhost:5432/postgres jest",
+    "test": "jest",
     "prisma:generate": "prisma migrate diff --from-empty --to-schema-datamodel prisma/schema.prisma --script > prisma/migrations/generated/migration.sql"
   },
   "dependencies": {

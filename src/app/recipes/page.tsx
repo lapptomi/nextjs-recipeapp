@@ -8,7 +8,7 @@ import { BASE_URL } from '@/lib/constants';
 
 import styles from './page.module.css';
 
-import type { RecipeIncludeRelations } from '@/types';
+import type { AllRecipesWithRelations } from '../api/recipes/route';
 
 interface Params {
   searchParams: {
@@ -20,13 +20,10 @@ interface Params {
 
 const BrowseRecipesPage = async ({ searchParams }: Params) => {
   const queryParams = Object.entries(searchParams).map(([key, value]) => `${key}=${value}`).join('&');
-
-  const data = await axios.get(`${BASE_URL}/api/recipes?${queryParams}`)
-    .then((response) => response.data)
-    .catch((error) => console.log(error));
-
-  const recipes = data.recipes as RecipeIncludeRelations[];
-  const totalCount = data.totalCount || 1;
+  const response = await axios.get<AllRecipesWithRelations>(`${BASE_URL}/api/recipes?${queryParams}`);
+  
+  const recipes = response.data.recipes || [];
+  const totalCount = response.data.totalCount || 1;
 
   return (
     <div>

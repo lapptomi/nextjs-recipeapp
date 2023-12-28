@@ -1,9 +1,10 @@
+/* eslint-disable no-null/no-null */
+import { Prisma } from "@prisma/client";
 import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 
-import { uploadImageToS3 } from "@/lib/actions/aws_s3";
+import { getSignedImageUrl, uploadImageToS3 } from "@/lib/actions/aws_s3";
 import { prisma } from "@/lib/db";
-import { recipesWithPreSignedUrl } from "@/lib/utils";
 import { NewRecipeSchema } from "@/types";
 
 import { options } from "../auth/[...nextauth]/options";
@@ -23,35 +24,52 @@ const parseQueryParams = (reqParams: URLSearchParams) => {
   return { title, page, pageSize, sortBy };
 };
 
+type QueryParams = ReturnType<typeof parseQueryParams>;
+
+const getRecipes = async ({ title, page, pageSize, sortBy }: QueryParams) => {
+  const query = Prisma.validator<Prisma.RecipeFindManyArgs>()({
+    orderBy: {
+      createdAt: sortBy === 'date_asc' ? 'asc' : 'desc',
+    },
+    include: {
+      author: true,
+      ratings: true,
+    },
+    skip: (page - 1) * pageSize,
+    take: pageSize,
+    where: {
+      title: {
+        mode: 'insensitive',
+        contains: title,
+      }
+    },
+  });
+
+  const [recipes, totalCount] = await prisma.$transaction([
+    prisma.recipe.findMany(query),
+    prisma.recipe.count({ where: query.where }),
+  ]);
+  
+  // TODO - refactor withImages to be reusable
+  const withImages = await Promise.all(recipes.map(async (recipe) => {
+    const preSignedUrl = recipe.image ? await getSignedImageUrl(recipe.image) : null;
+    return { ...recipe, image: preSignedUrl };
+  }));
+
+  return {
+    recipes: withImages,
+    totalCount
+  };
+};
+
+export type AllRecipesWithRelations = Prisma.PromiseReturnType<typeof getRecipes>;
+
 export const GET = async (req: NextRequest) => {
   try {
-    const { page, pageSize, sortBy, title } = parseQueryParams(req.nextUrl.searchParams);
+    const params = parseQueryParams(req.nextUrl.searchParams);
+    const recipes = await getRecipes(params);
 
-    const recipes = await prisma.recipe.findMany({
-      orderBy: {
-        createdAt: sortBy === 'date_asc' ? 'asc' : 'desc',
-      },
-      include: {
-        author: true,
-        ratings: true,
-      },
-      skip: (page - 1) * pageSize,
-      take: pageSize,
-      where: {
-        title: {
-          mode: 'insensitive',
-          contains: title,
-        }
-      },
-    });
-    const totalCount = await prisma.recipe.count();
-
-    const withImages = await recipesWithPreSignedUrl(recipes);
-
-    return NextResponse.json({
-      recipes: withImages,
-      totalCount: totalCount,
-    }, { status: 200 });
+    return NextResponse.json(recipes, { status: 200 });
   } catch (error) {
     return NextResponse.json(
       { error: `Error getting recipes: ${error}` }, 

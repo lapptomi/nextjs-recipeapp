@@ -4,20 +4,28 @@ import { NextResponse } from "next/server";
 import { prisma } from "@/lib/db";
 import { UserSchema } from "@/types";
 
+import type { Prisma } from "@prisma/client";
 import type { NextRequest} from "next/server";
+
+const getUsers = async () => {
+  const users = await prisma.user.findMany({
+    include: { 
+      recipes: {
+        include: {
+          author: true
+        }
+      }
+    }
+  });
+
+  return users;
+};
+
+export type AllUsersWithRelations = Prisma.PromiseReturnType<typeof getUsers>;
 
 export const GET = async () => {
   try {
-    const users = await prisma.user.findMany({
-      include: { 
-        recipes: {
-          include: {
-            author: true
-          }
-        }
-      }
-    });
-
+    const users = await getUsers();
     return NextResponse.json(users, { status: 200 });
   } catch (error) {
     return NextResponse.json(
