@@ -7,7 +7,7 @@ import ImageSlider from '../components/ImageSlider';
 import PricingCard from '../components/PricingCard';
 import { APPLICATION_NAME } from '../lib/constants';
 
-const Home: React.FC = async () => {
+const Home: React.FC = () => {
   const IMAGES = [
     'https://images.unsplash.com/photo-1551782450-a2132b4ba21d',
     'https://images.immediate.co.uk/production/volatile/sites/2/2016/04/Sri-Lankan-Vegetarian-Curry-Recipe-d485816.jpg?quality=90&crop=11px,225px,5024px,4563px&resize=556,505'

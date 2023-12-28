@@ -19,6 +19,9 @@ export const POST = async (req: NextRequest) => {
     
     return NextResponse.json(createdComment, { status: 201 });
   } catch (error) {
-    return NextResponse.json(`Error creating comment: ${(error as any).message}`, { status: 400 });
+    return NextResponse.json(
+      `Error creating comment: ${(error as any).message}`,
+      { status: 400 }
+    );
   }
 };

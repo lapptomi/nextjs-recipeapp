@@ -44,23 +44,10 @@ const ProfilePage = async ({ params }: ProfilePageParams) => {
           gap: 20,        
         }}>
 
-          <div style={{ 
-            background: 'white',
-            width: '50%',
-            display: 'flex',
-            flexDirection: 'row',
-            padding: '30px',
-            gap: '10px',
-            justifyContent: 'space-evenly',
-            flexWrap: 'wrap',
-            alignItems: 'center',
-          }}>
-            <div style={{
-              width: 100,
-              height: 100,
-            }}>
+          <div className={styles.profileheader}>
+            <div className={styles.profilepicture}>
               {/* TODO: add <Image /> here if user has profile picture */}
-              <Avatar  style={{ width: '100%', height: '100%' }} />
+              <Avatar style={{ width: '100%', height: '100%' }} />
             </div>
             
             <div>

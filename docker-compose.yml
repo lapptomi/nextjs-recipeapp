@@ -3,8 +3,8 @@ version: '3.8'
 services:
   recipe-app-dev:
     image: recipe-app-dev
-    #environment:
-    #  - DATABASE_URL=postgresql://postgres:postgres@postgres:5432/postgres?schema=public
+    environment:
+      - DATABASE_URL=postgresql://postgres:postgres@postgres:5432/postgres?schema=public
     build:
       context: ./
       dockerfile: dev.Dockerfile
@@ -25,5 +25,5 @@ services:
       POSTGRES_DB: postgres
     ports:
       - 5432:5432
-    #volumes:
-    #  - ./prisma/migrations/generated/migration.sql:/docker-entrypoint-initdb.d/init.sql
+    volumes:
+      - ./prisma/migrations/generated/migration.sql:/docker-entrypoint-initdb.d/init.sql

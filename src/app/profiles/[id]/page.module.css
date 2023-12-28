@@ -4,6 +4,23 @@
   justify-content: center;
 }
 
+.profileheader {
+  background: white;
+  width: 50%;
+  display: flex;
+  flex-flow: wrap;
+  padding: 30px;
+  gap: 10px;
+  justify-content: center;
+  align-items: center;
+  gap: 70px;
+}
+
+.profilepicture {
+  width: 100px;
+  height: 100px;
+}
+
 .recipegrid {
   display: grid;
   grid-template-columns: repeat(auto-fill, 300px);
