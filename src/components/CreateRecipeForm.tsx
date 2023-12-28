@@ -61,15 +61,6 @@ const CreateRecipeForm = () => {
       className={styles.formcontainer}
       onSubmit={handleSubmit(handleFormSubmit, (error) => console.log('ERROR = ', error))}
     >
-      {/*
-        <Stepper activeStep={0} alternativeLabel style={{ width: '100%' }}>
-        {['Recipe Info', 'Settings', 'Confirm'].map((label) => (
-          <Step key={label}>
-            <StepLabel>{label}</StepLabel>
-          </Step>
-        ))}
-      </Stepper>
-      */}
       <Typography variant="overline">
         create new recipe
       </Typography>
