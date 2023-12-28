@@ -7,7 +7,6 @@ import styles from "@/styles/RecipeListItem.module.css";
 
 import type { Prisma } from "@prisma/client";
 
-
 interface Props {
   recipe: Prisma.RecipeGetPayload<{
     include: {
@@ -17,7 +16,8 @@ interface Props {
   }>
 }
 
-const RecipeListItem: React.FC<Props> = async ({ recipe }) => {
+/* ADD ASYNC IF THIS COMPONENT BREAKS */ 
+const RecipeListItem: React.FC<Props> = ({ recipe }) => {
   const likes = recipe.ratings.filter((rating) => rating.type === 'LIKE').length;
   const dislikes = recipe.ratings.filter((rating) => rating.type === 'DISLIKE').length;
 
