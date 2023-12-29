@@ -90,7 +90,7 @@ export const POST = async (req: Request) => {
     const recipe = NewRecipeSchema.parse(formRecipe);
    
     // Create unique name for s3 bucket
-    const imageName = recipe.image ? `${new Date().toISOString()}_${recipe.image.name}` : undefined;
+    const imageName = recipe.image ? `${new Date().toISOString()}_${recipe.image.name}` : null;
     const createdRecipe = await prisma.recipe.create({
       data: {
         ...recipe,

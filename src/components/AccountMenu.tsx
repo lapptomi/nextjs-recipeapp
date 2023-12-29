@@ -1,7 +1,7 @@
 /* eslint-disable no-null/no-null */
 "use client";
 
-import * as React from 'react';
+import React from 'react';
 
 import { AddBox, Person } from '@mui/icons-material';
 import Logout from '@mui/icons-material/Logout';

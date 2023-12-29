@@ -57,11 +57,24 @@ const Home = () => {
           title="Personal"
           description="Some random description"
         />
-        <PricingCard
-          title="Professional"
-          price={10}
-          description="Some random description"
-        />
+        <div style={{
+          border: '4px solid #ed6d03',
+          backgroundColor: '#ed6d03',
+          alignItems: 'center',
+          display: 'flex',
+          flexDirection: 'column',
+          borderRadius: 10,
+          color: 'white',
+        }}>
+          <Typography variant="h6" fontWeight="bold">
+            RECOMMENDED
+          </Typography>
+          <PricingCard
+            title="Professional"
+            price={10}
+            description="Some random description"
+          />
+        </div>
         <PricingCard
           title="Enterprise"
           price={1337}

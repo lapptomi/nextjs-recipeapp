@@ -44,7 +44,7 @@ export const getSignedImageUrl = async (imageName: string) => {
   });
 
   const signedUrl = await getSignedUrl(s3Client, getObjectCommand, {
-    expiresIn: 3600, // URL expiration time in seconds (1h)
+    expiresIn: 60 * 60, // URL expiration time in seconds (1h)
   });
 
   return signedUrl;
