@@ -1,3 +1,5 @@
+import React from "react";
+
 import { AccessTime, Person, Restaurant } from "@mui/icons-material";
 import { Chip, Container, ImageListItem, ImageListItemBar, Rating, Tooltip, Typography } from "@mui/material";
 import Image from "next/image";
@@ -16,8 +18,7 @@ interface Props {
   }>
 }
 
-/* ADD ASYNC IF THIS COMPONENT BREAKS */ 
-const RecipeListItem: React.FC<Props> = ({ recipe }) => {
+const RecipeListItem = ({ recipe }: Props) => {
   const likes = recipe.ratings.filter((rating) => rating.type === 'LIKE').length;
   const dislikes = recipe.ratings.filter((rating) => rating.type === 'DISLIKE').length;
 

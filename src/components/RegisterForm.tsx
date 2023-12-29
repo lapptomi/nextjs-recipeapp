@@ -14,7 +14,7 @@ import { UserSchema } from "../types";
 
 import type { NewUser} from "../types";
 
-const RegisterForm: React.FC = () => {
+const RegisterForm = () => {
   const [error, setError] = useState('');
   const [confirm, setConfirm] = useState('');  
 

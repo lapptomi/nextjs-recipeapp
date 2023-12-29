@@ -7,7 +7,7 @@ import { signIn } from "next-auth/react";
 
 import { APPLICATION_NAME } from "@/lib/constants";
 
-const LoginForm: React.FC = () => {
+const LoginForm = () => {
   const [error, setError] = useState('');
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {

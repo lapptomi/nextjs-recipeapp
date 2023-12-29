@@ -13,7 +13,6 @@ import styles from './page.module.css';
 
 import type { UserWithRelations } from "@/app/api/users/[id]/route";
 
-
 interface ProfilePageParams {
   params: {
     id: string;

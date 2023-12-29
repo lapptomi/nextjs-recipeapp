@@ -1,7 +1,7 @@
 /* eslint-disable no-null/no-null */
 "use client";
 
-import * as React from 'react';
+import React from 'react';
 
 import { Notifications } from '@mui/icons-material';
 import { Avatar, Badge, Button, List, ListItem, ListItemAvatar, ListItemText, Typography } from '@mui/material';
@@ -16,7 +16,8 @@ interface Props {
   user?: Session['user'];
 }
 
-const NotificationMenu: React.FC<Props> = () => {
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+const NotificationMenu = (user: Props) => {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
 

@@ -12,7 +12,7 @@ interface Props {
   recipe: RecipeWithRelations;
 }
 
-const LikeButtons: React.FC<Props> = ({ recipe }) => {
+const LikeButtons = ({ recipe }: Props) => {
   const session = useSession();
 
   const updateRating = async (ratingType: RecipeRatingType) => {

@@ -11,7 +11,7 @@ interface Props {
   items: any[];
 }
 
-const ImageSlider: React.FC<Props> = ({ items }) => {
+const ImageSlider = ({ items }: Props) => {
   const [activeIndex, setActiveIndex] = useState(0);
   const springApi = useSpringRef();
 

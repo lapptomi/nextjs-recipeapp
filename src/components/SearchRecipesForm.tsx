@@ -17,7 +17,7 @@ const createQuery = (params: URLSearchParams) => {
   return search ? `?${search}` : "";
 };
 
-const SearchRecipesForm: React.FC<Props> = ({ totalCount }) => {
+const SearchRecipesForm = ({ totalCount }: Props) => {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();

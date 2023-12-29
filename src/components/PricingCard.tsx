@@ -1,5 +1,3 @@
-import React from "react";
-
 import { Check } from "@mui/icons-material";
 import { Button, Card, CardContent, CardMedia, Divider, Typography } from "@mui/material";
 
@@ -12,7 +10,7 @@ interface Props {
   items?: string[];
 }
 
-const PricingCard: React.FC<Props> = (props) => {
+const PricingCard = (props: Props) => {
   return (
     <Card className={styles.wrapper}>
       <CardMedia className={styles.container}>

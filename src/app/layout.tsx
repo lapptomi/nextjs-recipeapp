@@ -12,7 +12,6 @@ import { APPLICATION_NAME } from '../lib/constants';
 
 import type { Metadata } from 'next';
 
-
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
@@ -62,7 +61,6 @@ export default function RootLayout({
                 © {new Date().getFullYear()} All Rights Reserved jne.
               </Typography>
             </footer>
-            
           </ThemeRegistry>
         </AuthProvider>
       </body>
