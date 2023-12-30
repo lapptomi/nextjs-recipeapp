@@ -1,4 +1,5 @@
-# Nextjs Recipe App  [![Deploy To Vercel](https://github.com/lapptomi/nextjs-recipeapp/actions/workflows/fly.yml/badge.svg)](https://github.com/lapptomi/nextjs-recipeapp/actions/workflows/fly.yml)
+# Nextjs Recipe App [![Deploy To Vercel](https://github.com/lapptomi/nextjs-recipeapp/actions/workflows/pipeline.yml/badge.svg)](https://github.com/lapptomi/nextjs-recipeapp/actions/workflows/pipeline.yml)
+
 
 ## Technologies used  
 
