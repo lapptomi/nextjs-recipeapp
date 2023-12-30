@@ -3,3 +3,9 @@ export const user = {
   email: 'testemail@test.com',
   password: 'randompassword',
 };
+
+export const recipe = {
+  title: 'Test recipe',
+  description: 'Test description',
+  instructions: 'Test instructions',
+};
