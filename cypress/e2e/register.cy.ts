@@ -4,8 +4,8 @@ import { user } from "./data";
 
 describe('Creating new user', () => {
   beforeEach(() => {
-    cy.request('DELETE', 'http://localhost:3000/api/users');
-    return cy.visit("http://localhost:3000/auth/register");
+    cy.request('DELETE', '/api/users');
+    return cy.visit("/auth/register");
   });
 
   it('Displays register form', () => {

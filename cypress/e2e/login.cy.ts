@@ -14,9 +14,9 @@ describe('Login', () => {
         cy.visit("http://localhost:3000/auth/login");
       });
     */
-    cy.request('DELETE', 'http://localhost:3000/api/users');
-    cy.request('POST', 'http://localhost:3000/api/users', user);
-    return cy.visit("http://localhost:3000/auth/login");
+    cy.request('DELETE', '/api/users');
+    cy.request('POST', '/api/users', user);
+    return cy.visit("/auth/login");
   });
 
   it('Displays login form', () => {
