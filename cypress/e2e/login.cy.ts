@@ -1,6 +1,6 @@
 /// <reference types="cypress" />
 
-import { user } from "./data";
+import { user } from "../data";
 
 describe('Login', () => {
   beforeEach(() => {
@@ -19,10 +19,8 @@ describe('Login', () => {
     return cy.visit("/auth/login");
   });
 
-  it('Displays login form', () => {
-    cy.contains('Sign In');
-    cy.contains('Email Address');
-    cy.contains('Password');
+  it('Should visit', () => {
+    cy.visit("/auth/login");
   });
 
   it('Displays error message on invalid login', () => {

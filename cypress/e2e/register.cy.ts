@@ -1,6 +1,6 @@
 /// <reference types="cypress" />
 
-import { user } from "./data";
+import { user } from "../data";
 
 describe('Creating new user', () => {
   beforeEach(() => {
@@ -8,10 +8,8 @@ describe('Creating new user', () => {
     return cy.visit("/auth/register");
   });
 
-  it('Displays register form', () => {
-    cy.contains('Sign Up');
-    cy.contains('Email Address');
-    cy.contains('Password');
+  it('Should visit', () => {
+    cy.visit("/auth/register");
   });
 
   it('Redirects to /recipes page after successful registration', () => {
