@@ -4,19 +4,9 @@ import { user } from "../data";
 
 describe('Login', () => {
   beforeEach(() => {
-    /*
-    cy.request('DELETE', 'http://localhost:3000/api/users')
-      .then(() => {
-        cy.request('POST', 'http://localhost:3000/api/users', user);
-      })
-      .then(() => {
-        cy.wait(1000);
-        cy.visit("http://localhost:3000/auth/login");
-      });
-    */
     cy.request('DELETE', '/api/users');
     cy.request('POST', '/api/users', user);
-    return cy.visit("/auth/login");
+    cy.visit("/auth/login");
   });
 
   it('Should visit', () => {

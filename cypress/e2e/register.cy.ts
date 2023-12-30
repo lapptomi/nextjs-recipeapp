@@ -5,7 +5,7 @@ import { user } from "../data";
 describe('Creating new user', () => {
   beforeEach(() => {
     cy.request('DELETE', '/api/users');
-    return cy.visit("/auth/register");
+    cy.visit("/auth/register");
   });
 
   it('Should visit', () => {
