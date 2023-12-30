@@ -21,12 +21,12 @@ const SearchRecipesForm = ({ totalCount }: Props) => {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
-  const pageSize = Math.ceil(totalCount / 12);
+  const pages = Math.ceil(totalCount / 12);
 
   const [sortBy, setSortBy] = useState<'date_asc' | 'date_desc'>('date_desc');
   const [searchField, setSearchField] = useState('');
 
-  // TODO: refactor pagination and search form
+  // TODO: refactor handleSubmit and handlePageChange
   const handleSubmit = useCallback(() => {
     const current = new URLSearchParams(Array.from(searchParams.entries()));
     current.set('title', searchField);
@@ -88,7 +88,7 @@ const SearchRecipesForm = ({ totalCount }: Props) => {
       </form>
       <Pagination
         onChange={(event, value) => handlePageChange(event, value)}
-        count={pageSize}
+        count={pages}
         page={parseInt(searchParams.get('page') || '1')}
       />
     </div>

@@ -46,7 +46,6 @@ const RegisterForm = () => {
           callbackUrl: '/recipes',
         });
       }).catch((error) => {
-        console.log('ERROR = ', error);
         setError(error.message);
       });
   };
@@ -99,6 +98,7 @@ const RegisterForm = () => {
           fullWidth
           label="Confirm Password"
           type="password"
+          name="confirmPassword"
           onChange={(event) => setConfirm(event.target.value)}
         />
         <Button
@@ -114,12 +114,12 @@ const RegisterForm = () => {
       <Grid container>
         <Grid item xs>
           <Link href="/resetpassword" variant="body2">
-              Forgot password?
+            Forgot password?
           </Link>
         </Grid>
         <Grid item>
           <Link href="/auth/register" variant="body2">
-              Dont have an account? Sign Up
+            Dont have an account? Sign Up
           </Link>
         </Grid>
       </Grid>

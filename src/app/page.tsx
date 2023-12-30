@@ -57,24 +57,11 @@ const Home = () => {
           title="Personal"
           description="Some random description"
         />
-        <div style={{
-          border: '4px solid #ed6d03',
-          backgroundColor: '#ed6d03',
-          alignItems: 'center',
-          display: 'flex',
-          flexDirection: 'column',
-          borderRadius: 10,
-          color: 'white',
-        }}>
-          <Typography variant="h6" fontWeight="bold">
-            RECOMMENDED
-          </Typography>
-          <PricingCard
-            title="Professional"
-            price={10}
-            description="Some random description"
-          />
-        </div>
+        <PricingCard
+          title="Professional"
+          price={10}
+          description="Some random description"
+        />
         <PricingCard
           title="Enterprise"
           price={1337}
@@ -90,7 +77,7 @@ const Home = () => {
           
         }}>
           <Typography style={{ padding: 20 }} color="white" variant="h4" fontWeight="bold">
-            {'Sign Up Today For Free!'.toUpperCase()}
+            SIGN UP TODAY FOR FREE!
           </Typography>
 
           <Button variant="outlined" href='/auth/register' color="info">

@@ -23,6 +23,7 @@
   justify-content: space-evenly;
   background: white;
   padding: 100px 20px;
+  gap: 50px;
   flex-wrap: wrap;
   align-content: center;
   align-items: center;
@@ -79,7 +80,7 @@
 
 .joincontainer {
   display: flex;
-  background: #454545;
+  background: linear-gradient(0deg, #872f2f, #ed6d03);
   padding: 20px;
   align-items: flex-end;
   flex-direction: column;

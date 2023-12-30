@@ -53,3 +53,24 @@ export const POST = async (req: NextRequest) => {
     );
   }
 };
+
+export const DELETE = async () => {
+  try {
+    // Allow DELETE only in test environment
+    if (process.env.APP_ENV === "test") {
+      await prisma.user.deleteMany();
+    } else {
+      return NextResponse.json(
+        { error: "Error deleting user: DELETE not allowed" }, 
+        { status: 400 }
+      );
+    }
+    
+    return NextResponse.json({ status: 201 });
+  } catch (error) {
+    return NextResponse.json(
+      { error: `Error deleting user: ${error}` }, 
+      { status: 400 }
+    );
+  }
+};

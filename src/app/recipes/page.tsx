@@ -33,7 +33,7 @@ const BrowseRecipesPage = async ({ searchParams }: Params) => {
     <div>
       <TitleHeader title="BROWSE RECIPES" />
       <SearchRecipesForm totalCount={totalCount} />
-
+    
       <div className={styles.container}>
         {recipes && recipes.length > 0 ? (
           <div className={styles.recipegrid}>

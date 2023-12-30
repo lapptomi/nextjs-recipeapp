@@ -1,7 +1,5 @@
 # Nextjs Recipe App  [![Deploy To Vercel](https://github.com/lapptomi/nextjs-recipeapp/actions/workflows/fly.yml/badge.svg)](https://github.com/lapptomi/nextjs-recipeapp/actions/workflows/fly.yml)
 
-Web application written in Typescript for learning [Next.js](https://nextjs.org/) and trying out some other libraries, such as [Prisma](https://www.prisma.io/), [Zod](https://zod.dev/) and [AWS S3 Bucket](https://aws.amazon.com/s3/).
-
 ## Technologies used  
 
 ![TS](https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white)
@@ -17,15 +15,10 @@ Web application written in Typescript for learning [Next.js](https://nextjs.org/
 ![Prisma](https://img.shields.io/badge/Prisma-3982CE?style=for-the-badge&logo=Prisma&logoColor=white)
 
 
-# ![Vercel](https://img.shields.io/badge/vercel-%23000000.svg?style=for-the-badge&logo=vercel&logoColor=white) App hosted on Vercel
-### [View Hosted Application](https://nextjs-recipeapp.vercel.app/)
-
-
 # Getting Started
 
 ### Start the app with Docker Compose
 ###### Note that you must have Docker installed in your machine   
-
 
 ### Development
 The application can be started in development mode by command:  
@@ -53,7 +46,7 @@ And opening http://localhost:5555 in your browser.
 # Environment Variables
 This application uses environment variables listed below:  
 ```
-DATABASE_URL=(PostgreSQL database url. (SQLite or MySQL etc. doesn't work))
+DATABASE_URL=(PostgreSQL database url)
 NEXTAUTH_SECRET=(any string)
 NEXTAUTH_URL=(URL of the application, for example: https://example.com. <- is needed when hosting the app)
 AWS_BUCKET_NAME=(aws s3 bucket name)
