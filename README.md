@@ -1,5 +1,5 @@
 # Nextjs Recipe App [![Deploy To Vercel](https://github.com/lapptomi/nextjs-recipeapp/actions/workflows/pipeline.yml/badge.svg)](https://github.com/lapptomi/nextjs-recipeapp/actions/workflows/pipeline.yml)
-
+**Web application where users can create, rate, and comment on recipes.**
 
 ## Technologies used  
 
@@ -27,6 +27,24 @@ docker-compose up
 ```
 And going to http://localhost:3000 in your browser.  
 
+### Testing
+When running the project in testing mode you don't have to set any **.env** variables.  
+
+  
+The application can be started in testing mode by command:  
+```
+docker-compose -f docker-compose.test.yml up
+```
+This will start PostgreSQL and Next production build made for testing purposes.  
+After that you can run the Cypress tests with command:  
+```
+npm run cypress:open
+```
+or  
+```
+npm run cypress:run
+```
+
 ### Production
 The application can be started in production mode by command:  
 ```
@@ -41,7 +59,7 @@ To view view and edit PostgreSQL data easily, you can open Prisma studio by comm
 npx prisma studio
 ```  
 And opening http://localhost:5555 in your browser.  
-***DATABASE_URL*** in ***.env*** file is needed for this command.
+This will open an edit view for the database that you have set in **.env DATABASE_URL**.
 
 # Environment Variables
 This application uses environment variables listed below:  
