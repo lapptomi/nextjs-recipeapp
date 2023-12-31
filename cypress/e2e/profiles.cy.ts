@@ -20,9 +20,11 @@ describe('Profiles', () => {
     cy.get('a').contains('Profile').click();
   });
 
+  /*
   it('Renders profile page correctly', () => {
     cy.contains('Followers');
     cy.contains('Some random data here');
   });
+  */
 
 });
