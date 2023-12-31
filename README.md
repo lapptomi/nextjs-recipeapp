@@ -1,5 +1,5 @@
 # Nextjs Recipe App [![Deploy To Vercel](https://github.com/lapptomi/nextjs-recipeapp/actions/workflows/pipeline.yml/badge.svg)](https://github.com/lapptomi/nextjs-recipeapp/actions/workflows/pipeline.yml)
-**Web application where users can create, rate, and comment on recipes.**
+**Full Stack Web application where users can create, rate, and comment on recipes.**
 
 ## Technologies used  
 
