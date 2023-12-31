@@ -74,7 +74,6 @@ const Home = () => {
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
-          
         }}>
           <Typography style={{ padding: 20 }} color="white" variant="h4" fontWeight="bold">
             SIGN UP TODAY FOR FREE!
