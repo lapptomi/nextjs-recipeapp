@@ -19,6 +19,7 @@ interface ProfilePageParams {
   }
 }
 
+// TODO: move styles to page.module.css instead of inline styles
 const ProfilePage = async ({ params }: ProfilePageParams) => {
   const response = await axios.get<UserWithRelations>(`${BASE_URL}/api/users/${params.id}`);
   const user = response.data;

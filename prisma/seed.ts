@@ -5,9 +5,7 @@ const prisma = new PrismaClient();
 
 export const createSeed = async () => {
   try {
-    await prisma.recipe.deleteMany();
-    await prisma.user.deleteMany();
-    await prisma.recipeComment.deleteMany();
+    // await prisma.user.deleteMany();
 
     // await seed();
     // await seed2();
@@ -19,6 +17,7 @@ export const createSeed = async () => {
 
 createSeed();
 
+
 const seed2 = async () => {
   const user = await prisma.user.create({
     data: {
@@ -29,7 +28,6 @@ const seed2 = async () => {
   });
 
   for (let i = 0; i < 12; i++) {
-    
     await prisma.recipe.create({
       data: {
         title: `Test recipe ${i}`,
@@ -65,13 +63,12 @@ const seed = async () => {
   const recipeWithoutImage = await prisma.recipe.create({
     data: {
       title: 'Test recipe',
-      ingredients: ['Pizza', '1 dl water', '2 spoons of salt', '2 spoons of pepper'],
+      ingredients: ['1 dl water', '2 spoons of salt', '2 spoons of pepper'],
       instructions: `
-        Prepare the pizza dough using the pizza base kit and water following packet directions.
-        
-        Turn dough onto a lightly floured surface and knead until smooth.
-        Use a rolling pin to roll out to a 25cm disc.
-        Place on the prepared tray. Set aside in a warm place for 10 mins.
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+        Sed vitae libero vel nisl aliquam dapibus.
+        Donec sit amet nunc ac nisi hendrerit ultricies.
+        Nulla facilisi. Nulla facilisi.
       `,
       authorId: user.id,
       cookingTime: 30,
@@ -85,11 +82,7 @@ const seed = async () => {
       description: 'A delicious chicken soup',
       ingredients: ['Pizza', '1 dl water', '2 spoons of salt', '2 spoons of pepper'],
       instructions: `
-        Prepare the pizza dough using the pizza base kit and water following packet directions.
-        
-        Turn dough onto a lightly floured surface and knead until smooth.
-        Use a rolling pin to roll out to a 25cm disc.
-        Place on the prepared tray. Set aside in a warm place for 10 mins.
+        Random instructions: 1. In a large mixing bowl, combine the flour, yeast, sugar, and salt. Mix well.
       `,
       authorId: user.id,
       cookingTime: 30,
