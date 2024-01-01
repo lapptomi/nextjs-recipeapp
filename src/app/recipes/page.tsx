@@ -19,7 +19,6 @@ interface Params {
 // https://nextjs.org/docs/app/api-reference/file-conventions/route-segment-config
 export const dynamic = 'force-dynamic';
 
-
 const getAllRecipes = async (queryParams: string): Promise<any> => {
   try {
     const response = await axios.get<AllRecipesWithRelations>(`${BASE_URL}/api/recipes?${queryParams}`);
@@ -44,7 +43,6 @@ const BrowseRecipesPage = async ({ searchParams }: Params) => {
           <SearchRecipesForm totalCount={response.totalCount} />
           <RecipeList recipes={response.recipes} />
         </>
-      
       )}
     </div>
   );
