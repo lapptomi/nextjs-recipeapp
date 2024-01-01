@@ -8,7 +8,8 @@ import axios from 'axios';
 import RecipeList from '@/components/RecipeList';
 import SearchRecipesForm from '@/components/SearchRecipesForm';
 import TitleHeader from '@/components/TitleHeader';
-import { BASE_URL } from '@/lib/constants';
+
+import { BASE_URL } from '../../lib/constants';
 
 import type { AllRecipesWithRelations } from '../api/recipes/route';
 
@@ -42,6 +43,8 @@ const useGetRecipes = (queryParams: string) => {
 const BrowseRecipesPage = ({ searchParams }: Params) => {
   const queryParams = Object.entries(searchParams).map(([key, value]) => `${key}=${value}`).join('&');  
   const { recipes, totalCount, loading, error } = useGetRecipes(queryParams);
+
+  console.log('NEXTAUTH URL =', BASE_URL);
 
   return (
     <div>
