@@ -5,7 +5,7 @@ import { GroupAdd } from "@mui/icons-material";
 import { Avatar, Button, Divider, Typography } from "@mui/material";
 import axios from "axios";
 
-import RecipeListItem from "@/components/RecipeListItem";
+import RecipeList from "@/components/RecipeList";
 import TitleHeader from "@/components/TitleHeader";
 import { BASE_URL } from "@/lib/constants";
 
@@ -118,20 +118,8 @@ const ProfilePage = async ({ params }: ProfilePageParams) => {
               {recipes.length} PUBLIC RECIPES
             </Typography>
           </Divider>
-          
-          <div className={styles.container}>
-            {recipes && recipes.length > 0 ? (
-              <div className={styles.recipegrid}>
-                {recipes.map((recipe) => (
-                  <RecipeListItem key={recipe.id} recipe={recipe} />
-                ))}
-              </div>
-            ) : (
-              <div>
-                <Typography variant="h4">No recipes found.</Typography>
-              </div>
-            )}
-          </div>
+
+          <RecipeList recipes={recipes} />
         </div>
       </div>
     </div>

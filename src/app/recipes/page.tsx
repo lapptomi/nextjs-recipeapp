@@ -1,12 +1,14 @@
-import { Typography } from '@mui/material';
+"use client";
+
+import { useEffect, useState } from 'react';
+
+import { Alert, LinearProgress } from '@mui/material';
 import axios from 'axios';
 
-import RecipeListItem from '@/components/RecipeListItem';
+import RecipeList from '@/components/RecipeList';
 import SearchRecipesForm from '@/components/SearchRecipesForm';
 import TitleHeader from '@/components/TitleHeader';
 import { BASE_URL } from '@/lib/constants';
-
-import styles from './page.module.css';
 
 import type { AllRecipesWithRelations } from '../api/recipes/route';
 
@@ -18,36 +20,39 @@ interface Params {
   };
 }
 
-// Force dynamic rendering
-// https://nextjs.org/docs/app/api-reference/file-conventions/route-segment-config
-export const dynamic = 'force-dynamic';
+const useGetRecipes = (queryParams: string) => {
+  const [recipes, setRecipes] = useState<AllRecipesWithRelations['recipes']>([]);
+  const [totalCount, setTotalCount] = useState(0);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(undefined);
 
-const BrowseRecipesPage = async ({ searchParams }: Params) => {
-  const queryParams = Object.entries(searchParams).map(([key, value]) => `${key}=${value}`).join('&');
-  const response = await axios.get<AllRecipesWithRelations>(`${BASE_URL}/api/recipes?${queryParams}`);
-  
-  const recipes = response.data.recipes || [];
-  const totalCount = response.data.totalCount || 1;
+  useEffect(() => {
+    axios.get<AllRecipesWithRelations>(`${BASE_URL}/api/recipes?${queryParams}`)
+      .then((response) => {
+        setRecipes(response.data.recipes);
+        setTotalCount(response.data.totalCount);
+      })
+      .catch((error) => setError(error.message))
+      .finally(() => setLoading(false));
+  }, [queryParams]);
+
+  return { recipes, totalCount, loading, error };
+};
+
+const BrowseRecipesPage = ({ searchParams }: Params) => {
+  const queryParams = Object.entries(searchParams).map(([key, value]) => `${key}=${value}`).join('&');  
+  const { recipes, totalCount, loading, error } = useGetRecipes(queryParams);
 
   return (
     <div>
       <TitleHeader title="BROWSE RECIPES" />
       <SearchRecipesForm totalCount={totalCount} />
-    
-      <div className={styles.container}>
-        {recipes && recipes.length > 0 ? (
-          <div className={styles.recipegrid}>
-            {recipes.map((recipe) => (
-              <RecipeListItem key={recipe.id} recipe={recipe} />
-            ))}
-          </div>
-        ) : (
-          <div>
-            <Typography variant="h4">No recipes found.</Typography>
-            <Typography variant="body1">Be the first to create one!</Typography>
-          </div>
-        )}
-      </div>
+
+      {error && <Alert severity="error">{error}</Alert>}
+      {loading 
+        ? <LinearProgress /> 
+        : <RecipeList recipes={recipes} />
+      }
     </div>
   );
 };
