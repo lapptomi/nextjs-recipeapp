@@ -1,8 +1,4 @@
-"use client";
-
-import { useEffect, useState } from 'react';
-
-import { Alert, LinearProgress } from '@mui/material';
+import { Alert } from '@mui/material';
 import axios from 'axios';
 
 import RecipeList from '@/components/RecipeList';
@@ -19,44 +15,37 @@ interface Params {
     title?: string;
   };
 }
+// Force dynamic rendering
+// https://nextjs.org/docs/app/api-reference/file-conventions/route-segment-config
+export const dynamic = 'force-dynamic';
 
-const useGetRecipes = (queryParams: string) => {
-  const [recipes, setRecipes] = useState<AllRecipesWithRelations['recipes']>([]);
-  const [totalCount, setTotalCount] = useState(0);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(undefined);
 
-  useEffect(() => {
-    axios.get<AllRecipesWithRelations>(`${BASE_URL}/api/recipes?${queryParams}`)
-      .then((response) => {
-        setRecipes(response.data.recipes);
-        setTotalCount(response.data.totalCount);
-      })
-      .catch((error) => setError(error.message))
-      .finally(() => setLoading(false));
-  }, [queryParams]);
-
-  return { recipes, totalCount, loading, error };
+const getAllRecipes = async (queryParams: string): Promise<any> => {
+  try {
+    const response = await axios.get<AllRecipesWithRelations>(`${BASE_URL}/api/recipes?${queryParams}`);
+    return response.data;
+  } catch (error) {
+    return { error };
+  }
 };
 
-const BrowseRecipesPage = ({ searchParams }: Params) => {
-  const queryParams = Object.entries(searchParams).map(([key, value]) => `${key}=${value}`).join('&');  
-  const { recipes, totalCount, loading, error } = useGetRecipes(queryParams);
-
-  console.log('NEXTAUTH URL =', BASE_URL);
-  console.log('process.env.NEXTAUTH_URL =', process.env.NEXTAUTH_URL);
-  console.log('process.env.NEXT_AUTH_URL =', process.env.NEXT_AUTH_URL);
+const BrowseRecipesPage = async ({ searchParams }: Params) => {
+  const queryParams = Object.entries(searchParams).map(([key, value]) => `${key}=${value}`).join('&');
+  const response = await getAllRecipes(queryParams);
 
   return (
     <div>
       <TitleHeader title="BROWSE RECIPES" />
-      <SearchRecipesForm totalCount={totalCount} />
-
-      {error && <Alert severity="error">{error}</Alert>}
-      {loading 
-        ? <LinearProgress /> 
-        : <RecipeList recipes={recipes} />
-      }
+      
+      {response.error?.message ? (
+        <Alert severity="error">{response.error.message}</Alert>
+      ) : (
+        <>
+          <SearchRecipesForm totalCount={response.totalCount} />
+          <RecipeList recipes={response.recipes} />
+        </>
+      
+      )}
     </div>
   );
 };
