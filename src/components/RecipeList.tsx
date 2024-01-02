@@ -1,15 +1,6 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-"use client";
-
-import { useEffect, useState } from "react";
-
-import { Alert, LinearProgress, Typography } from "@mui/material";
-import axios from "axios";
-
-import { BASE_URL } from "@/lib/constants";
+import { Typography } from "@mui/material";
 
 import RecipeListItem from "./RecipeListItem";
-import SearchRecipesForm from "./SearchRecipesForm";
 import styles from '../styles/RecipeList.module.css';
 
 import type { AllRecipesWithRelations } from "@/app/api/recipes/route";

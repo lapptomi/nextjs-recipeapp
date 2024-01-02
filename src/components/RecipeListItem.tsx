@@ -1,7 +1,17 @@
 import React from "react";
 
-import { AccessTime, Person, Restaurant } from "@mui/icons-material";
-import { Chip, Container, ImageListItem, ImageListItemBar, Rating, Tooltip, Typography } from "@mui/material";
+import AccessTime from "@mui/icons-material/AccessTime";
+import Person from "@mui/icons-material/Person";
+import Restaurant from "@mui/icons-material/Restaurant";
+import {
+  Chip,
+  Container,
+  ImageListItem,
+  ImageListItemBar,
+  Rating,
+  Tooltip,
+  Typography
+} from "@mui/material";
 import Image from "next/image";
 import Link from "next/link";
 
