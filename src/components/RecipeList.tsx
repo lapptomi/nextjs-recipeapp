@@ -1,16 +1,22 @@
 import { Typography } from "@mui/material";
 
-import RecipeListItem from "./RecipeListItem";
-import styles from '../styles/RecipeList.module.css';
+import RecipeListItem from "@/components/RecipeListItem";
+import { getSignedImageUrl } from "@/lib/actions/aws_s3";
+import styles from '@/styles/RecipeList.module.css';
 
 import type { AllRecipesWithRelations } from "@/app/api/recipes/route";
 
-const RecipeList = ({ recipes }: Pick<AllRecipesWithRelations, "recipes">) => {
+const RecipeList = async ({ recipes }: Pick<AllRecipesWithRelations, "recipes">) => {
+  const recipesWithImages = await Promise.all(recipes.map(async (recipe) => ({
+    ...recipe,
+    image: recipe.image && await getSignedImageUrl(recipe.image)
+  })));
+
   return (
     <div className={styles.container}>
-      {recipes && recipes.length > 0 ? (
+      {recipesWithImages && recipesWithImages.length > 0 ? (
         <div className={styles.recipegrid}>
-          {recipes.map((recipe) => (
+          {recipesWithImages.map((recipe) => (
             <RecipeListItem key={recipe.id} recipe={recipe} />
           ))}
         </div>

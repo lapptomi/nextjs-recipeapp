@@ -8,14 +8,11 @@ const nextConfig = {
     remotePatterns: [
       {
         protocol: 'https',
-        hostname: '**'
-        // hostname: `${process.env.AWS_BUCKET_NAME}.s3.${process.env.AWS_BUCKET_REGION}.amazonaws.com`,
+        hostname: `${process.env.AWS_BUCKET_NAME}.s3.${process.env.AWS_BUCKET_REGION}.amazonaws.com`,
       }
     ],
     // Cache images for 1 minute
-    minimumCacheTTL: 60
-  },
-  images: {
+    minimumCacheTTL: 60,
     unoptimized: true,
   },
 };

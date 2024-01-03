@@ -38,7 +38,7 @@ export const GET = async () => {
 export const POST = async (req: NextRequest) => {
   try {
     const body = await req.json();
-    const user = UserSchema.parse(body);    
+    const user = UserSchema.parse(body);
     const hashedPassword = await bcrypt.hash(user.password, 10);
   
     const createdUser = await prisma.user.create({

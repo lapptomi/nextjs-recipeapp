@@ -1,5 +1,5 @@
 .maingrid {
-  background-image: url("https://media0.giphy.com/media/oESgZ6uNs9xgQulYiK/giphy.gif?cid=ecf05e47742cvfn7a83uu4w877ct7kpil70pcxwh7qzuqfkf&ep=v1_gifs_search&rid=giphy.gif&ct=g");
+  background-image: url('../../../public/food-gif.webp');
   filter: blur(15px) brightness(0.3);
   transform: scale(1.3);
   z-index: -1;

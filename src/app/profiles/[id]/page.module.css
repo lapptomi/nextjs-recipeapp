@@ -1,3 +1,10 @@
+.maincontainer {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 30px;
+}
+
 .profileheader {
   background: white;
   width: 50%;
@@ -13,4 +20,18 @@
 .profilepicture {
   width: 100px;
   height: 100px;
+}
+
+.infocontainer {
+  display: flex;
+  flex-direction: row;
+  gap: 10,
+}
+
+.recipelist {
+  background: white;
+  display: flex;
+  flex-direction: column;
+  padding: 30px;
+
 }

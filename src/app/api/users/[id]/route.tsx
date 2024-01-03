@@ -1,7 +1,6 @@
-/* eslint-disable no-null/no-null */
+
 import { NextResponse } from "next/server";
 
-import { getSignedImageUrl } from "@/lib/actions/aws_s3";
 import { prisma } from "@/lib/db";
 
 import type { Prisma } from "@prisma/client";
@@ -28,13 +27,7 @@ const getUser = async (userId: number) => {
     }
   });
 
-  // TODO - refactor withImages to be reusable
-  const withImages = await Promise.all(user.recipes.map(async (recipe) => {
-    const preSignedUrl = recipe.image ? await getSignedImageUrl(recipe.image) : null;
-    return { ...recipe, image: preSignedUrl };
-  }));
-
-  return { ...user, recipes: withImages };
+  return user;
 };
 
 export type UserWithRelations = Prisma.PromiseReturnType<typeof getUser>;

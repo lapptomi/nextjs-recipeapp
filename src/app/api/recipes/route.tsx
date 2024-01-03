@@ -3,7 +3,7 @@ import { Prisma } from "@prisma/client";
 import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 
-import { getSignedImageUrl, uploadImageToS3 } from "@/lib/actions/aws_s3";
+import { uploadImageToS3 } from "@/lib/actions/aws_s3";
 import { prisma } from "@/lib/db";
 import { NewRecipeSchema } from "@/types";
 
@@ -49,17 +49,8 @@ const getRecipes = async ({ title, page, pageSize, sortBy }: QueryParams) => {
     prisma.recipe.findMany(query),
     prisma.recipe.count({ where: query.where }),
   ]);
-  
-  // TODO - refactor withImages to be reusable
-  const withImages = await Promise.all(recipes.map(async (recipe) => {
-    const preSignedUrl = recipe.image ? await getSignedImageUrl(recipe.image) : null;
-    return { ...recipe, image: preSignedUrl };
-  }));
 
-  return {
-    recipes: withImages,
-    totalCount
-  };
+  return { recipes, totalCount };
 };
 
 export type AllRecipesWithRelations = Prisma.PromiseReturnType<typeof getRecipes>;

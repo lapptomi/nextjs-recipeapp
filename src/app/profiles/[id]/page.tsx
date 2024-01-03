@@ -1,4 +1,3 @@
-/* eslint-disable no-null/no-null */
 import React from "react";
 
 import { GroupAdd } from "@mui/icons-material";
@@ -19,7 +18,6 @@ interface ProfilePageParams {
   }
 }
 
-// TODO: move styles to page.module.css instead of inline styles
 const ProfilePage = async ({ params }: ProfilePageParams) => {
   const response = await axios.get<UserWithRelations>(`${BASE_URL}/api/users/${params.id}`);
   const user = response.data;
@@ -27,23 +25,14 @@ const ProfilePage = async ({ params }: ProfilePageParams) => {
   if (!user) {
     return <TitleHeader title="PROFILE NOT FOUND" />;
   }
+
   const recipes = user.recipes;
 
   return (
     <div>
       <TitleHeader title={`PROFILE OF ${user.username}`.toUpperCase()} />
-
-      <div style={{
-        display: 'flex',
-        flexDirection: 'column',
-        gap: 20,
-        padding: 30,
-      }}>
-        <div style={{
-          display: 'flex',
-          gap: 20,        
-        }}>
-
+      <div className={styles.maincontainer}>
+        <div style={{ display: 'flex', gap: 20 }}>
           <div className={styles.profileheader}>
             <div className={styles.profilepicture}>
               {/* TODO: add <Image /> here if user has profile picture */}
@@ -54,11 +43,7 @@ const ProfilePage = async ({ params }: ProfilePageParams) => {
               <Typography variant="h5">
                 {user.username}
               </Typography>
-              <div style={{
-                display: 'flex',
-                flexDirection: 'row',
-                gap: 10,
-              }}>
+              <div className={styles.infocontainer}>
                 <div>
                   <Typography variant="caption">
                     Recipes
@@ -85,40 +70,27 @@ const ProfilePage = async ({ params }: ProfilePageParams) => {
                     58
                   </Typography>
                 </div>
-
               </div>
+              
               <Button variant="contained" size="small">
                 <GroupAdd />
                 Follow
               </Button>
             </div>
           </div>
-          <div style={{ 
-            background: 'white',
-            width: '50%',
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-          }}>
+          <div className={styles.profileheader}>
             <Typography variant="body1">
               Some random data here
             </Typography>
           </div>
         </div>
 
-        <div style={{
-          background: 'white',
-          display: 'flex',
-          flexDirection: 'column',
-          gap: 30,
-          padding: 30,
-        }}>
+        <div className={styles.recipelist}>
           <Divider>
             <Typography variant="h5">
               {recipes.length} PUBLIC RECIPES
             </Typography>
           </Divider>
-
           <RecipeList recipes={recipes} />
         </div>
       </div>

@@ -42,7 +42,7 @@ const RecipeListItem = ({ recipe }: Props) => {
               src={recipe.image}
               quality={20}
               loading="lazy"
-              layout="fill"
+              fill={true}
             />
           ) : (
             <Restaurant className={styles.placeholdericon} />

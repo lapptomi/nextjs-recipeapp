@@ -26,7 +26,7 @@ const SearchRecipesForm = ({ totalCount }: Props) => {
   const [sortBy, setSortBy] = useState<'date_asc' | 'date_desc'>('date_desc');
   const [searchField, setSearchField] = useState('');
 
-  // TODO: refactor handleSubmit and handlePageChange
+  // TODO: clean this mess
   const handleSubmit = useCallback(() => {
     const current = new URLSearchParams(Array.from(searchParams.entries()));
     current.set('title', searchField);

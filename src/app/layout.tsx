@@ -4,11 +4,12 @@ import { Divider, Typography } from '@mui/material';
 import { Inter } from 'next/font/google';
 import Link from 'next/link';
 
+import AuthProvider from '@/components/AuthProvider';
+import Navigation from '@/components/Navigation';
+import ThemeRegistry from '@/components/ThemeRegistry';
+import { APPLICATION_NAME } from '@/lib/constants';
+
 import styles from './layout.module.css';
-import AuthProvider from '../components/AuthProvider';
-import Navigation from '../components/Navigation';
-import ThemeRegistry from '../components/ThemeRegistry';
-import { APPLICATION_NAME } from '../lib/constants';
 
 import type { Metadata } from 'next';
 

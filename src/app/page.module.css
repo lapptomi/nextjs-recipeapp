@@ -95,3 +95,9 @@
   height: inherit;
   position: absolute;
 }
+
+.join {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
