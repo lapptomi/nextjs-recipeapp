@@ -5,7 +5,7 @@ import { Button, Tooltip, Typography } from "@mui/material";
 import axios from "axios";
 import { useSession } from "next-auth/react";
 
-import type { RecipeWithRelations } from "@/app/api/recipes/[id]/route";
+import type { RecipeWithRelations } from "@/app/api/_services/recipeService";
 import type { RecipeRating, RecipeRatingType } from "@prisma/client";
 
 interface Props {

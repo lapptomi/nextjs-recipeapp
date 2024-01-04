@@ -5,7 +5,8 @@ import SearchRecipesForm from '@/components/SearchRecipesForm';
 import TitleHeader from '@/components/TitleHeader';
 import { BASE_URL } from '@/lib/constants';
 
-import type { AllRecipesWithRelations } from '@/app/api/recipes/route';
+import type { AllRecipesWithRelations } from '../api/_services/recipeService';
+
 
 interface Params {
   searchParams: {

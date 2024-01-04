@@ -12,7 +12,7 @@ import { BASE_URL } from '@/lib/constants';
 
 import styles from './page.module.css';
 
-import type { RecipeWithRelations } from '@/app/api/recipes/[id]/route';
+import type { RecipeWithRelations } from '@/app/api/_services/recipeService';
 
 interface Props {
   params: {

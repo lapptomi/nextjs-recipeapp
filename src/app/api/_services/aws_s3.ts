@@ -1,6 +1,4 @@
 /* eslint-disable no-null/no-null */
-"use server";
-
 import {
   GetObjectCommand,
   PutObjectCommand,

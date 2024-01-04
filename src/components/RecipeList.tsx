@@ -1,10 +1,10 @@
 import { Typography } from "@mui/material";
 
+import { getSignedImageUrl } from "@/app/api/_services/aws_s3";
 import RecipeListItem from "@/components/RecipeListItem";
-import { getSignedImageUrl } from "@/lib/actions/aws_s3";
 import styles from '@/styles/RecipeList.module.css';
 
-import type { AllRecipesWithRelations } from "@/app/api/recipes/route";
+import type { AllRecipesWithRelations } from "@/app/api/_services/recipeService";
 
 const RecipeList = async ({ recipes }: Pick<AllRecipesWithRelations, "recipes">) => {
   const recipesWithImages = await Promise.all(recipes.map(async (recipe) => ({
