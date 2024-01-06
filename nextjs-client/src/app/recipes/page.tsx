@@ -1,12 +1,12 @@
 import axios from 'axios';
 
+
 import RecipeList from '@/components/RecipeList';
 import SearchRecipesForm from '@/components/SearchRecipesForm';
 import TitleHeader from '@/components/TitleHeader';
 import { BASE_URL } from '@/lib/constants';
 
 import type { AllRecipesWithRelations } from '../api/_services/recipeService';
-
 
 interface Params {
   searchParams: {
@@ -15,6 +15,7 @@ interface Params {
     title?: string;
   };
 }
+
 // Force dynamic rendering
 // https://nextjs.org/docs/app/api-reference/file-conventions/route-segment-config
 export const dynamic = 'force-dynamic';

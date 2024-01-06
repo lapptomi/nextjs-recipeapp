@@ -5,9 +5,9 @@ const prisma = new PrismaClient();
 
 export const createSeed = async () => {
   try {
-    // await prisma.user.deleteMany();
+    await prisma.user.deleteMany();
 
-    // await seed();
+    await seed();
     // await seed2();
   } catch (error) {
     await prisma.$disconnect();
