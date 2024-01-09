@@ -27,7 +27,7 @@ public class AuthController {
     }
     
     @GetMapping("/me")
-    public ResponseEntity<Claims> getMe(@RequestHeader("Authorization") String bearerToken) {
+    public ResponseEntity<Claims> getUserByToken(@RequestHeader("Authorization") String bearerToken) {
         String token = bearerToken.substring(7);
         return ResponseEntity.ok(authService.getUserByToken(token));
     }
