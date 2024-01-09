@@ -43,3 +43,9 @@ dev.db*
 .gradle
 .idea
 .vscode
+
+// ignore next build folder on client side
+**/.next
+**/node_modules
+**/build
+**/.gradle

@@ -4,13 +4,12 @@ services:
   recipe-app-next-client:
     image: recipe-app-next-client
     environment:
-      # - NEXTAUTH_URL=http://recipe-app-java-backend:8080
-      - DATABASE_URL=postgresql://postgres:postgres@postgres:5432/postgres?schema=public
+      - NEXT_APP_API_URL=http://recipe-app-java-backend:8080
     build:
-      context: ./nextjs-client
+      context: ./client
       dockerfile: dev.Dockerfile
     volumes:
-      - ./nextjs-client/src:/usr/src/app/src
+      - ./client/src:/usr/src/app/src
     ports:
       - 3000:3000
     container_name: recipe-app-next-client
@@ -19,12 +18,18 @@ services:
 
   recipe-app-java-backend:
     image: recipe-app-java-backend
+    environment:
+      - DATABASE_URL=jdbc:postgresql://postgres:5432/postgres
+      - DATABASE_USERNAME=postgres
+      - DATABASE_PASSWORD=postgres
     build:
-      context: ./java-backend
-      dockerfile: Dockerfile
+      context: ./server
+      dockerfile: dev.Dockerfile
     ports:
-      - 8000:8080
+      - 8080:8080
     container_name: recipe-app-java-backend
+    volumes:
+      - ./server/src:/usr/src/app/src
     depends_on:
       - postgres
 
@@ -37,8 +42,6 @@ services:
       POSTGRES_DB: postgres
     ports:
       - 5432:5432
-    #volumes:
-    #  - ./prisma/migrations/generated/migration.sql:/docker-entrypoint-initdb.d/init.sql
 
   pgadmin:
     image: dpage/pgadmin4
