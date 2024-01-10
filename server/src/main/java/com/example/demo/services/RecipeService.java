@@ -4,7 +4,6 @@ import com.example.demo.dto.NewRecipeCommentDTO;
 import com.example.demo.dto.NewRecipeDTO;
 import com.example.demo.dto.RecipeRatingDTO;
 import com.example.demo.mapper.RecipeCommentMapper;
-import com.example.demo.mapper.RecipeMapper;
 import com.example.demo.models.Recipe;
 import com.example.demo.models.RecipeComment;
 import com.example.demo.models.RecipeRating;
@@ -37,22 +36,53 @@ public class RecipeService {
     @Autowired
     RecipeRatingRepository recipeRatingRepository;
 
+    @Autowired
+    S3Service s3Service;
+
     public List<Recipe> getAll() {
-        return recipeRepository.findAll();
+        List<Recipe> recipes = recipeRepository.findAll();
+        recipes.forEach(recipe -> {
+            if (recipe.getImage() != null) {
+                recipe.setImage(s3Service.createPresignedGetUrl(recipe.getImage()));
+            }
+        });
+        return recipes;
     }
 
     public Optional<Recipe> findById(Long id) {
+        Recipe recipe = recipeRepository.findById(id).orElseThrow();
+        if (recipe.getImage() != null) {
+            recipe.setImage(s3Service.createPresignedGetUrl(recipe.getImage()));
+        }
         return recipeRepository.findById(id);
     }
 
-    public Recipe create(String recipeJson, Optional<MultipartFile> backgroundImage) {
+    private String uploadedBackgroundImage(MultipartFile backgroundImage) {
+        try {
+            return s3Service.uploadFile(backgroundImage);
+        } catch (Exception error) {
+            throw new RuntimeException("Error while uploading background image", error);
+        }
+    }
+
+    public Recipe create(String recipeJson, MultipartFile backgroundImage) {
         try {
             ObjectMapper objectMapper = new ObjectMapper();
             NewRecipeDTO recipeDTO = objectMapper.readValue(recipeJson, NewRecipeDTO.class);
+
             User user = userRepository.findById(recipeDTO.getAuthorId()).orElseThrow();
 
-            Recipe recipe = RecipeMapper.INSTANCE.toEntity(recipeDTO);
-            recipe.setAuthor(user);
+            Recipe recipe = Recipe.builder()
+                .author(user)
+                .servings(recipeDTO.getServings())
+                .cookingTime(recipeDTO.getCookingTime())
+                .title(recipeDTO.getTitle())
+                .description(recipeDTO.getDescription())
+                .instructions(recipeDTO.getInstructions())
+                .ingredients(recipeDTO.getIngredients())
+                .image(backgroundImage != null ? uploadedBackgroundImage(backgroundImage) : null)
+                .build();
+
             return recipeRepository.save(recipe);
         } catch (Exception e) {
             throw new RuntimeException(e);
@@ -73,17 +103,17 @@ public class RecipeService {
     public RecipeRating addRating(Long recipeId, RecipeRatingDTO ratingDTO) {
         Recipe recipe = recipeRepository.findById(recipeId).orElseThrow();
         User user = userRepository.findById(ratingDTO.getAuthorId()).orElseThrow();
-    
+
         RecipeRating existingRating = recipeRatingRepository
                 .findByAuthor_IdAndRecipe_Id(user.getId(), recipe.getId());
-    
+
         RecipeRating rating = Optional.ofNullable(existingRating).orElse(new RecipeRating());
-    
+
         if (existingRating == null) {
             rating.setAuthor(user);
             rating.setRecipe(recipe);
         }
-    
+
         rating.setType(ratingDTO.getType());
         return recipeRatingRepository.save(rating);
     }

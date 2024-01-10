@@ -15,6 +15,9 @@ public class UserService {
     @Autowired
     UserRepository userRepository;
 
+    @Autowired
+    S3Service s3Service;
+
     public List<User> getAllUsers() {
         return userRepository.findAll();
     }
@@ -24,6 +27,12 @@ public class UserService {
     }
 
     public User getUserById(Long id) {
+        User user = userRepository.findById(id).orElseThrow();
+        user.getRecipes().forEach(recipe -> {
+            if (recipe.getImage() != null) {
+                recipe.setImage(s3Service.createPresignedGetUrl(recipe.getImage()));
+            }
+        });
         return userRepository.findById(id).orElseThrow();
     }
 

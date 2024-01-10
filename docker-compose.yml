@@ -26,7 +26,7 @@ services:
       context: ./server
       dockerfile: dev.Dockerfile
     ports:
-      - 8080:8080
+      - 8000:8080
     container_name: recipe-app-java-backend
     volumes:
       - ./server/src:/usr/src/app/src

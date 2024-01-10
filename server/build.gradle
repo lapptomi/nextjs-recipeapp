@@ -34,12 +34,17 @@ dependencies {
 	implementation group: 'org.postgresql', name: 'postgresql', version: '42.6.0'
 	testImplementation 'org.junit.jupiter:junit-jupiter-api:5.9.2'
 	testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.9.2'
-	
-	implementation 'org.mapstruct:mapstruct:1.5.3.Final' // Use the latest version
-	annotationProcessor 'org.mapstruct:mapstruct-processor:1.5.3.Final' // Use the latest version
-
+	implementation 'org.mapstruct:mapstruct:1.5.3.Final'
+	annotationProcessor 'org.mapstruct:mapstruct-processor:1.5.3.Final'
 	implementation 'io.jsonwebtoken:jjwt:0.9.1'
 	implementation 'javax.xml.bind:jaxb-api:2.4.0-b180830.0359'
+
+	implementation platform('software.amazon.awssdk:bom:2.21.1')
+	implementation 'software.amazon.awssdk:s3'
+	implementation 'software.amazon.awssdk:sso'
+	implementation 'software.amazon.awssdk:ssooidc'
+	implementation platform('org.apache.logging.log4j:log4j-bom:2.20.0')
+	implementation 'org.apache.logging.log4j:log4j-1.2-api'
 }
 
 test {

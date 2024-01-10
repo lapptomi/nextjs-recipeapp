@@ -1,8 +1,10 @@
 package com.example.demo.controllers;
 
+import java.net.URL;
 import java.util.List;
 import java.util.Optional;
 
+import com.example.demo.services.S3Service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -32,6 +34,9 @@ public class RecipeController {
     @Autowired
     RecipeService recipeService;
 
+    @Autowired
+    S3Service s3Service;
+
     @GetMapping
     public ResponseEntity<List<Recipe>> getAll() {
         List<Recipe> recipes = recipeService.getAll();
@@ -43,8 +48,8 @@ public class RecipeController {
 
     @PostMapping
     public ResponseEntity<Recipe> create(
-            @RequestPart("document") String recipeJson,
-            @RequestPart("image") Optional<MultipartFile> backgroundImage) {
+            @RequestPart(value = "document") String recipeJson,
+            @RequestPart(value = "image", required = false) MultipartFile backgroundImage) {
         return ResponseEntity
             .status(HttpStatus.CREATED)
             .body(recipeService.create(recipeJson, backgroundImage));

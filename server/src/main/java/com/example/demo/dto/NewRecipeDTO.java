@@ -11,5 +11,4 @@ public class NewRecipeDTO {
     private String instructions;
     private int cookingTime;
     private int servings;
-    private String image;
 }

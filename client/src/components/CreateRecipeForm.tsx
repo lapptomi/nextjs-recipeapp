@@ -50,7 +50,11 @@ const CreateRecipeForm = () => {
   const handleFormSubmit = (data: NewRecipe) => {
     const formData = new FormData();    
     formData.append('document', JSON.stringify({
-      ...data,
+      title: data.title,
+      description: data.description,
+      instructions: data.instructions,
+      cookingTime: data.cookingTime,
+      servings: data.servings,
       authorId: session?.data?.user.id,
       ingredients: data.ingredients.map((ingredient) => ingredient.ingredient),
     }));

@@ -44,9 +44,7 @@ public class AuthService {
                     .parseClaimsJws(token)
                     .getBody();
         } catch (Exception e) {
-            // Handle token decoding exceptions, e.g., expired token, invalid signature, etc.
-            // You may want to log the exception or handle it according to your requirements.
-            return null;
+            throw new RuntimeException("Invalid or missing token");
         }
     }
 }
