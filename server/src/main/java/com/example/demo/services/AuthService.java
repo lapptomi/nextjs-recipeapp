@@ -21,21 +21,19 @@ public class AuthService {
     UserRepository userRepository;
 
     private String generateToken(String email) {
-        long EXPIRATION_TIME = 864_000_000; // 10 days
         return Jwts.builder()
             .setSubject(email)
-            .setExpiration(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
+            .setExpiration(new Date(System.currentTimeMillis() + 864_000_000)) // 10 days
             .signWith(SignatureAlgorithm.HS512, SECRET)
             .compact();
     }
 
     public String generateToken(LoginDTO credentials) {
         User user = userRepository.findByEmail(credentials.getEmail()).orElseThrow();
-        
+
         if (!user.getPassword().equals(credentials.getPassword())) {
             throw new RuntimeException("Invalid credentials");
         }
-
         return this.generateToken(credentials.getEmail());
     }
 

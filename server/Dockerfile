@@ -1,24 +1,25 @@
-# Use an official OpenJDK 17 image as the base image
-FROM openjdk:17-jdk-slim
+# Build stage
+FROM --platform=linux/amd64 openjdk:17-jdk-alpine AS build
 
-# Set the working directory inside the container
-WORKDIR /app
+WORKDIR /usr/src/app
 
-# Copy only the necessary files for dependency resolution
-COPY build.gradle settings.gradle gradlew /app/
-COPY gradle /app/gradle
-
-# Download and cache the specified Gradle version
-RUN ./gradlew --version --no-daemon
-
-# Copy the application source code
 COPY . .
 
-# Build the application
-RUN ./gradlew clean build --no-daemon
+RUN ./gradlew bootJar
 
-# Expose the default Spring Boot port
+
+# Production stage
+FROM --platform=linux/amd64 openjdk:17-jdk-alpine
+
+WORKDIR /usr/src/app
+
+COPY --from=build /usr/src/app/build/libs/*.jar app.jar
+
+# Run as non-root user
+RUN addgroup --system spring && adduser --system spring --ingroup spring
+
+USER spring:spring
+
 EXPOSE 8080
 
-# Define the entry point
-CMD ["java", "-jar", "build/libs/demo-0.0.1-SNAPSHOT.jar"]
+ENTRYPOINT ["java","-jar","app.jar"]
