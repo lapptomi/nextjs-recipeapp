@@ -62,8 +62,6 @@ The Java Spring Boot server uses the environment variables listed below:
 DATABASE_URL=(PostgreSQL database url in jdbc format)
 DATABASE_USERNAME=(PostgreSQL database username)
 DATABASE_PASSWORD=(PostgreSQL database password)
-NEXTAUTH_SECRET=(any string)
-NEXTAUTH_URL=(URL of the application, for example: https://example.com. <- is needed when hosting the app)
 AWS_BUCKET_NAME=(aws s3 bucket name)
 AWS_BUCKET_REGION=(aws s3 bucket region)
 AWS_ACCESS_KEY_ID_(aws access key)
