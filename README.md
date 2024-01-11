@@ -18,7 +18,6 @@ The backend is created with **Java & Spring boot** and the client is created wit
 ![Java](https://img.shields.io/badge/Java-ED8B00?style=for-the-badge&logo=openjdk&logoColor=white)
 
 
-
 # Getting Started
 
 ### Start the app with Docker Compose
