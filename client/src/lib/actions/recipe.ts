@@ -9,11 +9,12 @@ import { BASE_URL } from "../constants";
 
 import type { CommentForm, RecipeRatingType } from "@/types";
 
-
 export const createRecipe = async (formData: FormData) => {
+  const session = await getServerSession(options);
   const response = await axios.post(`${BASE_URL}/api/recipes`, formData, {
     headers: {
-      'Content-Type': 'multipart/form-data'
+      'Content-Type': 'multipart/form-data',
+      Authorization: `Bearer ${session?.user.jwt}`,
     },
   });
 
@@ -22,25 +23,30 @@ export const createRecipe = async (formData: FormData) => {
 
 export const addComment = async (data: CommentForm) => {
   const session = await getServerSession(options);
-
   const response = await axios.post(`${BASE_URL}/api/recipes/${data.recipeId}/comments`, {
-    authorId: session?.user?.id,
     message: data.message,
+  }, {
+    headers: {
+      Authorization: `Bearer ${session?.user.jwt}`,
+    },
   });
 
   return response.data;
 };
 
-interface ratingParams {
+interface RatingParams {
   recipeId: number;
-  authorId: number;
   type: RecipeRatingType;
 }
 
-export const addRating = async (data: ratingParams) => {
-  const response = await axios.post<ratingParams>(`${BASE_URL}/api/recipes/${data.recipeId}/ratings`, {
-    authorId: data.authorId,
+export const addRating = async (data: RatingParams) => {
+  const session = await getServerSession(options);
+  const response = await axios.post(`${BASE_URL}/api/recipes/${data.recipeId}/ratings`, {
     type: data.type,
+  }, {
+    headers: {
+      Authorization: `Bearer ${session?.user.jwt}`,
+    },
   });
 
   return response.data;

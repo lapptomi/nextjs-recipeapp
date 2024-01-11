@@ -21,7 +21,6 @@ const LikeButtons = ({ recipe, session }: Props) => {
 
     addRating({
       recipeId: recipe.id,
-      authorId: Number(session.user.id),
       type: ratingType,
     }).then(() => window.location.reload())
       .catch((error) => console.log(error));

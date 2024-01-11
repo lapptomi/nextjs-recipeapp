@@ -1,5 +1,6 @@
 package com.example.demo.controllers;
 
+import com.example.demo.dto.JwtTokenDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -27,8 +28,7 @@ public class AuthController {
     }
     
     @GetMapping("/me")
-    public ResponseEntity<Claims> getUserByToken(@RequestHeader("Authorization") String bearerToken) {
-        String token = bearerToken.substring(7);
-        return ResponseEntity.ok(authService.getUserByToken(token));
+    public ResponseEntity<JwtTokenDTO> getUserByToken(@RequestHeader("Authorization") String bearerToken) {
+        return ResponseEntity.ok(authService.getUserByToken(bearerToken));
     }
 }

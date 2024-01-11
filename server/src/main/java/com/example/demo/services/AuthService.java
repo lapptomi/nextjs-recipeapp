@@ -1,5 +1,6 @@
 package com.example.demo.services;
 
+import com.example.demo.dto.JwtTokenDTO;
 import com.example.demo.dto.LoginDTO;
 import com.example.demo.models.User;
 import com.example.demo.repositories.UserRepository;
@@ -37,12 +38,16 @@ public class AuthService {
         return this.generateToken(credentials.getEmail());
     }
 
-    public Claims getUserByToken(String token) {
+    public JwtTokenDTO getUserByToken(String bearerToken) {
         try {
-            return Jwts.parser()
+            String token = bearerToken.substring(7);
+            Claims claims = Jwts.parser()
                     .setSigningKey(SECRET)
                     .parseClaimsJws(token)
                     .getBody();
+
+            String userEmail = claims.getSubject();
+            return new JwtTokenDTO(userEmail, claims.getExpiration());
         } catch (Exception e) {
             throw new RuntimeException("Invalid or missing token");
         }

@@ -6,7 +6,6 @@ import { AccessTime, Add, CloudUpload, Delete, Description, DiningRounded, Group
 import { Alert, Button, FormControl, IconButton, InputAdornment, TextField, Typography } from '@mui/material';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
-import { useSession } from 'next-auth/react';
 import { useFieldArray, useForm } from 'react-hook-form';
 
 import { createRecipe } from '@/lib/actions/recipe';
@@ -17,8 +16,6 @@ import styles from '../styles/CreateRecipeForm.module.css';
 import type { NewRecipe } from '@/types';
 
 const CreateRecipeForm = () => {
-  const session = useSession();
-
   const {
     register,
     handleSubmit,
@@ -55,7 +52,6 @@ const CreateRecipeForm = () => {
       instructions: data.instructions,
       cookingTime: data.cookingTime,
       servings: data.servings,
-      authorId: session?.data?.user.id,
       ingredients: data.ingredients.map((ingredient) => ingredient.ingredient),
     }));
     formData.append('image', selectedImage as any);

@@ -1,5 +1,6 @@
 package com.example.demo.services;
 
+import com.example.demo.dto.JwtTokenDTO;
 import com.example.demo.dto.NewRecipeCommentDTO;
 import com.example.demo.dto.NewRecipeDTO;
 import com.example.demo.dto.RecipeRatingDTO;
@@ -13,12 +14,13 @@ import com.example.demo.repositories.RecipeRatingRepository;
 import com.example.demo.repositories.RecipeRepository;
 import com.example.demo.repositories.UserRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
-
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -39,8 +41,13 @@ public class RecipeService {
     @Autowired
     S3Service s3Service;
 
-    public List<Recipe> getAll() {
-        List<Recipe> recipes = recipeRepository.findAll();
+    @Autowired
+    AuthService authService;
+
+    public Page<Recipe> getBySearchParams(String title, int page, int pageSize) {
+        Pageable pageable = PageRequest.of(page - 1, pageSize);
+        Page<Recipe> recipes = recipeRepository.findByTitleContainingIgnoreCase(title, pageable);
+
         recipes.forEach(recipe -> {
             if (recipe.getImage() != null) {
                 recipe.setImage(s3Service.createPresignedGetUrl(recipe.getImage()));
@@ -65,12 +72,13 @@ public class RecipeService {
         }
     }
 
-    public Recipe create(String recipeJson, MultipartFile backgroundImage) {
+    public Recipe create(String recipeJson, MultipartFile backgroundImage, String bearerToken) {
         try {
             ObjectMapper objectMapper = new ObjectMapper();
             NewRecipeDTO recipeDTO = objectMapper.readValue(recipeJson, NewRecipeDTO.class);
 
-            User user = userRepository.findById(recipeDTO.getAuthorId()).orElseThrow();
+            JwtTokenDTO token = authService.getUserByToken(bearerToken);
+            User user = userRepository.findByEmail(token.getEmail()).orElseThrow();
 
             Recipe recipe = Recipe.builder()
                 .author(user)
@@ -85,13 +93,14 @@ public class RecipeService {
 
             return recipeRepository.save(recipe);
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException("Error while creating recipe", e);
         }
     }
 
-    public RecipeComment addComment(Long recipeId, NewRecipeCommentDTO comment) {
+    public RecipeComment addComment(Long recipeId, NewRecipeCommentDTO comment, String bearerToken) {
         Recipe recipe = recipeRepository.findById(recipeId).orElseThrow();
-        User user = userRepository.findById(comment.getAuthorId()).orElseThrow();
+        JwtTokenDTO token = authService.getUserByToken(bearerToken);
+        User user = userRepository.findByEmail(token.getEmail()).orElseThrow();
 
         RecipeComment newComment = RecipeCommentMapper.INSTANCE.toEntity(comment);
         newComment.setAuthor(user);
@@ -100,15 +109,15 @@ public class RecipeService {
         return recipeCommentRepository.save(newComment);
     }
 
-    public RecipeRating addRating(Long recipeId, RecipeRatingDTO ratingDTO) {
+    public RecipeRating addRating(Long recipeId, RecipeRatingDTO ratingDTO, String bearerToken) {
         Recipe recipe = recipeRepository.findById(recipeId).orElseThrow();
-        User user = userRepository.findById(ratingDTO.getAuthorId()).orElseThrow();
+        JwtTokenDTO token = authService.getUserByToken(bearerToken);
+        User user = userRepository.findByEmail(token.getEmail()).orElseThrow();
 
         RecipeRating existingRating = recipeRatingRepository
                 .findByAuthor_IdAndRecipe_Id(user.getId(), recipe.getId());
 
         RecipeRating rating = Optional.ofNullable(existingRating).orElse(new RecipeRating());
-
         if (existingRating == null) {
             rating.setAuthor(user);
             rating.setRecipe(recipe);

@@ -65,7 +65,6 @@ export interface RecipeComment {
   updatedAt: string | null;
 }
 
-// RecipeRatingType is a custom enum type in Java backend
 export type RecipeRatingType = "LIKE" | "DISLIKE";
 
 export interface RecipeRating {
