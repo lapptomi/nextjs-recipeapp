@@ -33,8 +33,6 @@ docker-compose up
 And going to http://localhost:3000 in your browser.  
 
 ### Testing
-When running the project in testing mode you don't have to set any **.env** variables.  
-
   
 The application can be started in testing mode by command:  
 ```
