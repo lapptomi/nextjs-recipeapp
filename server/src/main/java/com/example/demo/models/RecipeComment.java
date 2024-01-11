@@ -33,7 +33,6 @@ public class RecipeComment {
     @JsonIgnoreProperties("recipes")
     private User author;
 
-    // Read only
     @Column(name = "created_at", columnDefinition = "TIMESTAMP(3) DEFAULT CURRENT_TIMESTAMP")
     private LocalDateTime createdAt;
 
