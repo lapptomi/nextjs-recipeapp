@@ -34,7 +34,6 @@ jobs:
       #  run: docker-compose -f "docker-compose.test.yml" down
 
       - name: Set Working Directory to /client
-        run: cd client
         working-directory: ./client
 
       - name: Install Vercel CLI
