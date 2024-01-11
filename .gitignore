@@ -1,9 +1,10 @@
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
 # dependencies
-/node_modules
+**/node_modules
 /.pnp
 .pnp.js
+**/build
 
 # testing
 /coverage
@@ -39,3 +40,12 @@ dev.db*
 .env
 
 *.rest
+.gradle
+.idea
+.vscode
+
+// ignore next build folder on client side
+**/.next
+**/node_modules
+**/build
+**/.gradle

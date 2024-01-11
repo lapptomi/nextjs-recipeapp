@@ -1,18 +1,35 @@
 version: '3.8'
 
 services:
-  recipe-app-dev:
-    image: recipe-app-dev
+  recipe-app-next-client:
+    image: recipe-app-next-client
     environment:
-      - DATABASE_URL=postgresql://postgres:postgres@postgres:5432/postgres?schema=public
+      - NEXT_APP_API_URL=http://recipe-app-java-backend:8080
     build:
-      context: ./
+      context: ./client
       dockerfile: dev.Dockerfile
     volumes:
-      - ./src:/usr/src/app/src
+      - ./client/src:/usr/src/app/src
     ports:
       - 3000:3000
-    container_name: recipe-app-dev
+    container_name: recipe-app-next-client
+    depends_on:
+      - postgres
+
+  recipe-app-java-backend:
+    image: recipe-app-java-backend
+    environment:
+      - DATABASE_URL=jdbc:postgresql://postgres:5432/postgres
+      - DATABASE_USERNAME=postgres
+      - DATABASE_PASSWORD=postgres
+    build:
+      context: ./server
+      dockerfile: dev.Dockerfile
+    ports:
+      - 8000:8080
+    container_name: recipe-app-java-backend
+    volumes:
+      - ./server/src:/usr/src/app/src
     depends_on:
       - postgres
 
@@ -25,5 +42,13 @@ services:
       POSTGRES_DB: postgres
     ports:
       - 5432:5432
-    volumes:
-      - ./prisma/migrations/generated/migration.sql:/docker-entrypoint-initdb.d/init.sql
+
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: pgadmin4_container
+    restart: always
+    ports:
+      - "8888:80"
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@admin.com
+      PGADMIN_DEFAULT_PASSWORD: admin
