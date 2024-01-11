@@ -1,4 +1,5 @@
-# RecipeApp Pro [![Deploy To Vercel](https://github.com/lapptomi/nextjs-recipeapp/actions/workflows/pipeline.yml/badge.svg)](https://github.com/lapptomi/nextjs-recipeapp/actions/workflows/pipeline.yml)
+# RecipeApp Pro  
+
 **Full Stack Web application where users can create, rate, and comment on recipes.**
 
 The backend is created with **Java & Spring boot** and the client is created with **Typescript & Next.js**.
