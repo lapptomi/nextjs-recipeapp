@@ -19,7 +19,6 @@ The backend is created with **Java & Spring boot** and the client is created wit
 
 
 
-
 # Getting Started
 
 ### Start the app with Docker Compose
