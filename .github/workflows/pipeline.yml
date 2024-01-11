@@ -5,6 +5,10 @@ on:
     branches:
       - main
 
+defaults:
+  run:
+    working-directory: client
+
 jobs:
   test_and_deploy:
     timeout-minutes: 20
@@ -32,9 +36,6 @@ jobs:
       #- name: Stop containers
       #  if: always()
       #  run: docker-compose -f "docker-compose.test.yml" down
-
-      - name: Set Working Directory to /client
-        run: cd client
         
       - name: Install Vercel CLI
         run: npm install --global vercel@latest
