@@ -17,7 +17,7 @@ export const options: NextAuthOptions = {
     // Seconds - How long until an idle session expires and is no longer valid.
     maxAge: 24 * 60 * 60,  // 30 days
   },
-  secret: process.env.NEXTAUTH_SECRET,
+  secret: process.env.NEXTAUTH_SECRET || 'secret',
   /*
   When using JSON Web Tokens the jwt() callback is invoked before the session() callback,
   so anything you add to the JSON Web Token will be immediately available
