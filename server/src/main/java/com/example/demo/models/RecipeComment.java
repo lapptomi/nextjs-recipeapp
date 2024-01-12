@@ -7,6 +7,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
 
 @Entity
@@ -33,9 +34,9 @@ public class RecipeComment {
     @JsonIgnoreProperties("recipes")
     private User author;
 
-    @Column(name = "created_at", columnDefinition = "TIMESTAMP(3) DEFAULT CURRENT_TIMESTAMP")
-    private LocalDateTime createdAt;
+    @Column(name = "created_at")
+    private Timestamp createdAt = new Timestamp(System.currentTimeMillis());
 
-    @Column(name = "updated_at", columnDefinition = "TIMESTAMP(3) DEFAULT CURRENT_TIMESTAMP")
-    private LocalDateTime updatedAt;
+    @Column(name = "updated_at")
+    private Timestamp updatedAt;
 }

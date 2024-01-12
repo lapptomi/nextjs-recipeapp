@@ -29,7 +29,7 @@ public class Recipe {
     @Column(name = "description")
     private String description;
 
-    @Column(name = "instructions", nullable = false)
+    @Column(name = "instructions", nullable = false, length = 5000)
     private String instructions;
 
     @Column(name = "ingredients", columnDefinition = "TEXT[]")
@@ -55,10 +55,9 @@ public class Recipe {
     @OneToMany(mappedBy = "recipe", cascade = CascadeType.ALL)
     private List<RecipeRating> ratings;
 
-    @Column(name = "created_at", columnDefinition = "TIMESTAMP(3) DEFAULT CURRENT_TIMESTAMP")
-    private Timestamp createdAt;
+    @Column(name = "created_at")
+    private Timestamp createdAt = new Timestamp(System.currentTimeMillis());
 
-    @Column(name = "updated_at", columnDefinition = "TIMESTAMP(3) DEFAULT CURRENT_TIMESTAMP")
+    @Column(name = "updated_at")
     private Timestamp updatedAt;
-   
 }

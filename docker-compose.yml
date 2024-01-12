@@ -3,8 +3,8 @@ version: '3.8'
 services:
   recipe-app-next-client:
     image: recipe-app-next-client
-    environment:
-      - NEXT_APP_API_URL=http://recipe-app-java-backend:8080
+    env_file:
+      - ./client/.env
     build:
       context: ./client
       dockerfile: dev.Dockerfile
@@ -18,15 +18,13 @@ services:
 
   recipe-app-java-backend:
     image: recipe-app-java-backend
-    environment:
-      - DATABASE_URL=jdbc:postgresql://postgres:5432/postgres
-      - DATABASE_USERNAME=postgres
-      - DATABASE_PASSWORD=postgres
+    env_file:
+      - ./server/.env
     build:
       context: ./server
       dockerfile: dev.Dockerfile
     ports:
-      - 8000:8080
+      - 8080:8080
     container_name: recipe-app-java-backend
     volumes:
       - ./server/src:/usr/src/app/src

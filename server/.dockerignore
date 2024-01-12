@@ -21,3 +21,4 @@ build/
 *.log
 *.tmp
 *.swp
+.env

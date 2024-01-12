@@ -49,3 +49,4 @@ dev.db*
 **/node_modules
 **/build
 **/.gradle
+**.env

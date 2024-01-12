@@ -8,6 +8,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.sql.Timestamp;
+
 @Entity
 @Table(name = "recipe_rating")
 @Data
@@ -31,4 +33,10 @@ public class RecipeRating {
 
     @Column(name = "type", nullable = false)
     private String type;
+
+    @Column(name = "created_at")
+    private Timestamp createdAt = new Timestamp(System.currentTimeMillis());
+
+    @Column(name = "updated_at")
+    private Timestamp updatedAt;
 }
