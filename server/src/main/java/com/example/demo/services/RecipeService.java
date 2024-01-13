@@ -18,9 +18,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.sql.Timestamp;
 import java.util.Optional;
 
 @Service
@@ -44,10 +46,15 @@ public class RecipeService {
     @Autowired
     AuthService authService;
 
-    public Page<Recipe> getBySearchParams(String title, int page, int pageSize) {
-        Pageable pageable = PageRequest.of(page - 1, pageSize);
-        Page<Recipe> recipes = recipeRepository.findByTitleContainingIgnoreCase(title, pageable);
+    public Page<Recipe> getBySearchParams(String title, int page, int pageSize, String sortBy) {
+        Sort.Direction direction = sortBy != null && sortBy.equals("date_asc")
+            ? Sort.Direction.ASC
+            : Sort.Direction.DESC;
 
+        Sort sort = Sort.by(direction, "createdAt");
+        Pageable pageable = PageRequest.of(page - 1, pageSize, sort);
+        Page<Recipe> recipes = recipeRepository.findByTitleContainingIgnoreCase(title, pageable);
+        
         recipes.forEach(recipe -> {
             if (recipe.getImage() != null) {
                 recipe.setImage(s3Service.createPresignedGetUrl(recipe.getImage()));
@@ -89,6 +96,7 @@ public class RecipeService {
                 .instructions(recipeDTO.getInstructions())
                 .ingredients(recipeDTO.getIngredients())
                 .image(backgroundImage != null ? uploadedBackgroundImage(backgroundImage) : null)
+                .createdAt(new Timestamp(System.currentTimeMillis()))
                 .build();
 
             return recipeRepository.save(recipe);

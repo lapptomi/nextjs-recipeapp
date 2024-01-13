@@ -25,8 +25,9 @@ public class RecipeController {
     public ResponseEntity<Page<Recipe>> getAll(
             @RequestParam(defaultValue = "", required = false) String title,
             @RequestParam(defaultValue = "1", required = false) int page,
-            @RequestParam(defaultValue = "12", required = false) int pageSize) {
-        Page<Recipe> recipes = recipeService.getBySearchParams(title, page, pageSize);
+            @RequestParam(defaultValue = "12", required = false) int pageSize,
+            @RequestParam(required = false) String sortby) {
+        Page<Recipe> recipes = recipeService.getBySearchParams(title, page, pageSize, sortby);
         return ResponseEntity.ok().body(recipes);
     }
 

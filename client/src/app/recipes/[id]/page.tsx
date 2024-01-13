@@ -4,8 +4,6 @@ import axios from 'axios';
 import Link from 'next/link';
 import { getServerSession } from 'next-auth';
 
-
-
 import { options } from '@/app/api/auth/[...nextauth]/options';
 import LikeButtons from '@/components/LikeButtons';
 import RecipeCommentForm from '@/components/RecipeCommentForm';

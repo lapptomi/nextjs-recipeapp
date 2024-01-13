@@ -56,7 +56,7 @@ public class Recipe {
     private List<RecipeRating> ratings;
 
     @Column(name = "created_at")
-    private Timestamp createdAt = new Timestamp(System.currentTimeMillis());
+    private Timestamp createdAt;
 
     @Column(name = "updated_at")
     private Timestamp updatedAt;
