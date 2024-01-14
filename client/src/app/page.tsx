@@ -1,15 +1,12 @@
-import { People } from '@mui/icons-material';
+import { FastfoodOutlined, People } from '@mui/icons-material';
 import { Button, Typography } from '@mui/material';
 import Image from 'next/image';
 
-import ImageSlider from '@/components/ImageSlider';
 import PricingCard from '@/components/PricingCard';
 import { APPLICATION_NAME } from '@/lib/constants';
 
 import styles from './page.module.css';
 import foodgif from '../../public/food-gif.webp';
-import image1 from '../../public/food1.jpeg';
-import image2 from '../../public/food2.jpeg';
 
 const Home = () => {
   return (
@@ -35,9 +32,9 @@ const Home = () => {
       </div>
 
       <div className={styles.aboutcontainer}>
-        <ImageSlider items={[image1, image2]} />
+        <FastfoodOutlined style={{ height: 400,  width: 400, color: '#444444' }} />
         <div className={styles.abouttext}>
-          <Typography variant="h3" fontWeight="bold">ABOUT</Typography>
+          <Typography variant="h2" fontWeight="bold">ABOUT</Typography>
           <Typography variant="body1" color="text.secondary">
             Lorem ipsum dolor sit amet. 
             Ad porro necessitatibus ut internos nihil et consequatur aliquid id dolor rerum

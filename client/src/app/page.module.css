@@ -80,7 +80,7 @@
 
 .joincontainer {
   display: flex;
-  background: linear-gradient(0deg, #87492f, #ed6d03);
+  background: #ca5b00;
   padding: 20px;
   align-items: flex-end;
   flex-direction: column;
