@@ -63,12 +63,12 @@ public class RecipeService {
         return recipes;
     }
 
-    public Optional<Recipe> findById(Long id) {
+    public Recipe findById(Long id) {
         Recipe recipe = recipeRepository.findById(id).orElseThrow();
         if (recipe.getImage() != null) {
             recipe.setImage(s3Service.createPresignedGetUrl(recipe.getImage()));
         }
-        return recipeRepository.findById(id);
+        return recipe;
     }
 
     private String uploadedBackgroundImage(MultipartFile backgroundImage) {

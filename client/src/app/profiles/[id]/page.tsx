@@ -10,6 +10,8 @@ import { BASE_URL } from "@/lib/constants";
 
 import styles from './page.module.css';
 
+import type { User } from "@/types";
+
 interface ProfilePageParams {
   params: {
     id: string;
@@ -17,7 +19,7 @@ interface ProfilePageParams {
 }
 
 const ProfilePage = async ({ params }: ProfilePageParams) => {
-  const response = await axios.get<any>(`${BASE_URL}/api/users/${params.id}`);
+  const response = await axios.get<User>(`${BASE_URL}/api/users/${params.id}`);
   const user = response.data;
 
   if (!user) {

@@ -34,7 +34,7 @@ const Home = () => {
       <div className={styles.aboutcontainer}>
         <FastfoodOutlined style={{ height: 400,  width: 400, color: '#444444' }} />
         <div className={styles.abouttext}>
-          <Typography variant="h2" fontWeight="bold">ABOUT</Typography>
+          <Typography variant="h2" fontWeight="bold" color="#ed6c02">ABOUT</Typography>
           <Typography variant="body1" color="text.secondary">
             Lorem ipsum dolor sit amet. 
             Ad porro necessitatibus ut internos nihil et consequatur aliquid id dolor rerum

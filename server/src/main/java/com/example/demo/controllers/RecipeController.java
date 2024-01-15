@@ -43,7 +43,7 @@ public class RecipeController {
 
     @GetMapping("/{id}")
     public ResponseEntity<Recipe> findById(@PathVariable Long id) {
-        return ResponseEntity.ok(recipeService.findById(id).orElseThrow());
+        return ResponseEntity.ok(recipeService.findById(id));
     }
 
     @PostMapping("/{recipeId}/comments")

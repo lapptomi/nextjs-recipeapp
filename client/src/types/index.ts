@@ -19,9 +19,9 @@ export const NewRecipeSchema = z.object({
   title: z.string().min(4).max(18),
   description: z.string().max(50).optional(),
   ingredients: z.array(z.object({
-    ingredient: z.string().min(4).max(18),
+    ingredient: z.string().min(4).max(30),
   })).min(1).max(200),
-  instructions: z.string().min(4).max(4000),
+  instructions: z.string().min(4).max(5000),
   cookingTime: z.number().optional(),
   servings: z.number().optional(),
   image: NewRecipeImageSchema.nullable().optional(),
@@ -45,8 +45,7 @@ export const CommentSchema = z.object({
 export type CommentForm = z.infer<typeof CommentSchema>;
 
 
-
-// Use zod to create typescript types from these entities later
+// Use zod to create typescript types from these later (z.infer<typeof ...>)
 export interface User {
   id: number;
   email: string;

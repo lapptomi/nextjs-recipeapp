@@ -5,6 +5,7 @@ import com.example.demo.mapper.UserMapper;
 import com.example.demo.models.User;
 import com.example.demo.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -17,6 +18,9 @@ public class UserService {
 
     @Autowired
     S3Service s3Service;
+
+    @Autowired
+    PasswordEncoder passwordEncoder;
 
     public List<User> getAllUsers() {
         return userRepository.findAll();
@@ -42,6 +46,7 @@ public class UserService {
 
     public User create(NewUserDTO user) {
         User userEntity = UserMapper.INSTANCE.toEntity(user);
+        userEntity.setPassword(passwordEncoder.encode(user.getPassword()));
         return userRepository.save(userEntity);
     }
 }
