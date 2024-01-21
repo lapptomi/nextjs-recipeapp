@@ -2,18 +2,11 @@
 
 import { Button, Typography } from "@mui/material";
 
+import styles from "./error.module.css";
+
 const ErrorPage = () => {
   return (
-    <div
-      style={{
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        flexDirection: 'column',
-        minHeight: '100vh',
-        gap: '20px'
-      }}
-    >
+    <div className={styles.errorpage}>
       <Typography variant="h1">
         404
       </Typography>
