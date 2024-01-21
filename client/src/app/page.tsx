@@ -68,7 +68,7 @@ const Home = () => {
 
       <div className={styles.joincontainer}>
         <div className={styles.join}>
-          <Typography style={{ padding: 20 }} color="white" variant="h4" fontWeight="bold">
+          <Typography style={{ padding: 20 }} color="white" variant="h3" fontWeight="bold">
             SIGN UP TODAY FOR FREE!
           </Typography>
 
