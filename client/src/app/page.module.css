@@ -80,14 +80,14 @@
 
 .joincontainer {
   display: flex;
-  background: #525252;
+  background: #525252bf;
   padding: 20px;
   align-items: flex-end;
   flex-direction: column;
   justify-content: center;
   flex-wrap: wrap;
   align-content: center;
-  height: 500px;
+  height: 400px;
 }
 
 .joinsvg {
