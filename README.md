@@ -6,7 +6,7 @@ The idea of this project was mainly to learn ***Next.js***, ***Nest.js*** and Am
 
 # Server
 <p align="left">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="100" alt="Nest Logo" /></a>
+  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="150" alt="Nest Logo" /></a>
 </p>  
 
 The backend is created with **TypeScript & NestJS** and is running on **AWS Fargate**.  
@@ -18,7 +18,7 @@ The old Java server can still be found in the ***server_JAVA*** folder, but is n
 
 # Client
 <p align="left">
-  <a href="http://nextjs.org/" target="blank"><img src="https://seeklogo.com/images/N/next-js-logo-7929BCD36F-seeklogo.com.png" width="100" alt="Next Logo" /></a>
+  <a href="http://nextjs.org/" target="blank"><img src="https://seeklogo.com/images/N/next-js-logo-7929BCD36F-seeklogo.com.png" width="150" alt="Next Logo" /></a>
 </p>  
 
 ## [Open application on Vercel](https://nextjs-recipeapp.vercel.app/)
