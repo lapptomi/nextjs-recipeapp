@@ -11,8 +11,7 @@ The idea of this project was mainly to learn ***Next.js***, ***Nest.js*** and Am
 
 The backend is created with **TypeScript & NestJS** and is running on **AWS Fargate**.  
 
-The server has basic endpoints for transferring the data, and also a rate limiter that is set to 50 requests per 5 minutes,  
-so if the limit is exceeded, the server will block all traffic for 5 minutes.
+The server has basic endpoints for transferring the data, and also a rate limiter that is set to 50 requests per 5 minutes,  so if the limit is exceeded, the server will block all traffic for 5 minutes.
 
 The server was also created with ***Java / Spring Boot*** before, but was later rewritten with ***Nest.js***.  
 The old Java server can still be found in the ***server_JAVA*** folder, but is not used anymore.
