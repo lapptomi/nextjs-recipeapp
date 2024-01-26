@@ -37,12 +37,10 @@ export class Recipe {
   @Column({ name: 'cooking_time', default: 0 })
   cookingTime: number;
 
-  @Column('text', { array: true })
+  @Column('text', { name: 'ingredients', array: true })
   ingredients: string[];
 
-  @ManyToOne(() => User, (user) => user.recipes, {
-    onDelete: 'CASCADE',
-  })
+  @ManyToOne(() => User, (user) => user.recipes, { onDelete: 'CASCADE' })
   @JoinColumn({ name: 'author_id', referencedColumnName: 'id' })
   @IsNotEmpty()
   author: User;

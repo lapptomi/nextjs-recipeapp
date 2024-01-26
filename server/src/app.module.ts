@@ -30,14 +30,14 @@ import { APP_GUARD } from '@nestjs/core';
       database: process.env.DATABASE_NAME,
       entities: [User, Recipe, Recipecomment, Reciperating],
       ssl: process.env.NODE_ENV === 'production' ? true : false,
-      synchronize: true,
+      synchronize: false,
     }),
     ThrottlerModule.forRoot([
       // Rate Limiter that by default is triggered for all the rest controllers and endpoints.
       // We can skip the limit by using the @SkipThrottle() decorator in some controller or endpoint.
       {
         ttl: 60 * 1000 * 5, // ttl = 5 minutes
-        limit: 50, // Limit of requests before timeout (ttl) is triggered
+        limit: 50, // Limit of requests before timeout (ttl / 5min) is triggered
       },
     ]),
     UsersModule,

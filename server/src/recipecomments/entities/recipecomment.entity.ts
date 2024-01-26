@@ -16,9 +16,9 @@ export class Recipecomment {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column()
   @IsNotEmpty()
   @Length(1, 255)
+  @Column({ name: 'message' })
   message: string;
 
   @ManyToOne(() => Recipe, (recipe) => recipe.comments, { onDelete: 'CASCADE' })
