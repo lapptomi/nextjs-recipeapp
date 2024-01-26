@@ -1,8 +1,15 @@
+
 # RecipeApp Pro  
 
 ***Full Stack Web application where users can create, rate, and comment on recipes.***  
 
 The idea of this project was mainly to learn ***Next.js***, ***Nest.js*** and Amazon Web Services, such as ***Amazon S3***, ***EC2***, ***ECS***, ***ECR*** and ***Fargate***.  
+
+<p float="left">
+  <img src="https://github.com/lapptomi/nextjs-recipeapp/blob/main/img1.png?raw=true" width="300">
+  <img src="https://github.com/lapptomi/nextjs-recipeapp/blob/main/img2.png?raw=true" width="300">
+  <img src="https://github.com/lapptomi/nextjs-recipeapp/blob/main/img3.png?raw=true" width="300">
+</p>
 
 # Server
 <p align="left">
@@ -21,7 +28,7 @@ The old Java server can still be found in the ***server_JAVA*** folder, but is n
   <a href="http://nextjs.org/" target="blank"><img src="https://seeklogo.com/images/N/next-js-logo-7929BCD36F-seeklogo.com.png" width="150" alt="Next Logo" /></a>
 </p>  
 
-## [Open application on Vercel](https://nextjs-recipeapp.vercel.app/)
+# [Open application on Vercel](https://nextjs-recipeapp.vercel.app/)
 
 The client is created with **TypeScript & NextJS** and is hosted online on Vercel and can be opened via the link above.
 
