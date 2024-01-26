@@ -1,8 +1,30 @@
 # RecipeApp Pro  
 
-**Full Stack Web application where users can create, rate, and comment on recipes.**
+***Full Stack Web application where users can create, rate, and comment on recipes.***  
 
-The backend is created with **Java & Spring boot** and the client is created with **Typescript & Next.js**.
+The idea of this project was mainly to learn ***Next.js***, ***Nest.js*** and Amazon Web Services, such as ***Amazon S3***, ***EC2***, ***ECS***, ***ECR*** and ***Fargate***.  
+
+# Server
+<p align="left">
+  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="100" alt="Nest Logo" /></a>
+</p>  
+
+The backend is created with **TypeScript & NestJS** and is running on **AWS Fargate**.  
+
+The server has basic endpoints for transferring the data, and also a rate limiter that is set to 50 requests per 5 minutes,  
+so if the limit is exceeded, the server will block all traffic for 5 minutes.
+
+The server was also created with ***Java / Spring Boot*** before, but was later rewritten with ***Nest.js***.  
+The old Java server can still be found in the ***server_JAVA*** folder, but is not used anymore.
+
+# Client
+<p align="left">
+  <a href="http://nextjs.org/" target="blank"><img src="https://seeklogo.com/images/N/next-js-logo-7929BCD36F-seeklogo.com.png" width="100" alt="Next Logo" /></a>
+</p>  
+
+## [Open application on Vercel](https://nextjs-recipeapp.vercel.app/)
+
+The client is created with **TypeScript & NextJS** and is hosted online on Vercel and can be opened via the link above.
 
 ## Technologies used  
 
@@ -27,18 +49,26 @@ The backend is created with **Java & Spring boot** and the client is created wit
 ### Development
 The application can be started in development mode by command:  
 ```
+docker-compose -f docker-compose.dev.yml up
+```
+And going to http://localhost:3000 in your browser.  
+The server will start on http://localhost:8080
+
+### Production
+The application can be started in production mode by command:  
+```
 docker-compose up
 ```
 And going to http://localhost:3000 in your browser.  
+The server will start on http://localhost:8080
+
+> [!NOTE]  
+> **When running in production mode, you'll have to set all the environment variables listed below to **.env** files on the server and client folders**
+
 
 ### Testing
-  
-The application can be started in testing mode by command:  
-```
-docker-compose -f docker-compose.test.yml up
-```
 
-After that you can run the Cypress tests with command:  
+When the app is running locally, you can run the Cypress tests with command:  
 ```
 npm run cypress:open
 ```
@@ -54,15 +84,18 @@ The credentials can be found from *docker-compose.yml* file.
 # Environment Variables
 
 ## Backend
-The Java Spring Boot server uses the environment variables listed below:  
+The NestJS server uses the environment variables listed below:  
 ```
-DATABASE_URL=(PostgreSQL database url in jdbc format)
+DATABASE_HOST=(PostgreSQL database host address)
 DATABASE_USERNAME=(PostgreSQL database username)
 DATABASE_PASSWORD=(PostgreSQL database password)
+DATABASE_NAME=(PostgreSQL database)
+DATABASE_PORT=(PostgreSQL port number)
 AWS_BUCKET_NAME=(aws s3 bucket name)
 AWS_BUCKET_REGION=(aws s3 bucket region)
 AWS_ACCESS_KEY_ID_(aws access key)
 AWS_SECRET_ACCESS_KEY=(aws secret access key)
+JWT_SECRET_KEY=(secret key for jwt tokens)
 ```
 
 ## Client
