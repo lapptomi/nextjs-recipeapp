@@ -1,9 +1,11 @@
-FROM openjdk:17-jdk-slim
+FROM node:20-alpine
 
 WORKDIR /usr/src/app
 
+COPY package*.json ./
+
+RUN npm install
+
 COPY . .
 
-EXPOSE 8080
-
-CMD ["./gradlew", "bootRun"]
+CMD ["npm", "run", "start:dev"]

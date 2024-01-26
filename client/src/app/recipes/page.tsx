@@ -17,7 +17,6 @@ interface Params {
 
 interface Response {
   content: Recipe[],
-  totalPages: number,
   totalElements: number,
 }
 

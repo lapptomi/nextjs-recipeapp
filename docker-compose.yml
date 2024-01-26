@@ -1,23 +1,20 @@
 version: '3.8'
 
 services:
-  recipe-app-next-client:
-    image: recipe-app-next-client
-    env_file:
-      - ./client/.env
+  recipe-app-next-client-prod:
+    image: recipe-app-next-client-prod
+    environment:
+      - NEXTAUTH_SECRET=secretkey
+      - NEXT_APP_API_URL=http://recipe-app-backend-prod:8080
     build:
       context: ./client
-      dockerfile: dev.Dockerfile
-    volumes:
-      - ./client/src:/usr/src/app/src
+      dockerfile: Dockerfile
     ports:
       - 3000:3000
-    container_name: recipe-app-next-client
-    depends_on:
-      - postgres
+    container_name: recipe-app-next-client-prod
 
-  recipe-app-java-backend:
-    image: recipe-app-java-backend
+  recipe-app-backend-prod:
+    image: recipe-app-backend-prod
     env_file:
       - ./server/.env
     build:
@@ -25,21 +22,7 @@ services:
       dockerfile: Dockerfile
     ports:
       - 8080:8080
-    container_name: recipe-app-java-backend
-    volumes:
-      - ./server/src:/usr/src/app/src
-    depends_on:
-      - postgres
-
-  postgres:
-    image: postgres:16-alpine
-    restart: always
-    environment:
-      POSTGRES_PASSWORD: postgres
-      POSTGRES_USER: postgres
-      POSTGRES_DB: postgres
-    ports:
-      - 5432:5432
+    container_name: recipe-app-backend-prod
 
   pgadmin:
     image: dpage/pgadmin4

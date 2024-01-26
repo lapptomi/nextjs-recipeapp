@@ -1,10 +1,8 @@
-FROM node:lts-alpine
+FROM node:18-alpine
 
 WORKDIR /usr/src/app
 
 COPY package*.json ./
-
-ENV NEXTAUTH_SECRET=secret
 
 EXPOSE 3000
 

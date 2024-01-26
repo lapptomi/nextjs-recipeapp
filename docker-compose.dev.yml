@@ -1,0 +1,56 @@
+version: '3.8'
+
+services:
+  recipe-app-next-client-dev:
+    image: recipe-app-next-client-dev
+    environment:
+      - NEXTAUTH_SECRET=secretkey
+      - NEXT_APP_API_URL=http://recipe-app-backend-dev:8080
+    build:
+      context: ./client
+      dockerfile: dev.Dockerfile
+    volumes:
+      - ./client/src:/usr/src/app/src
+    ports:
+      - 3000:3000
+    container_name: recipe-app-next-client-dev
+
+  recipe-app-backend-dev:
+    image: recipe-app-backend-dev
+    environment:
+      - DATABASE_PORT=5432
+      - DATABASE_HOST=postgres
+      - DATABASE_USERNAME=postgres
+      - DATABASE_PASSWORD=postgres
+      - DATABASE_NAME=postgres
+      - JWT_SECRET_KEY=secret
+    build:
+      context: ./server
+      dockerfile: dev.Dockerfile
+    ports:
+      - 8080:8080
+    container_name: recipe-app-backend-dev
+    volumes:
+      - ./server/src:/usr/src/app/src
+    depends_on:
+      - postgres
+
+  postgres:
+    image: postgres:16-alpine
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_USER: postgres
+      POSTGRES_DB: postgres
+    ports:
+      - 5432:5432
+
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: pgadmin4_container
+    restart: always
+    ports:
+      - "8888:80"
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@admin.com
+      PGADMIN_DEFAULT_PASSWORD: admin
