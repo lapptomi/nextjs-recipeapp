@@ -8,6 +8,7 @@ import {
   UseInterceptors,
   Body,
   Request,
+  Query,
 } from '@nestjs/common';
 import { RecipesService } from './recipes.service';
 import { AuthGuard } from 'src/auth/auth.guard';
@@ -20,8 +21,8 @@ import { Request as ExpressRequest } from 'express';
 export class RecipesController {
   constructor(private readonly recipesService: RecipesService) {}
 
-  @UseGuards(AuthGuard)
   @Post()
+  @UseGuards(AuthGuard)
   @UseInterceptors(FileInterceptor('image'))
   async create(
     @Body('document') recipeJson: string,
@@ -33,8 +34,13 @@ export class RecipesController {
   }
 
   @Get()
-  findAll() {
-    return this.recipesService.findAll();
+  findAll(
+    @Query('title') title: string,
+    @Query('page') page: number,
+    @Query('pageSize') pageSize: number,
+    @Query('sortby') sortBy: 'date_asc' | 'date_desc',
+  ) {
+    return this.recipesService.findAll({ title, page, pageSize, sortBy });
   }
 
   @Get(':id')

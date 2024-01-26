@@ -19,9 +19,9 @@ export class AuthController {
     return this.authService.login(credentials);
   }
 
-  @UseGuards(AuthGuard)
   @Get('/me')
+  @UseGuards(AuthGuard)
   findUserByToken(@Request() request) {
-    return this.authService.decodeJwtToken(request.token);
+    return this.authService.getLoggedUser(request.token);
   }
 }

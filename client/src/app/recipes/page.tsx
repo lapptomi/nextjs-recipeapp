@@ -17,7 +17,6 @@ interface Params {
 
 interface Response {
   content: Recipe[],
-  totalPages: number,
   totalElements: number,
 }
 
@@ -27,14 +26,13 @@ export const dynamic = 'force-dynamic';
 
 const BrowseRecipesPage = async ({ searchParams }: Params) => {
   const queryParams = Object.entries(searchParams).map(([key, value]) => `${key}=${value}`).join('&');
-  // const response = await axios.get<Response>(`${BASE_URL}/api/recipes?${queryParams}`);
-  const response = await axios.get<any>(`${BASE_URL}/api/recipes`);
+  const response = await axios.get<Response>(`${BASE_URL}/api/recipes?${queryParams}`);
 
   return (
     <div>
       <TitleHeader title="BROWSE RECIPES" />
-      <SearchRecipesForm totalCount={response.data.totalElements || 10} />
-      <RecipeList recipes={response.data} />
+      <SearchRecipesForm totalCount={response.data.totalElements} />
+      <RecipeList recipes={response.data.content} />
     </div>
   );
 };

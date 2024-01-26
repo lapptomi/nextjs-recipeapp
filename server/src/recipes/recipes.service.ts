@@ -1,4 +1,4 @@
-import { Inject, Injectable, forwardRef } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { CreateRecipeDto } from './dto/create-recipe.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Recipe } from './entities/recipe.entity';
@@ -22,8 +22,7 @@ export class RecipesService {
     @InjectRepository(Recipecomment)
     private readonly recipeCommentRepository: Repository<Recipecomment>,
     private readonly s3Service: S3Service,
-    @Inject(forwardRef(() => UsersService))
-    private usersService: UsersService,
+    private readonly usersService: UsersService,
   ) {}
 
   async create(
@@ -44,16 +43,24 @@ export class RecipesService {
       image: imageName,
     });
 
+    // Upload image to S3 if image exists and recipe was created
     if (imageName && createdRecipe) {
-      // Upload image to S3 if image exists and recipe was created
       await this.s3Service.uploadImage(image, imageName);
     }
 
     return createdRecipe;
   }
 
-  async findAll() {
-    const recipes = await this.recipeRepository.find({
+  async findAll({ title = '', page = 1, pageSize = 12, sortBy = 'date_desc' }) {
+    const [recipes, count] = await this.recipeRepository.findAndCount({
+      where: {
+        title: title ? title : undefined,
+      },
+      order: {
+        createdAt: sortBy === 'date_asc' ? 'ASC' : 'DESC',
+      },
+      take: pageSize,
+      skip: (page - 1) * pageSize,
       relations: {
         comments: true,
         author: true,
@@ -61,7 +68,10 @@ export class RecipesService {
       },
     });
 
-    return await this.s3Service.withImages(recipes);
+    return {
+      content: await this.s3Service.withImages(recipes),
+      totalElements: count,
+    };
   }
 
   async findById(id: number) {

@@ -16,15 +16,15 @@ export class User {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column()
   @Length(1, 40)
+  @Column({ name: 'username', unique: true })
   username: string;
 
-  @Column()
   @IsEmail()
+  @Column({ name: 'email', unique: true })
   email: string;
 
-  @Column({ select: true })
+  @Column({ name: 'password', select: true })
   password: string;
 
   @OneToMany(() => Recipe, (recipe) => recipe.author)

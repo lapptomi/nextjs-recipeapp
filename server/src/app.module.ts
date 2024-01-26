@@ -6,7 +6,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { User } from './users/entities/user.entity';
 import { RecipesModule } from './recipes/recipes.module';
 import { Recipe } from './recipes/entities/recipe.entity';
-import { ConfigModule, ConfigService } from '@nestjs/config';
+import { ConfigModule } from '@nestjs/config';
 import { RecipecommentsModule } from './recipecomments/recipecomments.module';
 import { ReciperatingsModule } from './reciperatings/reciperatings.module';
 import { Recipecomment } from './recipecomments/entities/recipecomment.entity';
@@ -18,20 +18,19 @@ import { APP_GUARD } from '@nestjs/core';
 
 @Module({
   imports: [
-    TypeOrmModule.forRootAsync({
-      imports: [ConfigModule],
-      useFactory: (configService: ConfigService) => ({
-        type: 'postgres',
-        host: configService.get('DATABASE_HOST'),
-        port: parseInt(configService.get('DATABASE_PORT')),
-        username: configService.get('DATABASE_USERNAME'),
-        password: configService.get('DATABASE_PASSWORD'),
-        database: configService.get('DATABASE_NAME'),
-        entities: [User, Recipe, Recipecomment, Reciperating],
-        ssl: false,
-        synchronize: false,
-      }),
-      inject: [ConfigService],
+    ConfigModule.forRoot({
+      isGlobal: true,
+    }),
+    TypeOrmModule.forRoot({
+      type: 'postgres',
+      host: process.env.DATABASE_HOST,
+      port: parseInt(process.env.DATABASE_PORT),
+      username: process.env.DATABASE_USERNAME,
+      password: process.env.DATABASE_PASSWORD,
+      database: process.env.DATABASE_NAME,
+      entities: [User, Recipe, Recipecomment, Reciperating],
+      ssl: process.env.NODE_ENV === 'production' ? true : false,
+      synchronize: true,
     }),
     ThrottlerModule.forRoot([
       // Rate Limiter that by default is triggered for all the rest controllers and endpoints.
@@ -41,10 +40,6 @@ import { APP_GUARD } from '@nestjs/core';
         limit: 50, // Limit of requests before timeout (ttl) is triggered
       },
     ]),
-    ConfigModule.forRoot({
-      // envFilePath: '../.env',
-      isGlobal: true,
-    }),
     UsersModule,
     RecipesModule,
     RecipecommentsModule,

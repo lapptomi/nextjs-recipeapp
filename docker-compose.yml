@@ -8,7 +8,7 @@ services:
       - NEXT_APP_API_URL=http://recipe-app-backend-prod:8080
     build:
       context: ./client
-      dockerfile: dev.Dockerfile
+      dockerfile: Dockerfile
     ports:
       - 3000:3000
     container_name: recipe-app-next-client-prod

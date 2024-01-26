@@ -33,7 +33,7 @@ export class AuthService {
     };
   }
 
-  async decodeJwtToken(token: DecodedJwtTokenDto): Promise<User> {
+  async getLoggedUser(token: DecodedJwtTokenDto): Promise<User> {
     const user = await this.userService.findById(token.id);
     return user;
   }
