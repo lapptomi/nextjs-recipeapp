@@ -4,8 +4,7 @@ import axios from "axios";
 import { getServerSession } from "next-auth";
 
 import { options } from "@/app/api/auth/[...nextauth]/options";
-
-import { BASE_URL } from "../constants";
+import { BASE_URL } from "@/lib/constants";
 
 import type { CommentForm, RecipeRatingType } from "@/types";
 

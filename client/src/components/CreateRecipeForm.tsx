@@ -9,9 +9,8 @@ import { useRouter } from 'next/navigation';
 import { useFieldArray, useForm } from 'react-hook-form';
 
 import { createRecipe } from '@/lib/actions/recipe';
+import styles from '@/styles/CreateRecipeForm.module.css';
 import { NewRecipeSchema } from '@/types';
-
-import styles from '../styles/CreateRecipeForm.module.css';
 
 import type { NewRecipe } from '@/types';
 
@@ -46,6 +45,7 @@ const CreateRecipeForm = () => {
   
   const handleFormSubmit = (data: NewRecipe) => {
     const formData = new FormData();    
+    
     formData.append('document', JSON.stringify({
       title: data.title,
       description: data.description,

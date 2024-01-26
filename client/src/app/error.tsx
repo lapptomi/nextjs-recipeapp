@@ -1,10 +1,13 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 "use client";
 
-import { Button, Typography } from "@mui/material";
+import { Alert, Button, Typography } from "@mui/material";
 
 import styles from "./error.module.css";
 
-const ErrorPage = () => {
+export default function ErrorPage({ error }: {
+  error: Error & { digest?: string }
+}) {
   return (
     <div className={styles.errorpage}>
       <Typography variant="h1">
@@ -13,9 +16,10 @@ const ErrorPage = () => {
       <Typography variant="h5">
         Something went wrong or the page you are looking for does not exist.
       </Typography>
+      <Alert severity="warning">
+        {error.message}
+      </Alert>
       <Button href="/" variant="contained">Back Home</Button>
     </div>
   );
 };
-
-export default ErrorPage;

@@ -2,7 +2,7 @@
 
 import axios from "axios";
 
-import { BASE_URL } from "../constants";
+import { BASE_URL } from "@/lib/constants";
 
 import type { NewUser } from "@/types";
 

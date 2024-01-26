@@ -5,6 +5,7 @@ import GitHubProvider from 'next-auth/providers/github';
 
 import { BASE_URL } from '@/lib/constants';
 
+import type { JwtToken } from '@/types';
 import type { NextAuthOptions } from 'next-auth';
 
 export const options: NextAuthOptions = {
@@ -26,17 +27,10 @@ export const options: NextAuthOptions = {
   callbacks: {
     async jwt({ token, user }: any) {
       if (user) {
-        // Make a request to your Java backend to generate a JWT
-        const response = await axios.post(`${BASE_URL}/api/auth/login`, {
-          email: user.email,
-          password: user.password, // You'll need to securely handle passwords
-        });
-
-        // Set the JWT from Java backend on the token object
-        token.jwt = response.data;
-
         token.id = user.id;
+        token.email = user.email;
         token.username = user.username;
+        token.jwt = user.jwt;
       }
       return token;
     },
@@ -76,17 +70,18 @@ export const options: NextAuthOptions = {
           throw new Error('Missing credentials');
         }
 
-        const { data: user } = await axios.get(`${BASE_URL}/api/users/email/${credentials?.email}`);
+        const { data: jwtToken } = await axios.post<JwtToken>(`${BASE_URL}/api/auth/login`, {
+          email: credentials.email,
+          password: credentials.password,
+        });
 
-
-        if (user) {
-          // Send user data to jwt() callback to generate token and validate credentials
+        if (jwtToken) {
           return {
-            id: user.id,
-            email: user.email,
-            password: user.password,
-            username: user.username,
-            name: user.username,
+            id: jwtToken.userId,
+            email: jwtToken.email,
+            username: jwtToken.username,
+            name: jwtToken.username,
+            jwt: jwtToken.token,
           };
         } else {
           return null;

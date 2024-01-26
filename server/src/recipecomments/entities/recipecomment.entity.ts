@@ -1,0 +1,37 @@
+import { IsNotEmpty, Length } from '@nestjs/class-validator';
+import { Recipe } from 'src/recipes/entities/recipe.entity';
+import { User } from 'src/users/entities/user.entity';
+import {
+  Column,
+  CreateDateColumn,
+  Entity,
+  JoinColumn,
+  ManyToOne,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
+} from 'typeorm';
+
+@Entity({ name: 'recipe_comment' })
+export class Recipecomment {
+  @PrimaryGeneratedColumn()
+  id: number;
+
+  @Column()
+  @IsNotEmpty()
+  @Length(1, 255)
+  message: string;
+
+  @ManyToOne(() => Recipe, (recipe) => recipe.comments, { onDelete: 'CASCADE' })
+  @JoinColumn({ name: 'recipe_id' })
+  recipe: Recipe;
+
+  @ManyToOne(() => User, (user) => user.comments, { onDelete: 'CASCADE' })
+  @JoinColumn({ name: 'author_id' })
+  author: User;
+
+  @CreateDateColumn({ name: 'created_at' })
+  createdAt: Date;
+
+  @UpdateDateColumn({ name: 'updated_at' })
+  updatedAt: Date;
+}
