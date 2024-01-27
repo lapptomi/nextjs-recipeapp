@@ -6,9 +6,9 @@
 The idea of this project was mainly to learn ***Next.js***, ***Nest.js*** and Amazon Web Services, such as ***Amazon S3***, ***EC2***, ***ECS***, ***ECR*** and ***Fargate***.  
 
 <p float="left">
-  <img src="https://github.com/lapptomi/nextjs-recipeapp/blob/main/img1.png?raw=true" width="250">
-  <img src="https://github.com/lapptomi/nextjs-recipeapp/blob/main/img2.png?raw=true" width="250">
-  <img src="https://github.com/lapptomi/nextjs-recipeapp/blob/main/img3.png?raw=true" width="250">
+  <img src="https://github.com/lapptomi/nextjs-recipeapp/blob/main/assets/img1.png?raw=true" width="250">
+  <img src="https://github.com/lapptomi/nextjs-recipeapp/blob/main/assets/img2.png?raw=true" width="250">
+  <img src="https://github.com/lapptomi/nextjs-recipeapp/blob/main/assets/img3.png?raw=true" width="250">
 </p>
 
 # Server
