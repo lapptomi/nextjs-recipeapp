@@ -55,9 +55,9 @@ export class Recipe {
   @OneToMany(() => Reciperating, (reciperating) => reciperating.recipe)
   ratings: Reciperating[];
 
-  @CreateDateColumn({ name: 'created_at', default: () => 'CURRENT_TIMESTAMP' })
+  @CreateDateColumn({ name: 'created_at' })
   createdAt: Date;
 
-  @UpdateDateColumn({ name: 'updated_at', default: () => 'CURRENT_TIMESTAMP' })
+  @UpdateDateColumn({ name: 'updated_at' })
   updatedAt: Date;
 }
