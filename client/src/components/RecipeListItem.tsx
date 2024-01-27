@@ -5,7 +5,6 @@ import Person from "@mui/icons-material/Person";
 import Restaurant from "@mui/icons-material/Restaurant";
 import {
   Chip,
-  Container,
   ImageListItem,
   ImageListItemBar,
   Rating,
