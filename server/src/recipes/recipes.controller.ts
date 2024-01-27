@@ -11,10 +11,10 @@ import {
   Query,
 } from '@nestjs/common';
 import { RecipesService } from './recipes.service';
-import { AuthGuard } from 'src/auth/auth.guard';
+import { AuthGuard } from '../auth/auth.guard';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { CreateRecipeDto } from './dto/create-recipe.dto';
-import { RecipeRatingType } from 'src/reciperatings/entities/reciperating.entity';
+import { RecipeRatingType } from '../reciperatings/entities/reciperating.entity';
 import { Request as ExpressRequest } from 'express';
 
 @Controller('/recipes')

@@ -1,7 +1,7 @@
 import { IsNotEmpty, Length } from '@nestjs/class-validator';
-import { Recipecomment } from 'src/recipecomments/entities/recipecomment.entity';
-import { Reciperating } from 'src/reciperatings/entities/reciperating.entity';
-import { User } from 'src/users/entities/user.entity';
+import { Recipecomment } from '../../recipecomments/entities/recipecomment.entity';
+import { Reciperating } from '../../reciperatings/entities/reciperating.entity';
+import { User } from '../../users/entities/user.entity';
 import {
   Column,
   CreateDateColumn,

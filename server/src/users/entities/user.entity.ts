@@ -1,7 +1,7 @@
-import { IsEmail, IsHash, Length } from '@nestjs/class-validator';
-import { Recipecomment } from 'src/recipecomments/entities/recipecomment.entity';
-import { Reciperating } from 'src/reciperatings/entities/reciperating.entity';
-import { Recipe } from 'src/recipes/entities/recipe.entity';
+import { IsEmail, Length } from '@nestjs/class-validator';
+import { Recipecomment } from '../../recipecomments/entities/recipecomment.entity';
+import { Reciperating } from '../../reciperatings/entities/reciperating.entity';
+import { Recipe } from '../../recipes/entities/recipe.entity';
 import {
   Column,
   CreateDateColumn,
@@ -20,8 +20,8 @@ export class User {
   @Column({ name: 'username', unique: true })
   username: string;
 
-  @IsEmail()
   @Column({ name: 'email', unique: true })
+  @IsEmail()
   email: string;
 
   @Column({ name: 'password', select: true })

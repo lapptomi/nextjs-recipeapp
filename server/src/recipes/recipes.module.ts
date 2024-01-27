@@ -3,10 +3,10 @@ import { RecipesService } from './recipes.service';
 import { RecipesController } from './recipes.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Recipe } from './entities/recipe.entity';
-import { S3Module } from 'src/s3/s3.module';
-import { UsersModule } from 'src/users/users.module';
-import { Reciperating } from 'src/reciperatings/entities/reciperating.entity';
-import { Recipecomment } from 'src/recipecomments/entities/recipecomment.entity';
+import { S3Module } from '../s3/s3.module';
+import { UsersModule } from '../users/users.module';
+import { Reciperating } from '../reciperatings/entities/reciperating.entity';
+import { Recipecomment } from '../recipecomments/entities/recipecomment.entity';
 
 @Module({
   imports: [

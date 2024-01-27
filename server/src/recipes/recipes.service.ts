@@ -3,14 +3,14 @@ import { CreateRecipeDto } from './dto/create-recipe.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Recipe } from './entities/recipe.entity';
 import { Repository } from 'typeorm';
-import { S3Service } from 'src/s3/s3.service';
-import { DecodedJwtTokenDto } from 'src/auth/dto/decoded-jwt-token.dto';
-import { UsersService } from 'src/users/users.service';
+import { S3Service } from '../s3/s3.service';
+import { DecodedJwtTokenDto } from '../auth/dto/decoded-jwt-token.dto';
+import { UsersService } from '../users/users.service';
 import {
   RecipeRatingType,
   Reciperating,
-} from 'src/reciperatings/entities/reciperating.entity';
-import { Recipecomment } from 'src/recipecomments/entities/recipecomment.entity';
+} from '../reciperatings/entities/reciperating.entity';
+import { Recipecomment } from '../recipecomments/entities/recipecomment.entity';
 
 @Injectable()
 export class RecipesService {
