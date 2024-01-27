@@ -1,7 +1,9 @@
 import { withAuth } from 'next-auth/middleware';
 
+import { NEXTAUTH_SECRET } from './lib/constants';
+
 export default withAuth({
-  secret: process.env.NEXTAUTH_SECRET,
+  secret: NEXTAUTH_SECRET
 });
 
 // Redirect to login page if not authenticated.

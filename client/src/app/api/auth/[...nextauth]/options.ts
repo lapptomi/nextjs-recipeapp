@@ -3,7 +3,7 @@ import axios from 'axios';
 import CredentialsProvider from 'next-auth/providers/credentials';
 import GitHubProvider from 'next-auth/providers/github';
 
-import { BASE_URL } from '@/lib/constants';
+import { BASE_URL, NEXTAUTH_SECRET } from '@/lib/constants';
 
 import type { JwtToken } from '@/types';
 import type { NextAuthOptions } from 'next-auth';
@@ -18,7 +18,7 @@ export const options: NextAuthOptions = {
     // Seconds - How long until an idle session expires and is no longer valid.
     maxAge: 24 * 60 * 60,  // 30 days
   },
-  secret: process.env.NEXTAUTH_SECRET,
+  secret: NEXTAUTH_SECRET,
   /*
   When using JSON Web Tokens the jwt() callback is invoked before the session() callback,
   so anything you add to the JSON Web Token will be immediately available
