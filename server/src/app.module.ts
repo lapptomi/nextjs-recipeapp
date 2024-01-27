@@ -30,7 +30,7 @@ import { APP_GUARD } from '@nestjs/core';
       database: process.env.DATABASE_NAME,
       entities: [User, Recipe, Recipecomment, Reciperating],
       ssl: process.env.NODE_ENV === 'production' ? true : false,
-      synchronize: false,
+      synchronize: process.env.NODE_ENV === 'production' ? false : true,
     }),
     ThrottlerModule.forRoot([
       // Rate Limiter that by default is triggered for all the rest controllers and endpoints.

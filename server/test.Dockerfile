@@ -1,4 +1,4 @@
-FROM --platform=linux/amd64 node:20-alpine
+FROM node:20-alpine
 
 WORKDIR /usr/src/app
 
@@ -10,4 +10,4 @@ COPY . .
 
 RUN npm run build
 
-CMD ["npm", "run", "start:prod"]
+CMD ["npm", "run", "start:test"]
