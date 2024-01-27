@@ -3,7 +3,7 @@
 
 ***Full Stack Web application where users can create, rate, and comment on recipes.***  
 
-The idea of this project was mainly to learn ***Next.js***, ***Nest.js*** and Amazon Web Services, such as ***Amazon S3***, ***EC2***, ***ECS***, ***ECR*** and ***Fargate***.  
+The idea of this project was mainly to learn **Next.js**, **Nest.js** and Amazon Web Services, such as **Amazon S3**, **EC2**, **ECS**, **ECR** and **Fargate**.  
 
 <p float="left">
   <img src="https://github.com/lapptomi/nextjs-recipeapp/blob/main/assets/img1.png?raw=true" width="250">
@@ -34,8 +34,8 @@ The backend is created with **TypeScript & NestJS** and is running on **AWS Farg
 
 The server has basic endpoints for transferring the data, and also a rate limiter that is set to 50 requests per 5 minutes,  so if the limit is exceeded, the server will block all traffic for 5 minutes.
 
-The server was also created with ***Java / Spring Boot*** before, but was later rewritten with ***Nest.js***.  
-The old Java server can still be found in the ***server_JAVA*** folder, but is not used anymore.
+The server was also created with **Java / Spring Boot** before, but was later rewritten with **Nest.js**.  
+The old Java server can still be found in the **server_JAVA** folder, but is not used anymore.
 
 # Client
 <p align="left">
@@ -59,6 +59,14 @@ docker-compose -f docker-compose.dev.yml up
 And going to http://localhost:3000 in your browser.  
 The server will start on http://localhost:8080
 
+### Test
+The application can be started in testing mode by command:  
+```
+docker-compose -f docker-compose.test.yml up
+```
+And going to http://localhost:3000 in your browser.  
+The server will start on http://localhost:8080
+
 ### Production
 The application can be started in production mode by command:  
 ```
@@ -71,9 +79,9 @@ The server will start on http://localhost:8080
 > **When running in production mode, you'll have to set all the environment variables listed below to **.env** files on the server and client folders**
 
 
-### Testing
+# Testing
 
-When the app is running locally, you can run the Cypress tests with command:  
+When the app is running locally, you can run the Cypress tests on the client folder with command:  
 ```
 npm run cypress:open
 ```
@@ -82,8 +90,8 @@ or
 npm run cypress:run
 ```
 
-### Database
-To view and edit PostgreSQL data easily, you can open pgadmin4 by going to http://localhost:8888 in your browser.  
+# Database
+When running the app locally with docker-compose on development or production mode, you can open pgadmin4 by going to http://localhost:8888 in your browser to view and edit PostgreSQL data easily.  
 The credentials can be found from *docker-compose.yml* file.
 
 # Environment Variables
