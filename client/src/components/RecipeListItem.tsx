@@ -17,15 +17,18 @@ import Link from "next/link";
 
 import styles from "@/styles/RecipeListItem.module.css";
 
-import type { Recipe } from "@/types";
+import type { Recipe, RecipeRatingType } from "@/types";
 
 interface Props {
   recipe: Recipe;
 }
 
 const RecipeListItem = ({ recipe }: Props) => {
-  const likes = recipe.ratings.filter((rating) => rating.type === 'LIKE').length;
-  const dislikes = recipe.ratings.filter((rating) => rating.type === 'DISLIKE').length;
+  const countRatings = (type: RecipeRatingType) => (
+    recipe.ratings.filter((rating) => rating.type === type).length
+  );
+  const likes = countRatings('LIKE');
+  const dislikes = countRatings('DISLIKE');
 
   return (
     <Link key={recipe.id} href={`/recipes/${recipe.id}`}>
@@ -70,27 +73,29 @@ const RecipeListItem = ({ recipe }: Props) => {
         <ImageListItemBar
           position='bottom'
           actionIcon={
-            <Container>
+            <div style={{ padding: 10 }}>
               <Typography className={styles.itemdescription} variant="caption">
                 {recipe.description}
               </Typography>
-              <Chip
-                icon={<AccessTime color="primary" /> }
-                label={
-                  <Typography variant="caption" color="white">
-                    {recipe.cookingTime} minutes
-                  </Typography>
-                }
-              />
-              <Chip
-                icon={<Person color="primary" /> }
-                label={
-                  <Typography variant="caption" color="white">
-                    {recipe.servings} servings
-                  </Typography>
-                }
-              />
-            </Container>
+              <div>
+                <Chip
+                  icon={<AccessTime color="primary" /> }
+                  label={
+                    <Typography variant="caption" color="white">
+                      {recipe.cookingTime} minutes
+                    </Typography>
+                  }
+                />
+                <Chip
+                  icon={<Person color="primary" /> }
+                  label={
+                    <Typography variant="caption" color="white">
+                      {recipe.servings} servings
+                    </Typography>
+                  }
+                />
+              </div>
+            </div>
           }
         />
       </ImageListItem>
