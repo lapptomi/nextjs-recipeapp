@@ -1,4 +1,4 @@
-import { Module, ValidationPipe } from '@nestjs/common';
+import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { UsersModule } from './users/users.module';
@@ -14,7 +14,7 @@ import { Reciperating } from './reciperatings/entities/reciperating.entity';
 import { S3Module } from './s3/s3.module';
 import { AuthModule } from './auth/auth.module';
 import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
-import { APP_GUARD, APP_PIPE } from '@nestjs/core';
+import { APP_GUARD } from '@nestjs/core';
 
 @Module({
   imports: [
