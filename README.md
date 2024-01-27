@@ -1,5 +1,5 @@
 
-# RecipeApp Pro  
+# RecipeApp Pro  [![Cypress e2e tests](https://github.com/lapptomi/nextjs-recipeapp/actions/workflows/pipeline.yml/badge.svg)](https://github.com/lapptomi/nextjs-recipeapp/actions/workflows/pipeline.yml)
 
 ***Full Stack Web application where users can create, rate, and comment on recipes.***  
 
