@@ -17,7 +17,7 @@ export class Recipecomment {
   id: number;
 
   @IsNotEmpty()
-  @Length(1, 255)
+  @Length(4, 255)
   @Column({ name: 'message' })
   message: string;
 

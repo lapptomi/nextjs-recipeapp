@@ -24,8 +24,7 @@ export class Recipe {
   title: string;
 
   @Column({ name: 'description' })
-  @IsNotEmpty()
-  @Length(1, 255)
+  @Length(0, 255)
   description: string;
 
   @Column({ name: 'image', default: null })

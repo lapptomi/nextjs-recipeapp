@@ -9,6 +9,7 @@ import {
   Body,
   Request,
   Query,
+  Delete,
 } from '@nestjs/common';
 import { RecipesService } from './recipes.service';
 import { AuthGuard } from '../auth/auth.guard';
@@ -30,7 +31,7 @@ export class RecipesController {
     @Request() request: ExpressRequest,
   ) {
     const recipe = JSON.parse(recipeJson) as CreateRecipeDto;
-    return await this.recipesService.create(recipe, image, request.token);
+    return await this.recipesService.create(recipe, image, request.token.id);
   }
 
   @Get()
@@ -70,5 +71,10 @@ export class RecipesController {
       message,
       request.token,
     );
+  }
+
+  @Delete()
+  deleteAll() {
+    return this.recipesService.deleteAll();
   }
 }

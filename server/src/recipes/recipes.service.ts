@@ -1,8 +1,8 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { CreateRecipeDto } from './dto/create-recipe.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Recipe } from './entities/recipe.entity';
-import { Repository } from 'typeorm';
+import { ILike, Repository } from 'typeorm';
 import { S3Service } from '../s3/s3.service';
 import { DecodedJwtTokenDto } from '../auth/dto/decoded-jwt-token.dto';
 import { UsersService } from '../users/users.service';
@@ -11,6 +11,7 @@ import {
   Reciperating,
 } from '../reciperatings/entities/reciperating.entity';
 import { Recipecomment } from '../recipecomments/entities/recipecomment.entity';
+import { validate } from 'class-validator';
 
 @Injectable()
 export class RecipesService {
@@ -27,25 +28,31 @@ export class RecipesService {
 
   async create(
     createRecipeDto: CreateRecipeDto,
-    image: Express.Multer.File,
-    token: DecodedJwtTokenDto,
+    imageFile: Express.Multer.File,
+    userId: number,
   ) {
-    const imageName = image ? image.originalname : null;
-    const user = await this.usersService.findById(token.id);
-    const createdRecipe = await this.recipeRepository.save({
-      title: createRecipeDto.title,
-      description: createRecipeDto.description,
-      ingredients: createRecipeDto.ingredients,
-      instructions: createRecipeDto.instructions,
-      cookingTime: createRecipeDto.cookingTime,
-      author: user,
-      servings: createRecipeDto.servings,
-      image: imageName,
-    });
+    const user = await this.usersService.findById(userId);
+    const imageName = imageFile ? imageFile.originalname : null;
 
+    const recipe = new Recipe();
+    recipe.title = createRecipeDto.title;
+    recipe.description = createRecipeDto.description;
+    recipe.ingredients = createRecipeDto.ingredients;
+    recipe.instructions = createRecipeDto.instructions;
+    recipe.cookingTime = createRecipeDto.cookingTime;
+    recipe.author = user;
+    recipe.servings = createRecipeDto.servings;
+    recipe.image = imageName;
+
+    const errors = await validate(recipe);
+    if (errors.length > 0) {
+      throw new BadRequestException(errors);
+    }
+
+    const createdRecipe = await this.recipeRepository.save(recipe);
     // Upload image to S3 if image exists and recipe was created
     if (imageName && createdRecipe) {
-      await this.s3Service.uploadImage(image, imageName);
+      await this.s3Service.uploadImage(imageFile, imageName);
     }
 
     return createdRecipe;
@@ -54,7 +61,7 @@ export class RecipesService {
   async findAll({ title = '', page = 1, pageSize = 12, sortBy = 'date_desc' }) {
     const [recipes, count] = await this.recipeRepository.findAndCount({
       where: {
-        title: title ? title : undefined,
+        title: ILike(`%${title}%`),
       },
       order: {
         createdAt: sortBy === 'date_asc' ? 'ASC' : 'DESC',
@@ -130,11 +137,19 @@ export class RecipesService {
   ) {
     const recipe = await this.recipeRepository.findOneBy({ id: recipeId });
     const user = await this.usersService.findById(token.id);
+    const recipeComment = new Recipecomment();
+    recipeComment.message = message;
+    recipeComment.author = user;
+    recipeComment.recipe = recipe;
 
-    return await this.recipeCommentRepository.insert({
-      message: message,
-      author: user,
-      recipe: recipe,
-    });
+    const errors = await validate(recipeComment);
+    if (errors.length > 0) {
+      throw new BadRequestException(errors);
+    }
+    return await this.recipeCommentRepository.insert(recipeComment);
+  }
+
+  deleteAll() {
+    return this.recipeRepository.delete({});
   }
 }

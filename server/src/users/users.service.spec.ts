@@ -1,32 +1,18 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { UsersController } from './users.controller';
 import { UsersService } from './users.service';
 import { User } from './entities/user.entity';
 import { S3Service } from '../s3/s3.service';
 import { AppModule } from '../app.module';
 import { getRepositoryToken } from '@nestjs/typeorm';
-import { CreateUserDto } from './dto/create-user.dto';
+import { testUserDtos } from '../../test/data';
 
 describe('UsersService', () => {
-  const testUsers: CreateUserDto[] = [
-    {
-      email: 'testuser1@asdsad.com',
-      username: 'username1',
-      password: 'password1',
-    },
-    {
-      email: 'testuser12@asdsad.com',
-      username: 'username2',
-      password: 'password1',
-    },
-  ];
-
   let userService: UsersService;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       imports: [AppModule],
-      controllers: [UsersController],
+      controllers: [],
       providers: [
         UsersService,
         {
@@ -39,7 +25,6 @@ describe('UsersService', () => {
 
     userService = module.get<UsersService>(UsersService);
 
-    // Delete all users before each test
     await userService.deleteAll();
   });
 
@@ -47,8 +32,8 @@ describe('UsersService', () => {
     it('should return an array of users', async () => {
       const result = await userService.findAll();
 
-      await userService.create(testUsers[0]);
-      await userService.create(testUsers[1]);
+      await userService.create(testUserDtos[0]);
+      await userService.create(testUserDtos[1]);
 
       expect((await userService.findAll()).length).toEqual(result.length + 2);
     });
@@ -57,14 +42,14 @@ describe('UsersService', () => {
   describe('create', () => {
     it('will create user with correct data', async () => {
       const users = await userService.findAll();
-      await userService.create(testUsers[0]);
+      await userService.create(testUserDtos[0]);
       expect((await userService.findAll()).length).toEqual(users.length + 1);
     });
 
     it('wont create user with invaid email', async () => {
       const users = await userService.findAll();
       const badEmailUser = {
-        email: 'asdasd',
+        email: 'invalidemail',
         username: 'username1',
         password: 'password1',
       };
@@ -74,34 +59,34 @@ describe('UsersService', () => {
 
     it('will create user with invaid email', async () => {
       const users = await userService.findAll();
-      await userService.create(testUsers[0]);
+      await userService.create(testUserDtos[0]);
       expect((await userService.findAll()).length).toEqual(users.length + 1);
     });
 
     it('wont create users with duplicate emails', async () => {
       const users = await userService.findAll();
-      await userService.create(testUsers[0]);
+      await userService.create(testUserDtos[0]);
       expect((await userService.findAll()).length).toEqual(users.length + 1);
 
       await expect(
         userService.create({
-          email: testUsers[0].email,
-          username: testUsers[1].username,
-          password: testUsers[1].password,
+          email: testUserDtos[0].email,
+          username: testUserDtos[1].username,
+          password: testUserDtos[1].password,
         }),
       ).rejects.toThrow();
     });
 
     it('wont create users with duplicate usernames', async () => {
       const users = await userService.findAll();
-      await userService.create(testUsers[0]);
+      await userService.create(testUserDtos[0]);
       expect((await userService.findAll()).length).toEqual(users.length + 1);
 
       await expect(
         userService.create({
-          email: testUsers[1].email,
-          username: testUsers[0].username,
-          password: testUsers[1].password,
+          email: testUserDtos[1].email,
+          username: testUserDtos[0].username,
+          password: testUserDtos[1].password,
         }),
       ).rejects.toThrow();
     });
@@ -110,9 +95,9 @@ describe('UsersService', () => {
       const users = await userService.findAll();
       await expect(
         userService.create({
-          email: testUsers[0].email,
+          email: testUserDtos[0].email,
           username: '',
-          password: testUsers[0].password,
+          password: testUserDtos[0].password,
         }),
       ).rejects.toThrow();
       expect((await userService.findAll()).length).toEqual(users.length);
@@ -123,8 +108,8 @@ describe('UsersService', () => {
       await expect(
         userService.create({
           email: '',
-          username: testUsers[0].username,
-          password: testUsers[0].password,
+          username: testUserDtos[0].username,
+          password: testUserDtos[0].password,
         }),
       ).rejects.toThrow();
       expect((await userService.findAll()).length).toEqual(users.length);
@@ -133,7 +118,7 @@ describe('UsersService', () => {
 
   describe('findById', () => {
     it('will return user with correct id', async () => {
-      const user = await userService.create(testUsers[0]);
+      const user = await userService.create(testUserDtos[0]);
       const result = await userService.findById(user.id);
       expect(user.id).toEqual(result.id);
       expect(user.email).toEqual(result.email);
@@ -146,7 +131,7 @@ describe('UsersService', () => {
 
   describe('findByEmail', () => {
     it('will return user with correct email', async () => {
-      const user = await userService.create(testUsers[0]);
+      const user = await userService.create(testUserDtos[0]);
       const result = await userService.findByEmail(user.email);
       expect(user.id).toEqual(result.id);
       expect(user.email).toEqual(result.email);
