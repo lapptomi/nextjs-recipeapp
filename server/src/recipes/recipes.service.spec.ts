@@ -53,7 +53,7 @@ describe('RecipesService', () => {
     });
   });
 
-  describe.only('create', () => {
+  describe('create', () => {
     it('will create recipe with correct data', async () => {
       const recipes = (await recipeService.findAll({})).totalElements;
       const author = await userService.create(testUserDtos[1]);
