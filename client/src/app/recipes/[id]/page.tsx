@@ -8,7 +8,7 @@ import { options } from '@/app/api/auth/[...nextauth]/options';
 import LikeButtons from '@/components/LikeButtons';
 import RecipeCommentForm from '@/components/RecipeCommentForm';
 import TitleHeader from '@/components/TitleHeader';
-import { BASE_URL } from '@/lib/constants';
+import config from '@/lib/config';
 
 import styles from './page.module.css';
 
@@ -22,7 +22,7 @@ interface Props {
 
 const RecipePage = async ({ params }: Props) => {
   const session = await getServerSession(options);
-  const response = await axios.get<Recipe>(`${BASE_URL}/api/recipes/${params.id}`);
+  const response = await axios.get<Recipe>(`${config.BASE_URL}/api/recipes/${params.id}`);
   const recipe = response.data;
   
   if (!recipe) {

@@ -4,10 +4,7 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  background-size: cover;
-  background-repeat: no-repeat;
-  position: relative;
-  background-color: black;
+  background-color: rgb(249, 249, 249);
 }
 
 .headertitle {

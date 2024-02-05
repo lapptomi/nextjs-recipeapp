@@ -5,7 +5,7 @@ import React, { useState } from "react";
 import { Alert, Box, Button, Grid, Link, TextField, Typography } from "@mui/material";
 import { signIn } from "next-auth/react";
 
-import { APPLICATION_NAME } from "@/lib/constants";
+import config from "@/lib/config";
 
 const LoginForm = () => {
   const [error, setError] = useState('');
@@ -80,7 +80,7 @@ const LoginForm = () => {
         </Grid>
       </Grid>
       <Typography variant="body2" color="GrayText" align="center">
-        {`Copyright © ${APPLICATION_NAME} ${new Date().getFullYear()}.`}
+        {`Copyright © ${config.APPLICATION_NAME} ${new Date().getFullYear()}.`}
       </Typography>
     </div>
   );

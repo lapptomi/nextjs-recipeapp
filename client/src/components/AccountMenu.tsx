@@ -35,7 +35,7 @@ const AccountMenu: React.FC<Props> = ({ user }) => {
   return (
     <>
       <Tooltip title="Account settings">
-        <Button style={{ gap: 10 }} color="info" onClick={handleClick} size="small">
+        <Button style={{ gap: 10 }} onClick={handleClick} size="small">
           <Avatar sx={{ width: 32, height: 32 }}>
             {user.name ? user.name[0] : ''}
           </Avatar>
@@ -54,7 +54,7 @@ const AccountMenu: React.FC<Props> = ({ user }) => {
         <Link href={`/profiles/${user.id}`}>
           <MenuItem onClick={handleClose}>
             <ListItemIcon>
-              <Person fontSize="small" />
+              <Person fontSize="small" color="secondary" />
             </ListItemIcon>
             Profile
           </MenuItem>
@@ -63,7 +63,7 @@ const AccountMenu: React.FC<Props> = ({ user }) => {
         <Link href={'/recipes/create'}>
           <MenuItem onClick={handleClose}>
             <ListItemIcon>
-              <AddBox color="primary" fontSize="small" />
+              <AddBox color="secondary" fontSize="small" />
             </ListItemIcon>
             Create New Recipe
           </MenuItem>

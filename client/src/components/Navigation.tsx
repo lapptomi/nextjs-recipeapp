@@ -1,44 +1,41 @@
-import { Add, FormatListBulletedOutlined, LocalDiningOutlined } from '@mui/icons-material';
+import { Add, ListAltOutlined } from '@mui/icons-material';
 import { Button, Tooltip, Typography } from '@mui/material';
+import Link from 'next/link';
 import { getServerSession } from 'next-auth';
 
+import config from '@/lib/config';
 import styles from '@/styles/Navigation.module.css';
 
 import AccountMenu from './AccountMenu';
-import NotificationMenu from './NotificationMenu';
 import { options } from '../app/api/auth/[...nextauth]/options';
-import { APPLICATION_NAME } from '../lib/constants';
 
 const Navigation = async () => {
   const session = await getServerSession(options);
-
+  
   return (
     <div className={styles.nav}>
       <div className={styles.navbarleft}>
-        <div style={{ display: 'flex', alignItems: 'center' }}>
-          <LocalDiningOutlined color="primary" />
-          <Button size="small" color="info" href='/'>
-            <Typography variant="body1">
-              {APPLICATION_NAME}
-            </Typography>
-          </Button>
-        </div>
-      </div>
+        <Link href="/">
+          <Typography variant="body1" fontWeight="medium">
+            {config.APPLICATION_NAME}
+          </Typography>
+        </Link>
 
-      <div className={styles.navbarright}>
         <Tooltip title="Browse recipes">
-          <Button color="info" size="small" href="/recipes">
-            <FormatListBulletedOutlined color="primary" />
+          <Button size="small" href="/recipes">
+            <ListAltOutlined />
             <Typography variant="overline">
-              Browse
+              Recipes
             </Typography>
           </Button>
         </Tooltip>
+      </div>
 
+      <div className={styles.navbarright}>
         {session && session.user ? (
           <>
             <Tooltip title="Create new recipe">
-              <Button color="info" size="small" href="/recipes/create">
+              <Button size="small" href="/recipes/create">
                 <Add color="primary" />
                 <Typography variant="overline">
                   Create
@@ -46,12 +43,11 @@ const Navigation = async () => {
               </Button>
             </Tooltip>
 
-            <NotificationMenu user={session.user} />
             <AccountMenu user={session.user} />
           </>
         ) : (
           <>
-            <Button size="small" color="info" href='/auth/login'>
+            <Button size="small" href='/auth/login'>
               Sign in
             </Button>
             <Button size="small" variant="contained" href='/auth/register'>

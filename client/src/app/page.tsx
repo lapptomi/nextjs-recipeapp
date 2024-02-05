@@ -1,84 +1,86 @@
-import { FastfoodOutlined, People } from '@mui/icons-material';
 import { Button, Typography } from '@mui/material';
 import Image from 'next/image';
 
 import PricingCard from '@/components/PricingCard';
-import { APPLICATION_NAME } from '@/lib/constants';
+import RecipeList from '@/components/RecipeList';
+import { getRecipes } from '@/lib/actions/recipe';
+import config from '@/lib/config';
 
 import styles from './page.module.css';
-import foodgif from '../../public/food-gif.webp';
 
-const Home = () => {
+const RecipeListContainer = async ({ response, title }: any) => {
+  const recipes = response.content.slice(0, 4);
   return (
-    <>
+    <div className={styles.recipelistcontainer}>
+      <Typography variant="body1" fontWeight="medium">
+        {title}:
+      </Typography>
+      <RecipeList recipes={recipes} />
+      <Button variant="outlined" href='/recipes' color="primary">
+        View all recipes
+      </Button>
+    </div>
+  );
+};
+
+const Home = async () => {
+  const response = await getRecipes();
+  
+  return (
+    <div>
       <div className={styles.header}>
-        <Image
-          className={styles.backgroundimage}
-          src={foodgif}
-          alt="food"
-          quality={10}
-          layout="fill"
-        />
         <div className={styles.headercontainer}>
-          <h1 className={styles.title}>{APPLICATION_NAME}</h1>
-          <h3 className={styles.subheader2}>
+          <Typography variant="h3" fontWeight="medium">
+            {config.APPLICATION_NAME}
+          </Typography>
+          <Typography variant="h5">
             Your favourite recipe app. <br />
             Rate recipes, share your own, and so much more!
-          </h3>
+          </Typography>
           <Button variant="contained" href='/recipes' color="primary">
             Get Started
           </Button>
         </div>
+
+        <Image
+          src={'https://images.immediate.co.uk/production/volatile/sites/30/2020/08/chorizo-mozarella-gnocchi-bake-cropped-9ab73a3.jpg?quality=90&resize=556,505'}
+          alt="food"
+          quality={10}
+          width={500}
+          height={500}
+        />
       </div>
 
-      <div className={styles.aboutcontainer}>
-        <FastfoodOutlined style={{ height: 400,  width: 400, color: '#444444' }} />
-        <div className={styles.abouttext}>
-          <Typography variant="h2" fontWeight="bold" color="#ed6c02">ABOUT</Typography>
-          <Typography variant="body1" color="text.secondary">
-            Lorem ipsum dolor sit amet. 
-            Ad porro necessitatibus ut internos nihil et consequatur aliquid id dolor rerum
-            ad quasiearum eum velit quis aut velit deleniti.
-            Ut laborum iusto est quisquam minus vel illo officia sit voluptatum dolorum id voluptas officia?
-            Et quasi modi At Quis sunt est consequuntur illo. Lorem ipsum dolor sit amet. 
-            Ad porro necessitatibus ut internos nihil et consequatur aliquid id dolor rerum ad 
-            quasiearum eum velit quis aut velit deleniti. Ut laborum iusto est quisquam minus
-            vel illo officia sit voluptatum dolorum id voluptas officia?
-            Et quasi modi At Quis sunt est consequuntur illo.
-          </Typography>
-        </div>
-      </div>
+      <RecipeListContainer response={response} title="Recently Added Recipes" />
+      <RecipeListContainer response={response} title="Recommended" />
+
 
       <div className={styles.cardcontainer}>
-        <PricingCard
-          title="Personal"
-          description="Some random description"
-        />
-        <PricingCard
-          title="Professional"
-          price={10}
-          description="Some random description"
-        />
-        <PricingCard
-          title="Enterprise"
-          price={1337}
-          description="Some random description"
-        />
-      </div>
-
-      <div className={styles.joincontainer}>
-        <div className={styles.join}>
-          <Typography style={{ padding: 20 }} color="white" variant="h3" fontWeight="bold">
-            SIGN UP TODAY FOR FREE!
-          </Typography>
-
-          <Button variant="outlined" href='/auth/register' color="info">
-            Create free account
-          </Button>
+        <Typography variant="h4" fontWeight="bold">
+          Choose Plan
+        </Typography>
+        <div style={{
+          display: 'flex',
+          flexDirection: 'row',
+          gap: 20,
+        }}>
+          <PricingCard
+            title="Personal"
+            description="Some random description"
+          />
+          <PricingCard
+            title="Professional"
+            price={10}
+            description="Some random description"
+          />
+          <PricingCard
+            title="Enterprise"
+            price={1337}
+            description="Some random description"
+          />
         </div>
-        <People color="disabled" className={styles.joinsvg} />
       </div>
-    </>
+    </div>
   );
 };
 

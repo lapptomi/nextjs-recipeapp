@@ -1,6 +1,7 @@
 import {
   GetObjectCommand,
   PutObjectCommand,
+  PutObjectCommandOutput,
   S3Client,
 } from '@aws-sdk/client-s3';
 import { getSignedUrl } from '@aws-sdk/s3-request-presigner';
@@ -21,7 +22,10 @@ export class S3Service {
     });
   }
 
-  async uploadImage(image: Express.Multer.File, fileName: string) {
+  async uploadImage(
+    image: Express.Multer.File,
+    fileName: string,
+  ): Promise<PutObjectCommandOutput> {
     const uploadCommand = new PutObjectCommand({
       Bucket: process.env.AWS_BUCKET_NAME,
       Key: fileName,
@@ -33,7 +37,7 @@ export class S3Service {
     return uploadedFile;
   }
 
-  async getSignedURL(fileName: string) {
+  async getSignedURL(fileName: string): Promise<string> {
     const getObjectCommand = new GetObjectCommand({
       Bucket: process.env.AWS_BUCKET_NAME,
       Key: fileName,
@@ -46,7 +50,7 @@ export class S3Service {
     return signedUrl;
   }
 
-  async recipeWithSignedUrl(recipe: Recipe) {
+  async recipeWithSignedUrl(recipe: Recipe): Promise<Recipe> {
     // Add signed URL to recipe image if image is not null
     return {
       ...recipe,
@@ -54,7 +58,7 @@ export class S3Service {
     };
   }
 
-  async withImages(recipes: Recipe[]) {
+  async withImages(recipes: Recipe[]): Promise<Recipe[]> {
     // Map over recipes and add signed URL to each recipe image
     const recipesWithImages = await Promise.all(
       recipes.map(async (recipe) => this.recipeWithSignedUrl(recipe)),

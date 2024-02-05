@@ -6,7 +6,7 @@ const TitleHeader = ({ title }: { title: string }) => {
   return (
     <div className={styles.header}>
       <div className={styles.headertitle}>
-        <Typography variant="h5" color="white">
+        <Typography variant="h5" fontWeight="medium">
           {title.toUpperCase()}
         </Typography>
       </div>

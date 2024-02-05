@@ -1,9 +1,9 @@
 import { withAuth } from 'next-auth/middleware';
 
-import { NEXTAUTH_SECRET } from './lib/constants';
+import NextConfig from '../src/lib/config';
 
 export default withAuth({
-  secret: NEXTAUTH_SECRET
+  secret: NextConfig.NEXTAUTH_SECRET
 });
 
 // Redirect to login page if not authenticated.

@@ -1,11 +1,12 @@
 .nav {
   display: flex;
   flex-direction: row;
-  background-color: rgb(17, 17, 17);
+  background-color: rgb(255, 255, 255);
   width: 100%;
   padding: 15px 50px 15px 50px;
-  height: 60px;
+  height: 70px;
   justify-content: space-between;
+  border-bottom: 2px solid rgba(0, 0, 0, 0.043);
 }
 
 .navbarleft {

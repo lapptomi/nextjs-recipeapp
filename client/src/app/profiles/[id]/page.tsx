@@ -6,7 +6,7 @@ import axios from "axios";
 
 import RecipeList from "@/components/RecipeList";
 import TitleHeader from "@/components/TitleHeader";
-import { BASE_URL } from "@/lib/constants";
+import config from "@/lib/config";
 
 import styles from './page.module.css';
 
@@ -19,7 +19,7 @@ interface ProfilePageParams {
 }
 
 const ProfilePage = async ({ params }: ProfilePageParams) => {
-  const response = await axios.get<User>(`${BASE_URL}/api/users/${params.id}`);
+  const response = await axios.get<User>(`${config.BASE_URL}/api/users/${params.id}`);
   const user = response.data;
 
   if (!user) {

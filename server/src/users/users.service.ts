@@ -1,7 +1,7 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { DeleteResult, Repository } from 'typeorm';
 import { User } from './entities/user.entity';
 import * as bcrypt from 'bcrypt';
 import { S3Service } from '../s3/s3.service';
@@ -15,7 +15,7 @@ export class UsersService {
     private s3Service: S3Service,
   ) {}
 
-  async create(createUserDto: CreateUserDto) {
+  async create(createUserDto: CreateUserDto): Promise<User> {
     const user = new User();
     user.email = createUserDto.email;
     user.username = createUserDto.username;
@@ -28,7 +28,7 @@ export class UsersService {
     return this.userRepository.save(user);
   }
 
-  findAll() {
+  findAll(): Promise<User[]> {
     return this.userRepository.find({
       relations: {
         recipes: {
@@ -38,7 +38,7 @@ export class UsersService {
     });
   }
 
-  async findById(id: number) {
+  async findById(id: number): Promise<User> {
     const user = await this.userRepository.findOne({
       where: { id },
       relations: {
@@ -55,11 +55,11 @@ export class UsersService {
     };
   }
 
-  findByEmail(email: string) {
+  findByEmail(email: string): Promise<User> {
     return this.userRepository.findOneByOrFail({ email });
   }
 
-  deleteAll() {
+  deleteAll(): Promise<DeleteResult> {
     return this.userRepository.delete({});
   }
 }

@@ -16,19 +16,26 @@ export const theme = createTheme({
         }
       }
     },
+    MuiButton: {
+      styleOverrides: {
+        root: {
+          borderRadius: "0px",
+        }
+      }
+    },
   },
   palette: {
     primary: {
-      main: '#ed6c02',
+      main: '#000000',
     },
     secondary: {
-      main: '#2196f3',
+      main: '#ed6c02',
     },
     info: {
-      main: '#fff'
+      main: '#2196f3'
     },
   },
   typography: {
-    fontSize: 12,
+    fontSize: 14,
   },
 });

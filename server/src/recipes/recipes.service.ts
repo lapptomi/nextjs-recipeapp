@@ -2,7 +2,13 @@ import { BadRequestException, Injectable } from '@nestjs/common';
 import { CreateRecipeDto } from './dto/create-recipe.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Recipe } from './entities/recipe.entity';
-import { ILike, Repository } from 'typeorm';
+import {
+  DeleteResult,
+  ILike,
+  InsertResult,
+  Repository,
+  UpdateResult,
+} from 'typeorm';
 import { S3Service } from '../s3/s3.service';
 import { DecodedJwtTokenDto } from '../auth/dto/decoded-jwt-token.dto';
 import { UsersService } from '../users/users.service';
@@ -30,7 +36,7 @@ export class RecipesService {
     createRecipeDto: CreateRecipeDto,
     imageFile: Express.Multer.File,
     userId: number,
-  ) {
+  ): Promise<Recipe> {
     const user = await this.usersService.findById(userId);
     const imageName = imageFile ? imageFile.originalname : null;
 
@@ -58,7 +64,15 @@ export class RecipesService {
     return createdRecipe;
   }
 
-  async findAll({ title = '', page = 1, pageSize = 12, sortBy = 'date_desc' }) {
+  async findAll({
+    title = '',
+    page = 1,
+    pageSize = 12,
+    sortBy = 'date_desc',
+  }): Promise<{
+    content: Recipe[];
+    totalElements: number;
+  }> {
     const [recipes, count] = await this.recipeRepository.findAndCount({
       where: {
         title: ILike(`%${title}%`),
@@ -81,7 +95,7 @@ export class RecipesService {
     };
   }
 
-  async findById(id: number) {
+  async findById(id: number): Promise<Recipe> {
     const recipe = await this.recipeRepository.findOne({
       where: { id },
       relations: {
@@ -102,7 +116,7 @@ export class RecipesService {
     recipeId: number,
     rating: RecipeRatingType,
     token: DecodedJwtTokenDto,
-  ) {
+  ): Promise<UpdateResult | InsertResult> {
     const user = await this.usersService.findById(token.id);
     const recipe = await this.recipeRepository.findOneBy({ id: recipeId });
     const existingRating = await this.recipeRatingRepository.findOne({
@@ -134,7 +148,7 @@ export class RecipesService {
     recipeId: number,
     message: string,
     token: DecodedJwtTokenDto,
-  ) {
+  ): Promise<InsertResult> {
     const recipe = await this.recipeRepository.findOneBy({ id: recipeId });
     const user = await this.usersService.findById(token.id);
     const recipeComment = new Recipecomment();
@@ -149,7 +163,7 @@ export class RecipesService {
     return await this.recipeCommentRepository.insert(recipeComment);
   }
 
-  deleteAll() {
+  deleteAll(): Promise<DeleteResult> {
     return this.recipeRepository.delete({});
   }
 }
