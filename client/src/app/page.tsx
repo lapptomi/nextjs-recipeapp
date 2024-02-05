@@ -30,7 +30,7 @@ const Home = async () => {
     <div>
       <div className={styles.header}>
         <div className={styles.headercontainer}>
-          <Typography variant="h3" fontWeight="medium">
+          <Typography variant="h3" fontWeight="bold">
             {config.APPLICATION_NAME}
           </Typography>
           <Typography variant="h5">

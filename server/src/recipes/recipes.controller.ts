@@ -18,6 +18,7 @@ import { CreateRecipeDto } from './dto/create-recipe.dto';
 import { RecipeRatingType } from '../reciperatings/entities/reciperating.entity';
 import { Request as ExpressRequest } from 'express';
 import { UpdateResult, InsertResult, DeleteResult } from 'typeorm';
+import { Recipe } from './entities/recipe.entity';
 
 @Controller('/recipes')
 export class RecipesController {
@@ -30,7 +31,7 @@ export class RecipesController {
     @Body('document') recipeJson: string,
     @UploadedFile() image: Express.Multer.File,
     @Request() request: ExpressRequest,
-  ): Promise<CreateRecipeDto> {
+  ): Promise<Recipe> {
     const recipe = JSON.parse(recipeJson) as CreateRecipeDto;
     return await this.recipesService.create(recipe, image, request.token.id);
   }

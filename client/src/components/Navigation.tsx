@@ -16,7 +16,7 @@ const Navigation = async () => {
     <div className={styles.nav}>
       <div className={styles.navbarleft}>
         <Link href="/">
-          <Typography variant="body1" fontWeight="medium">
+          <Typography variant="body1" fontWeight="bold">
             {config.APPLICATION_NAME}
           </Typography>
         </Link>
