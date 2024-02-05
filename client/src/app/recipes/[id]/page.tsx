@@ -66,11 +66,11 @@ const RecipePage = async ({ params }: Props) => {
           <Divider>
             <Typography variant="h5">ABOUT</Typography>
             <Typography variant="overline">
-              <AccessTime color="primary" />
+              <AccessTime color="secondary" />
               {recipe.cookingTime} minutes
             </Typography>
             <Typography variant="overline">
-              <Person color="primary" />
+              <Person color="secondary" />
               {recipe.servings} servings
             </Typography>
           </Divider>

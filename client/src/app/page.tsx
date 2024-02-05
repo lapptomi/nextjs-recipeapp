@@ -12,7 +12,7 @@ const RecipeListContainer = async ({ response, title }: any) => {
   const recipes = response.content.slice(0, 4);
   return (
     <div className={styles.recipelistcontainer}>
-      <Typography variant="body1" fontWeight="medium">
+      <Typography variant="overline" fontWeight="medium">
         {title}:
       </Typography>
       <RecipeList recipes={recipes} />

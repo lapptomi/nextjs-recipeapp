@@ -1,4 +1,4 @@
-import { Add, ListAltOutlined } from '@mui/icons-material';
+import { Add } from '@mui/icons-material';
 import { Button, Tooltip, Typography } from '@mui/material';
 import Link from 'next/link';
 import { getServerSession } from 'next-auth';
@@ -22,9 +22,8 @@ const Navigation = async () => {
         </Link>
 
         <Tooltip title="Browse recipes">
-          <Button size="small" href="/recipes">
-            <ListAltOutlined />
-            <Typography variant="overline">
+          <Button variant="outlined" size="small" href="/recipes">
+            <Typography variant="overline" fontWeight="medium">
               Recipes
             </Typography>
           </Button>

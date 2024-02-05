@@ -1,5 +1,7 @@
 .maingrid {
-  background-image: url('../../../public/food-gif.webp');
+  /* background-image: url('../../../public/food-gif.webp'); */
+
+  background-image: url('https://images.immediate.co.uk/production/volatile/sites/30/2020/08/chorizo-mozarella-gnocchi-bake-cropped-9ab73a3.jpg?quality=90&resize=556,505');
   filter: blur(15px) brightness(0.3);
   transform: scale(1.3);
   z-index: -1;
