@@ -50,7 +50,7 @@ const LikeButtons = ({ recipe, session }: Props) => {
           disabled={session === null}
           onClick={() => updateRating('LIKE')}
           startIcon={
-            <ThumbUpSharp color={userHasRated('LIKE') ? 'primary' : 'info'}/>
+            <ThumbUpSharp color={userHasRated('LIKE') ? 'secondary' : 'info'}/>
           }
         >
           <Typography color="white" className="like-count">
@@ -65,7 +65,7 @@ const LikeButtons = ({ recipe, session }: Props) => {
           disabled={session === null}
           onClick={() => updateRating('DISLIKE')}
           startIcon={
-            <ThumbDown color={userHasRated('DISLIKE') ? 'primary' : 'info'}/>
+            <ThumbDown color={userHasRated('DISLIKE') ? 'secondary' : 'info'}/>
           }
         >
           <Typography color="white" className="dislike-count">

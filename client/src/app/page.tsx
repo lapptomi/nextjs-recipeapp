@@ -63,6 +63,8 @@ const Home = async () => {
           display: 'flex',
           flexDirection: 'row',
           gap: 20,
+          flexWrap: 'wrap',
+          justifyContent: 'center',
         }}>
           <PricingCard
             title="Personal"

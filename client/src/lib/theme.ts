@@ -32,7 +32,7 @@ export const theme = createTheme({
       main: '#ed6c02',
     },
     info: {
-      main: '#2196f3'
+      main: '#ffffff',
     },
   },
   typography: {
