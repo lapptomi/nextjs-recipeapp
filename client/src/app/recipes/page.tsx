@@ -1,6 +1,5 @@
 import RecipeList from '@/components/RecipeList';
 import SearchRecipesForm from '@/components/SearchRecipesForm';
-import TitleHeader from '@/components/TitleHeader';
 import { getRecipes } from '@/lib/actions/recipe';
 
 interface Params {
@@ -22,7 +21,6 @@ const BrowseRecipesPage = async ({ searchParams }: Params) => {
 
   return (
     <div>
-      <TitleHeader title="BROWSE RECIPES" />
       <SearchRecipesForm totalCount={recipes.totalElements} />
       <RecipeList recipes={recipes.content} />
     </div>

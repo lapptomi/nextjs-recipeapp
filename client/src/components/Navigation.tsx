@@ -22,7 +22,7 @@ const Navigation = async () => {
         </Link>
 
         <Tooltip title="Browse recipes">
-          <Button variant="outlined" size="small" href="/recipes">
+          <Button variant="text" size="small" href="/recipes">
             <Typography variant="overline" fontWeight="medium">
               Recipes
             </Typography>

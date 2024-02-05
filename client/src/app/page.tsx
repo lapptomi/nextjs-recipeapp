@@ -54,9 +54,8 @@ const Home = async () => {
       <RecipeListContainer response={response} title="Recently Added Recipes" />
       <RecipeListContainer response={response} title="Recommended" />
 
-
       <div className={styles.cardcontainer}>
-        <Typography variant="h4" fontWeight="bold">
+        <Typography variant="h4" fontWeight="medium">
           Choose Plan
         </Typography>
         <div style={{

@@ -68,7 +68,7 @@ export default function RootLayout({
                 </div>
                 <div>
                   <Typography variant="body1" fontWeight="medium">
-                    Some field
+                    Some title
                   </Typography>
                   <Typography variant="body2" color="text.secondary">
                     Some field
