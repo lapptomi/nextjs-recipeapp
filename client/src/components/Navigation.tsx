@@ -21,6 +21,14 @@ const Navigation = async () => {
           </Typography>
         </Link>
 
+        <Tooltip title="Home page">
+          <Button variant="text" size="small" href="/">
+            <Typography variant="overline" fontWeight="medium">
+              Home
+            </Typography>
+          </Button>
+        </Tooltip>
+
         <Tooltip title="Browse recipes">
           <Button variant="text" size="small" href="/recipes">
             <Typography variant="overline" fontWeight="medium">

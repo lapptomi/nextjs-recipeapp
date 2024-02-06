@@ -35,3 +35,11 @@
   padding: 100px 10px 100px 10px;
   background-color: #fcfcfc;
 }
+
+.cardrow {
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+  flex-wrap: wrap;
+  justify-content: center;
+}

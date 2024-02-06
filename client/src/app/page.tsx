@@ -1,3 +1,4 @@
+import { Restaurant } from '@mui/icons-material';
 import { Button, Typography } from '@mui/material';
 import Image from 'next/image';
 
@@ -54,17 +55,27 @@ const Home = async () => {
       <RecipeListContainer response={response} title="Recently Added Recipes" />
       <RecipeListContainer response={response} title="Recommended" />
 
+      <div className={styles.header}>
+        <Restaurant style={{ width: 300, height: 300, color: 'gray' }} />
+        <div className={styles.headercontainer}>
+          <Typography variant="h4" fontWeight="bold">
+            All Your Favourite Recipes In One Place
+          </Typography>
+          <Typography variant="body1">
+            Manage, find and share your favourite recipes. <br />
+            Join our community and start cooking today!
+          </Typography>
+          <Button variant="contained" href='/recipes' color="primary">
+            Get Started
+          </Button>
+        </div>
+      </div>
+
       <div className={styles.cardcontainer}>
         <Typography variant="h4" fontWeight="medium">
           Choose Plan
         </Typography>
-        <div style={{
-          display: 'flex',
-          flexDirection: 'row',
-          gap: 20,
-          flexWrap: 'wrap',
-          justifyContent: 'center',
-        }}>
+        <div className={styles.cardrow}>
           <PricingCard
             title="Personal"
             description="Some random description"

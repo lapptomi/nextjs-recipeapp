@@ -1,6 +1,7 @@
-import { AccessTime, Person } from '@mui/icons-material';
+import { AccessTime, Person, Restaurant } from '@mui/icons-material';
 import { Avatar, Divider, List, ListItem, ListItemAvatar, ListItemText, Tooltip, Typography } from '@mui/material';
 import axios from 'axios';
+import Image from 'next/image';
 import Link from 'next/link';
 import { getServerSession } from 'next-auth';
 
@@ -31,34 +32,38 @@ const RecipePage = async ({ params }: Props) => {
 
   return (
     <div className={styles.main}>
-      <div className={styles.recipecontainer}>                      
-        <div
-          className={styles.headercontainer}
-          style={{
-            backgroundImage: `url(${recipe.image})`,
-            backgroundSize: 'cover',
-            backgroundPosition: 'center',
-            backgroundRepeat: 'no-repeat',
-          }}>
+      <div className={styles.recipecontainer}>
+        <div className={styles.recipeinfocontainer}>
           <div className={styles.headertitle}>
-            <Typography variant="h4">{recipe.title.toUpperCase()}</Typography>
-            
-            <div style={{ display: 'flex', flexDirection: 'column' }}>
-              <Link href={`/profiles/${recipe.author.id}`}>
-                <div className={styles.avatarcontainer}>
-                  <Avatar sx={{ width: 80, height: 80 }} />
-                  <div>
-                    <Typography variant="subtitle1">
-                      Created By
-                    </Typography>
-                    <Typography variant="h5">
-                      {recipe.author.username}
-                    </Typography>
-                  </div>
+            <Typography variant="h3" fontWeight="medium">
+              {recipe.title.toUpperCase()}
+            </Typography>
+            <Link href={`/profiles/${recipe.author.id}`}>
+              <div className={styles.avatarcontainer}>
+                <Avatar sx={{ width: 80, height: 80 }} />
+                <div>
+                  <Typography variant="subtitle1">
+                    Created By
+                  </Typography>
+                  <Typography variant="h5">
+                    {recipe.author.username}
+                  </Typography>
                 </div>
-              </Link>
-            </div>
+              </div>
+            </Link>
             <LikeButtons session={session} recipe={recipe} />
+          </div>
+
+          <div className={styles.imagecontainer}>
+            {recipe.image ? (
+              <Image
+                src={recipe.image}
+                alt={recipe.title}
+                layout='fill'
+              />
+            ) : (
+              <Restaurant className={styles.placeholdericon} />
+            )}
           </div>
         </div>
 
@@ -96,7 +101,7 @@ const RecipePage = async ({ params }: Props) => {
           <Divider>
             <Typography variant="h5">INSTRUCTIONS</Typography>
           </Divider>
-          <Typography variant="body1" style={{ whiteSpace: 'pre-line' }}>
+          <Typography variant="body2" style={{ whiteSpace: 'pre-line' }}>
             {recipe.instructions}
           </Typography>
           
