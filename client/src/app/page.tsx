@@ -9,14 +9,18 @@ import config from '@/lib/config';
 
 import styles from './page.module.css';
 
-const RecipeListContainer = async ({ response, title }: any) => {
-  const recipes = response.content.slice(0, 4);
+import type { Recipe } from '@/types';
+
+const RecipeListContainer = async ({ recipes, title }: {
+  recipes: Recipe[];
+  title: string;
+}) => {
   return (
     <div className={styles.recipelistcontainer}>
       <Typography variant="overline" fontWeight="medium">
         {title}:
       </Typography>
-      <RecipeList recipes={recipes} />
+      <RecipeList recipes={recipes.slice(0, 4)} />
       <Button variant="outlined" href='/recipes' color="primary">
         View all recipes
       </Button>
@@ -26,6 +30,13 @@ const RecipeListContainer = async ({ response, title }: any) => {
 
 const Home = async () => {
   const response = await getRecipes();
+
+  const sortByDate = response.content.sort((a, b) => {
+    return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
+  });
+  const sortByRating = response.content.sort((a, b) => {
+    return b.ratings.length - a.ratings.length;
+  });
   
   return (
     <div>
@@ -52,8 +63,8 @@ const Home = async () => {
         />
       </div>
 
-      <RecipeListContainer response={response} title="Recently Added Recipes" />
-      <RecipeListContainer response={response} title="Recommended" />
+      <RecipeListContainer recipes={sortByDate} title="Recently Added Recipes" />
+      <RecipeListContainer recipes={sortByRating} title="Recommended" />
 
       <div className={styles.header}>
         <Restaurant style={{ width: 300, height: 300, color: 'gray' }} />

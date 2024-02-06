@@ -85,6 +85,7 @@ export interface Recipe {
   username: string;
   comments: RecipeComment[];
   ratings: RecipeRating[];
+  createdAt: Date;
 }
 
 export interface JwtToken {
