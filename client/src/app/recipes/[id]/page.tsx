@@ -9,7 +9,7 @@ import { options } from '@/app/api/auth/[...nextauth]/options';
 import LikeButtons from '@/components/LikeButtons';
 import RecipeCommentForm from '@/components/RecipeCommentForm';
 import TitleHeader from '@/components/TitleHeader';
-import { NEXT_APP_API_URL } from '@/lib/config';
+import { NEXT_APP_API_URL } from '@/lib/constants';
 
 import styles from './page.module.css';
 

@@ -5,7 +5,7 @@ import React, { useState } from "react";
 import { Alert, Box, Button, Grid, Link, TextField, Typography } from "@mui/material";
 import { signIn } from "next-auth/react";
 
-import { APPLICATION_NAME } from "@/lib/config";
+import { APPLICATION_NAME } from "@/lib/constants";
 
 const LoginForm = () => {
   const [error, setError] = useState('');

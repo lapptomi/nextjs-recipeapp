@@ -1,6 +1,6 @@
 import { withAuth } from 'next-auth/middleware';
 
-import { NEXTAUTH_SECRET } from './lib/config';
+import { NEXTAUTH_SECRET } from './lib/constants';
 
 export default withAuth({
   secret: NEXTAUTH_SECRET,

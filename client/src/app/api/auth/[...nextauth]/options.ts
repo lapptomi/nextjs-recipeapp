@@ -3,7 +3,7 @@ import axios from 'axios';
 import CredentialsProvider from 'next-auth/providers/credentials';
 import GitHubProvider from 'next-auth/providers/github';
 
-import { NEXT_APP_API_URL, NEXTAUTH_SECRET } from '@/lib/config';
+import { NEXT_APP_API_URL, NEXTAUTH_SECRET } from '@/lib/constants';
 
 import type { JwtToken } from '@/types';
 import type { NextAuthOptions } from 'next-auth';

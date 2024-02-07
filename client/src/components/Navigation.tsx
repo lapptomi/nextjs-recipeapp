@@ -3,7 +3,7 @@ import { Button, Tooltip, Typography } from '@mui/material';
 import Link from 'next/link';
 import { getServerSession } from 'next-auth';
 
-import { APPLICATION_NAME } from '@/lib/config';
+import { APPLICATION_NAME } from '@/lib/constants';
 import styles from '@/styles/Navigation.module.css';
 
 import AccountMenu from './AccountMenu';

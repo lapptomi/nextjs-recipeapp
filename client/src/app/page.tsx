@@ -5,7 +5,7 @@ import Image from 'next/image';
 import PricingCard from '@/components/PricingCard';
 import RecipeList from '@/components/RecipeList';
 import { getRecipes } from '@/lib/actions/recipe';
-import { APPLICATION_NAME } from '@/lib/config';
+import { APPLICATION_NAME } from '@/lib/constants';
 
 import styles from './page.module.css';
 

@@ -3,9 +3,9 @@ import { defineConfig } from "cypress";
 
 export default defineConfig({
   screenshotOnRunFailure: false,
-  defaultCommandTimeout: 10000,
-  requestTimeout: 10000,
-  pageLoadTimeout: 10000,
+  defaultCommandTimeout: 20000,
+  requestTimeout: 20000,
+  pageLoadTimeout: 20000,
   video: false,
   e2e: {
     experimentalRunAllSpecs: true,

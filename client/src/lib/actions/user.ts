@@ -2,7 +2,7 @@
 
 import axios from "axios";
 
-import { NEXT_APP_API_URL } from "../config";
+import { NEXT_APP_API_URL } from "../constants";
 
 import type { NewUser } from "@/types";
 

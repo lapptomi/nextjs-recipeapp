@@ -6,7 +6,7 @@ import axios from "axios";
 
 import RecipeList from "@/components/RecipeList";
 import TitleHeader from "@/components/TitleHeader";
-import { NEXT_APP_API_URL } from "@/lib/config";
+import { NEXT_APP_API_URL } from "@/lib/constants";
 
 import styles from './page.module.css';
 

@@ -6,7 +6,7 @@ import { Inter } from 'next/font/google';
 import AuthProvider from '@/components/AuthProvider';
 import Navigation from '@/components/Navigation';
 import ThemeRegistry from '@/components/ThemeRegistry';
-import { APPLICATION_NAME } from '@/lib/config';
+import { APPLICATION_NAME } from '@/lib/constants';
 
 import styles from './layout.module.css';
 

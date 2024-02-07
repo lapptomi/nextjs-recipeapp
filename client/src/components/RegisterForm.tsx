@@ -9,7 +9,7 @@ import '@/app/globals.css';
 import { useForm } from "react-hook-form";
 
 import { createUser } from "@/lib/actions/user";
-import { APPLICATION_NAME } from "@/lib/config";
+import { APPLICATION_NAME } from "@/lib/constants";
 
 import { UserSchema } from "../types";
 

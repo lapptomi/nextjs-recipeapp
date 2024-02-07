@@ -5,7 +5,7 @@ import { getServerSession } from "next-auth";
 
 import { options } from "@/app/api/auth/[...nextauth]/options";
 
-import { NEXT_APP_API_URL } from "../config";
+import { NEXT_APP_API_URL } from "../constants";
 
 import type { CommentForm, Recipe, RecipeRatingType } from "@/types";
 

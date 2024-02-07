@@ -12,6 +12,8 @@ services:
     ports:
       - 3000:3000
     container_name: recipe-app-next-client-test
+    depends_on:
+      - recipe-app-backend-test
 
   recipe-app-backend-test:
     image: recipe-app-backend-test
