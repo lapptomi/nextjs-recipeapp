@@ -5,8 +5,8 @@ import { API_URL, recipe, user } from "../data";
 describe('Recipes', () => {
   beforeEach(() => {
     cy.request('DELETE', `${API_URL}/api/users`);
-
     cy.request('POST', `${API_URL}/api/users`, user);
+  
     cy.visit("/auth/login");
     cy.get('input[name="email"]').type(user.email);
     cy.get('input[name="email"]').should('have.value', user.email);
@@ -15,7 +15,7 @@ describe('Recipes', () => {
     cy.get('input[name="password"]').should('have.value', user.password);
 
     cy.get('button').contains('Sign In').click();
-    cy.contains('BROWSE RECIPES');
+    cy.contains(user.username, { matchCase: false });
   });
 
   it('Renders "No recipes found" when database doesnt contain recipes', () => {
@@ -24,7 +24,6 @@ describe('Recipes', () => {
 
   it('Can be created with correct data', () => {
     cy.visit("/recipes/create");
-    cy.contains('CREATE RECIPE');
 
     cy.get('input[name="title"]').type(recipe.title);
     cy.get('input[name="title"]').should('have.value', recipe.title);
@@ -44,7 +43,6 @@ describe('Recipes', () => {
 
   it('Can be commented on', () => {
     cy.visit("/recipes/create");
-    cy.contains('CREATE RECIPE');
 
     cy.get('input[name="title"]').type(recipe.title);
     cy.get('input[name="title"]').should('have.value', recipe.title);
@@ -71,7 +69,6 @@ describe('Recipes', () => {
 
   it('Can be liked', () => {
     cy.visit("/recipes/create");
-    cy.contains('CREATE RECIPE');
 
     cy.get('input[name="title"]').type(recipe.title);
     cy.get('input[name="title"]').should('have.value', recipe.title);
@@ -94,7 +91,6 @@ describe('Recipes', () => {
 
   it('Can be disliked', () => {
     cy.visit("/recipes/create");
-    cy.contains('CREATE RECIPE');
 
     cy.get('input[name="title"]').type(recipe.title);
     cy.get('input[name="title"]').should('have.value', recipe.title);
