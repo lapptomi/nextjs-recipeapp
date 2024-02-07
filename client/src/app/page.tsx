@@ -28,6 +28,7 @@ const RecipeListContainer = async ({ recipes, title }: {
   );
 };
 
+export const dynamic = 'force-dynamic';
 const Home = async () => {
   const response = await getRecipes();
 
