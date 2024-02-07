@@ -1,5 +1,6 @@
 
-# RecipeApp Pro  
+# RecipeApp Pro [![Test And Deploy To Vercel](https://github.com/lapptomi/nextjs-recipeapp/actions/workflows/pipeline.yml/badge.svg)](https://github.com/lapptomi/nextjs-recipeapp/actions/workflows/pipeline.yml)  
+
 ### Web application where users can create, rate, and comment on recipes.  
 
 The idea of this project was mainly to learn **Next.js**, **Nest.js** and Amazon Web Services, such as **Amazon S3**, **EC2**, **ECS**, **ECR** and **Fargate**.  
