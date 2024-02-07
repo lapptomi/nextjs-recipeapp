@@ -31,11 +31,14 @@ describe('UsersService', () => {
   describe('findAll', () => {
     it('should return an array of users', async () => {
       const result = await userService.findAll();
-
       await userService.create(testUserDtos[0]);
       await userService.create(testUserDtos[1]);
-
       expect((await userService.findAll()).length).toEqual(result.length + 2);
+    });
+
+    it('Should not return users passwords', async () => {
+      await userService.create(testUserDtos[0]);
+      expect((await userService.findAll())[0].password).toBeFalsy();
     });
   });
 
@@ -129,16 +132,26 @@ describe('UsersService', () => {
     });
   });
 
-  describe('findByEmail', () => {
+  describe('findByEmailWithPassword', () => {
     it('will return user with correct email', async () => {
       const user = await userService.create(testUserDtos[0]);
-      const result = await userService.findByEmail(user.email);
+      const result = await userService.findByEmailWithPassword(user.email);
       expect(user.id).toEqual(result.id);
       expect(user.email).toEqual(result.email);
     });
 
     it('will return undefined with incorrect id', async () => {
-      await expect(userService.findByEmail('wrongemail')).rejects.toThrow();
+      await expect(
+        userService.findByEmailWithPassword('wrongemail'),
+      ).resolves.toBeFalsy();
+    });
+
+    it('will return user password', async () => {
+      const user = await userService.create(testUserDtos[0]);
+      const result = await userService.findByEmailWithPassword(user.email);
+      expect(user.id).toEqual(result.id);
+      expect(user.email).toEqual(result.email);
+      expect(user.password).toBeTruthy();
     });
   });
 });

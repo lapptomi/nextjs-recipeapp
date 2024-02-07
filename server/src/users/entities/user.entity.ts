@@ -24,7 +24,7 @@ export class User {
   @IsEmail()
   email: string;
 
-  @Column({ name: 'password', select: true })
+  @Column({ name: 'password', select: false })
   password: string;
 
   @OneToMany(() => Recipe, (recipe) => recipe.author)

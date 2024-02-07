@@ -15,7 +15,7 @@ export class AuthService {
   ) {}
 
   async login({ email, password }: LoginDto): Promise<JwtTokenDto> {
-    const user = await this.userService.findByEmail(email);
+    const user = await this.userService.findByEmailWithPassword(email);
     if (!user) {
       throw new UnauthorizedException("User doesn't exist");
     }

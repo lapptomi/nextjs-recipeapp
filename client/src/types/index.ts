@@ -45,7 +45,7 @@ export const CommentSchema = z.object({
 export type CommentForm = z.infer<typeof CommentSchema>;
 
 
-// Use zod to create typescript types from these later (z.infer<typeof ...>)
+// Use zod to create typescript types from these later? (z.infer<typeof ...>)
 export interface User {
   id: number;
   email: string;

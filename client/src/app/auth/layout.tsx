@@ -1,12 +1,12 @@
 import { Box, Grid, Paper } from "@mui/material";
 import { redirect } from "next/navigation";
-import { getServerSession } from "next-auth";
+
+import { getSession } from "@/lib/actions/auth";
 
 import styles from "./layout.module.css";
-import { options } from "../api/auth/[...nextauth]/options";
 
 const PageLayout = async ({ children }: any) => {
-  const session = await getServerSession(options);
+  const session = await getSession();
 
   if (session?.user) {
     redirect('/');
@@ -14,11 +14,7 @@ const PageLayout = async ({ children }: any) => {
 
   return (
     <Grid container sx={{ height: '100vh' }}>
-      <Grid
-        md={7}
-        item
-        className={styles.maingrid}
-      />
+      <Grid md={7} item className={styles.maingrid} />
       <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
         {/* TODO: use css instead of Mui styling */}
         <Box

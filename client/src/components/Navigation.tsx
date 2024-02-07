@@ -1,16 +1,15 @@
 import { Add } from '@mui/icons-material';
 import { Button, Tooltip, Typography } from '@mui/material';
 import Link from 'next/link';
-import { getServerSession } from 'next-auth';
 
+import { getSession } from '@/lib/actions/auth';
 import { APPLICATION_NAME } from '@/lib/constants';
 import styles from '@/styles/Navigation.module.css';
 
 import AccountMenu from './AccountMenu';
-import { options } from '../app/api/auth/[...nextauth]/options';
 
 const Navigation = async () => {
-  const session = await getServerSession(options);
+  const session = await getSession();
   
   return (
     <div className={styles.nav}>

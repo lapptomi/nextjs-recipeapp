@@ -1,19 +1,15 @@
 import { AccessTime, Person, Restaurant } from '@mui/icons-material';
-import { Avatar, Divider, List, ListItem, ListItemAvatar, ListItemText, Tooltip, Typography } from '@mui/material';
-import axios from 'axios';
+import { Avatar, Divider, List, ListItem, ListItemAvatar, ListItemText, Rating, Tooltip, Typography } from '@mui/material';
 import Image from 'next/image';
 import Link from 'next/link';
-import { getServerSession } from 'next-auth';
 
-import { options } from '@/app/api/auth/[...nextauth]/options';
 import LikeButtons from '@/components/LikeButtons';
 import RecipeCommentForm from '@/components/RecipeCommentForm';
 import TitleHeader from '@/components/TitleHeader';
-import { NEXT_APP_API_URL } from '@/lib/constants';
+import { getSession } from '@/lib/actions/auth';
+import { findRecipeById } from '@/lib/actions/recipe';
 
 import styles from './page.module.css';
-
-import type { Recipe } from '@/types';
 
 interface Props {
   params: {
@@ -22,13 +18,15 @@ interface Props {
 }
 
 const RecipePage = async ({ params }: Props) => {
-  const session = await getServerSession(options);
-  const response = await axios.get<Recipe>(`${NEXT_APP_API_URL}/api/recipes/${params.id}`);
-  const recipe = response.data;
+  const session = await getSession();
+  const recipe = await findRecipeById(params.id);
   
   if (!recipe) {
     return <TitleHeader title="Recipe not found" />;
   }
+
+  const likes = recipe.ratings.filter((r) => r.type === 'LIKE').length;
+  const dislikes = recipe.ratings.filter((r) => r.type === 'DISLIKE').length;
 
   return (
     <div className={styles.main}>
@@ -48,6 +46,8 @@ const RecipePage = async ({ params }: Props) => {
                   <Typography variant="h5">
                     {recipe.author.username}
                   </Typography>
+                  <Rating value={likes / (likes + dislikes) * 5} readOnly />
+
                 </div>
               </div>
             </Link>

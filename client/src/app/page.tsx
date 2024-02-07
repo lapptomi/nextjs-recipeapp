@@ -8,6 +8,7 @@ import { getRecipes } from '@/lib/actions/recipe';
 import { APPLICATION_NAME } from '@/lib/constants';
 
 import styles from './page.module.css';
+import recipeimage from '../../public/recipeimage.jpeg';
 
 import type { Recipe } from '@/types';
 
@@ -32,13 +33,10 @@ export const dynamic = 'force-dynamic';
 
 const Home = async () => {
   const response = await getRecipes();
-
-  const sortByDate = response.content.sort((a, b) => {
-    return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
-  });
-  const sortByRating = response.content.sort((a, b) => {
-    return b.ratings.length - a.ratings.length;
-  });
+  const sortByDate = response.content.sort((a, b) => (
+    new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
+  );
+  const sortByRating = response.content.sort((a, b) => b.ratings.length - a.ratings.length);
   
   return (
     <div>
@@ -57,7 +55,7 @@ const Home = async () => {
         </div>
 
         <Image
-          src={'https://images.immediate.co.uk/production/volatile/sites/30/2020/08/chorizo-mozarella-gnocchi-bake-cropped-9ab73a3.jpg?quality=90&resize=556,505'}
+          src={recipeimage}
           alt="food"
           quality={10}
           width={500}

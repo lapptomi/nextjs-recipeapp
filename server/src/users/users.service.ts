@@ -55,8 +55,12 @@ export class UsersService {
     };
   }
 
-  findByEmail(email: string): Promise<User> {
-    return this.userRepository.findOneByOrFail({ email });
+  async findByEmailWithPassword(email: string): Promise<User | undefined> {
+    return this.userRepository
+      .createQueryBuilder('user')
+      .addSelect('user.password') // Include the password in the selection
+      .where('user.email = :email', { email })
+      .getOne();
   }
 
   deleteAll(): Promise<DeleteResult> {
