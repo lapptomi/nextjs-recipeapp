@@ -72,7 +72,7 @@ const RecipeListItem = ({ recipe }: Props) => {
         <ImageListItemBar
           position='bottom'
           actionIcon={
-            <div style={{ padding: 10 }}>
+            <div style={{ padding: 5 }}>
               <Typography className={styles.itemdescription} variant="caption">
                 {recipe.description}
               </Typography>
