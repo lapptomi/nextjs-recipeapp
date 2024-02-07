@@ -5,7 +5,7 @@ import { getServerSession } from "next-auth";
 
 import { options } from "@/app/api/auth/[...nextauth]/options";
 
-import config from "../config";
+import { NEXT_APP_API_URL } from "../config";
 
 import type { CommentForm, Recipe, RecipeRatingType } from "@/types";
 
@@ -15,13 +15,13 @@ interface Response {
 }
 
 export const getRecipes = async (queryParams?: string) => {
-  const response = await axios.get<Response>(`${config.BASE_URL}/api/recipes?${queryParams}`);
+  const response = await axios.get<Response>(`${NEXT_APP_API_URL}/api/recipes?${queryParams}`);
   return response.data;
 };
 
 export const createRecipe = async (formData: FormData) => {
   const session = await getServerSession(options);
-  const response = await axios.post(`${config.BASE_URL}/api/recipes`, formData, {
+  const response = await axios.post(`${NEXT_APP_API_URL}/api/recipes`, formData, {
     headers: {
       'Content-Type': 'multipart/form-data',
       Authorization: `Bearer ${session?.user.jwt}`,
@@ -33,7 +33,7 @@ export const createRecipe = async (formData: FormData) => {
 
 export const addComment = async (data: CommentForm) => {
   const session = await getServerSession(options);
-  const response = await axios.post(`${config.BASE_URL}/api/recipes/${data.recipeId}/comments`, {
+  const response = await axios.post(`${NEXT_APP_API_URL}/api/recipes/${data.recipeId}/comments`, {
     message: data.message,
   }, {
     headers: {
@@ -51,7 +51,7 @@ interface RatingParams {
 
 export const addRating = async (data: RatingParams) => {
   const session = await getServerSession(options);
-  const response = await axios.post(`${config.BASE_URL}/api/recipes/${data.recipeId}/ratings`, {
+  const response = await axios.post(`${NEXT_APP_API_URL}/api/recipes/${data.recipeId}/ratings`, {
     type: data.type,
   }, {
     headers: {

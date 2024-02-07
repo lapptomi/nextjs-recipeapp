@@ -9,7 +9,7 @@ import '@/app/globals.css';
 import { useForm } from "react-hook-form";
 
 import { createUser } from "@/lib/actions/user";
-import config from "@/lib/config";
+import { APPLICATION_NAME } from "@/lib/config";
 
 import { UserSchema } from "../types";
 
@@ -126,7 +126,7 @@ const RegisterForm = () => {
         </Grid>
       </Grid>
       <Typography variant="body2" color="GrayText" align="center">
-        {`Copyright © ${config.APPLICATION_NAME} ${new Date().getFullYear()}.`}
+        {`Copyright © ${APPLICATION_NAME} ${new Date().getFullYear()}.`}
       </Typography>
     </div>
   );

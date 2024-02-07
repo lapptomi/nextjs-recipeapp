@@ -5,7 +5,7 @@ import Image from 'next/image';
 import PricingCard from '@/components/PricingCard';
 import RecipeList from '@/components/RecipeList';
 import { getRecipes } from '@/lib/actions/recipe';
-import config from '@/lib/config';
+import { APPLICATION_NAME } from '@/lib/config';
 
 import styles from './page.module.css';
 
@@ -43,7 +43,7 @@ const Home = async () => {
       <div className={styles.header}>
         <div className={styles.headercontainer}>
           <Typography variant="h3" fontWeight="bold">
-            {config.APPLICATION_NAME}
+            {APPLICATION_NAME}
           </Typography>
           <Typography variant="h5">
             Your favourite recipe app. <br />

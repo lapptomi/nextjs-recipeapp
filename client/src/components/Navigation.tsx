@@ -3,7 +3,7 @@ import { Button, Tooltip, Typography } from '@mui/material';
 import Link from 'next/link';
 import { getServerSession } from 'next-auth';
 
-import config from '@/lib/config';
+import { APPLICATION_NAME } from '@/lib/config';
 import styles from '@/styles/Navigation.module.css';
 
 import AccountMenu from './AccountMenu';
@@ -17,7 +17,7 @@ const Navigation = async () => {
       <div className={styles.navbarleft}>
         <Link href="/">
           <Typography variant="body1" fontWeight="bold">
-            {config.APPLICATION_NAME}
+            {APPLICATION_NAME}
           </Typography>
         </Link>
 

@@ -6,7 +6,7 @@ import { Inter } from 'next/font/google';
 import AuthProvider from '@/components/AuthProvider';
 import Navigation from '@/components/Navigation';
 import ThemeRegistry from '@/components/ThemeRegistry';
-import config from '@/lib/config';
+import { APPLICATION_NAME } from '@/lib/config';
 
 import styles from './layout.module.css';
 
@@ -15,7 +15,7 @@ import type { Metadata } from 'next';
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
-  title: config.APPLICATION_NAME,
+  title: APPLICATION_NAME,
   description: 'Your facourite recipe app',
 };
 
@@ -40,7 +40,7 @@ export default function RootLayout({
               <div className={styles.footercontainer}>
                 <div className={styles.leftcolumn}>
                   <Typography variant="h4" fontWeight="medium">
-                    {config.APPLICATION_NAME}
+                    {APPLICATION_NAME}
                   </Typography>
                   <Typography variant="body2">
                     Your favourite recipe app
