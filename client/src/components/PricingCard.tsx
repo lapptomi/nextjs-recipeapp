@@ -8,7 +8,6 @@ interface Props {
   title: string;
   price?: number;
   description: string;
-  items?: string[];
 }
 
 const PricingCard = (props: Props) => {

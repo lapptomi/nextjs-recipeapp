@@ -19,10 +19,8 @@ export const metadata: Metadata = {
   description: 'Your facourite recipe app',
 };
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode
+export default function RootLayout({ children }: {
+  readonly children: React.ReactNode
 }) {
   return (
     <html lang="en">

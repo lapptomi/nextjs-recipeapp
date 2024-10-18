@@ -10,7 +10,6 @@
   width: 50%;
   display: flex;
   flex-flow: wrap;
-  gap: 16px;
   justify-content: center;
   align-items: center;
   gap: 32px;

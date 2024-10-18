@@ -8,7 +8,7 @@ import { PAGES } from "@/types";
 import styles from "./error.module.css";
 
 export default function ErrorPage({ error }: {
-  error: Error & { digest?: string }
+  readonly error: Error & { digest?: string }
 }) {
   return (
     <div className={styles.errorpage}>

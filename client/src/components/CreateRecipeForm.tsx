@@ -162,7 +162,6 @@ const CreateRecipeForm = () => {
       />
 
       <div style={{ display: 'flex', width: '100%', justifyContent: 'space-evenly' }}>
-        {/* TODO: Change minutes to time picker? */}
         <TextField
           size="small"
           label="Cooking time (minutes)"

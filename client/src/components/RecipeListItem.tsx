@@ -77,7 +77,7 @@ const RecipeListItem = ({ recipe }: Props) => {
               </Typography>
               <div>
                 <Chip
-                  icon={<AccessTime color="secondary" /> }
+                  icon={<AccessTime color="secondary" />}
                   label={
                     <Typography variant="caption" color="white">
                       {recipe.cookingTime} minutes
@@ -85,7 +85,7 @@ const RecipeListItem = ({ recipe }: Props) => {
                   }
                 />
                 <Chip
-                  icon={<Person color="secondary" /> }
+                  icon={<Person color="secondary" />}
                   label={
                     <Typography variant="caption" color="white">
                       {recipe.servings} servings

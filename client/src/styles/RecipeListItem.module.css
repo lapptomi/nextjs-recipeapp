@@ -1,15 +1,8 @@
-.imagelistitem {
-  min-width: 300px;
-  min-height: 300px;
-  transition: transform 0.5s ease;
-}
-
 .placeholdericon {
   width: 100%;
   height: 100%;
   opacity: 0.1;
 }
-
 
 .imagelistitem {
   min-width: 300px;
