@@ -13,7 +13,7 @@ COPY settings.gradle.kts /app/settings.gradle.kts
 COPY src /app/src
 
 RUN chmod +x ./gradlew \
-&& ./gradlew build --no-daemon
+&& SPRING_PROFILES_ACTIVE=dev ./gradlew build --no-daemon
 
 FROM openjdk:17-jdk-slim
 

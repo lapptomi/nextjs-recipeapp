@@ -18,18 +18,17 @@ services:
   recipe-app-backend-test:
     image: recipe-app-backend-test
     environment:
-      - DATABASE_PORT=5432
-      - DATABASE_HOST=postgres
+      - DATABASE_URL=jdbc:postgresql://postgres:5432/postgres
       - DATABASE_USERNAME=postgres
       - DATABASE_PASSWORD=postgres
-      - DATABASE_NAME=postgres
-      - JWT_SECRET_KEY=secret
     build:
       context: ./server
       dockerfile: Dockerfile
     ports:
       - 8080:8080
     container_name: recipe-app-backend-test
+    depends_on:
+      - postgres
 
   postgres:
     image: postgres:16-alpine
