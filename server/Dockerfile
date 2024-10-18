@@ -13,11 +13,13 @@ COPY settings.gradle.kts /app/settings.gradle.kts
 COPY src /app/src
 
 RUN chmod +x ./gradlew \
-&& SPRING_PROFILES_ACTIVE=dev ./gradlew build --no-daemon
+&& ./gradlew build --no-daemon
 
 FROM openjdk:17-jdk-slim
 
 WORKDIR /app
+
+ENV SPRING_PROFILES_ACTIVE=dev
 
 COPY --from=build /app/build/libs/*.jar app.jar
 
