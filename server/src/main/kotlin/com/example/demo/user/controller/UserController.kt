@@ -29,7 +29,6 @@ class UserController(@Autowired private val userService: UserService) {
 
     @GetMapping("/{id}")
     fun findUserById(@PathVariable id: Int): ResponseEntity<User> {
-        println("id: $id")
         return ResponseEntity.ok(userService.findUserById(id))
     }
 }
