@@ -26,7 +26,7 @@ services:
       - JWT_SECRET_KEY=secret
     build:
       context: ./server
-      dockerfile: test.Dockerfile
+      dockerfile: Dockerfile
     ports:
       - 8080:8080
     container_name: recipe-app-backend-test

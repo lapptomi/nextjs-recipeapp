@@ -94,3 +94,12 @@ export interface JwtToken {
   userId: number;
   username: string;
 }
+
+export enum PAGES {
+  HOME = "/",
+  LOGIN = "/auth/login",
+  REGISTER = "/auth/register",
+  RECIPES = "/recipes",
+  CREATE_RECIPE = "/recipes/create",
+  PROFILES = "/profiles",
+}

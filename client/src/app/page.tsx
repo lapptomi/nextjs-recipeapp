@@ -6,38 +6,17 @@ import PricingCard from '@/components/PricingCard';
 import RecipeList from '@/components/RecipeList';
 import { getRecipes } from '@/lib/actions/recipe';
 import { APPLICATION_NAME } from '@/lib/constants';
+import { PAGES } from '@/types';
 
 import styles from './page.module.css';
 import recipeimage from '../../public/recipeimage.jpeg';
-
-import type { Recipe } from '@/types';
-
-const RecipeListContainer = async ({ recipes, title }: {
-  recipes: Recipe[];
-  title: string;
-}) => {
-  return (
-    <div className={styles.recipelistcontainer}>
-      <Typography variant="overline" fontWeight="medium">
-        {title}:
-      </Typography>
-      <RecipeList recipes={recipes.slice(0, 4)} />
-      <Button variant="outlined" href='/recipes' color="primary">
-        View all recipes
-      </Button>
-    </div>
-  );
-};
 
 export const dynamic = 'force-dynamic';
 
 const Home = async () => {
   const response = await getRecipes();
-  const sortByDate = response.content.sort((a, b) => (
-    new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
-  );
-  const sortByRating = response.content.sort((a, b) => b.ratings.length - a.ratings.length);
-  
+  const recipes = response.content ?? [];
+
   return (
     <div>
       <div className={styles.header}>
@@ -45,26 +24,26 @@ const Home = async () => {
           <Typography variant="h3" fontWeight="bold">
             {APPLICATION_NAME}
           </Typography>
-          <Typography variant="h5">
+          <Typography variant="h6" fontWeight="normal">
             Your favourite recipe app. <br />
             Rate recipes, share your own, and so much more!
           </Typography>
-          <Button variant="contained" href='/recipes' color="primary">
+          <Button variant="contained" href={PAGES.RECIPES} color="primary">
             Get Started
           </Button>
         </div>
-
-        <Image
-          src={recipeimage}
-          alt="food"
-          quality={10}
-          width={500}
-          height={500}
-        />
+        <Image src={recipeimage} alt="food" quality={10} width={500} height={500} />
       </div>
 
-      <RecipeListContainer recipes={sortByDate} title="Recently Added Recipes" />
-      <RecipeListContainer recipes={sortByRating} title="Recommended" />
+      <div className={styles.recipelistcontainer}>
+        <Typography variant="body2" fontWeight="bold">
+          RECOMMENDED
+        </Typography>
+        <RecipeList recipes={recipes.sort((a, b) => b.ratings.length - a.ratings.length).slice(0, 4)} />
+        <Button variant="outlined" href={PAGES.RECIPES} color="primary">
+          View all recipes
+        </Button>
+      </div>
 
       <div className={styles.header}>
         <Restaurant style={{ width: 300, height: 300, color: 'gray' }} />
@@ -76,7 +55,7 @@ const Home = async () => {
             Manage, find and share your favourite recipes. <br />
             Join our community and start cooking today!
           </Typography>
-          <Button variant="contained" href='/recipes' color="primary">
+          <Button variant="contained" href={PAGES.RECIPES} color="primary">
             Get Started
           </Button>
         </div>

@@ -6,6 +6,7 @@ import { Alert, Box, Button, Grid, Link, TextField, Typography } from "@mui/mate
 import { signIn } from "next-auth/react";
 
 import { APPLICATION_NAME } from "@/lib/constants";
+import { PAGES } from "@/types";
 
 const LoginForm = () => {
   const [error, setError] = useState('');
@@ -23,7 +24,7 @@ const LoginForm = () => {
         if (res?.error) {
           throw new Error(res.error);
         } else {
-          window.location.replace('/recipes');
+          window.location.replace(PAGES.RECIPES);
         }
       })
       .catch(() => {
@@ -38,7 +39,7 @@ const LoginForm = () => {
           {error}
         </Alert>
       )}
-      <Typography component="h1" variant="h5">
+      <Typography variant="h5">
         Sign In
       </Typography>
       <Box component="form" noValidate onSubmit={handleSubmit}>
@@ -74,7 +75,7 @@ const LoginForm = () => {
           </Link>
         </Grid>
         <Grid item>
-          <Link href="/auth/register" variant="body2">
+          <Link href={PAGES.REGISTER} variant="body2">
             Dont have an account? Sign Up
           </Link>
         </Grid>

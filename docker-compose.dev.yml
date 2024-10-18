@@ -31,7 +31,8 @@ services:
       - 8080:8080
     container_name: recipe-app-backend-dev
     volumes:
-      - ./server/src:/usr/src/app/src
+      - ./server/src/main:/app/src/main
+    restart: always
     depends_on:
       - postgres
 

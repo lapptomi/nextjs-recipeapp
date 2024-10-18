@@ -3,6 +3,8 @@
 
 import { Alert, Button, Typography } from "@mui/material";
 
+import { PAGES } from "@/types";
+
 import styles from "./error.module.css";
 
 export default function ErrorPage({ error }: {
@@ -19,7 +21,7 @@ export default function ErrorPage({ error }: {
       <Alert severity="warning">
         {error.message}
       </Alert>
-      <Button href="/" variant="contained">Back Home</Button>
+      <Button href={PAGES.HOME} variant="contained">Back Home</Button>
     </div>
   );
 };

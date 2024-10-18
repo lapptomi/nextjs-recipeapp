@@ -8,19 +8,21 @@
   min-height: 600px;
   gap: 20px;
   padding: 50px;
+  background-color: #fcfcfc;
 }
 
 .recipelistcontainer {
   display: flex;
   flex-direction: column;
-  padding: 50px;
+  padding: 32px;
   align-items: center;
-  border-bottom: 5px solid rgba(247, 247, 247, 0.983);
+  border-top: 4px solid rgba(255, 255, 255, 0.983);
+  background-color: white;
 }
 
 .headercontainer {
   display: flex;
-  gap: 30px;
+  gap: 16px;
   max-width: 500px;
   flex-direction: column;
 }
@@ -31,7 +33,7 @@
   flex-wrap: wrap;
   align-items: center;
   justify-content: center;
-  gap: 30px;
+  gap: 32px;
   padding: 100px 10px 100px 10px;
   background-color: #fcfcfc;
 }
@@ -39,7 +41,7 @@
 .cardrow {
   display: flex;
   flex-direction: row;
-  gap: 20px;
+  gap: 16px;
   flex-wrap: wrap;
   justify-content: center;
 }

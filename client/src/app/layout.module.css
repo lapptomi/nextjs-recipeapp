@@ -9,8 +9,7 @@
   padding: 100px;
   align-items: center;
   height: 400px;
-  border-top: 5px solid rgba(247, 247, 247, 0.983);
-  background-color: white;
+  background-color: lightgray;
 }
 
 .footercontainer {

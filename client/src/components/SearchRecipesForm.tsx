@@ -7,6 +7,7 @@ import { Button, FormControl, InputAdornment, InputLabel, MenuItem, Pagination, 
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
 import styles from '@/styles/SearchRecipesForm.module.css';
+import { PAGES } from "@/types";
 
 interface Props {
   totalCount: number;
@@ -77,7 +78,7 @@ const SearchRecipesForm = ({ totalCount }: Props) => {
             }}
           />
           <div>
-            <Button onClick={() => router.replace('/recipes')}>
+            <Button onClick={() => router.replace(PAGES.RECIPES)}>
               Clear
             </Button>
             <Button variant="contained" onClick={handleSubmit}>

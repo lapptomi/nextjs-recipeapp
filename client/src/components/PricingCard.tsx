@@ -2,6 +2,7 @@ import { Check } from "@mui/icons-material";
 import { Button, Card, CardContent, CardMedia, Divider, Typography } from "@mui/material";
 
 import styles from '@/styles/PricingCard.module.css';
+import { PAGES } from "@/types";
 
 interface Props {
   title: string;
@@ -46,7 +47,7 @@ const PricingCard = (props: Props) => {
           ))}
         </div>        
 
-        <Button size="small" variant="contained" href='/recipes' color="primary">
+        <Button size="small" variant="contained" href={PAGES.RECIPES} color="primary">
           Get Started
         </Button>
       </CardContent>

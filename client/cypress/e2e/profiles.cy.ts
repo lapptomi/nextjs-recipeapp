@@ -1,13 +1,15 @@
 /// <reference types="cypress" />
 
-import { API_URL, user } from "../data";
+import { API_ROOT } from "../../src/lib/constants";
+import { PAGES } from '../../src/types/index';
+import { LOCALHOST_BACKEND_URL, user } from "../constants";
 
 describe('Profiles', () => {
   beforeEach(() => {
-    cy.request('DELETE', `${API_URL}/api/users`);
-    cy.request('POST', `${API_URL}/api/users`);
+    cy.request('DELETE', `${LOCALHOST_BACKEND_URL}/${API_ROOT}/users`);
+    cy.request('POST', `${LOCALHOST_BACKEND_URL}/${API_ROOT}/users`);
 
-    cy.visit("/auth/login");
+    cy.visit(PAGES.LOGIN);
     cy.get('input[name="email"]').type(user.email);
     cy.get('input[name="email"]').should('have.value', user.email);
 
@@ -19,12 +21,5 @@ describe('Profiles', () => {
     cy.get('button').contains(user.username).click();
     cy.get('a').contains('Profile').click();
   });
-
-  /*
-  it('Renders profile page correctly', () => {
-    cy.contains('Followers');
-    cy.contains('Some random data here');
-  });
-  */
 
 });

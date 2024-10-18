@@ -2,7 +2,7 @@ import { createTheme } from "@mui/material";
 
 export const theme = createTheme({
   components: {
-    MuiTextField:{
+    MuiTextField: {
       styleOverrides: {
         root: {
           backgroundColor: "white",
@@ -36,6 +36,13 @@ export const theme = createTheme({
     },
   },
   typography: {
-    fontSize: 14,
+    fontSize: 12,
+    fontFamily: [
+      '-apple-system',
+      'BlinkMacSystemFont',
+      "'Segoe UI'",
+      'Roboto',
+      'sans-serif',
+    ].join(','),
   },
 });

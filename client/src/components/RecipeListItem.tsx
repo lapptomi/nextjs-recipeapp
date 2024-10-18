@@ -15,8 +15,7 @@ import Image from "next/image";
 import Link from "next/link";
 
 import styles from "@/styles/RecipeListItem.module.css";
-
-import type { Recipe, RecipeRatingType } from "@/types";
+import { PAGES, type Recipe, type RecipeRatingType } from "@/types";
 
 interface Props {
   recipe: Recipe;
@@ -30,7 +29,7 @@ const RecipeListItem = ({ recipe }: Props) => {
   const dislikes = countRatings('DISLIKE');
 
   return (
-    <Link key={recipe.id} href={`/recipes/${recipe.id}`}>
+    <Link key={recipe.id} href={`${PAGES.RECIPES}/${recipe.id}`}>
       <ImageListItem className={styles.imagelistitem}>
         <div className={styles.recipebackground}>
           {recipe.image ? (

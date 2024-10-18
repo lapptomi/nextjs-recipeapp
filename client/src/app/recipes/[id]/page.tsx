@@ -8,6 +8,7 @@ import RecipeCommentForm from '@/components/RecipeCommentForm';
 import TitleHeader from '@/components/TitleHeader';
 import { getSession } from '@/lib/actions/auth';
 import { findRecipeById } from '@/lib/actions/recipe';
+import { PAGES } from '@/types';
 
 import styles from './page.module.css';
 
@@ -36,7 +37,7 @@ const RecipePage = async ({ params }: Props) => {
             <Typography variant="h3" fontWeight="medium">
               {recipe.title.toUpperCase()}
             </Typography>
-            <Link href={`/profiles/${recipe.author.id}`}>
+            <Link href={`/${PAGES.PROFILES}/${recipe.author.id}`}>
               <div className={styles.avatarcontainer}>
                 <Avatar sx={{ width: 80, height: 80 }} />
                 <div>
@@ -120,7 +121,7 @@ const RecipePage = async ({ params }: Props) => {
                   <ListItemText primary={
                     <Typography variant='body1'>
                       <Tooltip title={`View profile of ${comment.author.username}`}>
-                        <Link href={`/profiles/${comment.author.id}`}>
+                        <Link href={`${PAGES.PROFILES}/${comment.author.id}`}>
                           {comment.author.username}-
                           <Typography variant="caption">
                             {comment.createdAt && new Date(comment.createdAt).toISOString().split('T')[0]} 

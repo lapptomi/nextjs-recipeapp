@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { getSession } from '@/lib/actions/auth';
 import { APPLICATION_NAME } from '@/lib/constants';
 import styles from '@/styles/Navigation.module.css';
+import { PAGES } from '@/types';
 
 import AccountMenu from './AccountMenu';
 
@@ -14,14 +15,14 @@ const Navigation = async () => {
   return (
     <div className={styles.nav}>
       <div className={styles.navbarleft}>
-        <Link href="/">
-          <Typography variant="body1" fontWeight="bold">
+        <Link href={PAGES.HOME}>
+          <Typography variant="body1" fontWeight="">
             {APPLICATION_NAME}
           </Typography>
         </Link>
 
         <Tooltip title="Home page">
-          <Button variant="text" size="small" href="/">
+          <Button variant="text" size="small" href={PAGES.HOME}>
             <Typography variant="overline" fontWeight="medium">
               Home
             </Typography>
@@ -29,7 +30,7 @@ const Navigation = async () => {
         </Tooltip>
 
         <Tooltip title="Browse recipes">
-          <Button variant="text" size="small" href="/recipes">
+          <Button variant="text" size="small" href={PAGES.RECIPES}>
             <Typography variant="overline" fontWeight="medium">
               Recipes
             </Typography>
@@ -41,7 +42,7 @@ const Navigation = async () => {
         {session && session.user ? (
           <>
             <Tooltip title="Create new recipe">
-              <Button size="small" href="/recipes/create">
+              <Button size="small" href={PAGES.CREATE_RECIPE}>
                 <Add color="primary" />
                 <Typography variant="overline">
                   Create
@@ -53,10 +54,10 @@ const Navigation = async () => {
           </>
         ) : (
           <>
-            <Button size="small" href='/auth/login'>
+            <Button size="small" href={PAGES.LOGIN}>
               Sign in
             </Button>
-            <Button size="small" variant="contained" href='/auth/register'>
+            <Button size="small" variant="contained" href={PAGES.REGISTER}>
               Sign up
             </Button>
           </>

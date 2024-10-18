@@ -15,6 +15,8 @@ import Tooltip from '@mui/material/Tooltip';
 import Link from 'next/link';
 import { signOut } from 'next-auth/react';
 
+import { PAGES } from '@/types';
+
 import type { Session } from 'next-auth';
 
 interface Props {
@@ -42,47 +44,53 @@ const AccountMenu: React.FC<Props> = ({ user }) => {
           <Typography variant="body2">{user?.name || ''}</Typography>
         </Button>
       </Tooltip>
-      
+
       <Menu
         anchorEl={anchorEl}
         open={open}
         disableScrollLock={true}
-        onClose={handleClose}      
+        onClose={handleClose}
         transformOrigin={{ horizontal: 'right', vertical: 'top' }}
         anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
       >
-        <Link href={`/profiles/${user.id}`}>
+        <Link href={`/${PAGES.PROFILES}/${user.id}`}>
           <MenuItem onClick={handleClose}>
             <ListItemIcon>
               <Person fontSize="small" color="secondary" />
             </ListItemIcon>
-            Profile
+            <Typography variant='body2'>
+              Profile
+            </Typography>
           </MenuItem>
         </Link>
 
-        <Link href={'/recipes/create'}>
+        <Link href={PAGES.CREATE_RECIPE}>
           <MenuItem onClick={handleClose}>
             <ListItemIcon>
               <AddBox color="secondary" fontSize="small" />
             </ListItemIcon>
-            Create New Recipe
+            <Typography variant='body2'>
+              Create Recipe
+            </Typography>
           </MenuItem>
         </Link>
-        
+
         <Divider />
 
         <MenuItem
           className='logout-button'
           onClick={() => {
             if (window.confirm('Are you sure you want to sign out?')) {
-              signOut({ callbackUrl: '/recipes' });
+              signOut({ callbackUrl: PAGES.RECIPES });
             }
           }}
         >
           <ListItemIcon>
             <Logout fontSize="small" />
           </ListItemIcon>
-          Logout
+          <Typography variant='body2'>
+            Logout
+          </Typography>
         </MenuItem>
       </Menu>
     </>

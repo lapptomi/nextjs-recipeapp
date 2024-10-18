@@ -3,7 +3,7 @@
 import axios from "axios";
 
 import { getSession } from "./auth";
-import { NEXT_APP_API_URL } from "../constants";
+import { API_ROOT, NEXT_APP_API_URL } from "../constants";
 
 import type { CommentForm, Recipe, RecipeRatingType } from "@/types";
 
@@ -13,18 +13,18 @@ interface Response {
 }
 
 export const getRecipes = async (queryParams?: string) => {
-  const response = await axios.get<Response>(`${NEXT_APP_API_URL}/api/recipes?${queryParams}`);
+  const response = await axios.get<Response>(`${NEXT_APP_API_URL}/${API_ROOT}/recipes?${queryParams}`);
   return response.data;
 };
 
 export const findRecipeById = async (recipeId: string) => {
-  const response = await axios.get<Recipe>(`${NEXT_APP_API_URL}/api/recipes/${recipeId}`);
+  const response = await axios.get<Recipe>(`${NEXT_APP_API_URL}/${API_ROOT}/recipes/${recipeId}`);
   return response.data;
 };
 
 export const createRecipe = async (formData: FormData) => {
   const session = await getSession();
-  const response = await axios.post(`${NEXT_APP_API_URL}/api/recipes`, formData, {
+  const response = await axios.post(`${NEXT_APP_API_URL}/${API_ROOT}/recipes`, formData, {
     headers: {
       'Content-Type': 'multipart/form-data',
       Authorization: `Bearer ${session?.user.jwt}`,
@@ -36,7 +36,7 @@ export const createRecipe = async (formData: FormData) => {
 
 export const addComment = async (data: CommentForm) => {
   const session = await getSession();
-  const response = await axios.post(`${NEXT_APP_API_URL}/api/recipes/${data.recipeId}/comments`, {
+  const response = await axios.post(`${NEXT_APP_API_URL}/${API_ROOT}/recipes/${data.recipeId}/comments`, {
     message: data.message,
   }, {
     headers: {
@@ -54,7 +54,7 @@ interface RatingParams {
 
 export const addRating = async (data: RatingParams) => {
   const session = await getSession();
-  const response = await axios.post(`${NEXT_APP_API_URL}/api/recipes/${data.recipeId}/ratings`, {
+  const response = await axios.post(`${NEXT_APP_API_URL}/${API_ROOT}/recipes/${data.recipeId}/ratings`, {
     type: data.type,
   }, {
     headers: {

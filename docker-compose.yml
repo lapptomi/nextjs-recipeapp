@@ -16,9 +16,9 @@ services:
   recipe-app-backend-prod:
     image: recipe-app-backend-prod
     env_file:
-      - ./server/.env
+      - server_nextjs/.env
     build:
-      context: ./server
+      context: server_nextjs
       dockerfile: Dockerfile
     ports:
       - 8080:8080

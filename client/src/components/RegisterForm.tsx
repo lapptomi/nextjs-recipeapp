@@ -11,7 +11,7 @@ import { useForm } from "react-hook-form";
 import { createUser } from "@/lib/actions/user";
 import { APPLICATION_NAME } from "@/lib/constants";
 
-import { UserSchema } from "../types";
+import { PAGES, UserSchema } from "../types";
 
 import type { NewUser} from "../types";
 
@@ -44,7 +44,7 @@ const RegisterForm = () => {
           email: newUser.email,
           password: newUser.password,
           redirect: true,
-          callbackUrl: '/recipes',
+          callbackUrl: PAGES.RECIPES,
         });
       }).catch((error) => {
         console.log('ERROR = ', error);
@@ -120,7 +120,7 @@ const RegisterForm = () => {
           </Link>
         </Grid>
         <Grid item>
-          <Link href="/auth/register" variant="body2">
+          <Link href={PAGES.REGISTER} variant="body2">
             Dont have an account? Sign Up
           </Link>
         </Grid>

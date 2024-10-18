@@ -1,15 +1,17 @@
 /// <reference types="cypress" />
 
-import { API_URL, user } from "../data";
+import { API_ROOT } from "../../src/lib/constants";
+import { PAGES } from "../../src/types";
+import { LOCALHOST_BACKEND_URL, user } from "../constants";
 
 describe('Creating new user', () => {
   beforeEach(() => {
-    cy.request('DELETE', `${API_URL}/api/users`);
-    cy.visit("/auth/register");
+    cy.request('DELETE', `${LOCALHOST_BACKEND_URL}/${API_ROOT}/users`);
+    cy.visit(PAGES.REGISTER);
   });
 
   it('Should visit', () => {
-    cy.visit("/auth/register");
+    cy.visit(PAGES.REGISTER);
   });
 
   it('Redirects to /recipes page after successful registration', () => {
@@ -27,7 +29,7 @@ describe('Creating new user', () => {
 
     cy.get('button').contains('Sign Up').click();
 
-    cy.url().should('include', '/recipes');
+    cy.url().should('include', PAGES.RECIPES);
   });
 
   it('Displays error message on invalid email', () => {
@@ -45,7 +47,7 @@ describe('Creating new user', () => {
 
     cy.get('button').contains('Sign Up').click();
 
-    cy.url().should('include', '/auth/register');
+    cy.url().should('include', PAGES.REGISTER);
   });
 
 });

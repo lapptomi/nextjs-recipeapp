@@ -3,14 +3,14 @@ import axios from 'axios';
 import CredentialsProvider from 'next-auth/providers/credentials';
 import GitHubProvider from 'next-auth/providers/github';
 
-import { NEXT_APP_API_URL, NEXTAUTH_SECRET } from '@/lib/constants';
+import { API_ROOT, NEXT_APP_API_URL, NEXTAUTH_SECRET } from '@/lib/constants';
+import { type JwtToken, PAGES } from '@/types';
 
-import type { JwtToken } from '@/types';
 import type { NextAuthOptions } from 'next-auth';
 
 export const options: NextAuthOptions = {
   pages: {
-    signIn: "/auth/login",
+    signIn: PAGES.LOGIN,
     signOut: "/auth/logout",
   },
   session: {
@@ -70,7 +70,7 @@ export const options: NextAuthOptions = {
           throw new Error('Missing credentials');
         }
 
-        const { data: jwtToken } = await axios.post<JwtToken>(`${NEXT_APP_API_URL}/api/auth/login`, {
+        const { data: jwtToken } = await axios.post<JwtToken>(`${NEXT_APP_API_URL}/${API_ROOT}/auth/login`, {
           email: credentials.email,
           password: credentials.password,
         });
