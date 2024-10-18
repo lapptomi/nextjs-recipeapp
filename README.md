@@ -17,37 +17,35 @@ The idea of this project was mainly to learn **Next.js**, **Nest.js** and Amazon
 
 ## Technologies used
 ![TS](https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white)
+![Kotlin](https://img.shields.io/badge/Kotlin-7F52FF?style=for-the-badge&logo=Kotlin&logoColor=white)
 ![Next.js](https://img.shields.io/badge/next.js-000000?style=for-the-badge&logo=nextdotjs&logoColor=white) 
-![NestJS](https://img.shields.io/badge/nestjs-%23E0234E.svg?style=for-the-badge&logo=nestjs&logoColor=white)
+[![Spring Boot](https://img.shields.io/badge/SpringBoot-6DB33F?style=for-the-badge&logo=Spring&logoColor=white)](#)
 ![React](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)
 ![PostgreSQL Badge](https://img.shields.io/badge/PostgreSQL-4169E1?logo=postgresql&logoColor=fff&style=for-the-badge)
 ![Docker](https://img.shields.io/badge/docker-%230db7ed.svg?style=for-the-badge&logo=docker&logoColor=white)
-![cypress](https://img.shields.io/badge/-cypress-%23E5E5E5?style=for-the-badge&logo=cypress&logoColor=058a5e)![ESLint](https://img.shields.io/badge/ESLint-4B3263?style=for-the-badge&logo=eslint&logoColor=white)
+![cypress](https://img.shields.io/badge/-cypress-%23E5E5E5?style=for-the-badge&logo=cypress&logoColor=058a5e)
+![ESLint](https://img.shields.io/badge/ESLint-4B3263?style=for-the-badge&logo=eslint&logoColor=white)
 ![GitHub Actions](https://img.shields.io/badge/github%20actions-%232671E5.svg?style=for-the-badge&logo=githubactions&logoColor=white)
 ![Material UI](https://img.shields.io/badge/Material--UI-0081CB?style=for-the-badge&logo=mui&logoColor=white)
 ![AWS](https://img.shields.io/badge/AWS-%23FF9900.svg?style=for-the-badge&logo=amazon-aws&logoColor=white)
-![Jest](https://img.shields.io/badge/-jest-%23C21325?style=for-the-badge&logo=jest&logoColor=white)
 
 
 # Server
 <p align="left">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="150" alt="Nest Logo" /></a>
+  <a href="https://spring.io/projects/spring-boot" target="blank"><img src="https://spring.io/img/spring.svg" width="150" alt="Spring Logo" /></a>
 </p>  
 
-The backend is created with **TypeScript & NestJS** and is running on **AWS Fargate**.  
-
-The server has basic endpoints for transferring the data, and also a rate limiter that is set to 50 requests per 5 minutes,  so if the limit is exceeded, the server will block all traffic for 5 minutes.
+The backend is created with **Kotlin & Spring Boot** and is running on **AWS Fargate**.  
 
 # Client
 <p align="left">
   <a href="http://nextjs.org/" target="blank"><img src="https://seeklogo.com/images/N/next-js-logo-7929BCD36F-seeklogo.com.png" width="150" alt="Next Logo" /></a>
 </p>  
 
-# [Open application on Vercel](https://nextjs-recipeapp.vercel.app/)
-
+### [Open application on Vercel](https://nextjs-recipeapp.vercel.app/)
 The client is created with **TypeScript & NextJS** and is hosted online on Vercel and can be opened via the link above.
 
-# Getting Started
+# Running the project
 
 ### Start the app with Docker Compose
 ###### Note that you must have Docker installed in your machine   
