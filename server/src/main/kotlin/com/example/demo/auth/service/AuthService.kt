@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service
 class AuthService(
     private val jwtService: JwtService,
     private val userService: UserService,
-    private val securityConfig: SecurityConfig
+    private val securityConfig: SecurityConfig,
 ) {
     fun login(email: String, password: String): JwtTokenDto {
         val user = userService.findUserByEmail(email)
