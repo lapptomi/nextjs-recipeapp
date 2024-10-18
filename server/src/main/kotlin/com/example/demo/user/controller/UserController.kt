@@ -28,7 +28,6 @@ class UserController(@Autowired private val userService: UserService) {
         ResponseEntity.status(HttpStatus.NO_CONTENT).body(userService.deleteUsers())
 
     @GetMapping("/{id}")
-    fun findUserById(@PathVariable id: Int): ResponseEntity<User> {
-        return ResponseEntity.ok(userService.findUserById(id))
-    }
+    fun findUserById(@PathVariable id: Int): ResponseEntity<User> =
+        ResponseEntity.ok(userService.findUserById(id))
 }
