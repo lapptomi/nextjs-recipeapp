@@ -2,27 +2,20 @@ name: Test And Deploy
 
 on:
   push:
-    #branches:
-    #  - main
+    branches:
+    - main
 
 jobs:
   test_and_deploy:
     timeout-minutes: 20
     runs-on: ubuntu-latest
 
-    #env:
-    #  DATABASE_HOST: localhost
-    #  DATABASE_USERNAME: postgres
-    #  DATABASE_PASSWORD: postgres
-    #  DATABASE_NAME: postgres
-    #  DATABASE_PORT: 5432
-
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
       - name: Start containers
-        run: docker-compose -f "docker-compose.test.yml" up -d --build
+        run: docker compose -f "docker-compose.test.yml" up -d --build
 
       - name: Install node
         uses: actions/setup-node@v4
