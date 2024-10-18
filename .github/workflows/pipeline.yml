@@ -29,7 +29,7 @@ jobs:
           java-version: '17'
 
       - name: Grant execute permission for gradlew
-        run: chmod +x gradlew
+        run: chmod +x ./server/gradlew
 
       - name: Install client dependencies
         run: cd client && npm ci && npm run lint
