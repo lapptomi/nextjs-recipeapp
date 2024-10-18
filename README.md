@@ -1,6 +1,12 @@
 
 # RecipeApp Pro [![Test And Deploy To Vercel](https://github.com/lapptomi/nextjs-recipeapp/actions/workflows/pipeline.yml/badge.svg)](https://github.com/lapptomi/nextjs-recipeapp/actions/workflows/pipeline.yml)  
 
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=lapptomi_nextjs-recipeapp&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=lapptomi_nextjs-recipeapp)
+[![Bugs](https://sonarcloud.io/api/project_badges/measure?project=lapptomi_nextjs-recipeapp&metric=bugs)](https://sonarcloud.io/summary/new_code?id=lapptomi_nextjs-recipeapp)
+[![Code Smells](https://sonarcloud.io/api/project_badges/measure?project=lapptomi_nextjs-recipeapp&metric=code_smells)](https://sonarcloud.io/summary/new_code?id=lapptomi_nextjs-recipeapp)
+[![Coverage](https://sonarcloud.io/api/project_badges/measure?project=lapptomi_nextjs-recipeapp&metric=coverage)](https://sonarcloud.io/summary/new_code?id=lapptomi_nextjs-recipeapp)
+[![Duplicated Lines (%)](https://sonarcloud.io/api/project_badges/measure?project=lapptomi_nextjs-recipeapp&metric=duplicated_lines_density)](https://sonarcloud.io/summary/new_code?id=lapptomi_nextjs-recipeapp)
+
 ### Web application where users can create, rate, and comment on recipes.  
 
 The idea of this project was mainly to learn **Next.js**, **Nest.js** and Amazon Web Services, such as **Amazon S3**, **EC2**, **ECS**, **ECR** and **Fargate**.  
