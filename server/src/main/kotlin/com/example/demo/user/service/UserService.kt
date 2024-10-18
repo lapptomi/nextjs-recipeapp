@@ -13,13 +13,11 @@ class UserService(
 ) {
     fun getUsers(): MutableIterable<User> = userRepository.findAll()
 
-    fun createUser(user: NewUserDTO): User = userRepository.save(
-        User(
-            username = user.username,
-            email = user.email,
-            password = securityConfig.passwordEncoder().encode(user.password)
-        )
-    )
+    fun createUser(user: NewUserDTO): User {
+        val password = securityConfig.passwordEncoder().encode(user.password)
+        val newUser = User(email = user.email, username = user.username, password = password)
+        return userRepository.save(newUser)
+    }
 
     fun findUserById(id: Int): User = userRepository.findById(id).orElseThrow()
 

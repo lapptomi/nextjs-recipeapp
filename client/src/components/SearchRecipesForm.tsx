@@ -31,7 +31,7 @@ const SearchRecipesForm = ({ totalCount }: Props) => {
   const handleSubmit = useCallback(() => {
     const current = new URLSearchParams(Array.from(searchParams.entries()));
     current.set('title', searchField);
-    current.set('sortby', sortBy);
+    current.set('sort_by', sortBy);
     current.set('page', "1");
 
     router.push(`${pathname}${createQuery(current)}`);
@@ -66,6 +66,7 @@ const SearchRecipesForm = ({ totalCount }: Props) => {
         <div style={{ display: 'flex', flexDirection: 'row' }}>
           <TextField
             label="Search"
+            value={searchField}
             onChange={(event) => setSearchField(event.target.value)}
             placeholder='Enter recipe name...'
             size="small"
@@ -78,7 +79,10 @@ const SearchRecipesForm = ({ totalCount }: Props) => {
             }}
           />
           <div>
-            <Button onClick={() => router.replace(PAGES.RECIPES)}>
+            <Button onClick={() => {
+              router.replace(PAGES.RECIPES);
+              setSearchField('');
+            }}>
               Clear
             </Button>
             <Button variant="contained" onClick={handleSubmit}>

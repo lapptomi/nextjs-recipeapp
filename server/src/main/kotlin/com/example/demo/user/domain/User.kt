@@ -5,6 +5,8 @@ import com.example.demo.recipe.domain.reciperating.RecipeRating
 import com.fasterxml.jackson.annotation.JsonIgnore
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 import jakarta.persistence.*
+import org.springframework.data.annotation.CreatedDate
+import java.time.LocalDateTime
 
 @Entity
 @Table(name = "users")
@@ -31,7 +33,11 @@ data class User(
 
     @JsonIgnore
     @OneToMany(mappedBy = "author", cascade = [CascadeType.ALL], fetch = FetchType.EAGER)
-    var ratings: List<RecipeRating> = listOf()
+    var ratings: List<RecipeRating> = listOf(),
+
+    @CreatedDate
+    @Column(name = "created_at", nullable = false, updatable = false)
+    var createdAt: LocalDateTime = LocalDateTime.now(),
 ) {
     override fun toString(): String {
         return "User(id=$id, email='$email', username='$username')"

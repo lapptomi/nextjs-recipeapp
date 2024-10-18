@@ -18,11 +18,12 @@ class RecipeController(private val recipeService: RecipeService) {
 
     @GetMapping
     fun getAll(
-        @RequestParam(defaultValue = "", required = false) title: String,
-        @RequestParam(defaultValue = "1", required = false) page: Int,
-        @RequestParam(defaultValue = "12", required = false) pageSize: Int
+        @RequestParam(name="title", defaultValue = "", required = false) recipeTitle: String,
+        @RequestParam(name="page", defaultValue = "1", required = false) page: Int,
+        @RequestParam(name="page_size", defaultValue = "12", required = false) pageSize: Int,
+        @RequestParam(name="sort_by", defaultValue = "date_desc", required = false) sortBy: String
     ): ResponseEntity<MutableIterable<Recipe>> = ResponseEntity
-        .ok(recipeService.getBySearchParams(title, page, pageSize))
+        .ok(recipeService.getRecipes(recipeTitle, page, pageSize, sortBy))
 
     @PostMapping
     fun createRecipe(

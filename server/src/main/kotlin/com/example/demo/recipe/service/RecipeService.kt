@@ -14,6 +14,7 @@ import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.fasterxml.jackson.module.kotlin.readValue
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.PageRequest
+import org.springframework.data.domain.Sort
 import org.springframework.stereotype.Service
 import org.springframework.web.multipart.MultipartFile
 
@@ -23,10 +24,10 @@ class RecipeService(
     private val recipeCommentRepository: RecipeCommentRepository,
     private val recipeRatingRepository: RecipeRatingRepository
 ) {
-    fun getBySearchParams(recipeTitle: String, page: Int, pageSize: Int): Page<Recipe> {
-        val pageable = PageRequest.of(page - 1, pageSize)
-        val recipes = recipeRepository.findByTitleContainingIgnoreCase(recipeTitle, pageable)
-        return recipes
+    fun getRecipes(recipeTitle: String, page: Int, pageSize: Int, sortBy: String): Page<Recipe> {
+        val sortDirection = if (sortBy == "date_asc") Sort.Direction.ASC else Sort.Direction.DESC
+        val pageable = PageRequest.of(page - 1, pageSize, Sort.by(sortDirection, "createdAt"))
+        return recipeRepository.findByTitleContainingIgnoreCase(recipeTitle, pageable)
     }
 
     fun getRecipeById(id: Int): Recipe = recipeRepository.findById(id).get()
@@ -34,7 +35,7 @@ class RecipeService(
     fun createRecipe(user: User, recipeJson: String, image: MultipartFile?): Recipe {
         val objectMapper = jacksonObjectMapper()
         val recipe: RecipeDTO = objectMapper.readValue(recipeJson)
-        val savedRecipe = recipeRepository.save(
+        return recipeRepository.save(
             Recipe(
                 author = user,
                 title = recipe.title,
@@ -46,7 +47,6 @@ class RecipeService(
                 image = "image link in the future"
             )
         )
-        return savedRecipe
     }
 
     fun addRating(user: User, recipeId: Int, rating: RecipeRatingDTO): Recipe {

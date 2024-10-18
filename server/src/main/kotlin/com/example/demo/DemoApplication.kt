@@ -30,7 +30,7 @@ import org.springframework.context.annotation.Profile
 class DemoApplication {
 
 	@Bean
-	@Profile("dev") // Run this function only when SPRING_PROFILES_ACTIVE=dev
+	@Profile("dev") // Run initDatabase only when SPRING_PROFILES_ACTIVE=dev
 	fun initDatabase(
 		userRepository: UserRepository,
 		recipeRepository: RecipeRepository,
@@ -38,8 +38,8 @@ class DemoApplication {
 		recipeCommentRepository: RecipeCommentRepository,
 		securityConfig: SecurityConfig
 	): CommandLineRunner {
+		// Add some data to the in-memory database if it's empty
 		return CommandLineRunner {
-			// Add some data to the database if it's empty
 			fun encodePassword(password: String) = securityConfig.passwordEncoder().encode(password)
 
 			val users = listOf(
@@ -47,50 +47,24 @@ class DemoApplication {
 				User(username = "admin", email = "admin", password = encodePassword("admin")),
 				User(username = "test", email = "test", password = encodePassword("test"))
 			)
-			val recipes = listOf(
+
+			val recipes = (0..20).map {
 				Recipe(
 					author = users[0],
-					title = "Recipe 1",
-					description = "Description 1",
+					title = "Recipe $it",
+					description = "Description $it",
 					ingredients = listOf("Ingredient 1", "Ingredient 2"),
 					cookingTime = 10,
 					servings = 2,
-					instructions = "Instructions 1"
-				),
-				Recipe(
-					author = users[1],
-					title = "Recipe 1",
-					description = "Description 1",
-					ingredients = listOf("Ingredient 1", "Ingredient 2"),
-					cookingTime = 10,
-					servings = 2,
-					instructions = "Instructions 2"
-				),
-			)
-			val recipeComments = listOf(
-				RecipeComment(
-					author = users[0],
-					message = "Comment 1",
-					recipe = recipes[0]
-				),
-				RecipeComment(
-					author = users[1],
-					message = "Comment 2",
-					recipe = recipes[1]
-				),
-			)
-			val recipeRatings = listOf(
-				RecipeRating(
-					author = users[0],
-					type = RecipeRatingType.LIKE,
-					recipe = recipes[0]
-				),
-				RecipeRating(
-					author = users[1],
-					type = RecipeRatingType.DISLIKE,
-					recipe = recipes[1]
-				),
-			)
+					instructions = "Instructions $it"
+				)
+			}
+			val recipeComments = (0..10).map {
+				RecipeComment(author = users[0], message = "Comment $it", recipe = recipes[0])
+			}
+			val recipeRatings = (0..10).map {
+				RecipeRating(author = users[0], type = RecipeRatingType.LIKE, recipe = recipes[0])
+			}
 
 			if (userRepository.count() == 0L) userRepository.saveAll(users)
 			if (recipeRepository.count() == 0L) recipeRepository.saveAll(recipes)
