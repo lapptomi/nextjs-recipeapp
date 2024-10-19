@@ -40,6 +40,10 @@ The backend is created with **Kotlin & Spring Boot** and is running on **AWS Far
 ## Server API Documentation
 <img src="https://raw.githubusercontent.com/swagger-api/swagger.io/wordpress/images/assets/SWU-logo-clr.png" width="300">
 
+<p float="left">
+  <img src="https://github.com/lapptomi/nextjs-recipeapp/blob/main/assets/img2.png?raw=true" width="500">
+</p>
+
 ### [Open Swagger UI](https://nextjs-recipeapp.onrender.com/swagger-ui/swagger-ui/index.html)
 
 # Client
