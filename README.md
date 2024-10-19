@@ -96,13 +96,12 @@ The credentials can be found from *docker-compose.yml* file.
 # Environment Variables
 
 ## Backend
-The NestJS server uses the environment variables listed below:  
+The Spring Boot server uses the environment variables listed below:  
 ```
-DATABASE_HOST=(PostgreSQL database host address)
+DATABASE_URL=(JDBC PostgreSQL database host address)
 DATABASE_USERNAME=(PostgreSQL database username)
 DATABASE_PASSWORD=(PostgreSQL database password)
-DATABASE_NAME=(PostgreSQL database)
-DATABASE_PORT=(PostgreSQL port number)
+
 AWS_BUCKET_NAME=(aws s3 bucket name)
 AWS_BUCKET_REGION=(aws s3 bucket region)
 AWS_ACCESS_KEY_ID_(aws access key)
