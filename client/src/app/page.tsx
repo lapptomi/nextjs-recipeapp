@@ -1,9 +1,11 @@
+
+
 import { Restaurant } from '@mui/icons-material';
 import { Button, Typography } from '@mui/material';
 import Image from 'next/image';
 
 import PricingCard from '@/components/PricingCard';
-import RecipeList from '@/components/RecipeList';
+import RecipeListWithSuspense from '@/components/RecipeListWithSuspense';
 import { getRecipes } from '@/lib/actions/recipe';
 import { APPLICATION_NAME } from '@/lib/constants';
 import { PAGES } from '@/types';
@@ -11,12 +13,14 @@ import { PAGES } from '@/types';
 import styles from './page.module.css';
 import recipeimage from '../../public/recipeimage.jpeg';
 
-export const dynamic = 'auto';
 
-const Home = async () => {
-  const response = await getRecipes();
-  const recipes = response.content ?? [];
+const fetchedRecipes = async () => {
+  return getRecipes()
+    .then((response) => response.content.slice(0, 4))
+    .catch(() => []);
+};
 
+const Home = () => {
   return (
     <div>
       <div className={styles.header}>
@@ -39,7 +43,9 @@ const Home = async () => {
         <Typography variant="body2" fontWeight="bold">
           RECOMMENDED
         </Typography>
-        <RecipeList recipes={recipes.sort((a, b) => b.ratings.length - a.ratings.length).slice(0, 4)} />
+        
+        <RecipeListWithSuspense request={fetchedRecipes} />
+
         <Button variant="outlined" href={PAGES.RECIPES} color="primary">
           View all recipes
         </Button>
