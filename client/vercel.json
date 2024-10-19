@@ -1,6 +1,6 @@
 {
   "functions": {
-    "src/lib/actions/**/*": {
+    "src/lib/actions/*": {
       "maxDuration": 60
     }
   }
