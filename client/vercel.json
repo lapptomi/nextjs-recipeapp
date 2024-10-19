@@ -1,6 +1,6 @@
 {
   "functions": {
-    "./src/lib/actions/recipe.ts": {
+    "src/**/*": {
       "maxDuration": 60
     }
   }
