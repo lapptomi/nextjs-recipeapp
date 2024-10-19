@@ -37,6 +37,11 @@ The idea of this project was mainly to learn **Next.js**, **Nest.js** and Amazon
 
 The backend is created with **Kotlin & Spring Boot** and is running on **AWS Fargate**.  
 
+## Server API Documentation
+<img src="https://raw.githubusercontent.com/swagger-api/swagger.io/wordpress/images/assets/SWU-logo-clr.png" width="300">
+
+### [Open Swagger UI](https://nextjs-recipeapp.onrender.com/swagger-ui/swagger-ui/index.html)
+
 # Client
 <p align="left">
   <a href="http://nextjs.org/" target="blank"><img src="https://seeklogo.com/images/N/next-js-logo-7929BCD36F-seeklogo.com.png" width="150" alt="Next Logo" /></a>
@@ -90,8 +95,8 @@ npm run cypress:run
 ```
 
 # Database
-When running the app locally with docker-compose on development or production mode, you can open pgadmin4 by going to http://localhost:8888 in your browser to view and edit PostgreSQL data easily.  
-The credentials can be found from *docker-compose.yml* file.
+When running the app locally with docker-compose on development or test mode, you can open pgadmin4 by going to http://localhost:8888 in your browser to view and edit PostgreSQL data easily.  
+The credentials can be found from *docker-compose* files.
 
 # Environment Variables
 
