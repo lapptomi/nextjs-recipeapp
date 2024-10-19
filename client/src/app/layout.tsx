@@ -19,6 +19,8 @@ export const metadata: Metadata = {
   description: 'Your facourite recipe app',
 };
 
+export const maxDuration = 60;
+
 export default function RootLayout({ children }: {
   readonly children: React.ReactNode
 }) {

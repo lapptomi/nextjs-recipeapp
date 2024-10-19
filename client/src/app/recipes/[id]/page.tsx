@@ -37,7 +37,7 @@ const RecipePage = async ({ params }: Props) => {
             <Typography variant="h3" fontWeight="medium">
               {recipe.title.toUpperCase()}
             </Typography>
-            <Link href={`/${PAGES.PROFILES}/${recipe.author.id}`}>
+            <Link href={`${PAGES.PROFILES}/${recipe.author.id}`}>
               <div className={styles.avatarcontainer}>
                 <Avatar sx={{ width: 80, height: 80 }} />
                 <div>

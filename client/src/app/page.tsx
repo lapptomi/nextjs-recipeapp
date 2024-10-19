@@ -11,8 +11,7 @@ import { PAGES } from '@/types';
 import styles from './page.module.css';
 import recipeimage from '../../public/recipeimage.jpeg';
 
-export const dynamic = 'force-dynamic';
-export const maxDuration = 60;
+export const dynamic = 'auto';
 
 const Home = async () => {
   const response = await getRecipes();
