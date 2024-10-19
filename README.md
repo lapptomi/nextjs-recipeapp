@@ -44,14 +44,16 @@ The backend is created with **Kotlin & Spring Boot** and is running on **AWS Far
   <img src="https://github.com/lapptomi/nextjs-recipeapp/blob/main/assets/img2.png?raw=true" width="500">
 </p>
 
-### [Open Swagger UI](https://nextjs-recipeapp.onrender.com/swagger-ui/swagger-ui/index.html)
+
+### <a href="https://nextjs-recipeapp.onrender.com/swagger-ui/swagger-ui/index.html" target="_blank">Open SwaggerUI</a>
 
 # Client
 <p align="left">
   <a href="http://nextjs.org/" target="blank"><img src="https://seeklogo.com/images/N/next-js-logo-7929BCD36F-seeklogo.com.png" width="150" alt="Next Logo" /></a>
 </p>  
 
-### [Open application on Vercel](https://nextjs-recipeapp.vercel.app/)
+### <a href="https://nextjs-recipeapp.vercel.app" target="_blank">Open application on Vercel</a>
+
 The client is created with **TypeScript & NextJS** and is hosted online on Vercel and can be opened via the link above.
 
 # Running the project
