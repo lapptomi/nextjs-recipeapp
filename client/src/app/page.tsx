@@ -13,14 +13,16 @@ import { PAGES } from '@/types';
 import styles from './page.module.css';
 import recipeimage from '../../public/recipeimage.jpeg';
 
-
-const fetchedRecipes = async () => {
-  return getRecipes()
-    .then((response) => response.content.slice(0, 4))
-    .catch(() => []);
-};
+export const dynamic = 'force-dynamic';
+export const maxDuration = 60;
 
 const Home = () => {
+  const fetchedRecipes = async () => {
+    return getRecipes()
+      .then((response) => response.content.slice(0, 4))
+      .catch(() => []);
+  };
+
   return (
     <div>
       <div className={styles.header}>
