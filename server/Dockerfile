@@ -19,8 +19,6 @@ FROM openjdk:17-jdk-slim
 
 WORKDIR /app
 
-ENV SPRING_PROFILES_ACTIVE=dev
-
 COPY --from=build /app/build/libs/*.jar app.jar
 
 EXPOSE 8080

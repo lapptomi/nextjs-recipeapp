@@ -15,10 +15,16 @@ services:
 
   recipe-app-backend-prod:
     image: recipe-app-backend-prod
-    env_file:
-      - server_nextjs/.env
+    environment:
+      - SPRING_PROFILES_ACTIVE=prod
+    env_file: 
+      # Create .env file in the ./server directory with the following content:
+      # DATABASE_URL=[JDBC URL]
+      # DATABASE_USERNAME=[POSTGRES USERNAME]
+      # DATABASE_PASSWORD=[POSTGRES PASSWORD]
+      - ./server/.env
     build:
-      context: server_nextjs
+      context: ./server
       dockerfile: Dockerfile
     ports:
       - 8080:8080

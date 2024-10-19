@@ -18,6 +18,7 @@ services:
   recipe-app-backend-test:
     image: recipe-app-backend-test
     environment:
+      - SPRING_PROFILES_ACTIVE=test
       - DATABASE_URL=jdbc:postgresql://postgres:5432/postgres
       - DATABASE_USERNAME=postgres
       - DATABASE_PASSWORD=postgres
@@ -39,3 +40,13 @@ services:
       POSTGRES_DB: postgres
     ports:
       - 5432:5432
+
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: pgadmin4_container
+    restart: always
+    ports:
+      - "8888:80"
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@admin.com
+      PGADMIN_DEFAULT_PASSWORD: admin
