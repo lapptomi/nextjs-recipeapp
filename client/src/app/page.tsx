@@ -6,6 +6,7 @@ import { Restaurant } from '@mui/icons-material';
 import { Button, Typography } from '@mui/material';
 import Image from 'next/image';
 
+import Await from '@/components/Await';
 import PricingCard from '@/components/PricingCard';
 import RecipeList from '@/components/RecipeList';
 import RecipeListSkeleton from '@/components/RecipeListSkeleton';
@@ -19,21 +20,16 @@ import recipeimage from '../../public/recipeimage.jpeg';
 export const dynamic = 'force-dynamic';
 export const maxDuration = 60;
 
-const fetchRecipes = async () => {
-  try {
-    const recipes = await getRecipes();
-    return recipes.content;
-  } catch {
-    return [];
-  }
-};
-
-const Recipes = async () => {
-  const recipes = await fetchRecipes();
-  return <RecipeList recipes={recipes.slice(0, 4)} />;
-};
-
 const Home = () => {
+  const fetchRecipes = async () => {
+    try {
+      const recipes = await getRecipes();
+      return recipes.content;
+    } catch {
+      return [];
+    }
+  };
+  
   return (
     <div>
       <div className={styles.header}>
@@ -58,7 +54,9 @@ const Home = () => {
         </Typography>
         
         <Suspense fallback={<RecipeListSkeleton />}>
-          <Recipes />
+          <Await promise={fetchRecipes()}>
+            {(resolvedRecipes) => <RecipeList recipes={resolvedRecipes.slice(0, 4)} />}
+          </Await>
         </Suspense>
 
         <Button variant="outlined" href={PAGES.RECIPES} color="primary">

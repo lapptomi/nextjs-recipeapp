@@ -1,5 +1,6 @@
 import { Suspense } from 'react';
 
+import Await from '@/components/Await';
 import RecipeList from '@/components/RecipeList';
 import RecipeListSkeleton from '@/components/RecipeListSkeleton';
 import SearchRecipesForm from '@/components/SearchRecipesForm';
@@ -17,28 +18,30 @@ interface Params {
 // https://nextjs.org/docs/app/api-reference/file-conventions/route-segment-config
 export const dynamic = 'force-dynamic';
 
-const Recipes = async ({ searchParams }: Params) => {
-  const queryParams = Object.entries(searchParams).map(([key, value]) => `${key}=${value}`).join('&');
-  const recipes = await getRecipes(queryParams);
-
-  return (
-    <div>
-      <SearchRecipesForm totalCount={recipes.totalElements} />
-      <RecipeList recipes={recipes.content} />
-    </div>
-  );
-};
-
 const BrowseRecipesPage = ({ searchParams }: Params) => {
+  const queryParams = Object.entries(searchParams).map(([key, value]) => `${key}=${value}`).join('&');
+  const recipesPromise = getRecipes(queryParams);
+
   return (
-    <div key={Math.random()}>
+    <div key={
+      // Math.random() disables component caching
+      // and is used to force a re-render when searchParams change
+      Math.random()
+    }>
       <Suspense fallback={
         <div>
           <SearchRecipesForm totalCount={0} />
           <RecipeListSkeleton />
         </div>
       }>
-        <Recipes searchParams={searchParams} />
+        <Await promise={recipesPromise}>
+          {(resolvedRecipes) => (
+            <div>
+              <SearchRecipesForm totalCount={resolvedRecipes.totalElements} />
+              <RecipeList recipes={resolvedRecipes.content} />
+            </div>
+          )}
+        </Await>
       </Suspense>
     </div>
   );
