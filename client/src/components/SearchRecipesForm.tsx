@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 
 import { SearchOutlined } from "@mui/icons-material";
 import { Button, FormControl, InputAdornment, InputLabel, MenuItem, Pagination, Select, TextField } from "@mui/material";
@@ -13,19 +13,24 @@ interface Props {
   totalCount: number;
 }
 
-const createQuery = (params: URLSearchParams) => {
-  const search = params.toString();
-  return search ? `?${search}` : "";
-};
-
 const SearchRecipesForm = ({ totalCount }: Props) => {
+  const [sortBy, setSortBy] = useState<'date_asc' | 'date_desc'>('date_desc');
+  const [searchField, setSearchField] = useState('');
+
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const pages = Math.ceil(totalCount / 12);
 
-  const [sortBy, setSortBy] = useState<'date_asc' | 'date_desc'>('date_desc');
-  const [searchField, setSearchField] = useState('');
+  useEffect(() => {
+    setSearchField(searchParams.get('title') || '');
+  }, [searchParams]);
+
+
+  const createQuery = (params: URLSearchParams) => {
+    const search = params.toString();
+    return search ? `?${search}` : "";
+  };
 
   // TODO: clean this mess
   const handleSubmit = useCallback(() => {
@@ -54,12 +59,8 @@ const SearchRecipesForm = ({ totalCount }: Props) => {
             value={sortBy}
             onChange={(event) => setSortBy(event.target.value as any)}
           >
-            <MenuItem  value={'date_asc'}>
-              Oldest
-            </MenuItem>
-            <MenuItem value={'date_desc'}>
-              Newest
-            </MenuItem>
+            <MenuItem  value={'date_asc'}>Oldest</MenuItem>
+            <MenuItem value={'date_desc'}>Newest</MenuItem>
           </Select>
         </FormControl>
 

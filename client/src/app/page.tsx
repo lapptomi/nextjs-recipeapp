@@ -1,11 +1,14 @@
 
 
+import { Suspense } from 'react';
+
 import { Restaurant } from '@mui/icons-material';
 import { Button, Typography } from '@mui/material';
 import Image from 'next/image';
 
 import PricingCard from '@/components/PricingCard';
-import RecipeListWithSuspense from '@/components/RecipeListWithSuspense';
+import RecipeList from '@/components/RecipeList';
+import RecipeListSkeleton from '@/components/RecipeListSkeleton';
 import { getRecipes } from '@/lib/actions/recipe';
 import { APPLICATION_NAME } from '@/lib/constants';
 import { PAGES } from '@/types';
@@ -16,13 +19,21 @@ import recipeimage from '../../public/recipeimage.jpeg';
 export const dynamic = 'force-dynamic';
 export const maxDuration = 60;
 
-const Home = () => {
-  const fetchedRecipes = async () => {
-    return getRecipes()
-      .then((response) => response.content.slice(0, 4))
-      .catch(() => []);
-  };
+const fetchRecipes = async () => {
+  try {
+    const recipes = await getRecipes();
+    return recipes.content;
+  } catch {
+    return [];
+  }
+};
 
+const Recipes = async () => {
+  const recipes = await fetchRecipes();
+  return <RecipeList recipes={recipes.slice(0, 4)} />;
+};
+
+const Home = () => {
   return (
     <div>
       <div className={styles.header}>
@@ -46,7 +57,9 @@ const Home = () => {
           RECOMMENDED
         </Typography>
         
-        <RecipeListWithSuspense request={fetchedRecipes} />
+        <Suspense fallback={<RecipeListSkeleton />}>
+          <Recipes />
+        </Suspense>
 
         <Button variant="outlined" href={PAGES.RECIPES} color="primary">
           View all recipes
