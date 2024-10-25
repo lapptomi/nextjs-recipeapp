@@ -1,3 +1,5 @@
+import { API_ROOT } from "../src/lib/constants";
+
 export const user = {
   username: 'testuser',
   email: 'testemail@test.com',
@@ -10,4 +12,4 @@ export const recipe = {
   instructions: 'Test instructions',
 };
 
-export const LOCALHOST_BACKEND_URL = 'http://localhost:8080';
+export const LOCALHOST_BACKEND_URL = `http://localhost:8080/${API_ROOT}`;

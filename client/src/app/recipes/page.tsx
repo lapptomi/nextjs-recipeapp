@@ -23,11 +23,7 @@ const BrowseRecipesPage = ({ searchParams }: Params) => {
   const recipesPromise = getRecipes(queryParams);
 
   return (
-    <div key={
-      // Math.random() disables component caching
-      // and is used to force a re-render when searchParams change
-      Math.random()
-    }>
+    <div key={queryParams}>
       <Suspense fallback={
         <div>
           <SearchRecipesForm totalCount={0} />

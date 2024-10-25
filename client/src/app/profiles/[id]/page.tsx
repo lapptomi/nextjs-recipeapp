@@ -2,15 +2,13 @@ import React from "react";
 
 import { GroupAdd } from "@mui/icons-material";
 import { Avatar, Button, Divider, Typography } from "@mui/material";
-import axios from "axios";
 
 import RecipeList from "@/components/RecipeList";
 import TitleHeader from "@/components/TitleHeader";
-import { API_ROOT, NEXT_APP_API_URL } from "@/lib/constants";
+import { findUserById } from "@/lib/actions/user";
 
 import styles from './page.module.css';
 
-import type { User } from "@/types";
 
 interface ProfilePageParams {
   params: {
@@ -19,8 +17,7 @@ interface ProfilePageParams {
 }
 
 const ProfilePage = async ({ params }: ProfilePageParams) => {
-  const response = await axios.get<User>(`${NEXT_APP_API_URL}/${API_ROOT}/users/${params.id}`);
-  const user = response.data;
+  const user = await findUserById(params.id);
 
   if (!user) {
     return <TitleHeader title="PROFILE NOT FOUND" />;

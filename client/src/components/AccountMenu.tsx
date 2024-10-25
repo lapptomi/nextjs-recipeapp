@@ -53,7 +53,7 @@ const AccountMenu: React.FC<Props> = ({ user }) => {
         transformOrigin={{ horizontal: 'right', vertical: 'top' }}
         anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
       >
-        <Link href={`/${PAGES.PROFILES}/${user.id}`}>
+        <Link href={`${PAGES.PROFILES}/${user.id}`}>
           <MenuItem onClick={handleClose}>
             <ListItemIcon>
               <Person fontSize="small" color="secondary" />

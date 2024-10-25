@@ -1,13 +1,12 @@
 /// <reference types="cypress" />
 
-import { API_ROOT } from "../../src/lib/constants";
 import { PAGES } from '../../src/types/index';
 import { LOCALHOST_BACKEND_URL, user } from "../constants";
 
 describe('Profiles', () => {
   beforeEach(() => {
-    cy.request('DELETE', `${LOCALHOST_BACKEND_URL}/${API_ROOT}/users`);
-    cy.request('POST', `${LOCALHOST_BACKEND_URL}/${API_ROOT}/users`);
+    cy.request('DELETE', `${LOCALHOST_BACKEND_URL}/users`);
+    cy.request('POST', `${LOCALHOST_BACKEND_URL}/users`);
 
     cy.visit(PAGES.LOGIN);
     cy.get('input[name="email"]').type(user.email);
