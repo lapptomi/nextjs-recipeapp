@@ -6,7 +6,7 @@ on:
     - main
 
 jobs:
-  test_and_deploy:
+  test_and_deploy_prod:
     timeout-minutes: 20
     runs-on: ubuntu-latest
 

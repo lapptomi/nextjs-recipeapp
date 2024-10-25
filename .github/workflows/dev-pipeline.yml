@@ -6,7 +6,7 @@ on:
     - dev
 
 jobs:
-  test_and_deploy:
+  test_and_deploy_dev:
     timeout-minutes: 20
     runs-on: ubuntu-latest
 
