@@ -1,12 +1,11 @@
 /// <reference types="cypress" />
 
-import { API_ROOT } from "../../src/lib/constants";
 import { PAGES } from "../../src/types";
 import { LOCALHOST_BACKEND_URL, user } from "../constants";
 
 describe('Creating new user', () => {
   beforeEach(() => {
-    cy.request('DELETE', `${LOCALHOST_BACKEND_URL}/${API_ROOT}/users`);
+    cy.request('DELETE', `${LOCALHOST_BACKEND_URL}/users`);
     cy.visit(PAGES.REGISTER);
   });
 
