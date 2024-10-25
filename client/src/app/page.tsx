@@ -17,8 +17,6 @@ import { PAGES } from '@/types';
 import styles from './page.module.css';
 import recipeimage from '../../public/recipeimage.jpeg';
 
-export const maxDuration = 60;
-
 const Home = () => {
   const fetchRecipes = async () => {
     try {
