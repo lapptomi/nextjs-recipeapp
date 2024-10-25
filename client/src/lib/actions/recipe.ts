@@ -12,6 +12,8 @@ interface Response {
   totalElements: number;
 }
 
+export const maxDuration = 60;
+
 export const getRecipes = async (queryParams?: string) => {
   const response = await axios.get<Response>(`${API_URL}/recipes?${queryParams}`);
   return response.data;
