@@ -17,6 +17,15 @@ import { PAGES } from '@/types';
 import recipeimage from '../../public/recipeimage.jpeg';
 
 const Home = () => {
+  const fetchRecipes = async () => {
+    try {
+      const recipes = await getRecipes();
+      return recipes.content;
+    } catch {
+      return [];
+    }
+  };
+  
   return (
     <div>
       <div className='flex min-h-[600px] flex-row flex-wrap items-center justify-evenly gap-10 bg-gray-50 p-12'>
@@ -41,10 +50,8 @@ const Home = () => {
         </Typography>
         
         <Suspense fallback={<RecipeListSkeleton />}>
-          <Await promise={getRecipes()}>
-            {(resolvedRecipes) => (
-              <RecipeList recipes={resolvedRecipes.content.slice(0, 4)} />
-            )}
+          <Await promise={fetchRecipes()}>
+            {(resolvedRecipes) => <RecipeList recipes={resolvedRecipes.slice(0, 4)} />}
           </Await>
         </Suspense>
 
