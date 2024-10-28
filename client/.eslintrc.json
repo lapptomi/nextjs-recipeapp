@@ -1,6 +1,13 @@
 {
-  "extends": ["next/core-web-vitals", "plugin:storybook/recommended"],
-  "plugins": ["@typescript-eslint", "no-null"],
+  "extends": [
+    "next/core-web-vitals",
+    "plugin:storybook/recommended",
+    "plugin:tailwindcss/recommended"
+  ],
+  "plugins": [
+    "@typescript-eslint",
+    "no-null"
+  ],
   "rules": {
     "indent": ["error", 2],
     "semi" : ["error", "always"],
@@ -43,6 +50,10 @@
         "allowSeparatedGroups": true
       }
     ],
+    "tailwindcss/no-custom-classname": ["error", {
+      "config": "./tailwind.config.js",
+      "replaceWithPredefined": true
+    }],
     "react/react-in-jsx-scope": "off",
     "@typescript-eslint/consistent-type-imports": "error",
     "no-null/no-null": 2,

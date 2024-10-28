@@ -5,13 +5,11 @@ import { Alert, Button, Typography } from "@mui/material";
 
 import { PAGES } from "@/types";
 
-import styles from "./error.module.css";
-
 export default function ErrorPage({ error }: {
   readonly error: Error & { digest?: string }
 }) {
   return (
-    <div className={styles.errorpage}>
+    <div className='flex min-h-screen flex-col items-center justify-center gap-5'>
       <Typography variant="h1">
         404
       </Typography>

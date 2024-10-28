@@ -1,8 +1,0 @@
-.recipelistskeleton {
-  display: flex;
-  flex-direction: row;
-  gap: 16px;
-  padding: 32px;
-  justify-content: center;
-  flex-wrap: wrap;
-}

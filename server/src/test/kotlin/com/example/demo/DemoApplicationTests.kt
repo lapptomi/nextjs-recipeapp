@@ -10,4 +10,9 @@ class DemoApplicationTests {
 	fun contextLoads() {
 	}
 
+	@Test
+	fun test() {
+		assert(true)
+	}
+
 }

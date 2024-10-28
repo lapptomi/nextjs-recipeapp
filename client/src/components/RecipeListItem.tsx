@@ -14,7 +14,6 @@ import {
 import Image from "next/image";
 import Link from "next/link";
 
-import styles from "@/styles/RecipeListItem.module.css";
 import { PAGES, type Recipe, type RecipeRatingType } from "@/types";
 
 interface Props {
@@ -30,8 +29,8 @@ const RecipeListItem = ({ recipe }: Props) => {
 
   return (
     <Link key={recipe.id} href={`${PAGES.RECIPES}/${recipe.id}`}>
-      <ImageListItem className={styles.imagelistitem}>
-        <div className={styles.recipebackground}>
+      <ImageListItem className='min-h-[300px] min-w-[300px] bg-gray-200 transition duration-200 ease-in-out hover:scale-[1.01] hover:bg-gray-100'>
+        <div className='absolute size-full'>
           {recipe.image ? (
             <Image
               alt={recipe.title}
@@ -41,7 +40,7 @@ const RecipeListItem = ({ recipe }: Props) => {
               fill={true}
             />
           ) : (
-            <Restaurant className={styles.placeholdericon} />
+            <Restaurant className='size-full opacity-10' />
           )}
         </div>
 
@@ -56,7 +55,7 @@ const RecipeListItem = ({ recipe }: Props) => {
           subtitle={`@${recipe.author?.username}`}
           position="top"
           actionIcon={
-            <div className={styles.imagelist_top}>
+            <div className='flex flex-col'>
               <Rating
                 readOnly
                 value={likes / (likes + dislikes) * 5}
@@ -69,30 +68,31 @@ const RecipeListItem = ({ recipe }: Props) => {
         />
 
         <ImageListItemBar
+          className="flex max-w-full flex-col items-start px-2 pb-2"
           position='bottom'
+          title={
+            <Typography className='line-clamp-2' variant="caption">
+              {recipe.description}
+            </Typography>
+          }
           actionIcon={
-            <div style={{ padding: 5 }}>
-              <Typography className={styles.itemdescription} variant="caption">
-                {recipe.description}
-              </Typography>
-              <div>
-                <Chip
-                  icon={<AccessTime color="secondary" />}
-                  label={
-                    <Typography variant="caption" color="white">
-                      {recipe.cookingTime} minutes
-                    </Typography>
-                  }
-                />
-                <Chip
-                  icon={<Person color="secondary" />}
-                  label={
-                    <Typography variant="caption" color="white">
-                      {recipe.servings} servings
-                    </Typography>
-                  }
-                />
-              </div>
+            <div className="flex flex-row gap-1">
+              <Chip
+                icon={<AccessTime color="secondary" />}
+                label={
+                  <Typography variant="caption" color="white">
+                    {recipe.cookingTime} minutes
+                  </Typography>
+                }
+              />
+              <Chip
+                icon={<Person color="secondary" />}
+                label={
+                  <Typography variant="caption" color="white">
+                    {recipe.servings} servings
+                  </Typography>
+                }
+              />
             </div>
           }
         />

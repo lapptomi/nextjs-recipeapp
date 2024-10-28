@@ -6,7 +6,6 @@ import { SearchOutlined } from "@mui/icons-material";
 import { Button, FormControl, InputAdornment, InputLabel, MenuItem, Pagination, Select, TextField } from "@mui/material";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
-import styles from '@/styles/SearchRecipesForm.module.css';
 import { PAGES } from "@/types";
 
 interface Props {
@@ -50,8 +49,8 @@ const SearchRecipesForm = ({ totalCount }: Props) => {
   },  [searchParams, router, pathname]);
 
   return (
-    <div className={styles.main}>
-      <form className={styles.filterform}>
+    <div className='flex flex-col items-center justify-center gap-4 bg-gray-100 p-6'>
+      <form className='flex max-w-[600px] flex-col flex-wrap justify-center gap-4'>
         <FormControl variant="standard">
           <InputLabel size="small">Sort By</InputLabel>
           <Select

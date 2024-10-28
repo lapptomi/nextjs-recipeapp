@@ -9,7 +9,6 @@ import { useRouter } from 'next/navigation';
 import { useFieldArray, useForm } from 'react-hook-form';
 
 import { createRecipe } from '@/lib/actions/recipe';
-import styles from '@/styles/CreateRecipeForm.module.css';
 import { NewRecipeSchema, PAGES } from '@/types';
 
 import type { NewRecipe } from '@/types';
@@ -63,7 +62,7 @@ const CreateRecipeForm = () => {
 
   return (
     <form
-      className={styles.formcontainer}
+      className='flex h-full w-[70vw] flex-col items-center justify-center gap-5 bg-white p-6'
       onSubmit={handleSubmit(handleFormSubmit, (error) => console.log('ERROR = ', error))}
     >
       <Typography variant="overline">
@@ -195,7 +194,7 @@ const CreateRecipeForm = () => {
         />
       </div>
 
-      <div className={styles.formimagecontainer}>
+      <div className='flex min-h-36 w-full flex-col items-center justify-center bg-gray-50 p-5'>
         <Typography variant="caption" color="error">
           {errors.image && errors.image.message}
         </Typography>

@@ -37,8 +37,8 @@ const AccountMenu: React.FC<Props> = ({ user }) => {
   return (
     <>
       <Tooltip title="Account menu">
-        <Button style={{ gap: 10 }} onClick={handleClick} size="small" className='account-menu'>
-          <Avatar sx={{ width: 32, height: 32 }}>
+        <Button onClick={handleClick} size="small" className='flex flex-row gap-2'>
+          <Avatar className='size-7'>
             {user.name ? user.name[0] : ''}
           </Avatar>
           <Typography variant="body2">{user?.name || ''}</Typography>
@@ -78,7 +78,6 @@ const AccountMenu: React.FC<Props> = ({ user }) => {
         <Divider />
 
         <MenuItem
-          className='logout-button'
           onClick={() => {
             if (window.confirm('Are you sure you want to sign out?')) {
               signOut({ callbackUrl: PAGES.RECIPES });

@@ -1,7 +1,6 @@
 import { Check } from "@mui/icons-material";
 import { Button, Card, CardContent, CardMedia, Divider, Typography } from "@mui/material";
 
-import styles from '@/styles/PricingCard.module.css';
 import { PAGES } from "@/types";
 
 interface Props {
@@ -12,11 +11,11 @@ interface Props {
 
 const PricingCard = (props: Props) => {
   return (
-    <Card className={styles.wrapper}>
-      <CardMedia className={styles.container}>
+    <Card className='flex min-w-[350px] max-w-[350px] flex-col'>
+      <CardMedia className='flex flex-col p-6'>
         <Typography variant="h4">{props.title}</Typography>
         {props.price ? (
-          <div className={styles.pricing}>
+          <div className='flex gap-2 align-baseline'>
             <Typography variant="h3" fontWeight="bold" color="primary">
               ${props.price}
             </Typography>
@@ -32,10 +31,10 @@ const PricingCard = (props: Props) => {
         </Typography>
       </CardMedia>
       
-      <CardContent className={styles.cardcontent}>
+      <CardContent className='flex flex-col'>
         <Divider />
 
-        <div className={styles.container}>
+        <div className='flex flex-col p-6'>
           {Array(5).fill('Hello world').map((item, index) => (
             <div key={index} style={{ display: 'flex', gap: '20px' }}>
               <Check /> 

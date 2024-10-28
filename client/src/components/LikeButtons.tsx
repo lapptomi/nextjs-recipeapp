@@ -74,7 +74,7 @@ const LikeButtons = ({ recipe, session }: Props) => {
             <ThumbUpSharp color={userHasRated('LIKE') ? 'secondary' : 'primary'}/>
           }
         >
-          <Typography variant="overline" color="primary" className="like-count">
+          <Typography variant="overline" color="primary" data-testid="like-count">
             {recipe.ratings.filter((rating) => rating.type === 'LIKE').length}
           </Typography>
         </Button>
@@ -83,13 +83,12 @@ const LikeButtons = ({ recipe, session }: Props) => {
       <Tooltip title="Dislike recipe">
         <Button
           id="dislike-button"
-          disabled={session === null}
           onClick={() => updateRating('DISLIKE')}
           startIcon={
             <ThumbDown color={userHasRated('DISLIKE') ? 'secondary' : 'primary'}/>
           }
         >
-          <Typography variant="overline" color="primary" className="dislike-count">
+          <Typography variant="overline" color="primary" data-testid="dislike-count">
             {recipe.ratings.filter((rating) => rating.type === 'DISLIKE').length}
           </Typography>
         </Button>   

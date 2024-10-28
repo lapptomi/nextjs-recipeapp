@@ -10,8 +10,6 @@ import { getSession } from '@/lib/actions/auth';
 import { findRecipeById } from '@/lib/actions/recipe';
 import { PAGES } from '@/types';
 
-import styles from './page.module.css';
-
 interface Props {
   params: {
     id: string;
@@ -30,16 +28,16 @@ const RecipePage = async ({ params }: Props) => {
   const dislikes = recipe.ratings.filter((r) => r.type === 'DISLIKE').length;
 
   return (
-    <div className={styles.main}>
-      <div className={styles.recipecontainer}>
-        <div className={styles.recipeinfocontainer}>
-          <div className={styles.headertitle}>
+    <div className='flex flex-col items-center justify-center'>
+      <div className='flex w-full max-w-[1920px] flex-wrap items-center justify-between'>
+        <div className='flex w-full flex-row flex-wrap justify-evenly bg-gradient-to-l from-gray-50 p-12'>
+          <div className='flex flex-col justify-center gap-3'>
             <Typography variant="h3" fontWeight="medium">
               {recipe.title.toUpperCase()}
             </Typography>
             <Link href={`${PAGES.PROFILES}/${recipe.author.id}`}>
-              <div className={styles.avatarcontainer}>
-                <Avatar sx={{ width: 80, height: 80 }} />
+              <div className='flex flex-row items-center gap-4'>
+                <Avatar className='size-20' />
                 <div>
                   <Typography variant="subtitle1">
                     Created By
@@ -55,20 +53,16 @@ const RecipePage = async ({ params }: Props) => {
             <LikeButtons session={session} recipe={recipe} />
           </div>
 
-          <div className={styles.imagecontainer}>
+          <div className='size-[440px]'>
             {recipe.image ? (
-              <Image
-                src={recipe.image}
-                alt={recipe.title}
-                layout='fill'
-              />
+              <Image src={recipe.image} alt={recipe.title} layout='fill' />
             ) : (
-              <Restaurant className={styles.placeholdericon} />
+              <Restaurant className='size-full bg-gray-400 opacity-5' />
             )}
           </div>
         </div>
 
-        <div className={styles.recipedatacontainer}>
+        <div className='flex min-h-[400px] w-full flex-col justify-center gap-10 p-10'>
           <Divider>
             <Typography variant="h5">ABOUT</Typography>
             <Typography variant="overline">
@@ -102,19 +96,19 @@ const RecipePage = async ({ params }: Props) => {
           <Divider>
             <Typography variant="h5">INSTRUCTIONS</Typography>
           </Divider>
-          <Typography variant="body2" style={{ whiteSpace: 'pre-line' }}>
+          <Typography variant="body2" className='whitespace-pre-line'>
             {recipe.instructions}
           </Typography>
           
           <div>
-            <List style={{ display: 'flex', flexDirection: 'column', width: '100%', background: 'white' }}>
+            <List className='flex w-full flex-col'>
               <Divider>
                 <Typography variant="body1">
                   {recipe.comments.length} COMMENTS
                 </Typography>
               </Divider>
               {(recipe.comments ?? []).map((comment, index: number) => (
-                <ListItem key={index} className={styles.recipecomment}>
+                <ListItem key={index} className='my-2 border-r bg-gray-50 p-2'>
                   <ListItemAvatar>
                     <Avatar />
                   </ListItemAvatar>
