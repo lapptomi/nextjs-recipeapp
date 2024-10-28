@@ -22,26 +22,11 @@ jobs:
         with:
           node-version: 18
 
-      - name: Set up JDK 17
-        uses: actions/setup-java@v3
-        with:
-          distribution: 'temurin'
-          java-version: '17'
-
-      - name: Grant execute permission for gradlew
-        run: chmod +x ./server/gradlew
-
       - name: Install client dependencies
         run: cd client && npm ci && npm run lint
       
       - name: Run Cypress e2e tests
         run: cd client && npm run cypress:run
-
-      - name: Install server dependencies
-        run: cd server && ./gradlew clean build
-
-      - name: Run tests
-        run: cd server && ./gradlew test
 
       - name: Deploy to Render
         if: success()

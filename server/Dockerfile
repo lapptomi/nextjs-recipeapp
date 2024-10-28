@@ -1,25 +1,26 @@
-# Build stage
 FROM openjdk:17-jdk-slim AS build
 
-WORKDIR /usr/src/app
+WORKDIR /app
 
-COPY . .
+COPY gradle /app/gradle
 
-RUN ./gradlew bootJar
+COPY gradlew /app/gradlew
+
+COPY build.gradle.kts /app/build.gradle.kts
+
+COPY settings.gradle.kts /app/settings.gradle.kts
+
+COPY src /app/src
+
+RUN chmod +x ./gradlew && ./gradlew build --no-daemon
 
 
-# Production stage
 FROM openjdk:17-jdk-slim
 
-WORKDIR /usr/src/app
+WORKDIR /app
 
-COPY --from=build /usr/src/app/build/libs/*.jar app.jar
-
-# Run as non-root user
-RUN addgroup --system spring && adduser --system spring --ingroup spring
-
-USER spring:spring
+COPY --from=build /app/build/libs/*.jar app.jar
 
 EXPOSE 8080
 
-ENTRYPOINT ["java","-jar","app.jar"]
+ENTRYPOINT ["java", "-jar", "app.jar"]
