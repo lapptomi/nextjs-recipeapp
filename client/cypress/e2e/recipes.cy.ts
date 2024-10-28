@@ -87,7 +87,7 @@ describe('Recipes', () => {
     cy.contains('Test instructions', { matchCase: false });
 
     cy.get('#like-button').click();
-    cy.get('.like-count').should('have.text', '1');
+    cy.get('[data-testid="like-count"]').should('have.text', '1');
   });
 
   it('Can be disliked', () => {
@@ -109,7 +109,7 @@ describe('Recipes', () => {
     cy.contains('Test instructions', { matchCase: false });
 
     cy.get('#dislike-button').click();
-    cy.get('.dislike-count').should('have.text', '1');
+    cy.get('[data-testid="dislike-count"]').should('have.text', '1');
   });
 
 });

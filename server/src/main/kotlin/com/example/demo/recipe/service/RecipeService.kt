@@ -44,7 +44,7 @@ class RecipeService(
                 cookingTime = recipe.cookingTime,
                 servings = recipe.servings,
                 instructions = recipe.instructions,
-                image = "image link in the future"
+                image = null,
             )
         )
     }

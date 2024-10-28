@@ -56,7 +56,8 @@ class DemoApplication {
 					ingredients = listOf("Ingredient 1", "Ingredient 2"),
 					cookingTime = 10,
 					servings = 2,
-					instructions = "Instructions $it"
+					instructions = "Instructions $it",
+					image = null,
 				)
 			}
 			val recipeComments = (0..10).map {

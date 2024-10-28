@@ -55,7 +55,7 @@ const RecipePage = async ({ params }: Props) => {
 
           <div className='size-[440px]'>
             {recipe.image ? (
-              <Image  src={recipe.image} alt={recipe.title} layout='fill' />
+              <Image src={recipe.image} alt={recipe.title} layout='fill' />
             ) : (
               <Restaurant className='size-full bg-gray-400 opacity-5' />
             )}
