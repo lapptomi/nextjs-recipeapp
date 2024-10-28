@@ -1,16 +1,14 @@
 import CreateRecipeForm from '@/components/CreateRecipeForm';
 import TitleHeader from '@/components/TitleHeader';
 
-import styles from './page.module.css';
-
 const CreateRecipePage = () => {
   return (
-    <>
+    <div>
       <TitleHeader title="CREATE RECIPE" />
-      <div className={styles.maincontainer}>
+      <div className='flex min-h-[300px] items-center justify-center p-8'>
         <CreateRecipeForm />
       </div>
-    </>
+    </div>
   );
 };
 

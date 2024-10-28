@@ -8,8 +8,6 @@ import Navigation from '@/components/Navigation';
 import ThemeRegistry from '@/components/ThemeRegistry';
 import { APPLICATION_NAME } from '@/lib/constants';
 
-import styles from './layout.module.css';
-
 import type { Metadata } from 'next';
 
 const inter = Inter({ subsets: ['latin'] });
@@ -30,13 +28,13 @@ export default function RootLayout({ children }: {
             <div>
               <Navigation />
             </div>
-            <div className={styles.main}>
+            <div className='min-h-screen'>
               {children}
             </div>
 
-            <footer className={styles.footer}>
-              <div className={styles.footercontainer}>
-                <div className={styles.leftcolumn}>
+            <footer className='flex h-96 flex-col justify-between bg-white p-24'>
+              <div className='flex w-full justify-evenly gap-5'>
+                <div className='flex flex-col gap-2'>
                   <Typography variant="h4" fontWeight="medium">
                     {APPLICATION_NAME}
                   </Typography>

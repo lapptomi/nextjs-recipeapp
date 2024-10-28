@@ -4,7 +4,6 @@ import Link from 'next/link';
 
 import { getSession } from '@/lib/actions/auth';
 import { APPLICATION_NAME } from '@/lib/constants';
-import styles from '@/styles/Navigation.module.css';
 import { PAGES } from '@/types';
 
 import AccountMenu from './AccountMenu';
@@ -13,8 +12,8 @@ const Navigation = async () => {
   const session = await getSession();
   
   return (
-    <div className={styles.nav}>
-      <div className={styles.navbarleft}>
+    <div className='flex w-full flex-row justify-between border-b border-gray-200 bg-white px-8 py-2'>
+      <div className='flex flex-row items-center gap-2'>
         <Link href={PAGES.HOME}>
           <Typography variant="body1" fontWeight="">
             {APPLICATION_NAME}
@@ -38,7 +37,7 @@ const Navigation = async () => {
         </Tooltip>
       </div>
 
-      <div className={styles.navbarright}>
+      <div className='flex flex-row items-center gap-2'>
         {session && session.user ? (
           <>
             <Tooltip title="Create new recipe">

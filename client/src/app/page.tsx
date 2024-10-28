@@ -14,23 +14,13 @@ import { getRecipes } from '@/lib/actions/recipe';
 import { APPLICATION_NAME } from '@/lib/constants';
 import { PAGES } from '@/types';
 
-import styles from './page.module.css';
 import recipeimage from '../../public/recipeimage.jpeg';
 
 const Home = () => {
-  const fetchRecipes = async () => {
-    try {
-      const recipes = await getRecipes();
-      return recipes.content;
-    } catch {
-      return [];
-    }
-  };
-  
   return (
     <div>
-      <div className={styles.header}>
-        <div className={styles.headercontainer}>
+      <div className='flex min-h-[600px] flex-row flex-wrap items-center justify-evenly gap-10 bg-gray-50 p-12'>
+        <div className='flex max-w-[500px] flex-col gap-3'>
           <Typography variant="h3" fontWeight="bold">
             {APPLICATION_NAME}
           </Typography>
@@ -45,14 +35,16 @@ const Home = () => {
         <Image src={recipeimage} alt="food" quality={10} width={500} height={500} />
       </div>
 
-      <div className={styles.recipelistcontainer}>
+      <div className='flex flex-col items-center border-t border-gray-100 bg-white p-4'>
         <Typography variant="body2" fontWeight="bold">
           RECOMMENDED
         </Typography>
         
         <Suspense fallback={<RecipeListSkeleton />}>
-          <Await promise={fetchRecipes()}>
-            {(resolvedRecipes) => <RecipeList recipes={resolvedRecipes.slice(0, 4)} />}
+          <Await promise={getRecipes()}>
+            {(resolvedRecipes) => (
+              <RecipeList recipes={resolvedRecipes.content.slice(0, 4)} />
+            )}
           </Await>
         </Suspense>
 
@@ -61,9 +53,9 @@ const Home = () => {
         </Button>
       </div>
 
-      <div className={styles.header}>
-        <Restaurant style={{ width: 300, height: 300, color: 'gray' }} />
-        <div className={styles.headercontainer}>
+      <div className='flex min-h-[600px] flex-row flex-wrap items-center justify-evenly gap-10 bg-white p-12'>
+        <Restaurant className='size-64 text-gray-300' />
+        <div className='flex max-w-[500px] flex-col gap-4'>
           <Typography variant="h4" fontWeight="bold">
             All Your Favourite Recipes In One Place
           </Typography>
@@ -77,11 +69,11 @@ const Home = () => {
         </div>
       </div>
 
-      <div className={styles.cardcontainer}>
+      <div className='flex flex-col flex-wrap items-center justify-center gap-8 bg-gray-50 px-2 py-24'>
         <Typography variant="h4" fontWeight="medium">
           Choose Plan
         </Typography>
-        <div className={styles.cardrow}>
+        <div className='flex flex-row flex-wrap justify-center gap-4'>
           <PricingCard
             title="Personal"
             description="Some random description"
