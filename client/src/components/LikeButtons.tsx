@@ -16,7 +16,7 @@ interface Props {
   session: Session | null;
 }
 
-const LikeButtons = ({ recipe, session }: Props) => {  
+const LikeButtons = ({ recipe, session }: Props) => {
   const [open, setOpen] = useState(false);
 
   const updateRating = async (ratingType: RecipeRatingType) => {
@@ -91,7 +91,7 @@ const LikeButtons = ({ recipe, session }: Props) => {
           <Typography variant="overline" color="primary" data-testid="dislike-count">
             {recipe.ratings.filter((rating) => rating.type === 'DISLIKE').length}
           </Typography>
-        </Button>   
+        </Button>
       </Tooltip>
     </div>
   );

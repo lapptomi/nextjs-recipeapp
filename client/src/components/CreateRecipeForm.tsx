@@ -41,10 +41,10 @@ const CreateRecipeForm = () => {
 
   const selectedImage = watch('image');
   const router = useRouter();
-  
+
   const handleFormSubmit = (data: NewRecipe) => {
-    const formData = new FormData();    
-    
+    const formData = new FormData();
+
     formData.append('recipe', JSON.stringify({
       title: data.title,
       description: data.description,
@@ -174,9 +174,9 @@ const CreateRecipeForm = () => {
               </InputAdornment>
             ),
           }}
-          {...register('cookingTime', { valueAsNumber: true })}  
+          {...register('cookingTime', { valueAsNumber: true })}
         />
-        
+
         <TextField
           size="small"
           label="Servings"
@@ -200,7 +200,7 @@ const CreateRecipeForm = () => {
         </Typography>
         <Button component="label" startIcon={<CloudUpload />}>
           <Typography variant="subtitle1">Upload recipe image</Typography>
-          <input  
+          <input
             type="file"
             hidden
             accept="image/png, image/jpeg"

@@ -17,7 +17,7 @@ import type { NewUser} from "../types";
 
 const RegisterForm = () => {
   const [error, setError] = useState('');
-  const [confirm, setConfirm] = useState('');  
+  const [confirm, setConfirm] = useState('');
 
   const {
     register,

@@ -11,15 +11,9 @@ const PageLayout = async ({ children }: any) => {
   }
 
   return (
-    <div style={{ display: 'flex', height: '100vh' }}>
+    <div className="flex h-screen">
       <div className={styles.maingrid} />
-      <div style={{
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        backgroundColor: 'white',
-        padding: '32px',
-      }}>
+      <div className="flex flex-col items-center bg-white p-8">
         {children}
       </div>
     </div>

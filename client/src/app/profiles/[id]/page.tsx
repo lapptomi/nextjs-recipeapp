@@ -7,9 +7,6 @@ import RecipeList from "@/components/RecipeList";
 import TitleHeader from "@/components/TitleHeader";
 import { findUserById } from "@/lib/actions/user";
 
-import styles from './page.module.css';
-
-
 interface ProfilePageParams {
   params: {
     id: string;
@@ -28,22 +25,18 @@ const ProfilePage = async ({ params }: ProfilePageParams) => {
   return (
     <div>
       <TitleHeader title={`PROFILE OF ${user.username}`.toUpperCase()} />
-      <div className={styles.maincontainer}>
-        <div style={{ display: 'flex', gap: '16px' }}>
-          <div className={styles.profileheader}>
-            <div className={styles.profilepicture}>
-              <Avatar style={{ width: '100%', height: '100%' }} />
+      <div className='flex flex-col gap-5 p-4'>
+        <div className="flex gap-4">
+          <div className='flex w-1/2 flex-wrap items-center justify-center gap-8 bg-white'>
+            <div className='size-[120px]'>
+              <Avatar className="size-full" />
             </div>
 
-            <div style={{
-              display: 'flex',
-              flexDirection: 'column',
-              gap: '8px',
-            }}>
-              <Typography variant="h5">
+            <div className="flex flex-col gap-1">
+              <Typography variant="h4">
                 {user.username}
               </Typography>
-              <div className={styles.infocontainer}>
+              <div className='flex flex-row gap-4'>
                 <div>
                   <Typography variant="caption">
                     Recipes
@@ -77,14 +70,14 @@ const ProfilePage = async ({ params }: ProfilePageParams) => {
               </Button>
             </div>
           </div>
-          <div className={styles.profileheader}>
+          <div className='flex w-1/2 flex-wrap items-center justify-center gap-8 bg-white'>
             <Typography variant="body1">
               Some random data here
             </Typography>
           </div>
         </div>
 
-        <div className={styles.recipelist}>
+        <div className='flex flex-col p-8'>
           <Divider>
             <Typography variant="h5">
               {recipes.length} PUBLIC RECIPES

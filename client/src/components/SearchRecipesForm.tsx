@@ -25,7 +25,6 @@ const SearchRecipesForm = ({ totalCount }: Props) => {
     setSearchField(searchParams.get('title') || '');
   }, [searchParams]);
 
-
   const createQuery = (params: URLSearchParams) => {
     const search = params.toString();
     return search ? `?${search}` : "";
@@ -46,7 +45,7 @@ const SearchRecipesForm = ({ totalCount }: Props) => {
     const current = new URLSearchParams(Array.from(searchParams.entries()));
     current.set('page', String(value));
     router.push(`${pathname}${createQuery(current)}`);
-  },  [searchParams, router, pathname]);
+  }, [searchParams, router, pathname]);
 
   return (
     <div className='flex flex-col items-center justify-center gap-4 bg-gray-100 p-6'>
@@ -58,7 +57,7 @@ const SearchRecipesForm = ({ totalCount }: Props) => {
             value={sortBy}
             onChange={(event) => setSortBy(event.target.value as any)}
           >
-            <MenuItem  value={'date_asc'}>Oldest</MenuItem>
+            <MenuItem value={'date_asc'}>Oldest</MenuItem>
             <MenuItem value={'date_desc'}>Newest</MenuItem>
           </Select>
         </FormControl>

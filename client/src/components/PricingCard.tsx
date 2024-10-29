@@ -30,20 +30,20 @@ const PricingCard = (props: Props) => {
           {props.description}
         </Typography>
       </CardMedia>
-      
+
       <CardContent className='flex flex-col'>
         <Divider />
 
         <div className='flex flex-col p-6'>
           {Array(5).fill('Hello world').map((item, index) => (
             <div key={index} style={{ display: 'flex', gap: '20px' }}>
-              <Check /> 
+              <Check />
               <Typography>
                 {item}
               </Typography>
             </div>
           ))}
-        </div>        
+        </div>
 
         <Button size="small" variant="contained" href={PAGES.RECIPES} color="primary">
           Get Started

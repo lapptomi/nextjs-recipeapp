@@ -1,5 +1,5 @@
 /* eslint-disable no-null/no-null */
-import axios from 'axios';
+import axios from "axios";
 import CredentialsProvider from 'next-auth/providers/credentials';
 import GitHubProvider from 'next-auth/providers/github';
 
@@ -16,14 +16,14 @@ export const options: NextAuthOptions = {
   session: {
     strategy: "jwt",
     // Seconds - How long until an idle session expires and is no longer valid.
-    maxAge: 24 * 60 * 60,  // 30 days
+    maxAge: 24 * 60 * 60, // 30 days
   },
   secret: NEXTAUTH_SECRET,
   /*
   When using JSON Web Tokens the jwt() callback is invoked before the session() callback,
   so anything you add to the JSON Web Token will be immediately available
   in the session callback, like for example an access_token or id from a provider.
-  */ 
+  */
   callbacks: {
     async jwt({ token, user }: any) {
       if (user) {

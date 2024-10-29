@@ -19,7 +19,7 @@ interface Props {
 const RecipePage = async ({ params }: Props) => {
   const session = await getSession();
   const recipe = await findRecipeById(params.id);
-  
+
   if (!recipe) {
     return <TitleHeader title="Recipe not found" />;
   }
@@ -74,7 +74,7 @@ const RecipePage = async ({ params }: Props) => {
               {recipe.servings} servings
             </Typography>
           </Divider>
-          
+
           <Typography variant="body1">
             {recipe.description}
           </Typography>
@@ -99,7 +99,7 @@ const RecipePage = async ({ params }: Props) => {
           <Typography variant="body2" className='whitespace-pre-line'>
             {recipe.instructions}
           </Typography>
-          
+
           <div>
             <List className='flex w-full flex-col'>
               <Divider>
@@ -118,7 +118,7 @@ const RecipePage = async ({ params }: Props) => {
                         <Link href={`${PAGES.PROFILES}/${comment.author.id}`}>
                           {comment.author.username}-
                           <Typography variant="caption">
-                            {comment.createdAt && new Date(comment.createdAt).toISOString().split('T')[0]} 
+                            {comment.createdAt && new Date(comment.createdAt).toISOString().split('T')[0]}
                           </Typography>
                         </Link>
                       </Tooltip>

@@ -31,7 +31,7 @@ const RecipeCommentForm: React.FC<Props> = ({ recipe }) => {
       .then(() => window.location.reload())
       .catch((error) => console.log('ERROR = ', error));
   };
-  
+
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
       <TextField
