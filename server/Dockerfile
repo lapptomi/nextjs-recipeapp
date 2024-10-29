@@ -19,7 +19,13 @@ FROM openjdk:17-jdk-slim
 
 WORKDIR /app
 
+RUN groupadd -r appgroup && useradd -r -g appgroup appuser
+
 COPY --from=build /app/build/libs/*.jar app.jar
+
+RUN chown -R appuser:appgroup /app
+
+USER appuser
 
 EXPOSE 8080
 
