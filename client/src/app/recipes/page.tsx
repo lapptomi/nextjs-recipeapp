@@ -31,7 +31,7 @@ const BrowseRecipesPage = ({ searchParams }: Params) => {
         </div>
       }>
         <Await promise={recipesPromise}>
-          {(resolvedRecipes) => (
+          {({ data: resolvedRecipes }) => (
             <div>
               <SearchRecipesForm totalCount={resolvedRecipes.totalElements} />
               <RecipeList recipes={resolvedRecipes.content} />

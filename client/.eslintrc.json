@@ -54,6 +54,10 @@
       "config": "./tailwind.config.js",
       "replaceWithPredefined": true
     }],
+    "no-trailing-spaces": "error",
+    "no-multi-spaces": "error",
+    "space-before-blocks": "error",
+    "no-multiple-empty-lines": ["error", { "max": 1, "maxEOF": 1 }],
     "react/react-in-jsx-scope": "off",
     "@typescript-eslint/consistent-type-imports": "error",
     "no-null/no-null": 2,

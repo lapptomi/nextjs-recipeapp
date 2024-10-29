@@ -1,9 +1,13 @@
 const Await = async ({ promise, children }: {
   promise: Promise<any>,
-  children: (value: any) => JSX.Element
+  children: ({ data, error }: { data: any, error?: string }) => JSX.Element,
 }) => {
-  let resolvedData = await promise;
-  return children(resolvedData);
+  try {
+    const resolvedData = await promise;
+    return children({ data: resolvedData });
+  } catch (error: any) {
+    return children({ data: [], error: error.message });
+  }
 };
 
 export default Await;

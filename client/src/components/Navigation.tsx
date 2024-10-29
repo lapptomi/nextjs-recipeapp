@@ -10,7 +10,7 @@ import AccountMenu from './AccountMenu';
 
 const Navigation = async () => {
   const session = await getSession();
-  
+
   return (
     <div className='flex w-full flex-row justify-between border-b border-gray-200 bg-white px-8 py-2'>
       <div className='flex flex-row items-center gap-2'>
