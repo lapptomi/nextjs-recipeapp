@@ -1,7 +1,8 @@
 package com.example.demo.user.domain
 
-data class UserInfoDTO(
+data class UserDTO(
     val id: Int,
-    var username: String,
-    var email: String
+    val username: String,
+    val email: String,
+    val recipes: List<RecipeDTO> = listOf(),
 )
