@@ -1,7 +1,7 @@
 package com.example.demo.user.domain
 
-data class NewUserDTO(
-    var username: String,
-    var email: String,
-    var password: String
+data class CreateUserDTO(
+    val username: String,
+    val email: String,
+    val password: String
 )

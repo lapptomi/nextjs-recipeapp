@@ -1,9 +1,12 @@
 package com.example.demo.user.controller
 
 import com.example.demo.ApiPath
+import com.example.demo.recipe.domain.recipecomment.CreateRecipeCommentDTO
 import com.example.demo.recipe.domain.recipecomment.RecipeCommentDTO
+import com.example.demo.recipe.domain.reciperating.CreateRecipeRatingDTO
 import com.example.demo.recipe.domain.reciperating.RecipeRatingDTO
 import com.example.demo.user.domain.Recipe
+import com.example.demo.user.domain.RecipeDTO
 import com.example.demo.user.domain.User
 import com.example.demo.user.service.RecipeService
 import org.springframework.http.HttpStatus
@@ -22,7 +25,7 @@ class RecipeController(private val recipeService: RecipeService) {
         @RequestParam(name="page", defaultValue = "1", required = false) page: Int,
         @RequestParam(name="page_size", defaultValue = "12", required = false) pageSize: Int,
         @RequestParam(name="sort_by", defaultValue = "date_desc", required = false) sortBy: String
-    ): ResponseEntity<MutableIterable<Recipe>> = ResponseEntity
+    ): ResponseEntity<MutableIterable<RecipeDTO>> = ResponseEntity
         .ok(recipeService.getRecipes(recipeTitle, page, pageSize, sortBy))
 
     @PostMapping
@@ -35,15 +38,15 @@ class RecipeController(private val recipeService: RecipeService) {
             .body(recipeService.createRecipe(user, recipeJson, image))
 
     @GetMapping("/{id}")
-    fun getRecipeById(@PathVariable id: Int): ResponseEntity<Recipe> = ResponseEntity
+    fun getRecipeById(@PathVariable id: Int): ResponseEntity<RecipeDTO> = ResponseEntity
         .ok(recipeService.getRecipeById(id))
 
     @PostMapping("/{id}/comments")
     fun addComment(
         @AuthenticationPrincipal user: User,
         @PathVariable id: Int,
-        @RequestBody commentDto: RecipeCommentDTO
-    ): ResponseEntity<Recipe> = ResponseEntity
+        @RequestBody commentDto: CreateRecipeCommentDTO
+    ): ResponseEntity<RecipeDTO> = ResponseEntity
             .status(HttpStatus.CREATED)
             .body(recipeService.addComment(user, id, commentDto))
 
@@ -51,8 +54,8 @@ class RecipeController(private val recipeService: RecipeService) {
     fun addRating(
         @AuthenticationPrincipal user: User,
         @PathVariable id: Int,
-        @RequestBody rating: RecipeRatingDTO
-    ): ResponseEntity<Recipe> = ResponseEntity
+        @RequestBody rating: CreateRecipeRatingDTO
+    ): ResponseEntity<RecipeDTO> = ResponseEntity
             .status(HttpStatus.CREATED)
             .body(recipeService.addRating(user, id, rating))
 }

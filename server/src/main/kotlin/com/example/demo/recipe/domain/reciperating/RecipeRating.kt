@@ -2,8 +2,7 @@ package com.example.demo.recipe.domain.reciperating
 
 import com.example.demo.user.domain.Recipe
 import com.example.demo.user.domain.User
-import com.fasterxml.jackson.annotation.JsonIgnore
-import com.fasterxml.jackson.annotation.JsonIncludeProperties
+import com.fasterxml.jackson.annotation.JsonBackReference
 import jakarta.persistence.*
 
 @Entity
@@ -18,11 +17,9 @@ data class RecipeRating(
 
     @ManyToOne
     @JoinColumn(name = "recipe_id", nullable = false)
-    @JsonIgnore
     var recipe: Recipe,
 
     @ManyToOne
-    @JoinColumn(name = "author_id", nullable = false)
-    @JsonIncludeProperties("id")
+    @JoinColumn(name = "user_id", nullable = false)
     var author: User,
 )

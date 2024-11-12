@@ -1,5 +1,8 @@
 package com.example.demo.recipe.domain.reciperating
 
+import com.example.demo.recipe.domain.RecipeAuthorDTO
+
 data class RecipeRatingDTO(
-    var type: RecipeRatingType,
+    val author: RecipeAuthorDTO,
+    val type: RecipeRatingType,
 )

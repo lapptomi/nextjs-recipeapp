@@ -12,22 +12,29 @@ data class Recipe(
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     var id: Int = 0,
 
+    @Column(name = "title", nullable = false)
     var title: String,
 
+    @Column(name = "description", nullable = false)
     var description: String,
 
+    @Column(name = "image")
     var image: String? = null,
 
+    @Column(name = "ingredients")
     var ingredients: List<String>,
 
+    @Column(name = "cooking_time")
     var cookingTime: Int,
 
-    var servings: Int,
+    @Column(name = "servings")
+    var servings: Int = 0,
 
+    @Column(name = "instructions", nullable = false)
     var instructions: String,
 
     @ManyToOne
-    @JoinColumn(name = "author_id", nullable = false)
+    @JoinColumn(name = "user_id", nullable = false)
     var author: User,
 
     @OneToMany(mappedBy = "recipe", cascade = [CascadeType.ALL], fetch = FetchType.EAGER)
