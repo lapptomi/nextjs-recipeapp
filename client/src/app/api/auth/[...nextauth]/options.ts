@@ -1,4 +1,3 @@
-/* eslint-disable no-null/no-null */
 import axios from "axios";
 import CredentialsProvider from "next-auth/providers/credentials";
 import GitHubProvider from "next-auth/providers/github";
@@ -13,6 +12,7 @@ export const options: NextAuthOptions = {
     signIn: PAGES.LOGIN,
     signOut: "/auth/logout",
   },
+
   session: {
     strategy: "jwt",
     // Seconds - How long until an idle session expires and is no longer valid.
@@ -87,6 +87,7 @@ export const options: NextAuthOptions = {
             jwt: jwtToken.token,
           };
         } else {
+          // eslint-disable-next-line no-null/no-null
           return null;
         }
       },
