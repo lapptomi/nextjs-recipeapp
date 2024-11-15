@@ -21,7 +21,7 @@ const RecipeCommentForm: React.FC<Props> = ({ recipe }) => {
   } = useForm<CommentForm>({
     defaultValues: {
       recipeId: recipe.id,
-      message: '',
+      message: "",
     },
     resolver: zodResolver(CommentSchema),
   });
@@ -29,11 +29,11 @@ const RecipeCommentForm: React.FC<Props> = ({ recipe }) => {
   const handleFormSubmit = (data: CommentForm) => {
     addComment(data)
       .then(() => window.location.reload())
-      .catch((error) => console.log('ERROR = ', error));
+      .catch((error) => console.log("ERROR = ", error));
   };
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+    <div className="flex flex-col gap-2">
       <TextField
         error={!!errors.message}
         helperText={errors.message?.message}
@@ -44,14 +44,16 @@ const RecipeCommentForm: React.FC<Props> = ({ recipe }) => {
         placeholder="Add comment"
         multiline
         minRows={6}
-        {...register('message')}
+        {...register("message")}
       />
-      <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+      <div className="flex justify-end">
         <Button
           id="comment-button"
           size="small"
           variant="contained"
-          onClick={handleSubmit(handleFormSubmit, (error) => console.log(error))}
+          onClick={handleSubmit(handleFormSubmit, (error) =>
+            console.log(error),
+          )}
         >
           SEND COMMENT
         </Button>

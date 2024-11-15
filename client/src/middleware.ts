@@ -1,6 +1,6 @@
-import { withAuth } from 'next-auth/middleware';
+import { withAuth } from "next-auth/middleware";
 
-import { NEXTAUTH_SECRET } from './lib/constants';
+import { NEXTAUTH_SECRET } from "./lib/constants";
 
 export default withAuth({
   secret: NEXTAUTH_SECRET,
@@ -9,5 +9,5 @@ export default withAuth({
 // Redirect to login page if not authenticated.
 // Works with regex.
 export const config = {
-  matcher: ['/recipes/create']
+  matcher: ["/recipes/create"],
 };

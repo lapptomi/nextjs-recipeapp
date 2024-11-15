@@ -1,26 +1,26 @@
 /* eslint-disable no-null/no-null */
 "use client";
 
-import React from 'react';
+import React from "react";
 
-import { AddBox, Person } from '@mui/icons-material';
-import Logout from '@mui/icons-material/Logout';
-import { Button, Typography } from '@mui/material';
-import Avatar from '@mui/material/Avatar';
-import Divider from '@mui/material/Divider';
-import ListItemIcon from '@mui/material/ListItemIcon';
-import Menu from '@mui/material/Menu';
-import MenuItem from '@mui/material/MenuItem';
-import Tooltip from '@mui/material/Tooltip';
-import Link from 'next/link';
-import { signOut } from 'next-auth/react';
+import { AddBox, Person } from "@mui/icons-material";
+import Logout from "@mui/icons-material/Logout";
+import { Button, Typography } from "@mui/material";
+import Avatar from "@mui/material/Avatar";
+import Divider from "@mui/material/Divider";
+import ListItemIcon from "@mui/material/ListItemIcon";
+import Menu from "@mui/material/Menu";
+import MenuItem from "@mui/material/MenuItem";
+import Tooltip from "@mui/material/Tooltip";
+import Link from "next/link";
+import { signOut } from "next-auth/react";
 
-import { PAGES } from '@/types';
+import { PAGES } from "@/types";
 
-import type { Session } from 'next-auth';
+import type { Session } from "next-auth";
 
 interface Props {
-  user: Session['user'];
+  user: Session["user"];
 }
 
 const AccountMenu: React.FC<Props> = ({ user }) => {
@@ -37,11 +37,13 @@ const AccountMenu: React.FC<Props> = ({ user }) => {
   return (
     <>
       <Tooltip title="Account menu">
-        <Button onClick={handleClick} size="small" className='flex flex-row gap-2'>
-          <Avatar className='size-7'>
-            {user.name ? user.name[0] : ''}
-          </Avatar>
-          <Typography variant="body2">{user?.name || ''}</Typography>
+        <Button
+          onClick={handleClick}
+          size="small"
+          className="flex flex-row gap-2"
+        >
+          <Avatar className="size-7">{user.name ? user.name[0] : ""}</Avatar>
+          <Typography variant="body2">{user?.name || ""}</Typography>
         </Button>
       </Tooltip>
 
@@ -50,17 +52,15 @@ const AccountMenu: React.FC<Props> = ({ user }) => {
         open={open}
         disableScrollLock={true}
         onClose={handleClose}
-        transformOrigin={{ horizontal: 'right', vertical: 'top' }}
-        anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
+        transformOrigin={{ horizontal: "right", vertical: "top" }}
+        anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
       >
         <Link href={`${PAGES.PROFILES}/${user.id}`}>
           <MenuItem onClick={handleClose}>
             <ListItemIcon>
               <Person fontSize="small" color="secondary" />
             </ListItemIcon>
-            <Typography variant='body2'>
-              Profile
-            </Typography>
+            <Typography variant="body2">Profile</Typography>
           </MenuItem>
         </Link>
 
@@ -69,9 +69,7 @@ const AccountMenu: React.FC<Props> = ({ user }) => {
             <ListItemIcon>
               <AddBox color="secondary" fontSize="small" />
             </ListItemIcon>
-            <Typography variant='body2'>
-              Create Recipe
-            </Typography>
+            <Typography variant="body2">Create Recipe</Typography>
           </MenuItem>
         </Link>
 
@@ -79,7 +77,7 @@ const AccountMenu: React.FC<Props> = ({ user }) => {
 
         <MenuItem
           onClick={() => {
-            if (window.confirm('Are you sure you want to sign out?')) {
+            if (window.confirm("Are you sure you want to sign out?")) {
               signOut({ callbackUrl: PAGES.RECIPES });
             }
           }}
@@ -87,9 +85,7 @@ const AccountMenu: React.FC<Props> = ({ user }) => {
           <ListItemIcon>
             <Logout fontSize="small" />
           </ListItemIcon>
-          <Typography variant='body2'>
-            Logout
-          </Typography>
+          <Typography variant="body2">Logout</Typography>
         </MenuItem>
       </Menu>
     </>

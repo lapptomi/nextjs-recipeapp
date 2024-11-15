@@ -9,7 +9,7 @@ import {
   ImageListItemBar,
   Rating,
   Tooltip,
-  Typography
+  Typography,
 } from "@mui/material";
 import Image from "next/image";
 import Link from "next/link";
@@ -21,16 +21,15 @@ interface Props {
 }
 
 const RecipeListItem = ({ recipe }: Props) => {
-  const countRatings = (type: RecipeRatingType) => (
-    recipe.ratings.filter((rating) => rating.type === type).length
-  );
-  const likes = countRatings('LIKE');
-  const dislikes = countRatings('DISLIKE');
+  const countRatings = (type: RecipeRatingType) =>
+    recipe.ratings.filter((rating) => rating.type === type).length;
+  const likes = countRatings("LIKE");
+  const dislikes = countRatings("DISLIKE");
 
   return (
     <Link key={recipe.id} href={`${PAGES.RECIPES}/${recipe.id}`}>
-      <ImageListItem className='min-h-[300px] min-w-[300px] bg-gray-200 transition duration-200 ease-in-out hover:scale-[1.01] hover:bg-gray-100'>
-        <div className='absolute size-full'>
+      <ImageListItem className="min-h-[300px] min-w-[300px] bg-gray-200 transition duration-200 ease-in-out hover:scale-[1.01] hover:bg-gray-100">
+        <div className="absolute size-full">
           {recipe.image ? (
             <Image
               alt={recipe.title}
@@ -40,7 +39,7 @@ const RecipeListItem = ({ recipe }: Props) => {
               fill={true}
             />
           ) : (
-            <Restaurant className='size-full opacity-10' />
+            <Restaurant className="size-full opacity-10" />
           )}
         </div>
 
@@ -55,11 +54,8 @@ const RecipeListItem = ({ recipe }: Props) => {
           subtitle={`@${recipe.author?.username}`}
           position="top"
           actionIcon={
-            <div className='flex flex-col'>
-              <Rating
-                readOnly
-                value={likes / (likes + dislikes) * 5}
-              />
+            <div className="flex flex-col">
+              <Rating readOnly value={(likes / (likes + dislikes)) * 5} />
               <Typography variant="caption" color="white">
                 {recipe.ratings.length} ratings
               </Typography>
@@ -69,9 +65,9 @@ const RecipeListItem = ({ recipe }: Props) => {
 
         <ImageListItemBar
           className="flex max-w-full flex-col items-start px-2 pb-2"
-          position='bottom'
+          position="bottom"
           title={
-            <Typography className='line-clamp-2' variant="caption">
+            <Typography className="line-clamp-2" variant="caption">
               {recipe.description}
             </Typography>
           }
