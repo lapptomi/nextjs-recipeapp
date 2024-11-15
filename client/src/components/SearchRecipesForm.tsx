@@ -74,8 +74,7 @@ const SearchRecipesForm = ({ totalCount }: Props) => {
           </Select>
         </FormControl>
 
-        <div
-          className="flex flex-row">
+        <div className="flex flex-row">
           <TextField
             label="Search"
             value={searchField}
