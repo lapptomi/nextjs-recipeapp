@@ -64,8 +64,7 @@ const RecipeListItem = ({ recipe }: Props) => {
         />
 
         <ImageListItemBar
-          className="flex flex-col ite
-          ms-start px-2 pb-2"
+          className="flex flex-col items-start px-2 pb-2"
           position="bottom"
           title={
             <Typography className="line-clamp-2" variant="caption">
