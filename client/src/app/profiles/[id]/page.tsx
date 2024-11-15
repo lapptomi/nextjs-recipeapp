@@ -7,14 +7,13 @@ import RecipeList from "@/components/RecipeList";
 import TitleHeader from "@/components/TitleHeader";
 import { findUserById } from "@/lib/actions/user";
 
-interface ProfilePageParams {
-  params: {
-    id: string;
-  };
+interface Params {
+  params: Promise<{ id: string }>;
 }
 
-const ProfilePage = async ({ params }: ProfilePageParams) => {
-  const user = await findUserById(params.id);
+const ProfilePage = async ({ params }: Params) => {
+  const userId = (await params).id;
+  const user = await findUserById(userId);
   const recipes = user.recipes ?? [];
 
   return (

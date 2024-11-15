@@ -15,9 +15,8 @@ import { signIn } from "next-auth/react";
 import "@/app/globals.css";
 import { useForm } from "react-hook-form";
 
-import { createUser } from "@/lib/actions/user";
-import { APPLICATION_NAME } from "@/lib/constants";
-
+import { createUser } from "../lib/actions/user";
+import { APPLICATION_NAME } from "../lib/constants";
 import { PAGES, UserSchema } from "../types";
 
 import type { NewUser } from "../types";

@@ -21,14 +21,13 @@ import { findRecipeById } from "@/lib/actions/recipe";
 import { PAGES } from "@/types";
 
 interface Props {
-  params: {
-    id: string;
-  };
+  params: Promise<{ id: string }>;
 }
 
 const RecipePage = async ({ params }: Props) => {
   const session = await getSession();
-  const recipe = await findRecipeById(params.id);
+  const recipeId = (await params).id;
+  const recipe = await findRecipeById(recipeId);
 
   if (!recipe) {
     return <TitleHeader title="Recipe not found" />;

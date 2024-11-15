@@ -13,8 +13,8 @@ import {
 } from "@mui/material";
 import { signIn } from "next-auth/react";
 
-import { APPLICATION_NAME } from "@/lib/constants";
-import { PAGES } from "@/types";
+import { APPLICATION_NAME } from "../lib/constants";
+import { PAGES } from "../types";
 
 const LoginForm = () => {
   const [error, setError] = useState("");

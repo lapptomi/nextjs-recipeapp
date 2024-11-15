@@ -3,21 +3,20 @@ import { Suspense } from "react";
 import { Button, Typography } from "@mui/material";
 import Image from "next/image";
 
-import Await from "@/components/Await";
-import PricingCard from "@/components/PricingCard";
-import RecipeList from "@/components/RecipeList";
-import RecipeListSkeleton from "@/components/RecipeListSkeleton";
-import { getRecipes } from "@/lib/actions/recipe";
-import { APPLICATION_NAME } from "@/lib/constants";
-import { PAGES } from "@/types";
-
 import recipeimage from "../../public/recipeimage.jpeg";
 import recipeimage2 from "../../public/recipeimage2.jpg";
+import Await from "../components/Await";
+import PricingCard from "../components/PricingCard";
+import RecipeList from "../components/RecipeList";
+import RecipeListSkeleton from "../components/RecipeListSkeleton";
+import { getRecipes } from "../lib/actions/recipe";
+import { APPLICATION_NAME } from "../lib/constants";
+import { PAGES } from "../types";
 
 const Home = () => {
   return (
     <div>
-      <div className="flex min-h-[600px] flex-row flex-wrap items-center justify-evenly gap-10 bg-white p-12">
+      <div className="flex min-h-[600px] flex-row flex-wrap items-center justify-evenly gap-10 bg-white p-10">
         <div className="flex max-w-[500px] flex-col gap-6">
           <Typography variant="h3" fontWeight="bold">
             {APPLICATION_NAME}
@@ -34,8 +33,8 @@ const Home = () => {
           src={recipeimage}
           alt="food"
           quality={10}
-          width={500}
-          height={500}
+          width={600}
+          height={600}
         />
       </div>
 

@@ -7,11 +7,11 @@ import SearchRecipesForm from "@/components/SearchRecipesForm";
 import { getRecipes } from "@/lib/actions/recipe";
 
 interface Params {
-  searchParams: {
+  searchParams: Promise<{
     page?: string;
     pageSize?: string;
     title?: string;
-  };
+  }>;
 }
 
 // Force dynamic rendering
