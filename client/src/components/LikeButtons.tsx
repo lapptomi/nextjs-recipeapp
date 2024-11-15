@@ -86,6 +86,7 @@ const LikeButtons = ({ recipe, session }: Props) => {
 
       <Tooltip title="Dislike recipe">
         <Button
+          disabled={session === null}
           id="dislike-button"
           onClick={() => updateRating("DISLIKE")}
           startIcon={

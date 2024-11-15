@@ -40,19 +40,14 @@ class DemoApplication {
     ): CommandLineRunner {
         // Add some data to the in-memory database if it's empty
         return CommandLineRunner {
-            fun generateRandomString(length: Int) : String {
-                return (1..length)
-                    .map { ('a'..'z').random() }
-                    .joinToString("")
-            }
-
             fun encodePassword(password: String) = securityConfig.passwordEncoder().encode(password)
 
-            val users = listOf(
-                User(username = "user", email = "email", password = encodePassword("password")),
-                User(username = "admin", email = "admin", password = encodePassword("admin")),
-                User(username = "test", email = "test", password = encodePassword("test"))
-            )
+            fun generateRandomString(length: Int): String = (1..length).map { ('a'..'z').random() }.joinToString("")
+
+            val users = (0..10)
+                .map { User(username = "User $it", email = "user$it", password = encodePassword("user$it")) }
+                .plus(User(username = "admin", email = "admin", password = encodePassword("admin")))
+
             val recipes = (0..20).map {
                 Recipe(
                     author = users[0],
@@ -65,11 +60,15 @@ class DemoApplication {
                     image = null,
                 )
             }
+
             val recipeComments = (0..10).map {
                 RecipeComment(author = users[0], message = generateRandomString(500), recipe = recipes[0])
             }
-            val recipeRatings = (0..10).map {
-                RecipeRating(author = users[0], type = RecipeRatingType.LIKE, recipe = recipes[0])
+
+            val recipeRatings = users.flatMap { user ->
+                recipes.map { recipe ->
+                    RecipeRating(author = user, type = RecipeRatingType.values().random(), recipe = recipe)
+                }
             }
 
             if (userRepository.count() == 0L) userRepository.saveAll(users)

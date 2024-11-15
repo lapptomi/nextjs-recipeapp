@@ -80,7 +80,6 @@ class RecipeService(
     fun addComment(user: User, recipeId: Int, commentDto: CreateRecipeCommentDTO): RecipeDTO {
         val recipe = recipeRepository.findById(recipeId).orElseThrow { throw NoSuchElementException("Recipe with id $recipeId not found") }
         val comment = RecipeComment(author = user, message = commentDto.message, recipe = recipe)
-
         recipeCommentRepository.save(comment)
         return recipeToRecipeDTO(recipe)
     }
