@@ -125,7 +125,7 @@ const CreateRecipeForm = () => {
         {...register("description")}
       />
 
-      <FormControl style={{ width: "100%" }}>
+      <FormControl className="w-full">
         <Typography variant="overline">Ingredients</Typography>
         {fields.map((item, index) => {
           const showError =
@@ -179,13 +179,7 @@ const CreateRecipeForm = () => {
         {...register("instructions")}
       />
 
-      <div
-        style={{
-          display: "flex",
-          width: "100%",
-          justifyContent: "space-evenly",
-        }}
-      >
+      <div className="flex w-full justify-evenly">
         <TextField
           size="small"
           label="Cooking time (minutes)"

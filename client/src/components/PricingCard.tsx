@@ -47,7 +47,8 @@ const PricingCard = (props: Props) => {
           {Array(5)
             .fill("Hello world")
             .map((item, index) => (
-              <div key={index} style={{ display: "flex", gap: "20px" }}>
+              <div key={index}
+                className="flex gap-5">
                 <Check />
                 <Typography>{item}</Typography>
               </div>

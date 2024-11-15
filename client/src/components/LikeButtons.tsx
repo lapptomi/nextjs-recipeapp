@@ -50,11 +50,8 @@ const LikeButtons = ({ recipe, session }: Props) => {
 
   return (
     <div
-      style={{
-        display: "flex",
-        flexDirection: "row",
-        alignItems: "center",
-      }}
+
+      className="flex flex-row items-center"
     >
       <Tooltip title="Share">
         <Button onClick={handleClick} startIcon={<Share color="secondary" />}>
