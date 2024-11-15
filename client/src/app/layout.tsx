@@ -1,5 +1,4 @@
 import "./globals.css";
-import { Inter } from "next/font/google";
 
 import AuthProvider from "@/components/AuthProvider";
 import Footer from "@/components/Footer";
@@ -8,8 +7,6 @@ import ThemeRegistry from "@/components/ThemeRegistry";
 import { APPLICATION_NAME } from "@/lib/constants";
 
 import type { Metadata } from "next";
-
-const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: APPLICATION_NAME,
@@ -23,14 +20,11 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={inter.className}>
+      <body id="app">
         <AuthProvider>
           <ThemeRegistry>
-            <div>
-              <Navigation />
-            </div>
+            <Navigation />
             <div className="min-h-screen">{children}</div>
-
             <Footer />
           </ThemeRegistry>
         </AuthProvider>

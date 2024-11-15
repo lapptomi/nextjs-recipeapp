@@ -12,7 +12,6 @@ import {
   Typography,
 } from "@mui/material";
 import { signIn } from "next-auth/react";
-import "@/app/globals.css";
 import { useForm } from "react-hook-form";
 
 import { createUser } from "../lib/actions/user";
