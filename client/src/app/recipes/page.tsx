@@ -1,10 +1,10 @@
-import { Suspense } from 'react';
+import { Suspense } from "react";
 
-import Await from '@/components/Await';
-import RecipeList from '@/components/RecipeList';
-import RecipeListSkeleton from '@/components/RecipeListSkeleton';
-import SearchRecipesForm from '@/components/SearchRecipesForm';
-import { getRecipes } from '@/lib/actions/recipe';
+import Await from "@/components/Await";
+import RecipeList from "@/components/RecipeList";
+import RecipeListSkeleton from "@/components/RecipeListSkeleton";
+import SearchRecipesForm from "@/components/SearchRecipesForm";
+import { getRecipes } from "@/lib/actions/recipe";
 
 interface Params {
   searchParams: {
@@ -16,20 +16,24 @@ interface Params {
 
 // Force dynamic rendering
 // https://nextjs.org/docs/app/api-reference/file-conventions/route-segment-config
-export const dynamic = 'force-dynamic';
+export const dynamic = "force-dynamic";
 
 const BrowseRecipesPage = ({ searchParams }: Params) => {
-  const queryParams = Object.entries(searchParams).map(([key, value]) => `${key}=${value}`).join('&');
+  const queryParams = Object.entries(searchParams)
+    .map(([key, value]) => `${key}=${value}`)
+    .join("&");
   const recipesPromise = getRecipes(queryParams);
 
   return (
     <div key={queryParams}>
-      <Suspense fallback={
-        <div>
-          <SearchRecipesForm totalCount={0} />
-          <RecipeListSkeleton />
-        </div>
-      }>
+      <Suspense
+        fallback={
+          <div>
+            <SearchRecipesForm totalCount={0} />
+            <RecipeListSkeleton />
+          </div>
+        }
+      >
         <Await promise={recipesPromise}>
           {({ data: resolvedRecipes }) => (
             <div>

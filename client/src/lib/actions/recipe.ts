@@ -13,7 +13,9 @@ interface Response {
 }
 
 export const getRecipes = async (queryParams?: string) => {
-  const response = await axios.get<Response>(`${API_URL}/recipes?${queryParams}`);
+  const response = await axios.get<Response>(
+    `${API_URL}/recipes?${queryParams}`,
+  );
   return response.data;
 };
 
@@ -26,7 +28,7 @@ export const createRecipe = async (formData: FormData) => {
   const session = await getSession();
   const response = await axios.post(`${API_URL}/recipes`, formData, {
     headers: {
-      'Content-Type': 'multipart/form-data',
+      "Content-Type": "multipart/form-data",
       Authorization: `Bearer ${session?.user.jwt}`,
     },
   });
@@ -36,13 +38,17 @@ export const createRecipe = async (formData: FormData) => {
 
 export const addComment = async (data: CommentForm) => {
   const session = await getSession();
-  const response = await axios.post(`${API_URL}/recipes/${data.recipeId}/comments`, {
-    message: data.message,
-  }, {
-    headers: {
-      Authorization: `Bearer ${session?.user.jwt}`,
+  const response = await axios.post(
+    `${API_URL}/recipes/${data.recipeId}/comments`,
+    {
+      message: data.message,
     },
-  });
+    {
+      headers: {
+        Authorization: `Bearer ${session?.user.jwt}`,
+      },
+    },
+  );
 
   return response.data;
 };
@@ -54,13 +60,17 @@ interface RatingParams {
 
 export const addRating = async (data: RatingParams) => {
   const session = await getSession();
-  const response = await axios.post(`${API_URL}/recipes/${data.recipeId}/ratings`, {
-    type: data.type,
-  }, {
-    headers: {
-      Authorization: `Bearer ${session?.user.jwt}`,
+  const response = await axios.post(
+    `${API_URL}/recipes/${data.recipeId}/ratings`,
+    {
+      type: data.type,
     },
-  });
+    {
+      headers: {
+        Authorization: `Bearer ${session?.user.jwt}`,
+      },
+    },
+  );
 
   return response.data;
 };

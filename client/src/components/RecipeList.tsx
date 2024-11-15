@@ -10,9 +10,9 @@ interface Props {
 
 const RecipeList = async ({ recipes }: Props) => {
   return (
-    <div className='flex w-full justify-center'>
+    <div className="flex w-full justify-center">
       {recipes && recipes.length > 0 ? (
-        <div className='grid w-[1500px] grid-cols-auto-fill-300 justify-center gap-2 py-12'>
+        <div className="grid w-[1500px] grid-cols-auto-fill-300 justify-center gap-2 py-12">
           {recipes.map((recipe) => (
             <RecipeListItem key={recipe.id} recipe={recipe} />
           ))}

@@ -6,43 +6,43 @@ export const theme = createTheme({
       styleOverrides: {
         root: {
           backgroundColor: "white",
-        }
-      }
+        },
+      },
     },
     MuiContainer: {
       styleOverrides: {
         root: {
           padding: "10px",
-        }
-      }
+        },
+      },
     },
     MuiButton: {
       styleOverrides: {
         root: {
           borderRadius: "0px",
-        }
-      }
+        },
+      },
     },
   },
   palette: {
     primary: {
-      main: '#000000',
+      main: "#000000",
     },
     secondary: {
-      main: '#ed6c02',
+      main: "#ed6c02",
     },
     info: {
-      main: '#ffffff',
+      main: "#ffffff",
     },
   },
   typography: {
     fontSize: 12,
     fontFamily: [
-      '-apple-system',
-      'BlinkMacSystemFont',
+      "-apple-system",
+      "BlinkMacSystemFont",
       "'Segoe UI'",
-      'Roboto',
-      'sans-serif',
-    ].join(','),
+      "Roboto",
+      "sans-serif",
+    ].join(","),
   },
 });

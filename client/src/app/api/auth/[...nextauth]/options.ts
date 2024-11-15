@@ -1,12 +1,12 @@
 /* eslint-disable no-null/no-null */
 import axios from "axios";
-import CredentialsProvider from 'next-auth/providers/credentials';
-import GitHubProvider from 'next-auth/providers/github';
+import CredentialsProvider from "next-auth/providers/credentials";
+import GitHubProvider from "next-auth/providers/github";
 
-import { API_URL, NEXTAUTH_SECRET } from '@/lib/constants';
-import { type JwtToken, PAGES } from '@/types';
+import { API_URL, NEXTAUTH_SECRET } from "@/lib/constants";
+import { type JwtToken, PAGES } from "@/types";
 
-import type { NextAuthOptions } from 'next-auth';
+import type { NextAuthOptions } from "next-auth";
 
 export const options: NextAuthOptions = {
   pages: {
@@ -34,7 +34,7 @@ export const options: NextAuthOptions = {
       }
       return token;
     },
-    async session ({ session, token }: any) {
+    async session({ session, token }: any) {
       if (session.user) {
         return {
           ...session,
@@ -63,17 +63,20 @@ export const options: NextAuthOptions = {
         password: {
           label: "Password:",
           type: "password",
-        }
+        },
       },
       async authorize(credentials): Promise<any> {
         if (!credentials?.email || !credentials?.password) {
-          throw new Error('Missing credentials');
+          throw new Error("Missing credentials");
         }
 
-        const { data: jwtToken } = await axios.post<JwtToken>(`${API_URL}/auth/login`, {
-          email: credentials.email,
-          password: credentials.password,
-        });
+        const { data: jwtToken } = await axios.post<JwtToken>(
+          `${API_URL}/auth/login`,
+          {
+            email: credentials.email,
+            password: credentials.password,
+          },
+        );
 
         if (jwtToken) {
           return {
@@ -87,6 +90,6 @@ export const options: NextAuthOptions = {
           return null;
         }
       },
-    })
+    }),
   ],
 };
