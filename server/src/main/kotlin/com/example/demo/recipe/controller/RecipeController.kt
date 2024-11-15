@@ -33,7 +33,7 @@ class RecipeController(private val recipeService: RecipeService) {
         @AuthenticationPrincipal user: User,
         @RequestPart(value = "recipe") recipeJson: String,
         @RequestPart(value = "image", required = false) image: MultipartFile?
-    ): ResponseEntity<Recipe> = ResponseEntity
+    ): ResponseEntity<RecipeDTO> = ResponseEntity
             .status(HttpStatus.CREATED)
             .body(recipeService.createRecipe(user, recipeJson, image))
 

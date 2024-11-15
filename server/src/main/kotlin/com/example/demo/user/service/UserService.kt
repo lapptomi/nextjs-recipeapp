@@ -17,52 +17,7 @@ class UserService(
     private val securityConfig: SecurityConfig
 ) {
     fun getUsers(): List<UserDTO> {
-        return userRepository.findAll().map {
-            UserDTO(
-                id = it.id,
-                username = it.username,
-                email = it.email,
-                recipes = it.recipes.map {
-                    RecipeDTO(
-                        id = it.id,
-                        title = it.title,
-                        description = it.description,
-                        image = it.image,
-                        ingredients = it.ingredients,
-                        cookingTime = it.cookingTime,
-                        servings = it.servings,
-                        instructions = it.instructions,
-                        author = RecipeAuthorDTO(
-                            id = it.author.id,
-                            username = it.author.username,
-                            email = it.author.email
-                        ),
-                        createdAt = it.createdAt,
-                        comments = it.comments.map {
-                            RecipeCommentDTO(
-                                author = RecipeAuthorDTO(
-                                    id = it.author.id,
-                                    username = it.author.username,
-                                    email = it.author.email
-                                ),
-                                message = it.message,
-                                createdAt = it.createdAt.toString()
-                            )
-                        },
-                        ratings = it.ratings.map {
-                            RecipeRatingDTO(
-                                author = RecipeAuthorDTO(
-                                    id = it.author.id,
-                                    username = it.author.username,
-                                    email = it.author.email
-                                ),
-                                type = it.type
-                            )
-                        }
-                    )
-                }
-            )
-        }
+        return userRepository.findAll().map { userToUserDTO(it) }
     }
 
     fun createUser(newUser: CreateUserDTO): UserDTO {
@@ -75,8 +30,43 @@ class UserService(
         val user = userRepository.findById(id).orElseThrow {
             throw NoSuchElementException("User with id $id not found")
         }
-        return UserDTO(user.id, user.username, user.email)
+        return userToUserDTO(user)
     }
 
     fun deleteUsers() = userRepository.deleteAll()
+
+    private fun userToUserDTO(user: User): UserDTO {
+        return UserDTO(
+            id = user.id,
+            username = user.username,
+            email = user.email,
+            recipes = user.recipes.map {
+                RecipeDTO(
+                    id = it.id,
+                    title = it.title,
+                    description = it.description,
+                    image = it.image,
+                    ingredients = it.ingredients,
+                    cookingTime = it.cookingTime,
+                    servings = it.servings,
+                    instructions = it.instructions,
+                    author = RecipeAuthorDTO(id = it.author.id, username = it.author.username, email = it.author.email),
+                    createdAt = it.createdAt,
+                    comments = it.comments.map {
+                        RecipeCommentDTO(
+                            author = RecipeAuthorDTO(id = it.author.id, username = it.author.username, email = it.author.email),
+                            message = it.message,
+                            createdAt = it.createdAt.toString()
+                        )
+                    },
+                    ratings = it.ratings.map {
+                        RecipeRatingDTO(
+                            author = RecipeAuthorDTO(id = it.author.id, username = it.author.username, email = it.author.email),
+                            type = it.type
+                        )
+                    }
+                )
+            }
+        )
+    }
 }

@@ -21,60 +21,65 @@ import org.springframework.context.annotation.Profile
 
 @SpringBootApplication
 @OpenAPIDefinition(
-	info = Info(
-		title = "My API",
-		version = "v1",
-		description = "REST API using Spring Boot and Kotlin"
-	)
+    info = Info(
+        title = "My API",
+        version = "v1",
+        description = "REST API using Spring Boot and Kotlin"
+    )
 )
 class DemoApplication {
 
-	@Bean
-	@Profile("dev") // Run initDatabase only when SPRING_PROFILES_ACTIVE=dev
-	fun initDatabase(
-		userRepository: UserRepository,
-		recipeRepository: RecipeRepository,
-		recipeRatingRepository: RecipeRatingRepository,
-		recipeCommentRepository: RecipeCommentRepository,
-		securityConfig: SecurityConfig
-	): CommandLineRunner {
-		// Add some data to the in-memory database if it's empty
-		return CommandLineRunner {
-			fun encodePassword(password: String) = securityConfig.passwordEncoder().encode(password)
+    @Bean
+    @Profile("dev") // Run initDatabase only when SPRING_PROFILES_ACTIVE=dev
+    fun initDatabase(
+        userRepository: UserRepository,
+        recipeRepository: RecipeRepository,
+        recipeRatingRepository: RecipeRatingRepository,
+        recipeCommentRepository: RecipeCommentRepository,
+        securityConfig: SecurityConfig
+    ): CommandLineRunner {
+        // Add some data to the in-memory database if it's empty
+        return CommandLineRunner {
+            fun generateRandomString(length: Int) : String {
+                return (1..length)
+                    .map { ('a'..'z').random() }
+                    .joinToString("")
+            }
 
-			val users = listOf(
-				User(username = "user", email = "email", password = encodePassword("password")),
-				User(username = "admin", email = "admin", password = encodePassword("admin")),
-				User(username = "test", email = "test", password = encodePassword("test"))
-			)
+            fun encodePassword(password: String) = securityConfig.passwordEncoder().encode(password)
 
-			val recipes = (0..20).map {
-				Recipe(
-					author = users[0],
-					title = "Recipe $it",
-					description = "Description $it",
-					ingredients = listOf("Ingredient 1", "Ingredient 2"),
-					cookingTime = 10,
-					servings = 2,
-					instructions = "Instructions $it",
-					image = null,
-				)
-			}
-			val recipeComments = (0..10).map {
-				RecipeComment(author = users[0], message = "Comment $it", recipe = recipes[0])
-			}
-			val recipeRatings = (0..10).map {
-				RecipeRating(author = users[0], type = RecipeRatingType.LIKE, recipe = recipes[0])
-			}
+            val users = listOf(
+                User(username = "user", email = "email", password = encodePassword("password")),
+                User(username = "admin", email = "admin", password = encodePassword("admin")),
+                User(username = "test", email = "test", password = encodePassword("test"))
+            )
+            val recipes = (0..20).map {
+                Recipe(
+                    author = users[0],
+                    title = "Recipe $it",
+                    description = generateRandomString(500),
+                    ingredients = (0..5).map { "Ingredient $it" },
+                    cookingTime = 10,
+                    servings = 2,
+                    instructions = generateRandomString(5000),
+                    image = null,
+                )
+            }
+            val recipeComments = (0..10).map {
+                RecipeComment(author = users[0], message = generateRandomString(500), recipe = recipes[0])
+            }
+            val recipeRatings = (0..10).map {
+                RecipeRating(author = users[0], type = RecipeRatingType.LIKE, recipe = recipes[0])
+            }
 
-			if (userRepository.count() == 0L) userRepository.saveAll(users)
-			if (recipeRepository.count() == 0L) recipeRepository.saveAll(recipes)
-			if (recipeCommentRepository.count() == 0L) recipeCommentRepository.saveAll(recipeComments)
-			if (recipeRatingRepository.count() == 0L) recipeRatingRepository.saveAll(recipeRatings)
-		}
-	}
+            if (userRepository.count() == 0L) userRepository.saveAll(users)
+            if (recipeRepository.count() == 0L) recipeRepository.saveAll(recipes)
+            if (recipeCommentRepository.count() == 0L) recipeCommentRepository.saveAll(recipeComments)
+            if (recipeRatingRepository.count() == 0L) recipeRatingRepository.saveAll(recipeRatings)
+        }
+    }
 }
 
 fun main(args: Array<String>) {
-	runApplication<DemoApplication>(*args)
+    runApplication<DemoApplication>(*args)
 }

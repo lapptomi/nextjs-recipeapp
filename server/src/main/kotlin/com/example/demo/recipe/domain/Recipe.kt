@@ -12,16 +12,16 @@ data class Recipe(
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     var id: Int = 0,
 
-    @Column(name = "title", nullable = false)
+    @Column(name = "title", nullable = false, length = 200)
     var title: String,
 
-    @Column(name = "description", nullable = false)
+    @Column(name = "description", nullable = false, length = 1000)
     var description: String,
 
-    @Column(name = "image")
+    @Column(name = "image", length = 5000)
     var image: String? = null,
 
-    @Column(name = "ingredients")
+    @Column(name = "ingredients", length = 500)
     var ingredients: List<String>,
 
     @Column(name = "cooking_time")
@@ -30,7 +30,7 @@ data class Recipe(
     @Column(name = "servings")
     var servings: Int = 0,
 
-    @Column(name = "instructions", nullable = false)
+    @Column(name = "instructions", nullable = false, length = 5000)
     var instructions: String,
 
     @ManyToOne

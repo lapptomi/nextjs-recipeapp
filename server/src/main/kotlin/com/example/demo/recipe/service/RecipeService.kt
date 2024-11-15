@@ -41,10 +41,10 @@ class RecipeService(
         return recipeToRecipeDTO(recipe)
     }
 
-    fun createRecipe(user: User, recipeJson: String, image: MultipartFile?): Recipe {
+    fun createRecipe(user: User, recipeJson: String, image: MultipartFile?): RecipeDTO {
         val objectMapper = jacksonObjectMapper()
         val recipe: CreateRecipeDTO = objectMapper.readValue(recipeJson)
-        return recipeRepository.save(
+        val createdRecipe = recipeRepository.save(
             Recipe(
                 author = user,
                 title = recipe.title,
@@ -56,6 +56,7 @@ class RecipeService(
                 image = null,
             )
         )
+        return recipeToRecipeDTO(createdRecipe)
     }
 
     fun addRating(user: User, recipeId: Int, rating: CreateRecipeRatingDTO): RecipeDTO {
@@ -94,7 +95,7 @@ class RecipeService(
             cookingTime = recipe.cookingTime,
             servings = recipe.servings,
             instructions = recipe.instructions,
-            author = RecipeAuthorDTO(id = recipe.author.id, username = recipe.author.username, email = recipe.author.email,),
+            author = RecipeAuthorDTO(id = recipe.author.id, username = recipe.author.username, email = recipe.author.email),
             createdAt = recipe.createdAt,
             comments = recipe.comments.map {
                 RecipeCommentDTO(
