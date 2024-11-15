@@ -5,7 +5,7 @@
 
 ### Web application where users can create, rate, and comment on recipes.  
 
-The idea of this project was mainly to learn **Next.js**, **Nest.js** and Amazon Web Services, such as **Amazon S3**, **EC2**, **ECS**, **ECR** and **Fargate**.  
+The purpose of this project was mainly to learn / try out technologies, such as **Next.js**, **Nest.js**, **Kotlin**, **Tailwind**, **Amazon S3**, **EC2**, **ECS**, **ECR** and **Fargate**.  
 
 <p float="left">
   <img src="https://github.com/lapptomi/nextjs-recipeapp/blob/main/assets/img1.png?raw=true" width="500">
