@@ -23,12 +23,13 @@ interface Props {
 const RecipeListItem = ({ recipe }: Props) => {
   const countRatings = (type: RecipeRatingType) =>
     recipe.ratings.filter((rating) => rating.type === type).length;
+
   const likes = countRatings("LIKE");
   const dislikes = countRatings("DISLIKE");
 
   return (
     <Link key={recipe.id} href={`${PAGES.RECIPES}/${recipe.id}`}>
-      <ImageListItem className="min-h-[300px] min-w-[300px] bg-gray-200 transition duration-200 ease-in-out hover:scale-[1.01] hover:bg-gray-100">
+      <ImageListItem className="max-h-[300px] min-h-[300px] min-w-[300px] max-w-[300px] bg-gray-200 transition duration-200 ease-in-out hover:scale-[1.01] hover:bg-gray-100">
         <div className="absolute size-full">
           {recipe.image ? (
             <Image
@@ -64,10 +65,19 @@ const RecipeListItem = ({ recipe }: Props) => {
         />
 
         <ImageListItemBar
-          className="flex max-w-full flex-col items-start px-2 pb-2"
+          className="flex flex-col items-start px-2 pb-2"
           position="bottom"
+          sx={{
+            ".MuiImageListItemBar-titleWrap": {
+              maxWidth: "100%",
+              padding: "8px",
+            },
+          }}
           title={
-            <Typography className="line-clamp-2" variant="caption">
+            <Typography
+              className="line-clamp-1 whitespace-pre-wrap break-words"
+              variant="caption"
+            >
               {recipe.description}
             </Typography>
           }
