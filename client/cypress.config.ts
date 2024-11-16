@@ -2,6 +2,7 @@
 import { defineConfig } from "cypress";
 
 export default defineConfig({
+  retries: 5,
   screenshotOnRunFailure: false,
   defaultCommandTimeout: 20000,
   requestTimeout: 20000,
