@@ -2,10 +2,7 @@ package com.example.demo.user.controller
 
 import com.example.demo.ApiPath
 import com.example.demo.recipe.domain.recipecomment.CreateRecipeCommentDTO
-import com.example.demo.recipe.domain.recipecomment.RecipeCommentDTO
 import com.example.demo.recipe.domain.reciperating.CreateRecipeRatingDTO
-import com.example.demo.recipe.domain.reciperating.RecipeRatingDTO
-import com.example.demo.user.domain.Recipe
 import com.example.demo.user.domain.RecipeDTO
 import com.example.demo.user.domain.User
 import com.example.demo.user.service.RecipeService
@@ -33,9 +30,9 @@ class RecipeController(private val recipeService: RecipeService) {
         @AuthenticationPrincipal user: User,
         @RequestPart(value = "recipe") recipeJson: String,
         @RequestPart(value = "image", required = false) image: MultipartFile?
-    ): ResponseEntity<Recipe> = ResponseEntity
-            .status(HttpStatus.CREATED)
-            .body(recipeService.createRecipe(user, recipeJson, image))
+    ): ResponseEntity<RecipeDTO> = ResponseEntity
+        .status(HttpStatus.CREATED)
+        .body(recipeService.createRecipe(user, recipeJson, image))
 
     @GetMapping("/{id}")
     fun getRecipeById(@PathVariable id: Int): ResponseEntity<RecipeDTO> = ResponseEntity
@@ -47,8 +44,8 @@ class RecipeController(private val recipeService: RecipeService) {
         @PathVariable id: Int,
         @RequestBody commentDto: CreateRecipeCommentDTO
     ): ResponseEntity<RecipeDTO> = ResponseEntity
-            .status(HttpStatus.CREATED)
-            .body(recipeService.addComment(user, id, commentDto))
+        .status(HttpStatus.CREATED)
+        .body(recipeService.addComment(user, id, commentDto))
 
     @PostMapping("/{id}/ratings")
     fun addRating(
@@ -56,6 +53,6 @@ class RecipeController(private val recipeService: RecipeService) {
         @PathVariable id: Int,
         @RequestBody rating: CreateRecipeRatingDTO
     ): ResponseEntity<RecipeDTO> = ResponseEntity
-            .status(HttpStatus.CREATED)
-            .body(recipeService.addRating(user, id, rating))
+        .status(HttpStatus.CREATED)
+        .body(recipeService.addRating(user, id, rating))
 }

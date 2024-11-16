@@ -41,10 +41,10 @@ class RecipeService(
         return recipeToRecipeDTO(recipe)
     }
 
-    fun createRecipe(user: User, recipeJson: String, image: MultipartFile?): Recipe {
+    fun createRecipe(user: User, recipeJson: String, image: MultipartFile?): RecipeDTO {
         val objectMapper = jacksonObjectMapper()
         val recipe: CreateRecipeDTO = objectMapper.readValue(recipeJson)
-        return recipeRepository.save(
+        val createdRecipe = recipeRepository.save(
             Recipe(
                 author = user,
                 title = recipe.title,
@@ -56,6 +56,7 @@ class RecipeService(
                 image = null,
             )
         )
+        return recipeToRecipeDTO(createdRecipe)
     }
 
     fun addRating(user: User, recipeId: Int, rating: CreateRecipeRatingDTO): RecipeDTO {
@@ -79,7 +80,6 @@ class RecipeService(
     fun addComment(user: User, recipeId: Int, commentDto: CreateRecipeCommentDTO): RecipeDTO {
         val recipe = recipeRepository.findById(recipeId).orElseThrow { throw NoSuchElementException("Recipe with id $recipeId not found") }
         val comment = RecipeComment(author = user, message = commentDto.message, recipe = recipe)
-
         recipeCommentRepository.save(comment)
         return recipeToRecipeDTO(recipe)
     }
@@ -94,7 +94,7 @@ class RecipeService(
             cookingTime = recipe.cookingTime,
             servings = recipe.servings,
             instructions = recipe.instructions,
-            author = RecipeAuthorDTO(id = recipe.author.id, username = recipe.author.username, email = recipe.author.email,),
+            author = RecipeAuthorDTO(id = recipe.author.id, username = recipe.author.username, email = recipe.author.email),
             createdAt = recipe.createdAt,
             comments = recipe.comments.map {
                 RecipeCommentDTO(

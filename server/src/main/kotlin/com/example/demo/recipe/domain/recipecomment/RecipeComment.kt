@@ -13,7 +13,7 @@ data class RecipeComment(
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     var id: Int? = null,
 
-    @Column(name = "message", nullable = false)
+    @Column(name = "message", nullable = false, length = 500)
     var message: String,
 
     @ManyToOne

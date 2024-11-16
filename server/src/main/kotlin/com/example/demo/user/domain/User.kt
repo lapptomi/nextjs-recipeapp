@@ -17,10 +17,10 @@ data class User(
     @Column(name = "id")
     var id: Int = 0,
 
-    @Column(name = "username", unique = true)
+    @Column(name = "username", unique = true, length = 30)
     var username: String,
 
-    @Column(name = "email", unique = true)
+    @Column(name = "email", unique = true, length = 100)
     var email: String,
 
     @JsonIgnore
