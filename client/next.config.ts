@@ -1,5 +1,6 @@
-/** @type {import('next').NextConfig} */
-const nextConfig = {
+import type { NextConfig } from "next";
+
+const nextConfig: NextConfig = {
   reactStrictMode: true,
   eslint: {
     ignoreDuringBuilds: false,
@@ -8,9 +9,9 @@ const nextConfig = {
     // Allow loading images only from S3 when using Next.js <Image> component
     remotePatterns: [
       {
-        protocol: 'https',
+        protocol: "https",
         hostname: `${process.env.AWS_BUCKET_NAME}.s3.${process.env.AWS_BUCKET_REGION}.amazonaws.com`,
-      }
+      },
     ],
     // Cache images for 1 minute
     minimumCacheTTL: 60,
@@ -18,4 +19,4 @@ const nextConfig = {
   },
 };
 
-module.exports = nextConfig;
+export default nextConfig;
