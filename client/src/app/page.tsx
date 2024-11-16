@@ -1,24 +1,23 @@
 import { Suspense } from "react";
 
-import { Restaurant } from "@mui/icons-material";
 import { Button, Typography } from "@mui/material";
 import Image from "next/image";
 
-import Await from "@/components/Await";
-import PricingCard from "@/components/PricingCard";
-import RecipeList from "@/components/RecipeList";
-import RecipeListSkeleton from "@/components/RecipeListSkeleton";
-import { getRecipes } from "@/lib/actions/recipe";
-import { APPLICATION_NAME } from "@/lib/constants";
-import { PAGES } from "@/types";
-
 import recipeimage from "../../public/recipeimage.jpeg";
+import recipeimage2 from "../../public/recipeimage2.jpg";
+import Await from "../components/Await";
+import PricingCard from "../components/PricingCard";
+import RecipeList from "../components/RecipeList";
+import RecipeListSkeleton from "../components/RecipeListSkeleton";
+import { getRecipes } from "../lib/actions/recipe";
+import { APPLICATION_NAME } from "../lib/constants";
+import { PAGES } from "../types";
 
 const Home = () => {
   return (
     <div>
-      <div className="flex min-h-[600px] flex-row flex-wrap items-center justify-evenly gap-10 bg-gray-50 p-12">
-        <div className="flex max-w-[500px] flex-col gap-3">
+      <div className="flex min-h-[600px] flex-row flex-wrap items-center justify-evenly gap-10 bg-white p-10">
+        <div className="flex max-w-[500px] flex-col gap-6">
           <Typography variant="h3" fontWeight="bold">
             {APPLICATION_NAME}
           </Typography>
@@ -34,12 +33,12 @@ const Home = () => {
           src={recipeimage}
           alt="food"
           quality={10}
-          width={500}
-          height={500}
+          width={600}
+          height={600}
         />
       </div>
 
-      <div className="flex flex-col items-center border-t border-gray-100 bg-white p-4">
+      <div className="flex flex-col items-center bg-gray-50 p-10">
         <Typography variant="body2" fontWeight="bold">
           RECOMMENDED
         </Typography>
@@ -55,9 +54,15 @@ const Home = () => {
         </Button>
       </div>
 
-      <div className="flex min-h-[600px] flex-row flex-wrap items-center justify-evenly gap-10 bg-white p-12">
-        <Restaurant className="size-64 text-gray-300" />
-        <div className="flex max-w-[500px] flex-col gap-4">
+      <div className="flex min-h-[600px] flex-row flex-wrap items-center justify-evenly gap-10 bg-white p-10">
+        <Image
+          src={recipeimage2}
+          alt="food"
+          quality={10}
+          width={450}
+          height={450}
+        />
+        <div className="flex max-w-[500px] flex-col gap-6">
           <Typography variant="h4" fontWeight="bold">
             All Your Favourite Recipes In One Place
           </Typography>
@@ -72,10 +77,10 @@ const Home = () => {
       </div>
 
       <div className="flex flex-col flex-wrap items-center justify-center gap-8 bg-gray-50 px-2 py-24">
-        <Typography variant="h4" fontWeight="medium">
-          Choose Plan
+        <Typography variant="h5" fontWeight="bold">
+          PRICING PLANS
         </Typography>
-        <div className="flex flex-row flex-wrap justify-center gap-4">
+        <div className="flex flex-row flex-wrap justify-center gap-6">
           <PricingCard title="Personal" description="Some random description" />
           <PricingCard
             title="Professional"

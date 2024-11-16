@@ -32,7 +32,7 @@ const ProfilePage = async ({ params }: ProfilePageParams) => {
               <Avatar className="size-full" />
             </div>
 
-            <div className="flex flex-col gap-1">
+            <div className="flex flex-col gap-2">
               <Typography variant="h4">{user.username}</Typography>
               <div className="flex flex-row gap-4">
                 <div>

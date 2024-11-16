@@ -80,7 +80,12 @@ const RecipePage = async ({ params }: Props) => {
             </Typography>
           </Divider>
 
-          <Typography variant="body1">{recipe.description}</Typography>
+          <Typography
+            variant="body1"
+            className="whitespace-pre-wrap break-words"
+          >
+            {recipe.description}
+          </Typography>
 
           <Divider>
             <Typography variant="h5">INGREDIENTS</Typography>
@@ -99,7 +104,10 @@ const RecipePage = async ({ params }: Props) => {
           <Divider>
             <Typography variant="h5">INSTRUCTIONS</Typography>
           </Divider>
-          <Typography variant="body2" className="whitespace-pre-line">
+          <Typography
+            variant="body2"
+            className="whitespace-pre-wrap break-words"
+          >
             {recipe.instructions}
           </Typography>
 
@@ -111,11 +119,12 @@ const RecipePage = async ({ params }: Props) => {
                 </Typography>
               </Divider>
               {(recipe.comments ?? []).map((comment, index: number) => (
-                <ListItem key={index} className="my-2 border-r bg-gray-50 p-2">
+                <ListItem key={index} className="my-2 bg-gray-50 p-3">
                   <ListItemAvatar>
                     <Avatar />
                   </ListItemAvatar>
                   <ListItemText
+                    className="whitespace-pre-wrap break-words"
                     primary={
                       <Typography variant="body1">
                         <Tooltip

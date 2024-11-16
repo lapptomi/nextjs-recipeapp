@@ -20,6 +20,7 @@ const BrowseRecipesPage = ({ searchParams }: Params) => {
   const queryParams = Object.entries(searchParams)
     .map(([key, value]) => `${key}=${value}`)
     .join("&");
+
   const recipesPromise = getRecipes(queryParams);
 
   return (
