@@ -7,17 +7,17 @@ import SearchRecipesForm from "@/components/SearchRecipesForm";
 import { getRecipes } from "@/lib/actions/recipe";
 
 interface Params {
-  searchParams: {
+  searchParams: Promise<{
     page?: string;
     pageSize?: string;
     title?: string;
-  };
+  }>;
 }
 
 export const dynamic = "force-dynamic";
 
-const BrowseRecipesPage = ({ searchParams }: Params) => {
-  const queryParams = Object.entries(searchParams)
+const BrowseRecipesPage = async ({ searchParams }: Params) => {
+  const queryParams = Object.entries(await searchParams)
     .map(([key, value]) => `${key}=${value}`)
     .join("&");
 

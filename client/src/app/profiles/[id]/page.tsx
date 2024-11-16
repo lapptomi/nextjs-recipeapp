@@ -8,13 +8,12 @@ import TitleHeader from "@/components/TitleHeader";
 import { findUserById } from "@/lib/actions/user";
 
 interface ProfilePageParams {
-  params: {
-    id: string;
-  };
+  params: Promise<{ id: string }>;
 }
 
 const ProfilePage = async ({ params }: ProfilePageParams) => {
-  const user = await findUserById(params.id);
+  const userId = (await params).id;
+  const user = await findUserById(userId);
 
   if (!user) {
     return <TitleHeader title="PROFILE NOT FOUND" />;
