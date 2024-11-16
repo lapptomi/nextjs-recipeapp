@@ -22,36 +22,40 @@ const LikeButtons = ({ recipe, session }: Props) => {
   const updateRating = async (ratingType: RecipeRatingType) => {
     if (!session?.user) {
       return;
-    };
+    }
     addRating({ recipeId: recipe.id, type: ratingType })
       .then(() => window.location.reload())
       .catch((error) => console.log(error));
   };
 
-  const userHasRated = (ratingType: RecipeRatingType) => (
-    recipe.ratings.some((r) => (
-      r.author.id === Number(session?.user.id) && r.type === ratingType
-    ))
-  );
+  const userHasRated = (ratingType: RecipeRatingType) =>
+    recipe.ratings.some(
+      (r) => r.author.id === Number(session?.user.id) && r.type === ratingType,
+    );
 
   const handleClick = () => {
     navigator.clipboard.writeText(window.location.href);
     setOpen(true);
   };
 
-  const handleClose = (event: React.SyntheticEvent | Event, reason?: string) => {
-    if (reason === 'clickaway') {
+  const handleClose = (
+    event: React.SyntheticEvent | Event,
+    reason?: string,
+  ) => {
+    if (reason === "clickaway") {
       return;
     }
     setOpen(false);
   };
 
   return (
-    <div style={{
-      display: 'flex',
-      flexDirection: 'row',
-      alignItems: 'center',
-    }}>
+    <div
+      style={{
+        display: "flex",
+        flexDirection: "row",
+        alignItems: "center",
+      }}
+    >
       <Tooltip title="Share">
         <Button onClick={handleClick} startIcon={<Share color="secondary" />}>
           <Typography variant="body2">Share</Typography>
@@ -69,13 +73,19 @@ const LikeButtons = ({ recipe, session }: Props) => {
         <Button
           id="like-button"
           disabled={session === null}
-          onClick={() => updateRating('LIKE')}
+          onClick={() => updateRating("LIKE")}
           startIcon={
-            <ThumbUpSharp color={userHasRated('LIKE') ? 'secondary' : 'primary'}/>
+            <ThumbUpSharp
+              color={userHasRated("LIKE") ? "secondary" : "primary"}
+            />
           }
         >
-          <Typography variant="overline" color="primary" data-testid="like-count">
-            {recipe.ratings.filter((rating) => rating.type === 'LIKE').length}
+          <Typography
+            variant="overline"
+            color="primary"
+            data-testid="like-count"
+          >
+            {recipe.ratings.filter((rating) => rating.type === "LIKE").length}
           </Typography>
         </Button>
       </Tooltip>
@@ -83,13 +93,22 @@ const LikeButtons = ({ recipe, session }: Props) => {
       <Tooltip title="Dislike recipe">
         <Button
           id="dislike-button"
-          onClick={() => updateRating('DISLIKE')}
+          onClick={() => updateRating("DISLIKE")}
           startIcon={
-            <ThumbDown color={userHasRated('DISLIKE') ? 'secondary' : 'primary'}/>
+            <ThumbDown
+              color={userHasRated("DISLIKE") ? "secondary" : "primary"}
+            />
           }
         >
-          <Typography variant="overline" color="primary" data-testid="dislike-count">
-            {recipe.ratings.filter((rating) => rating.type === 'DISLIKE').length}
+          <Typography
+            variant="overline"
+            color="primary"
+            data-testid="dislike-count"
+          >
+            {
+              recipe.ratings.filter((rating) => rating.type === "DISLIKE")
+                .length
+            }
           </Typography>
         </Button>
       </Tooltip>
