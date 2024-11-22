@@ -93,10 +93,13 @@ const AccountMenu: React.FC<Props> = ({ user }) => {
               </DialogContentText>
             </DialogContent>
             <DialogActions>
-              <Button onClick={() => setModalOpen(false)}>Cancel</Button>
+              <Button size="small" onClick={() => setModalOpen(false)}>
+                Cancel
+              </Button>
               <Button
                 variant="contained"
                 color="error"
+                size="small"
                 onClick={() => {
                   setModalOpen(false);
                   signOut({ callbackUrl: PAGES.RECIPES });
