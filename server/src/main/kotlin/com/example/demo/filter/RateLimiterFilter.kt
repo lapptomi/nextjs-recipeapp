@@ -10,13 +10,13 @@ import org.springframework.web.filter.OncePerRequestFilter
 import java.time.Duration
 
 @Component
-class RateLimiterFilter : OncePerRequestFilter() {
+class RateLimiterFilter: OncePerRequestFilter() {
 
     // Rate limit of initial amount of 50 requests that refills 10 requests every minute.
     // The rate limit is applied to every request.
     private val bucket: Bucket = Bucket
         .builder()
-        .addLimit { limit -> limit.capacity(50).refillIntervally(10, Duration.ofMinutes(1)) }
+        .addLimit { limit -> limit.capacity(5).refillIntervally(10, Duration.ofMinutes(1)) }
         .build()
 
     override fun doFilterInternal(request: HttpServletRequest, response: HttpServletResponse, filterChain: FilterChain) {

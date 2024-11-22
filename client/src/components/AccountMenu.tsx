@@ -5,7 +5,15 @@ import React from "react";
 
 import { AddBox, Person } from "@mui/icons-material";
 import Logout from "@mui/icons-material/Logout";
-import { Button, Typography } from "@mui/material";
+import {
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
+  Typography,
+} from "@mui/material";
 import Avatar from "@mui/material/Avatar";
 import Divider from "@mui/material/Divider";
 import ListItemIcon from "@mui/material/ListItemIcon";
@@ -24,6 +32,7 @@ interface Props {
 }
 
 const AccountMenu: React.FC<Props> = ({ user }) => {
+  const [modalOpen, setModalOpen] = React.useState(false);
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
 
@@ -75,13 +84,31 @@ const AccountMenu: React.FC<Props> = ({ user }) => {
 
         <Divider />
 
-        <MenuItem
-          onClick={() => {
-            if (window.confirm("Are you sure you want to sign out?")) {
-              signOut({ callbackUrl: PAGES.RECIPES });
-            }
-          }}
-        >
+        <Dialog open={modalOpen} onClose={() => setModalOpen(false)}>
+          <div className="p-2">
+            <DialogTitle>Confirm Sign Out</DialogTitle>
+            <DialogContent>
+              <DialogContentText>
+                Are you sure you want to sign out?
+              </DialogContentText>
+            </DialogContent>
+            <DialogActions>
+              <Button onClick={() => setModalOpen(false)}>Cancel</Button>
+              <Button
+                variant="contained"
+                color="error"
+                onClick={() => {
+                  setModalOpen(false);
+                  signOut({ callbackUrl: PAGES.RECIPES });
+                }}
+              >
+                Sign Out
+              </Button>
+            </DialogActions>
+          </div>
+        </Dialog>
+
+        <MenuItem onClick={() => setModalOpen(true)}>
           <ListItemIcon>
             <Logout fontSize="small" />
           </ListItemIcon>

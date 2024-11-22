@@ -1,31 +1,21 @@
-FROM openjdk:17-jdk-slim AS build
+FROM eclipse-temurin:21-alpine AS build
 
 WORKDIR /app
 
 COPY gradle /app/gradle
-
 COPY gradlew /app/gradlew
-
 COPY build.gradle.kts /app/build.gradle.kts
-
 COPY settings.gradle.kts /app/settings.gradle.kts
-
 COPY src /app/src
 
-RUN chmod +x ./gradlew && ./gradlew build --no-daemon
+RUN chmod +x ./gradlew && ./gradlew build --no-daemon && \
+    rm -rf /root/.gradle/caches /root/.gradle/wrapper
 
-
-FROM openjdk:17-jdk-slim
+FROM eclipse-temurin:21-alpine
 
 WORKDIR /app
 
-RUN groupadd -r appgroup && useradd -r -g appgroup appuser
-
 COPY --from=build /app/build/libs/*.jar app.jar
-
-RUN chown -R appuser:appgroup /app
-
-USER appuser
 
 EXPOSE 8080
 

@@ -1,4 +1,4 @@
-FROM openjdk:17-jdk-slim AS build
+FROM eclipse-temurin:21-alpine AS build
 
 WORKDIR /app
 
