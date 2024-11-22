@@ -40,9 +40,13 @@ class DemoApplication {
 	): CommandLineRunner {
 		// Add some data to the in-memory database if it's empty
 		return CommandLineRunner {
-            fun encodePassword(password: String) = securityConfig.passwordEncoder().encode(password)
+            fun encodePassword(password: String) = securityConfig
+				.passwordEncoder()
+				.encode(password)
 
-			fun generateRandomString(length: Int): String = (1..length).map { ('a'..'z').random() }.joinToString("")
+			fun generateRandomString(length: Int): String = (1..length)
+				.map { ('a'..'z').random() }
+				.joinToString("")
 
 			val users = (0..10)
 				.map { User(username = "User $it", email = "user$it", password = encodePassword("user$it")) }

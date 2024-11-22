@@ -1,4 +1,4 @@
-package com.example.demo.recipe.domain
+package com.example.demo.recipe.domain.dto
 
 data class RecipeAuthorDTO(
     val id: Int,

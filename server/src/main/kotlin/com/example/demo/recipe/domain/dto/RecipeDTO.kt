@@ -1,8 +1,8 @@
 package com.example.demo.user.domain
 
-import com.example.demo.recipe.domain.RecipeAuthorDTO
-import com.example.demo.recipe.domain.recipecomment.RecipeCommentDTO
-import com.example.demo.recipe.domain.reciperating.RecipeRatingDTO
+import com.example.demo.recipe.domain.dto.RecipeAuthorDTO
+import com.example.demo.recipe.domain.recipecomment.dto.RecipeCommentDTO
+import com.example.demo.recipe.domain.reciperating.dto.RecipeRatingDTO
 import java.time.LocalDateTime
 
 data class RecipeDTO(

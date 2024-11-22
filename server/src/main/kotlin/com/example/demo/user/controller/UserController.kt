@@ -1,8 +1,8 @@
 package com.example.demo.user.controller
 
 import com.example.demo.ApiPath
-import com.example.demo.user.domain.CreateUserDTO
-import com.example.demo.user.domain.UserDTO
+import com.example.demo.user.domain.dto.CreateUserDTO
+import com.example.demo.user.domain.dto.UserDTO
 import com.example.demo.user.service.UserService
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity

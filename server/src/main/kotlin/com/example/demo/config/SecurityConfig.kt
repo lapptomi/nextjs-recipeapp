@@ -1,6 +1,7 @@
 package com.example.demo.config
 
-import com.example.demo.auth.JwtAuthenticationFilter
+import com.example.demo.filter.JwtAuthenticationFilter
+import com.example.demo.filter.RateLimiterFilter
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.http.HttpMethod
@@ -14,12 +15,13 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 @Configuration
 @EnableWebSecurity
-class SecurityConfig(private val jwtAuthenticationFilter: JwtAuthenticationFilter) {
+class SecurityConfig(
+    private val jwtAuthenticationFilter: JwtAuthenticationFilter,
+    private val rateLimiterFilter: RateLimiterFilter
+) {
 
     @Bean
-    fun passwordEncoder(): PasswordEncoder {
-        return BCryptPasswordEncoder()
-    }
+    fun passwordEncoder(): PasswordEncoder = BCryptPasswordEncoder()
 
     @Bean
     fun securityFilterChain(http: HttpSecurity): SecurityFilterChain {
@@ -31,6 +33,7 @@ class SecurityConfig(private val jwtAuthenticationFilter: JwtAuthenticationFilte
                     .anyRequest().authenticated()
             }
             .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter::class.java)
+            .addFilterBefore(rateLimiterFilter, JwtAuthenticationFilter::class.java)
             .headers { it.frameOptions(Customizer.withDefaults()).disable() }
             .formLogin { it.disable() }
             .csrf { it.disable() }

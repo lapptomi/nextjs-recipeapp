@@ -1,4 +1,4 @@
-package com.example.demo.auth
+package com.example.demo.filter
 
 import com.example.demo.auth.service.JwtService
 import com.example.demo.user.domain.User
