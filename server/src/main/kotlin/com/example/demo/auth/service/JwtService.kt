@@ -8,7 +8,7 @@ import java.util.*
 @Service
 class JwtService {
     private val SECRET_KEY = Jwts.SIG.HS512.key().build()
-    private val JWT_EXPIRATION = 60 * 60 * 1000 // 1 hour
+    private val JWT_EXPIRATION = 60 * 60 * 1000 // Expires in 1 hour
 
     private fun getAllClaims(token: String): Claims = Jwts
         .parser()
