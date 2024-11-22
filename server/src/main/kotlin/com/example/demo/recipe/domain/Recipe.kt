@@ -1,7 +1,10 @@
 package com.example.demo.user.domain
 
+import com.example.demo.recipe.domain.dto.RecipeAuthorDTO
 import com.example.demo.recipe.domain.recipecomment.RecipeComment
+import com.example.demo.recipe.domain.recipecomment.dto.RecipeCommentDTO
 import com.example.demo.recipe.domain.reciperating.RecipeRating
+import com.example.demo.recipe.domain.reciperating.dto.RecipeRatingDTO
 import jakarta.persistence.*
 import org.springframework.data.annotation.CreatedDate
 import java.time.LocalDateTime
@@ -51,3 +54,41 @@ data class Recipe(
         return "Recipe(id=$id, title='$title', description='$description', image=$image, ingredients=$ingredients, cookingTime=$cookingTime, servings=$servings, instructions='$instructions')"
     }
 }
+
+fun Recipe.toDTO() = RecipeDTO(
+    id = id,
+    title = title,
+    description = description,
+    image = image,
+    ingredients = ingredients,
+    cookingTime = cookingTime,
+    servings = servings,
+    instructions = instructions,
+    author = RecipeAuthorDTO(
+        id = author.id,
+        username = author.username,
+        email = author.email
+    ),
+    createdAt = createdAt,
+    comments = comments.map {
+        RecipeCommentDTO(
+            author = RecipeAuthorDTO(
+                id = it.author.id,
+                username = it.author.username,
+                email = it.author.email
+            ),
+            message = it.message,
+            createdAt = it.createdAt.toString()
+        )
+    },
+    ratings = ratings.map {
+        RecipeRatingDTO(
+            author = RecipeAuthorDTO(
+                id = it.author.id,
+                username = it.author.username,
+                email = it.author.email
+            ),
+            type = it.type
+        )
+    }
+)

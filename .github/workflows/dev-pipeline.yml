@@ -16,7 +16,7 @@ jobs:
 
       - name: Start containers
         run: docker compose -f "docker-compose.test.yml" up -d --build
-    
+  
       - name: Cypress run
         uses: cypress-io/github-action@v6
         with:

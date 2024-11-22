@@ -1,8 +1,8 @@
 package com.example.demo.user.controller
 
 import com.example.demo.ApiPath
-import com.example.demo.recipe.domain.recipecomment.CreateRecipeCommentDTO
-import com.example.demo.recipe.domain.reciperating.CreateRecipeRatingDTO
+import com.example.demo.recipe.domain.recipecomment.dto.CreateRecipeCommentDTO
+import com.example.demo.recipe.domain.reciperating.dto.CreateRecipeRatingDTO
 import com.example.demo.user.domain.RecipeDTO
 import com.example.demo.user.domain.User
 import com.example.demo.user.service.RecipeService

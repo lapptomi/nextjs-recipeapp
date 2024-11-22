@@ -1,4 +1,4 @@
-package com.example.demo.user.domain
+package com.example.demo.user.domain.dto
 
 data class CreateUserDTO(
     val username: String,

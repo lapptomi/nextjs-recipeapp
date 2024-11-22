@@ -2,6 +2,7 @@ package com.example.demo.user.domain
 
 import com.example.demo.recipe.domain.recipecomment.RecipeComment
 import com.example.demo.recipe.domain.reciperating.RecipeRating
+import com.example.demo.user.domain.dto.UserDTO
 import com.fasterxml.jackson.annotation.JsonIdentityInfo
 import com.fasterxml.jackson.annotation.JsonIgnore
 import com.fasterxml.jackson.annotation.ObjectIdGenerators
@@ -44,4 +45,12 @@ data class User(
     override fun toString(): String {
         return "User(id=$id, email='$email', username='$username')"
     }
+
 }
+
+fun User.toDTO() = UserDTO(
+    id = id,
+    username = username,
+    email = email,
+    recipes = recipes.map { it.toDTO() }
+)
