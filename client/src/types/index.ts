@@ -34,7 +34,7 @@ export const NewRecipeSchema = z.object({
     .max(200),
   instructions: z.string().min(4).max(5000),
   cookingTime: z.number().optional(),
-  servings: z.number().optional(),
+  servings: z.number().min(0).optional(),
   image: NewRecipeImageSchema.nullable().optional(),
 });
 
@@ -55,7 +55,6 @@ export const CommentSchema = z.object({
 
 export type CommentForm = z.infer<typeof CommentSchema>;
 
-// Use zod to create typescript types from these later? (z.infer<typeof ...>)
 export interface User {
   id: number;
   email: string;
