@@ -47,10 +47,3 @@ data class User(
     }
 
 }
-
-fun User.toDTO() = UserDTO(
-    id = id,
-    username = username,
-    email = email,
-    recipes = recipes.map { it.toDTO() }
-)

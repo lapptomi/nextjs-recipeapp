@@ -77,8 +77,8 @@ const Home = () => {
       </div>
 
       <div className="flex flex-col flex-wrap items-center justify-center gap-8 bg-gray-50 px-2 py-24">
-        <Typography variant="h5" fontWeight="bold">
-          PRICING PLANS
+        <Typography variant="h4" fontWeight="bold">
+          PRICING
         </Typography>
         <div className="flex flex-row flex-wrap justify-center gap-6">
           <PricingCard title="Personal" description="Some random description" />

@@ -19,7 +19,7 @@ const RecipeList = async ({ recipes }: Props) => {
         </div>
       ) : (
         <div className="p-12">
-          <Typography variant="h3">No recipes found.</Typography>
+          <Typography variant="h4" fontWeight="bold">No recipes found.</Typography>
           <Typography variant="body1">Be the first to create one!</Typography>
         </div>
       )}

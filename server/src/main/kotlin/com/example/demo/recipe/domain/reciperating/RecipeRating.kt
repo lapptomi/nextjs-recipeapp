@@ -2,7 +2,6 @@ package com.example.demo.recipe.domain.reciperating
 
 import com.example.demo.user.domain.Recipe
 import com.example.demo.user.domain.User
-import com.fasterxml.jackson.annotation.JsonBackReference
 import jakarta.persistence.*
 
 @Entity

@@ -123,9 +123,9 @@ const CreateRecipeForm = () => {
         {...register("description")}
       />
 
-      <FormControl style={{ width: "100%" }}>
+      <FormControl className="w-full">
         <Typography variant="overline">Ingredients</Typography>
-        {fields.map((item, index) => {
+        {fields.map((_item, index) => {
           const showError =
             errors.ingredients?.[index]?.ingredient?.message !== undefined &&
             errors.ingredients?.[index] !== undefined;
@@ -177,13 +177,7 @@ const CreateRecipeForm = () => {
         {...register("instructions")}
       />
 
-      <div
-        style={{
-          display: "flex",
-          width: "100%",
-          justifyContent: "space-evenly",
-        }}
-      >
+      <div className="flex w-full justify-between">
         <TextField
           size="small"
           label="Cooking time (minutes)"

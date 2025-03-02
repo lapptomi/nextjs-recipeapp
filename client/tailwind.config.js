@@ -4,7 +4,7 @@ module.exports = {
     "./app/**/*.{js,ts,jsx,tsx,mdx}",
     "./pages/**/*.{js,ts,jsx,tsx,mdx}",
     "./components/**/*.{js,ts,jsx,tsx,mdx}",
- 
+
     // Or if using `src` directory:
     "./src/**/*.{js,ts,jsx,tsx,mdx}",
   ],
@@ -12,7 +12,19 @@ module.exports = {
     extend: {
       gridTemplateColumns: {
         'auto-fill-300': 'repeat(auto-fill, 300px)'
-      }
+      },
+      colors: {
+        primary: {
+          main: "#000000",
+          light: "#333333",
+        },
+        secondary: {
+          main: "#ed6c02",
+        },
+        backgroundGrayLight: '#f9fafb',
+        backgroundGrayDark: '#f4f5f7',
+        backgroundWhite: '#ffffff',
+      },
     },
   },
   plugins: [],
