@@ -27,6 +27,10 @@ jobs:
       - name: Stop containers
         if: always()
         run: docker compose -f "docker-compose.test.yml" down
+
+      - name: Deploy to Render
+        if: success()
+        run: curl ${{ secrets.RENDER_DEPLOY_HOOK }}
         
       - name: Install Vercel CLI
         run: npm install --global vercel@latest
@@ -38,7 +42,3 @@ jobs:
         
       - name: Deploy Project Artifacts to Vercel
         run: vercel deploy --prebuilt --token=${{ secrets.VERCEL_TOKEN }}
-
-      - name: Deploy to Render
-        if: success()
-        run: curl ${{ secrets.RENDER_DEPLOY_HOOK }}
