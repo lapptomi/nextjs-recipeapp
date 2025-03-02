@@ -49,13 +49,7 @@ const LikeButtons = ({ recipe, session }: Props) => {
   };
 
   return (
-    <div
-      style={{
-        display: "flex",
-        flexDirection: "row",
-        alignItems: "center",
-      }}
-    >
+    <div className="flex flex-row items-center">
       <Tooltip title="Share">
         <Button onClick={handleClick} startIcon={<Share color="secondary" />}>
           <Typography variant="body2">Share</Typography>
@@ -93,6 +87,7 @@ const LikeButtons = ({ recipe, session }: Props) => {
       <Tooltip title="Dislike recipe">
         <Button
           id="dislike-button"
+          disabled={session === null}
           onClick={() => updateRating("DISLIKE")}
           startIcon={
             <ThumbDown

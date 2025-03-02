@@ -24,13 +24,13 @@ jobs:
           wait-on: 'http://localhost:3000'
           browser: chrome
 
-      - name: Deploy to Render
-        if: success()
-        run: curl ${{ secrets.RENDER_DEPLOY_HOOK }}
-
       - name: Stop containers
         if: always()
         run: docker compose -f "docker-compose.test.yml" down
+
+      - name: Deploy to Render
+        if: success()
+        run: curl ${{ secrets.RENDER_DEPLOY_HOOK }}
         
       - name: Install Vercel CLI
         run: npm install --global vercel@latest

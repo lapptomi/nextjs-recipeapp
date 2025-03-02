@@ -84,13 +84,11 @@ const CreateRecipeForm = () => {
 
   return (
     <form
-      className="flex h-full w-[70vw] flex-col items-center justify-center gap-5 bg-white p-6"
+      className="flex h-full w-[70vw] flex-col items-center justify-center gap-5 border-2 border-gray-100 p-6"
       onSubmit={handleSubmit(handleFormSubmit, (error) =>
         console.log("ERROR = ", error),
       )}
     >
-      <Typography variant="overline">create new recipe</Typography>
-
       <TextField
         required
         error={!!errors.title}
@@ -125,9 +123,9 @@ const CreateRecipeForm = () => {
         {...register("description")}
       />
 
-      <FormControl style={{ width: "100%" }}>
+      <FormControl className="w-full">
         <Typography variant="overline">Ingredients</Typography>
-        {fields.map((item, index) => {
+        {fields.map((_item, index) => {
           const showError =
             errors.ingredients?.[index]?.ingredient?.message !== undefined &&
             errors.ingredients?.[index] !== undefined;
@@ -179,13 +177,7 @@ const CreateRecipeForm = () => {
         {...register("instructions")}
       />
 
-      <div
-        style={{
-          display: "flex",
-          width: "100%",
-          justifyContent: "space-evenly",
-        }}
-      >
+      <div className="flex w-full justify-between">
         <TextField
           size="small"
           label="Cooking time (minutes)"
@@ -223,7 +215,7 @@ const CreateRecipeForm = () => {
         <Typography variant="caption" color="error">
           {errors.image && errors.image.message}
         </Typography>
-        <Button component="label" startIcon={<CloudUpload />}>
+        <Button component="label" startIcon={<CloudUpload color="secondary" />}>
           <Typography variant="subtitle1">Upload recipe image</Typography>
           <input
             type="file"

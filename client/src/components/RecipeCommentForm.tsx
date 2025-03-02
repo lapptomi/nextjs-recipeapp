@@ -33,7 +33,7 @@ const RecipeCommentForm: React.FC<Props> = ({ recipe }) => {
   };
 
   return (
-    <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+    <div className="flex flex-col gap-10">
       <TextField
         error={!!errors.message}
         helperText={errors.message?.message}
@@ -46,7 +46,7 @@ const RecipeCommentForm: React.FC<Props> = ({ recipe }) => {
         minRows={6}
         {...register("message")}
       />
-      <div style={{ display: "flex", justifyContent: "flex-end" }}>
+      <div className="flex justify-end">
         <Button
           id="comment-button"
           size="small"
