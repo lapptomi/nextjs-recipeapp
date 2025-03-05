@@ -15,15 +15,18 @@ class AuthService(
     fun login(email: String, password: String): JwtTokenDto {
         val user = userRepository.findByEmail(email)
 
-        if (user.email != email || !securityConfig.passwordEncoder().matches(password, user.password)) {
+        if (
+            user.email != email ||
+                !securityConfig.passwordEncoder().matches(password, user.password)
+        ) {
             throw BadCredentialsException("Invalid credentials")
         }
-        
+
         return JwtTokenDto(
             token = jwtService.generateToken(user.email),
             email = user.email,
             username = user.username,
-            userId = user.id
+            userId = user.id,
         )
     }
 }

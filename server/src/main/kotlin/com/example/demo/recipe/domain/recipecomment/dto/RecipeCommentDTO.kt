@@ -5,5 +5,5 @@ import com.example.demo.recipe.domain.dto.RecipeAuthorDTO
 data class RecipeCommentDTO(
     val author: RecipeAuthorDTO,
     val message: String,
-    val createdAt: String
+    val createdAt: String,
 )
