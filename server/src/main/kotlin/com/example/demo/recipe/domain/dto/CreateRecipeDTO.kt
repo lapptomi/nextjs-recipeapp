@@ -6,5 +6,5 @@ data class CreateRecipeDTO(
     val ingredients: List<String>,
     val cookingTime: Int,
     val servings: Int,
-    val instructions: String
+    val instructions: String,
 )

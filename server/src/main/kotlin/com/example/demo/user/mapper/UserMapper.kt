@@ -12,7 +12,7 @@ class UserMapper(private val recipeMapper: RecipeMapper) {
             id = user.id,
             email = user.email,
             username = user.username,
-            recipes = user.recipes.map { recipeMapper.toDTO(it) }
+            recipes = user.recipes.map { recipeMapper.toDTO(it) },
         )
     }
 }

@@ -20,9 +20,8 @@ class DatabaseInitializer(
     private val userRepository: UserRepository,
     private val recipeRepository: RecipeRepository,
     private val recipeRatingRepository: RecipeRatingRepository,
-    private val recipeCommentRepository: RecipeCommentRepository
+    private val recipeCommentRepository: RecipeCommentRepository,
 ) {
-
     @Profile("dev")
     @Bean
     fun addInitialData(): CommandLineRunner {
@@ -34,7 +33,8 @@ class DatabaseInitializer(
 
             if (userRepository.count() == 0L) userRepository.saveAll(users)
             if (recipeRepository.count() == 0L) recipeRepository.saveAll(recipes)
-            if (recipeCommentRepository.count() == 0L) recipeCommentRepository.saveAll(recipeComments)
+            if (recipeCommentRepository.count() == 0L)
+                recipeCommentRepository.saveAll(recipeComments)
             if (recipeRatingRepository.count() == 0L) recipeRatingRepository.saveAll(recipeRatings)
         }
     }
@@ -42,12 +42,15 @@ class DatabaseInitializer(
     private fun createUsers(): List<User> {
         fun encodePassword(password: String) = securityConfig.passwordEncoder().encode(password)
         return (0..10)
-            .map { User(username = "User $it", email = "user$it", password = encodePassword("user$it")) }
+            .map {
+                User(username = "User $it", email = "user$it", password = encodePassword("user$it"))
+            }
             .plus(User(username = "admin", email = "admin", password = encodePassword("admin")))
     }
 
     private fun createRecipes(users: List<User>): List<Recipe> {
-        fun generateRandomString(length: Int): String = (1..length).map { ('a'..'z').random() }.joinToString("")
+        fun generateRandomString(length: Int): String =
+            (1..length).map { ('a'..'z').random() }.joinToString("")
         return (0..20).map {
             Recipe(
                 author = users[0],
@@ -62,12 +65,30 @@ class DatabaseInitializer(
         }
     }
 
-    private fun createRecipeComments(users: List<User>, recipes: List<Recipe>): List<RecipeComment> {
-        fun generateRandomString(length: Int): String = (1..length).map { ('a'..'z').random() }.joinToString("")
-        return (0..10).map { RecipeComment(author = users[0], message = generateRandomString(500), recipe = recipes[0]) }
+    private fun createRecipeComments(
+        users: List<User>,
+        recipes: List<Recipe>,
+    ): List<RecipeComment> {
+        fun generateRandomString(length: Int): String =
+            (1..length).map { ('a'..'z').random() }.joinToString("")
+        return (0..10).map {
+            RecipeComment(
+                author = users[0],
+                message = generateRandomString(500),
+                recipe = recipes[0],
+            )
+        }
     }
 
     private fun createRecipeRatings(users: List<User>, recipes: List<Recipe>): List<RecipeRating> {
-        return users.flatMap { user -> recipes.map { recipe -> RecipeRating(author = user, type = RecipeRatingType.values().random(), recipe = recipe) } }
+        return users.flatMap { user ->
+            recipes.map { recipe ->
+                RecipeRating(
+                    author = user,
+                    type = RecipeRatingType.values().random(),
+                    recipe = recipe,
+                )
+            }
+        }
     }
 }

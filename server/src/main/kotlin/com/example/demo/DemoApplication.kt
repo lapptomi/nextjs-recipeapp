@@ -5,14 +5,14 @@ import io.swagger.v3.oas.annotations.info.Info
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
 
-
 @SpringBootApplication
 @OpenAPIDefinition(
-    info = Info(
-        title = "My API",
-        version = "v1",
-        description = "REST API using Spring Boot and Kotlin"
-    )
+    info =
+        Info(
+            title = "My API",
+            version = "v1",
+            description = "REST API using Spring Boot and Kotlin",
+        )
 )
 class DemoApplication
 

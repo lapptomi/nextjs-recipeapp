@@ -17,22 +17,26 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @EnableWebSecurity
 class SecurityConfig(
     private val jwtAuthenticationFilter: JwtAuthenticationFilter,
-    private val rateLimiterFilter: RateLimiterFilter
+    private val rateLimiterFilter: RateLimiterFilter,
 ) {
-
-    @Bean
-    fun passwordEncoder(): PasswordEncoder = BCryptPasswordEncoder()
+    @Bean fun passwordEncoder(): PasswordEncoder = BCryptPasswordEncoder()
 
     @Bean
     fun securityFilterChain(http: HttpSecurity): SecurityFilterChain {
         http
             .authorizeHttpRequests { requests ->
                 requests
-                    .requestMatchers(HttpMethod.POST, "/api/recipes").authenticated()
-                    .requestMatchers("/**").permitAll()
-                    .anyRequest().authenticated()
+                    .requestMatchers(HttpMethod.POST, "/api/recipes")
+                    .authenticated()
+                    .requestMatchers("/**")
+                    .permitAll()
+                    .anyRequest()
+                    .authenticated()
             }
-            .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter::class.java)
+            .addFilterBefore(
+                jwtAuthenticationFilter,
+                UsernamePasswordAuthenticationFilter::class.java,
+            )
             .addFilterBefore(rateLimiterFilter, JwtAuthenticationFilter::class.java)
             .headers { it.frameOptions(Customizer.withDefaults()).disable() }
             .formLogin { it.disable() }
