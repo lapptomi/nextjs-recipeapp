@@ -1,5 +1,6 @@
-package com.example.demo.user.service
+package com.example.demo.recipe.service
 
+import com.example.demo.config.RecipeNotFoundException
 import com.example.demo.recipe.domain.dto.CreateRecipeDTO
 import com.example.demo.recipe.domain.recipecomment.RecipeComment
 import com.example.demo.recipe.domain.recipecomment.dto.CreateRecipeCommentDTO
@@ -27,7 +28,7 @@ class RecipeService(
     private val recipeRatingRepository: RecipeRatingRepository,
     private val recipeMapper: RecipeMapper,
 ) {
-    fun getRecipes(recipeTitle: String, page: Int, pageSize: Int, sortBy: String): Page<RecipeDTO> {
+    fun getAll(recipeTitle: String, page: Int, pageSize: Int, sortBy: String): Page<RecipeDTO> {
         val sortDirection = if (sortBy == "date_asc") Sort.Direction.ASC else Sort.Direction.DESC
         val pageable = PageRequest.of(page - 1, pageSize, Sort.by(sortDirection, "createdAt"))
         return recipeRepository.findByTitleContainingIgnoreCase(recipeTitle, pageable).map {
@@ -35,7 +36,7 @@ class RecipeService(
         }
     }
 
-    fun getRecipeById(id: Int): RecipeDTO = recipeMapper.toDTO(findRecipeById(id))
+    fun findById(id: Int): RecipeDTO = recipeMapper.toDTO(findRecipeById(id))
 
     fun createRecipe(user: User, recipeJson: String, image: MultipartFile?): RecipeDTO {
         val objectMapper = jacksonObjectMapper()
@@ -46,21 +47,22 @@ class RecipeService(
 
     fun addRating(user: User, recipeId: Int, rating: CreateRecipeRatingDTO): RecipeDTO {
         val recipe = findRecipeById(recipeId)
-        val existingRating = recipe.ratings.find { it.author.id == user.id }
-        existingRating?.let { updateExistingRating(it, rating) }
-            ?: createRating(user, recipe, rating)
-        return recipeMapper.toDTO(recipe)
+        val existingRating =
+            recipe.ratings
+                .find { it.author.id == user.id }
+                ?.let { updateExistingRating(it, rating) } ?: createRating(user, recipe, rating)
+
+        return recipeMapper.toDTO(existingRating.recipe)
     }
 
     fun addComment(user: User, recipeId: Int, commentDto: CreateRecipeCommentDTO): RecipeDTO {
         val recipe = findRecipeById(recipeId)
-        recipeCommentRepository.save(
-            RecipeComment(author = user, message = commentDto.message, recipe = recipe)
-        )
+        val comment = RecipeComment(author = user, message = commentDto.message, recipe = recipe)
+        recipeCommentRepository.save(comment)
         return recipeMapper.toDTO(recipe)
     }
 
-    private fun createRating(user: User, recipe: Recipe, rating: CreateRecipeRatingDTO) =
+    fun createRating(user: User, recipe: Recipe, rating: CreateRecipeRatingDTO) =
         recipeRatingRepository.save(
             RecipeRating(author = user, recipe = recipe, type = rating.type)
         )
@@ -69,7 +71,5 @@ class RecipeService(
         recipeRatingRepository.save(existingRating.copy(type = rating.type))
 
     private fun findRecipeById(id: Int): Recipe =
-        recipeRepository.findById(id).orElseThrow {
-            throw NoSuchElementException("Recipe with id $id not found")
-        }
+        recipeRepository.findById(id).orElseThrow { RecipeNotFoundException(id.toString()) }
 }

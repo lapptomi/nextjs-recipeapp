@@ -3,9 +3,9 @@ package com.example.demo.user.controller
 import com.example.demo.ApiPath
 import com.example.demo.recipe.domain.recipecomment.dto.CreateRecipeCommentDTO
 import com.example.demo.recipe.domain.reciperating.dto.CreateRecipeRatingDTO
+import com.example.demo.recipe.service.RecipeService
 import com.example.demo.user.domain.RecipeDTO
 import com.example.demo.user.domain.User
-import com.example.demo.user.service.RecipeService
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.security.core.annotation.AuthenticationPrincipal
@@ -30,7 +30,7 @@ class RecipeController(private val recipeService: RecipeService) {
         @RequestParam(name = "page_size", defaultValue = "12", required = false) pageSize: Int,
         @RequestParam(name = "sort_by", defaultValue = "date_desc", required = false) sortBy: String,
     ): ResponseEntity<MutableIterable<RecipeDTO>> =
-        ResponseEntity.ok(recipeService.getRecipes(recipeTitle, page, pageSize, sortBy))
+        ResponseEntity.ok(recipeService.getAll(recipeTitle, page, pageSize, sortBy))
 
     @PostMapping
     fun createRecipe(
@@ -43,7 +43,7 @@ class RecipeController(private val recipeService: RecipeService) {
 
     @GetMapping("/{id}")
     fun getRecipeById(@PathVariable id: Int): ResponseEntity<RecipeDTO> =
-        ResponseEntity.ok(recipeService.getRecipeById(id))
+        ResponseEntity.ok(recipeService.findById(id))
 
     @PostMapping("/{id}/comments")
     fun addComment(

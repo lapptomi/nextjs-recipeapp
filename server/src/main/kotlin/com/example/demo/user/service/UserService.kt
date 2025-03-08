@@ -1,6 +1,7 @@
 package com.example.demo.user.service
 
 import com.example.demo.config.SecurityConfig
+import com.example.demo.config.UserNotFoundException
 import com.example.demo.user.domain.User
 import com.example.demo.user.domain.dto.CreateUserRequestDTO
 import com.example.demo.user.domain.dto.UserDTO
@@ -14,26 +15,18 @@ class UserService(
     private val securityConfig: SecurityConfig,
     private val userMapper: UserMapper,
 ) {
-    fun getUsers(): List<UserDTO> = userRepository.findAll().map { userMapper.toDTO(it) }
+    fun getAll(): List<UserDTO> = userRepository.findAll().map { userMapper.toDTO(it) }
 
     fun createUser(newUser: CreateUserRequestDTO): UserDTO {
-        val user =
-            userRepository.save(
-                User(
-                    email = newUser.email,
-                    username = newUser.username,
-                    password = securityConfig.passwordEncoder().encode(newUser.password),
-                )
-            )
-        return userMapper.toDTO(user)
+        val password = securityConfig.passwordEncoder().encode(newUser.password)
+        val user = User(email = newUser.email, username = newUser.username, password = password)
+        return userMapper.toDTO(userRepository.save(user))
     }
 
-    fun findUserById(id: Int): UserDTO =
-        userMapper.toDTO(
-            userRepository.findById(id).orElseThrow {
-                throw NoSuchElementException("User with id $id not found")
-            }
-        )
+    fun findUserById(id: Int): UserDTO {
+        val user = userRepository.findById(id).orElseThrow { UserNotFoundException(id.toString()) }
+        return userMapper.toDTO(user)
+    }
 
     fun deleteUsers() = userRepository.deleteAll()
 }
