@@ -1,4 +1,4 @@
 #!/bin/sh
 . "$(dirname "$0")/_/husky.sh"
 
-cd ./client && npm run fmt && npm run build
+cd ./client && npm run fmtCheck && npm run build && cd ../server && ./gradlew ktfmtCheck
