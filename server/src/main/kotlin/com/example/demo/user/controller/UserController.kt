@@ -17,8 +17,9 @@ import org.springframework.web.bind.annotation.RestController
 @RestController
 @RequestMapping(ApiPath.ROOT + "/users")
 class UserController(private val userService: UserService) {
+
     @GetMapping
-    fun getUsers(): ResponseEntity<List<UserDTO>> = ResponseEntity.ok(userService.getUsers())
+    fun getUsers(): ResponseEntity<List<UserDTO>> = ResponseEntity.ok(userService.getAll())
 
     @PostMapping
     fun createUser(@RequestBody user: CreateUserRequestDTO): ResponseEntity<UserDTO> =

@@ -47,9 +47,10 @@ dependencies {
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit5")
     runtimeOnly("com.h2database:h2")
     implementation("com.bucket4j:bucket4j-core:8.10.1")
-}
 
-dependencies { developmentOnly("org.springframework.boot:spring-boot-devtools") }
+    developmentOnly("org.springframework.boot:spring-boot-devtools")
+    testImplementation("com.ninja-squad:springmockk:4.0.2")
+}
 
 kotlin { compilerOptions { freeCompilerArgs.addAll("-Xjsr305=strict") } }
 
