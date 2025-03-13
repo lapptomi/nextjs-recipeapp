@@ -11,6 +11,7 @@
     "cypress:run": "cypress run",
     "fmt": "prettier --write \"**/*.{ts,tsx}\" && eslint --fix \"**/*.{ts,tsx}\"",
     "fmtCheck": "prettier --check \"**/*.{ts,tsx}\" && eslint --fix --quiet \"**/*.{ts,tsx}\"",
+    "fmtFormat": "prettier --write \"**/*.{ts,tsx}\"",
     "prepare": "husky"
   },
   "dependencies": {

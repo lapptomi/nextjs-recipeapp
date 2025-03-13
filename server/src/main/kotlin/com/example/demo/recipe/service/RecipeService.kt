@@ -13,8 +13,6 @@ import com.example.demo.user.domain.Recipe
 import com.example.demo.user.domain.RecipeDTO
 import com.example.demo.user.domain.User
 import com.example.demo.user.repository.RecipeRepository
-import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
-import com.fasterxml.jackson.module.kotlin.readValue
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.PageRequest
 import org.springframework.data.domain.Sort
@@ -38,9 +36,11 @@ class RecipeService(
 
     fun findById(id: Int): RecipeDTO = recipeMapper.toDTO(findRecipeById(id))
 
-    fun createRecipe(user: User, recipeJson: String, image: MultipartFile?): RecipeDTO {
-        val objectMapper = jacksonObjectMapper()
-        val createRecipeDTO: CreateRecipeDTO = objectMapper.readValue(recipeJson)
+    fun createRecipe(
+        user: User,
+        createRecipeDTO: CreateRecipeDTO,
+        image: MultipartFile?,
+    ): RecipeDTO {
         val recipe = recipeMapper.toEntity(createRecipeDTO, user)
         return recipeMapper.toDTO(recipeRepository.save(recipe))
     }
@@ -52,14 +52,15 @@ class RecipeService(
                 .find { it.author.id == user.id }
                 ?.let { updateExistingRating(it, rating) } ?: createRating(user, recipe, rating)
 
-        return recipeMapper.toDTO(existingRating.recipe)
+        val filteredRatings = recipe.ratings.filter { it.author.id != user.id }
+        return recipeMapper.toDTO(recipe.copy(ratings = filteredRatings + existingRating))
     }
 
     fun addComment(user: User, recipeId: Int, commentDto: CreateRecipeCommentDTO): RecipeDTO {
         val recipe = findRecipeById(recipeId)
         val comment = RecipeComment(author = user, message = commentDto.message, recipe = recipe)
         recipeCommentRepository.save(comment)
-        return recipeMapper.toDTO(recipe)
+        return recipeMapper.toDTO(recipe.copy(comments = recipe.comments + comment))
     }
 
     fun createRating(user: User, recipe: Recipe, rating: CreateRecipeRatingDTO) =
