@@ -53,7 +53,7 @@ class UserControllerIntegrationTest {
             )
             .andExpect(status().isOk)
             .andExpect(jsonPath("$.id").value(testUser.id))
-            .andExpect(jsonPath("$.ussername").value(testUser.username))
+            .andExpect(jsonPath("$.username").value(testUser.username))
             .andExpect(jsonPath("$.email").value(testUser.email))
             .andExpect(jsonPath("$.password").doesNotExist())
             .andExpect(jsonPath("$.recipes").exists())
