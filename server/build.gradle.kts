@@ -6,8 +6,8 @@ plugins {
     id("org.springdoc.openapi-gradle-plugin") version "1.9.0"
     kotlin("plugin.noarg") version "2.0.21"
     kotlin("plugin.jpa") version "2.0.21"
-
     id("com.ncorti.ktfmt.gradle") version "0.22.0"
+    id("org.jetbrains.kotlinx.kover") version "0.9.1"
 }
 
 ktfmt {
@@ -49,7 +49,6 @@ dependencies {
     implementation("com.bucket4j:bucket4j-core:8.10.1")
 
     developmentOnly("org.springframework.boot:spring-boot-devtools")
-    testImplementation("com.ninja-squad:springmockk:4.0.2")
 }
 
 kotlin { compilerOptions { freeCompilerArgs.addAll("-Xjsr305=strict") } }

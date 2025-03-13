@@ -13,7 +13,7 @@ import org.springframework.web.filter.OncePerRequestFilter
 class RateLimiterFilter : OncePerRequestFilter() {
     private val bucket: Bucket =
         Bucket.builder()
-            .addLimit { it.capacity(50).refillIntervally(10, Duration.ofMinutes(1)) }
+            .addLimit { it.capacity(500).refillIntervally(10, Duration.ofMinutes(1)) }
             .build()
 
     override fun doFilterInternal(

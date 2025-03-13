@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 
 @RestController
-@RequestMapping(ApiPath.ROOT + "/users")
+@RequestMapping(ApiPath.USERS_API)
 class UserController(private val userService: UserService) {
 
     @GetMapping
