@@ -74,3 +74,20 @@ export const addRating = async (data: RatingParams) => {
 
   return response.data;
 };
+
+export const updateRating = async (data: RatingParams) => {
+  const session = await getSession();
+  const response = await axios.put(
+    `${API_URL}/recipes/${data.recipeId}/ratings`,
+    {
+      type: data.type,
+    },
+    {
+      headers: {
+        Authorization: `Bearer ${session?.user.jwt}`,
+      },
+    },
+  );
+
+  return response.data;
+};

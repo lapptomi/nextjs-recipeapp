@@ -4,4 +4,7 @@ import com.example.demo.recipe.domain.reciperating.RecipeRating
 import org.springframework.data.repository.CrudRepository
 import org.springframework.stereotype.Repository
 
-@Repository interface RecipeRatingRepository : CrudRepository<RecipeRating, Int>
+@Repository
+interface RecipeRatingRepository : CrudRepository<RecipeRating, Int> {
+    fun findByRecipeIdAndAuthorId(recipeId: Int, authorId: Int): RecipeRating?
+}

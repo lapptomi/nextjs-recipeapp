@@ -47,29 +47,30 @@ class RecipeService(
 
     fun addRating(user: User, recipeId: Int, rating: CreateRecipeRatingDTO): RecipeDTO {
         val recipe = findRecipeById(recipeId)
-        val existingRating =
-            recipe.ratings
-                .find { it.author.id == user.id }
-                ?.let { updateExistingRating(it, rating) } ?: createRating(user, recipe, rating)
+        val userHasRated = recipe.ratings.any { it.author.id == user.id }
 
-        val filteredRatings = recipe.ratings.filter { it.author.id != user.id }
-        return recipeMapper.toDTO(recipe.copy(ratings = filteredRatings + existingRating))
+        require(!userHasRated) { "User has already rated this recipe" }
+
+        val rating = RecipeRating(author = user, recipe = recipe, type = rating.type)
+        recipeRatingRepository.save(rating)
+        return recipeMapper.toDTO(findRecipeById(recipeId))
+    }
+
+    fun updateRating(user: User, recipeId: Int, rating: CreateRecipeRatingDTO): RecipeDTO {
+        val existingRating =
+            recipeRatingRepository.findByRecipeIdAndAuthorId(recipeId, user.id)
+                ?: throw RecipeNotFoundException(recipeId.toString())
+
+        recipeRatingRepository.save(existingRating.copy(type = rating.type))
+        return recipeMapper.toDTO(findRecipeById(recipeId))
     }
 
     fun addComment(user: User, recipeId: Int, commentDto: CreateRecipeCommentDTO): RecipeDTO {
         val recipe = findRecipeById(recipeId)
         val comment = RecipeComment(author = user, message = commentDto.message, recipe = recipe)
         recipeCommentRepository.save(comment)
-        return recipeMapper.toDTO(recipe.copy(comments = recipe.comments + comment))
+        return recipeMapper.toDTO(findRecipeById(recipeId))
     }
-
-    fun createRating(user: User, recipe: Recipe, rating: CreateRecipeRatingDTO) =
-        recipeRatingRepository.save(
-            RecipeRating(author = user, recipe = recipe, type = rating.type)
-        )
-
-    private fun updateExistingRating(existingRating: RecipeRating, rating: CreateRecipeRatingDTO) =
-        recipeRatingRepository.save(existingRating.copy(type = rating.type))
 
     private fun findRecipeById(id: Int): Recipe =
         recipeRepository.findById(id).orElseThrow { RecipeNotFoundException(id.toString()) }

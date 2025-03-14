@@ -1,8 +1,6 @@
 package com.example.demo.config
 
 import com.example.demo.recipe.domain.recipecomment.RecipeComment
-import com.example.demo.recipe.domain.reciperating.RecipeRating
-import com.example.demo.recipe.domain.reciperating.RecipeRatingType
 import com.example.demo.recipe.repository.RecipeCommentRepository
 import com.example.demo.recipe.repository.RecipeRatingRepository
 import com.example.demo.user.domain.Recipe
@@ -29,13 +27,11 @@ class DatabaseInitializer(
             val users = createUsers()
             val recipes = createRecipes(users)
             val recipeComments = createRecipeComments(users, recipes)
-            val recipeRatings = createRecipeRatings(users, recipes)
 
             if (userRepository.count() == 0L) userRepository.saveAll(users)
             if (recipeRepository.count() == 0L) recipeRepository.saveAll(recipes)
             if (recipeCommentRepository.count() == 0L)
                 recipeCommentRepository.saveAll(recipeComments)
-            if (recipeRatingRepository.count() == 0L) recipeRatingRepository.saveAll(recipeRatings)
         }
     }
 
@@ -77,18 +73,6 @@ class DatabaseInitializer(
                 message = generateRandomString(500),
                 recipe = recipes[0],
             )
-        }
-    }
-
-    private fun createRecipeRatings(users: List<User>, recipes: List<Recipe>): List<RecipeRating> {
-        return users.flatMap { user ->
-            recipes.map { recipe ->
-                RecipeRating(
-                    author = user,
-                    type = RecipeRatingType.values().random(),
-                    recipe = recipe,
-                )
-            }
         }
     }
 }
