@@ -7,6 +7,7 @@ import com.example.demo.user.domain.dto.CreateUserRequestDTO
 import com.example.demo.user.repository.UserRepository
 import kotlin.test.Test
 import kotlin.test.assertEquals
+import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
@@ -19,10 +20,20 @@ class UserServiceIntegrationTest {
     @Autowired private lateinit var userService: UserService
     @Autowired private lateinit var userRepository: UserRepository
 
+    private lateinit var testUser: User
+    private lateinit var testUser2: User
+
     @BeforeEach
     fun setup() {
+        val user = userRepository.save<User>(users[0])
+        val user2 = userRepository.save<User>(users[1])
+        testUser = user
+        testUser2 = user2
+    }
+
+    @AfterEach
+    fun teardown() {
         userRepository.deleteAll()
-        userRepository.saveAll<User>(users)
     }
 
     @Test
@@ -30,8 +41,8 @@ class UserServiceIntegrationTest {
         val result = userService.getAll()
 
         assertEquals(users.size, result.size)
-        assertEquals(users[0].username, result[0].username)
-        assertEquals(users[1].username, result[1].username)
+        assertEquals(testUser.username, result[0].username)
+        assertEquals(testUser2.username, result[1].username)
     }
 
     @Test
@@ -48,8 +59,8 @@ class UserServiceIntegrationTest {
     @Test
     fun `findUserById returns the correct user`() {
         val user = userService.findUserById(1)
-        assertEquals(users[0].username, user.username)
-        assertEquals(users[0].email, user.email)
+        assertEquals(testUser.username, user.username)
+        assertEquals(testUser.email, user.email)
     }
 
     @Test
