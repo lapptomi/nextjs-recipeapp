@@ -3,17 +3,16 @@ package com.example.demo.recipe
 import com.example.demo.ApiPath
 import com.example.demo.TextFixtures.recipes
 import com.example.demo.TextFixtures.users
-import com.example.demo.recipe.mapper.RecipeMapper
-import com.example.demo.recipe.service.RecipeService
 import com.example.demo.user.domain.Recipe
 import com.example.demo.user.domain.User
+import com.example.demo.user.repository.RecipeRepository
+import com.example.demo.user.repository.UserRepository
+import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
-import org.mockito.Mockito.`when`
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc
 import org.springframework.boot.test.context.SpringBootTest
-import org.springframework.boot.test.mock.mockito.MockBean
 import org.springframework.http.MediaType
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get
@@ -25,28 +24,32 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 class RecipeControllerIntegrationTest {
 
     @Autowired private lateinit var mockMvc: MockMvc
-
-    @MockBean private lateinit var recipeService: RecipeService
-
-    @Autowired private lateinit var recipeMapper: RecipeMapper
+    @Autowired private lateinit var recipeRepository: RecipeRepository
+    @Autowired private lateinit var userRepository: UserRepository
 
     private lateinit var testUser: User
     private lateinit var testRecipe: Recipe
 
     @BeforeEach
     fun setUp() {
-        testUser = users[0]
-        testRecipe = recipes[0]
+        val user = userRepository.save(users[0])
+        val recipe = recipeRepository.save(recipes[0].copy(author = user))
+        testUser = user
+        testRecipe = recipe
+    }
+
+    @AfterEach
+    fun teardown() {
+        userRepository.deleteAll()
+        recipeRepository.deleteAll()
     }
 
     @Test
     fun `getRecipeById should return recipe when recipe exists`() {
-        val recipeId = 1
-        `when`(recipeService.findById(recipeId)).thenReturn(recipeMapper.toDTO(testRecipe))
-
         mockMvc
             .perform(
-                get(ApiPath.RECIPES_API + "/{id}", recipeId).contentType(MediaType.APPLICATION_JSON)
+                get(ApiPath.RECIPES_API + "/{id}", testRecipe.id)
+                    .contentType(MediaType.APPLICATION_JSON)
             )
             .andExpect(status().isOk)
             .andExpect(jsonPath("$.id").value(testRecipe.id))

@@ -7,9 +7,12 @@ import com.example.demo.recipe.domain.dto.CreateRecipeDTO
 import com.example.demo.recipe.domain.recipecomment.dto.CreateRecipeCommentDTO
 import com.example.demo.recipe.domain.reciperating.RecipeRatingType
 import com.example.demo.recipe.domain.reciperating.dto.CreateRecipeRatingDTO
+import com.example.demo.user.domain.Recipe
+import com.example.demo.user.domain.User
 import com.example.demo.user.repository.RecipeRepository
 import com.example.demo.user.repository.UserRepository
 import kotlin.test.assertEquals
+import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
@@ -25,15 +28,24 @@ class RecipeServiceIntegrationTest {
     @Autowired private lateinit var recipeService: RecipeService
     @Autowired private lateinit var userRepository: UserRepository
 
-    val testUser = users[0]
-    val testRecipe = recipes[0]
-    val testRecipe2 = recipes[1]
+    private lateinit var testUser: User
+    private lateinit var testRecipe: Recipe
+    private lateinit var testRecipe2: Recipe
 
     @BeforeEach
     fun setup() {
+        val user = userRepository.save<User>(users[0])
+        val recipe = reicpeRepository.save<Recipe>(recipes[0].copy(author = user))
+        val recipe2 = reicpeRepository.save<Recipe>(recipes[1].copy(author = user))
+        testUser = user
+        testRecipe = recipe
+        testRecipe2 = recipe2
+    }
+
+    @AfterEach
+    fun teardown() {
         userRepository.deleteAll()
-        userRepository.saveAll(users)
-        reicpeRepository.saveAll(recipes)
+        reicpeRepository.deleteAll()
     }
 
     @Test
