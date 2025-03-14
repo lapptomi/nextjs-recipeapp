@@ -6,7 +6,7 @@ import { useState } from "react";
 import { Share, ThumbDown, ThumbUpSharp } from "@mui/icons-material";
 import { Button, Snackbar, Tooltip, Typography } from "@mui/material";
 
-import { addRating } from "@/lib/actions/recipe";
+import { addRating, updateRating } from "@/lib/actions/recipe";
 
 import type { Recipe, RecipeRatingType } from "@/types";
 import type { Session } from "next-auth/core/types";
@@ -19,19 +19,29 @@ interface Props {
 const LikeButtons = ({ recipe, session }: Props) => {
   const [open, setOpen] = useState(false);
 
-  const updateRating = async (ratingType: RecipeRatingType) => {
-    if (!session?.user) {
-      return;
-    }
-    addRating({ recipeId: recipe.id, type: ratingType })
-      .then(() => window.location.reload())
-      .catch((error) => console.log(error));
-  };
-
-  const userHasRated = (ratingType: RecipeRatingType) =>
+  const userHasRatedThisType = (ratingType: RecipeRatingType) =>
     recipe.ratings.some(
       (r) => r.author.id === Number(session?.user.id) && r.type === ratingType,
     );
+
+  const userHasRatedAny = () =>
+    recipe.ratings.some((r) => r.author.id === Number(session?.user.id));
+
+  const handleClickRating = async (ratingType: RecipeRatingType) => {
+    if (!session?.user) {
+      return;
+    }
+
+    if (userHasRatedAny()) {
+      updateRating({ recipeId: recipe.id, type: ratingType })
+        .then(() => window.location.reload())
+        .catch((error) => console.log(error));
+    } else {
+      addRating({ recipeId: recipe.id, type: ratingType })
+        .then(() => window.location.reload())
+        .catch((error) => console.log(error));
+    }
+  };
 
   const handleClick = () => {
     navigator.clipboard.writeText(window.location.href);
@@ -67,10 +77,10 @@ const LikeButtons = ({ recipe, session }: Props) => {
         <Button
           id="like-button"
           disabled={session === null}
-          onClick={() => updateRating("LIKE")}
+          onClick={() => handleClickRating("LIKE")}
           startIcon={
             <ThumbUpSharp
-              color={userHasRated("LIKE") ? "secondary" : "primary"}
+              color={userHasRatedThisType("LIKE") ? "secondary" : "primary"}
             />
           }
         >
@@ -88,10 +98,10 @@ const LikeButtons = ({ recipe, session }: Props) => {
         <Button
           id="dislike-button"
           disabled={session === null}
-          onClick={() => updateRating("DISLIKE")}
+          onClick={() => handleClickRating("DISLIKE")}
           startIcon={
             <ThumbDown
-              color={userHasRated("DISLIKE") ? "secondary" : "primary"}
+              color={userHasRatedThisType("DISLIKE") ? "secondary" : "primary"}
             />
           }
         >
