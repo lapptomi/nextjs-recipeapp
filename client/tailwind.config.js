@@ -1,5 +1,9 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
+  corePlugins: {
+    preflight: true,
+  },
+  important: "#root", // Is used in Layout.tsx to allow Tailwind styles
   content: [
     "./app/**/*.{js,ts,jsx,tsx,mdx}",
     "./pages/**/*.{js,ts,jsx,tsx,mdx}",
@@ -11,7 +15,7 @@ module.exports = {
   theme: {
     extend: {
       gridTemplateColumns: {
-        'auto-fill-300': 'repeat(auto-fill, 300px)'
+        "auto-fill-300": "repeat(auto-fill, 300px)",
       },
       colors: {
         primary: {
@@ -21,12 +25,11 @@ module.exports = {
         secondary: {
           main: "#ed6c02",
         },
-        backgroundGrayLight: '#f9fafb',
-        backgroundGrayDark: '#f4f5f7',
-        backgroundWhite: '#ffffff',
+        backgroundGrayLight: "#f9fafb",
+        backgroundGrayDark: "#f4f5f7",
+        backgroundWhite: "#ffffff",
       },
     },
   },
   plugins: [],
 };
-

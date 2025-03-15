@@ -1,7 +1,7 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Button, TextField } from "@mui/material";
+import { Box, Button, TextField } from "@mui/material";
 import { useForm } from "react-hook-form";
 
 import { addComment } from "@/lib/actions/recipe";
@@ -33,7 +33,7 @@ const RecipeCommentForm: React.FC<Props> = ({ recipe }) => {
   };
 
   return (
-    <div className="flex flex-col gap-10">
+    <Box className="flex flex-col gap-10">
       <TextField
         error={!!errors.message}
         helperText={errors.message?.message}
@@ -46,7 +46,7 @@ const RecipeCommentForm: React.FC<Props> = ({ recipe }) => {
         minRows={6}
         {...register("message")}
       />
-      <div className="flex justify-end">
+      <Box className="flex justify-end">
         <Button
           id="comment-button"
           size="small"
@@ -57,8 +57,8 @@ const RecipeCommentForm: React.FC<Props> = ({ recipe }) => {
         >
           SEND COMMENT
         </Button>
-      </div>
-    </div>
+      </Box>
+    </Box>
   );
 };
 

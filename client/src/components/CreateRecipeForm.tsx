@@ -14,6 +14,7 @@ import {
 } from "@mui/icons-material";
 import {
   Alert,
+  Box,
   Button,
   FormControl,
   IconButton,
@@ -26,7 +27,7 @@ import { useRouter } from "next/navigation";
 import { useFieldArray, useForm } from "react-hook-form";
 
 import { createRecipe } from "@/lib/actions/recipe";
-import { NewRecipeSchema, PAGES } from "@/types";
+import { NewRecipeSchema, ROUTES } from "@/types";
 
 import type { NewRecipe } from "@/types";
 
@@ -78,7 +79,7 @@ const CreateRecipeForm = () => {
     formData.append("image", selectedImage as any);
 
     createRecipe(formData)
-      .then((recipe) => router.push(`${PAGES.RECIPES}/${recipe.id}`))
+      .then((recipe) => router.push(`${ROUTES.RECIPES}/${recipe.id}`))
       .catch((error) => console.log("ERROR = ", error));
   };
 
@@ -177,7 +178,7 @@ const CreateRecipeForm = () => {
         {...register("instructions")}
       />
 
-      <div className="flex w-full justify-between">
+      <Box className="flex w-full justify-between">
         <TextField
           size="small"
           label="Cooking time (minutes)"
@@ -209,9 +210,9 @@ const CreateRecipeForm = () => {
           }}
           {...register("servings", { valueAsNumber: true })}
         />
-      </div>
+      </Box>
 
-      <div className="flex min-h-36 w-full flex-col items-center justify-center bg-gray-50 p-5">
+      <Box className="flex min-h-36 w-full flex-col items-center justify-center bg-gray-50 p-5">
         <Typography variant="caption" color="error">
           {errors.image && errors.image.message}
         </Typography>
@@ -226,7 +227,7 @@ const CreateRecipeForm = () => {
           />
         </Button>
         {selectedImage && (
-          <div>
+          <Box>
             <Image
               alt="recipe image"
               width={100}
@@ -241,23 +242,23 @@ const CreateRecipeForm = () => {
                 }}
               />
             </IconButton>
-          </div>
+          </Box>
         )}
         <Typography variant="caption">
           {selectedImage && selectedImage.name}
         </Typography>
-      </div>
+      </Box>
 
       {Object.keys(errors).length !== 0 && (
         <Alert severity="error">Please fill in all required fields</Alert>
       )}
 
-      <div>
+      <Box>
         <Button color="error">Cancel</Button>
         <Button variant="contained" type="submit">
           Submit
         </Button>
-      </div>
+      </Box>
     </form>
   );
 };

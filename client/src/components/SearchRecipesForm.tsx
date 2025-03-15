@@ -4,6 +4,7 @@ import React, { useCallback, useEffect, useState } from "react";
 
 import { SearchOutlined } from "@mui/icons-material";
 import {
+  Box,
   Button,
   FormControl,
   InputAdornment,
@@ -15,7 +16,7 @@ import {
 } from "@mui/material";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
-import { PAGES } from "@/types";
+import { ROUTES } from "@/types";
 
 interface Props {
   totalCount: number;
@@ -23,7 +24,7 @@ interface Props {
 
 const SearchRecipesForm = ({ totalCount }: Props) => {
   const [sortBy, setSortBy] = useState<"date_asc" | "date_desc">("date_desc");
-  const [searchField, setSearchField] = useState("");
+  const [recipeTitle, setRecipeTitle] = useState("");
 
   const router = useRouter();
   const pathname = usePathname();
@@ -31,7 +32,7 @@ const SearchRecipesForm = ({ totalCount }: Props) => {
   const pages = Math.ceil(totalCount / 12);
 
   useEffect(() => {
-    setSearchField(searchParams.get("title") || "");
+    setRecipeTitle(searchParams.get("title") || "");
   }, [searchParams]);
 
   const createQuery = (params: URLSearchParams) => {
@@ -39,29 +40,41 @@ const SearchRecipesForm = ({ totalCount }: Props) => {
     return search ? `?${search}` : "";
   };
 
-  // TODO: clean this mess
   const handleSubmit = useCallback(() => {
     const current = new URLSearchParams(Array.from(searchParams.entries()));
-    current.set("title", searchField);
-    current.set("sort_by", sortBy);
-    current.set("page", "1");
+    const paramsToUpdate = {
+      title: recipeTitle,
+      sort_by: sortBy,
+      page: "1",
+    };
+
+    Object.entries(paramsToUpdate).forEach(([key, value]) => {
+      current.set(key, value);
+    });
 
     router.push(`${pathname}${createQuery(current)}`);
-  }, [searchParams, searchField, sortBy, router, pathname]);
+  }, [searchParams, recipeTitle, sortBy, router, pathname]);
 
-  const handlePageChange = useCallback(
-    (event: React.ChangeEvent<unknown>, value: number) => {
-      event.preventDefault();
-      const current = new URLSearchParams(Array.from(searchParams.entries()));
-      current.set("page", String(value));
-      router.push(`${pathname}${createQuery(current)}`);
-    },
-    [searchParams, router, pathname],
-  );
+  const handlePageChange = (
+    event: React.ChangeEvent<unknown>,
+    value: number,
+  ) => {
+    event.preventDefault();
+    const current = new URLSearchParams(Array.from(searchParams.entries()));
+    current.set("page", String(value));
+    router.push(`${pathname}${createQuery(current)}`);
+  };
 
   return (
-    <div className="flex flex-col items-center justify-center gap-4 bg-gray-100 p-6">
-      <form className="flex max-w-[600px] flex-col flex-wrap justify-center gap-4">
+    <Box className="flex flex-col items-center justify-center gap-4 bg-gray-100 p-6">
+      <form
+        className="flex max-w-[600px] flex-col flex-wrap justify-center gap-4"
+        noValidate
+        onSubmit={(event) => {
+          event.preventDefault();
+          handleSubmit();
+        }}
+      >
         <FormControl variant="standard">
           <InputLabel size="small">Sort By</InputLabel>
           <Select
@@ -74,11 +87,11 @@ const SearchRecipesForm = ({ totalCount }: Props) => {
           </Select>
         </FormControl>
 
-        <div className="flex flex-row">
+        <Box className="flex flex-row">
           <TextField
             label="Search"
-            value={searchField}
-            onChange={(event) => setSearchField(event.target.value)}
+            value={recipeTitle}
+            onChange={(event) => setRecipeTitle(event.target.value)}
             placeholder="Enter recipe name..."
             size="small"
             InputProps={{
@@ -89,27 +102,28 @@ const SearchRecipesForm = ({ totalCount }: Props) => {
               ),
             }}
           />
-          <div>
+          <Box>
             <Button
+              type="button"
               onClick={() => {
-                router.replace(PAGES.RECIPES);
-                setSearchField("");
+                router.replace(ROUTES.RECIPES);
+                setRecipeTitle("");
               }}
             >
               Clear
             </Button>
-            <Button variant="contained" onClick={handleSubmit}>
+            <Button type="submit" variant="contained">
               Search
             </Button>
-          </div>
-        </div>
+          </Box>
+        </Box>
       </form>
       <Pagination
         onChange={(event, value) => handlePageChange(event, value)}
         count={pages}
         page={parseInt(searchParams.get("page") || "1")}
       />
-    </div>
+    </Box>
   );
 };
 

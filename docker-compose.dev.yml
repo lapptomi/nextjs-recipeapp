@@ -8,7 +8,7 @@ services:
       context: ./client
       dockerfile: dev.Dockerfile
     volumes:
-      - ./client/src:/usr/src/app/src
+      - ./client:/usr/src/app
     ports:
       - 3000:3000
     container_name: recipe-app-next-client-dev

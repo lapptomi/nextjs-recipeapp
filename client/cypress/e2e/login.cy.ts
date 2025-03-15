@@ -1,17 +1,17 @@
 /// <reference types="cypress" />
 
-import { PAGES } from "../../src/types/index";
+import { ROUTES } from "../../src/types/index";
 import { LOCALHOST_BACKEND_URL, user } from "../constants";
 
 describe("Login", () => {
   beforeEach(() => {
     cy.request("DELETE", `${LOCALHOST_BACKEND_URL}/users`);
     cy.request("POST", `${LOCALHOST_BACKEND_URL}/users`, user);
-    cy.visit(PAGES.LOGIN);
+    cy.visit(ROUTES.LOGIN);
   });
 
   it("Should visit", () => {
-    cy.visit(PAGES.LOGIN);
+    cy.visit(ROUTES.LOGIN);
   });
 
   it("Displays error message on invalid login", () => {
@@ -35,6 +35,6 @@ describe("Login", () => {
 
     cy.get("button").contains("Sign In").click();
 
-    cy.url().should("include", PAGES.RECIPES);
+    cy.url().should("include", ROUTES.RECIPES);
   });
 });

@@ -1,5 +1,6 @@
 import { Check } from "@mui/icons-material";
 import {
+  Box,
   Button,
   Card,
   CardContent,
@@ -8,7 +9,7 @@ import {
   Typography,
 } from "@mui/material";
 
-import { PAGES } from "@/types";
+import { ROUTES } from "@/types";
 
 interface Props {
   title: string;
@@ -22,14 +23,14 @@ const PricingCard = (props: Props) => {
       <CardMedia className="flex flex-col p-6">
         <Typography variant="h4">{props.title}</Typography>
         {props.price ? (
-          <div className="flex gap-2 align-baseline">
+          <Box className="flex gap-2 align-baseline">
             <Typography variant="h3" fontWeight="bold" color="primary">
               ${props.price}
             </Typography>
             <Typography variant="h5" fontWeight="bold">
               / month
             </Typography>
-          </div>
+          </Box>
         ) : (
           <Typography variant="h3" fontWeight="bold">
             Free
@@ -43,21 +44,21 @@ const PricingCard = (props: Props) => {
       <CardContent className="flex flex-col">
         <Divider />
 
-        <div className="flex flex-col p-6">
+        <Box className="flex flex-col p-6">
           {Array(5)
             .fill("Hello world")
             .map((item, index) => (
-              <div key={index} className="flex gap-2">
+              <Box key={index} className="flex gap-2">
                 <Check />
                 <Typography>{item}</Typography>
-              </div>
+              </Box>
             ))}
-        </div>
+        </Box>
 
         <Button
           size="small"
           variant="contained"
-          href={PAGES.RECIPES}
+          href={ROUTES.RECIPES}
           color="primary"
         >
           Get Started

@@ -1,3 +1,4 @@
+import { Box } from "@mui/material";
 import { redirect } from "next/navigation";
 
 import { getSession } from "@/lib/actions/auth";
@@ -11,10 +12,10 @@ const PageLayout = async ({ children }: any) => {
   }
 
   return (
-    <div className="flex h-screen">
-      <div className={styles.maingrid} />
-      <div className="flex flex-col items-center bg-white p-8">{children}</div>
-    </div>
+    <Box className="flex h-screen">
+      <Box className={styles.maingrid} />
+      <Box className="flex flex-col items-center bg-white p-8">{children}</Box>
+    </Box>
   );
 };
 

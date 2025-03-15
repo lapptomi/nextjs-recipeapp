@@ -6,6 +6,7 @@ import React from "react";
 import { AddBox, Person } from "@mui/icons-material";
 import Logout from "@mui/icons-material/Logout";
 import {
+  Box,
   Button,
   Dialog,
   DialogActions,
@@ -23,7 +24,7 @@ import Tooltip from "@mui/material/Tooltip";
 import Link from "next/link";
 import { signOut } from "next-auth/react";
 
-import { PAGES } from "@/types";
+import { ROUTES } from "@/types";
 
 import type { Session } from "next-auth";
 
@@ -64,7 +65,7 @@ const AccountMenu: React.FC<Props> = ({ user }) => {
         transformOrigin={{ horizontal: "right", vertical: "top" }}
         anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
       >
-        <Link href={`${PAGES.PROFILES}/${user.id}`}>
+        <Link href={`${ROUTES.PROFILES}/${user.id}`}>
           <MenuItem onClick={handleClose}>
             <ListItemIcon>
               <Person fontSize="small" color="secondary" />
@@ -73,7 +74,7 @@ const AccountMenu: React.FC<Props> = ({ user }) => {
           </MenuItem>
         </Link>
 
-        <Link href={PAGES.CREATE_RECIPE}>
+        <Link href={ROUTES.CREATE_RECIPE}>
           <MenuItem onClick={handleClose}>
             <ListItemIcon>
               <AddBox color="secondary" fontSize="small" />
@@ -85,7 +86,7 @@ const AccountMenu: React.FC<Props> = ({ user }) => {
         <Divider />
 
         <Dialog open={modalOpen} onClose={() => setModalOpen(false)}>
-          <div className="p-2">
+          <Box className="p-2">
             <DialogTitle>Confirm Sign Out</DialogTitle>
             <DialogContent>
               <DialogContentText>
@@ -102,13 +103,13 @@ const AccountMenu: React.FC<Props> = ({ user }) => {
                 size="small"
                 onClick={() => {
                   setModalOpen(false);
-                  signOut({ callbackUrl: PAGES.RECIPES });
+                  signOut({ callbackUrl: ROUTES.RECIPES });
                 }}
               >
                 Sign Out
               </Button>
             </DialogActions>
-          </div>
+          </Box>
         </Dialog>
 
         <MenuItem onClick={() => setModalOpen(true)}>

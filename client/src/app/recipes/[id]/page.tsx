@@ -1,6 +1,7 @@
 import { AccessTime, Person, Restaurant } from "@mui/icons-material";
 import {
   Avatar,
+  Box,
   Divider,
   List,
   ListItem,
@@ -18,7 +19,7 @@ import RecipeCommentForm from "@/components/RecipeCommentForm";
 import TitleHeader from "@/components/TitleHeader";
 import { getSession } from "@/lib/actions/auth";
 import { findRecipeById } from "@/lib/actions/recipe";
-import { PAGES } from "@/types";
+import { ROUTES } from "@/types";
 
 interface Props {
   params: Promise<{ id: string }>;
@@ -37,36 +38,36 @@ const RecipePage = async ({ params }: Props) => {
   const dislikes = recipe.ratings.filter((r) => r.type === "DISLIKE").length;
 
   return (
-    <div className="flex flex-col items-center justify-center">
-      <div className="flex w-full max-w-[1920px] flex-wrap items-center justify-between">
-        <div className="flex w-full flex-row flex-wrap justify-evenly bg-gradient-to-l from-gray-50 p-12">
-          <div className="flex flex-col justify-center gap-3">
+    <Box className="flex flex-col items-center justify-center">
+      <Box className="flex w-full max-w-[1920px] flex-wrap items-center justify-between">
+        <Box className="flex w-full flex-row flex-wrap justify-evenly bg-gradient-to-l from-gray-50 p-12">
+          <Box className="flex flex-col justify-center gap-3">
             <Typography variant="h3" fontWeight="medium">
               {recipe.title.toUpperCase()}
             </Typography>
-            <Link href={`${PAGES.PROFILES}/${recipe.author.id}`}>
-              <div className="flex flex-row items-center gap-4">
+            <Link href={`${ROUTES.PROFILES}/${recipe.author.id}`}>
+              <Box className="flex flex-row items-center gap-4">
                 <Avatar className="size-20" />
-                <div>
+                <Box>
                   <Typography variant="subtitle1">Created By</Typography>
                   <Typography variant="h5">{recipe.author.username}</Typography>
                   <Rating value={(likes / (likes + dislikes)) * 5} readOnly />
-                </div>
-              </div>
+                </Box>
+              </Box>
             </Link>
             <LikeButtons session={session} recipe={recipe} />
-          </div>
+          </Box>
 
-          <div className="size-[440px]">
+          <Box className="size-[440px]">
             {recipe.image ? (
               <Image src={recipe.image} alt={recipe.title} layout="fill" />
             ) : (
               <Restaurant className="size-full bg-gray-400 opacity-5" />
             )}
-          </div>
-        </div>
+          </Box>
+        </Box>
 
-        <div className="flex min-h-[400px] w-full flex-col justify-center gap-10 p-10">
+        <Box className="flex min-h-[400px] w-full flex-col justify-center gap-10 p-10">
           <Divider>
             <Typography variant="h5">ABOUT</Typography>
             <Typography variant="overline">
@@ -110,7 +111,7 @@ const RecipePage = async ({ params }: Props) => {
             {recipe.instructions}
           </Typography>
 
-          <div>
+          <Box>
             <List className="flex w-full flex-col">
               <Divider>
                 <Typography variant="body1">
@@ -129,7 +130,9 @@ const RecipePage = async ({ params }: Props) => {
                         <Tooltip
                           title={`View profile of ${comment.author.username}`}
                         >
-                          <Link href={`${PAGES.PROFILES}/${comment.author.id}`}>
+                          <Link
+                            href={`${ROUTES.PROFILES}/${comment.author.id}`}
+                          >
                             {comment.author.username}-
                             <Typography variant="caption">
                               {comment.createdAt &&
@@ -154,10 +157,10 @@ const RecipePage = async ({ params }: Props) => {
                 Please sign in to comment...
               </Typography>
             )}
-          </div>
-        </div>
-      </div>
-    </div>
+          </Box>
+        </Box>
+      </Box>
+    </Box>
   );
 };
 
