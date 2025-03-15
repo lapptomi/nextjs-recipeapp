@@ -1,4 +1,6 @@
 import "./globals.css";
+import { StyledEngineProvider } from "@mui/material";
+import { AppRouterCacheProvider } from "@mui/material-nextjs/v15-appRouter";
 import { Inter } from "next/font/google";
 
 import AuthProvider from "@/components/AuthProvider";
@@ -23,14 +25,18 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={inter.className}>
-        <AuthProvider>
-          <ThemeRegistry>
-            <Navigation />
-            <main className="min-h-screen">{children}</main>
-            <Footer />
-          </ThemeRegistry>
-        </AuthProvider>
+      <body className={inter.className} id="root">
+        <StyledEngineProvider injectFirst>
+          <AppRouterCacheProvider>
+            <AuthProvider>
+              <ThemeRegistry>
+                <Navigation />
+                <main className="min-h-screen">{children}</main>
+                <Footer />
+              </ThemeRegistry>
+            </AuthProvider>
+          </AppRouterCacheProvider>
+        </StyledEngineProvider>
       </body>
     </html>
   );

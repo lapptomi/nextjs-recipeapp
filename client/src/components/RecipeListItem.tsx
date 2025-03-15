@@ -4,6 +4,7 @@ import AccessTime from "@mui/icons-material/AccessTime";
 import Person from "@mui/icons-material/Person";
 import Restaurant from "@mui/icons-material/Restaurant";
 import {
+  Box,
   Chip,
   ImageListItem,
   ImageListItemBar,
@@ -14,7 +15,9 @@ import {
 import Image from "next/image";
 import Link from "next/link";
 
-import { PAGES, type Recipe, type RecipeRatingType } from "@/types";
+import { ROUTES } from "@/types";
+
+import type { Recipe, RecipeRatingType } from "@/types";
 
 interface Props {
   recipe: Recipe;
@@ -28,9 +31,9 @@ const RecipeListItem = ({ recipe }: Props) => {
   const dislikes = countRatings("DISLIKE");
 
   return (
-    <Link key={recipe.id} href={`${PAGES.RECIPES}/${recipe.id}`}>
+    <Link key={recipe.id} href={`${ROUTES.RECIPES}/${recipe.id}`}>
       <ImageListItem className="max-h-[300px] min-h-[300px] min-w-[300px] max-w-[300px] bg-gray-200 transition duration-200 ease-in-out hover:scale-[1.01] hover:bg-gray-100">
-        <div className="absolute size-full">
+        <Box className="absolute size-full">
           {recipe.image ? (
             <Image
               alt={recipe.title}
@@ -42,7 +45,7 @@ const RecipeListItem = ({ recipe }: Props) => {
           ) : (
             <Restaurant className="size-full opacity-10" />
           )}
-        </div>
+        </Box>
 
         <ImageListItemBar
           title={
@@ -55,12 +58,12 @@ const RecipeListItem = ({ recipe }: Props) => {
           subtitle={`@${recipe.author?.username}`}
           position="top"
           actionIcon={
-            <div className="flex flex-col">
+            <Box className="flex flex-col">
               <Rating readOnly value={(likes / (likes + dislikes)) * 5} />
               <Typography variant="caption" color="white">
                 {recipe.ratings.length} ratings
               </Typography>
-            </div>
+            </Box>
           }
         />
 
@@ -82,7 +85,7 @@ const RecipeListItem = ({ recipe }: Props) => {
             </Typography>
           }
           actionIcon={
-            <div className="flex flex-row gap-1">
+            <Box className="flex flex-row gap-1">
               <Chip
                 icon={<AccessTime color="secondary" />}
                 label={
@@ -99,7 +102,7 @@ const RecipeListItem = ({ recipe }: Props) => {
                   </Typography>
                 }
               />
-            </div>
+            </Box>
           }
         />
       </ImageListItem>

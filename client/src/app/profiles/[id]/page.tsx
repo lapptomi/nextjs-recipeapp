@@ -1,7 +1,7 @@
 import React from "react";
 
 import { GroupAdd } from "@mui/icons-material";
-import { Avatar, Button, Divider, Typography } from "@mui/material";
+import { Avatar, Box, Button, Divider, Typography } from "@mui/material";
 
 import RecipeList from "@/components/RecipeList";
 import TitleHeader from "@/components/TitleHeader";
@@ -22,54 +22,54 @@ const ProfilePage = async ({ params }: ProfilePageParams) => {
   const recipes = user.recipes ?? [];
 
   return (
-    <div>
+    <Box>
       <TitleHeader title={`PROFILE OF ${user.username}`.toUpperCase()} />
-      <div className="flex flex-col gap-5 p-4">
-        <div className="flex gap-4">
-          <div className="flex w-1/2 flex-wrap items-center justify-center gap-8 bg-white">
-            <div className="size-[120px]">
+      <Box className="flex flex-col gap-5 p-4">
+        <Box className="flex gap-4">
+          <Box className="flex w-1/2 flex-wrap items-center justify-center gap-8 bg-white">
+            <Box className="size-[120px]">
               <Avatar className="size-full" />
-            </div>
+            </Box>
 
-            <div className="flex flex-col gap-2">
+            <Box className="flex flex-col gap-2">
               <Typography variant="h4">{user.username}</Typography>
-              <div className="flex flex-row gap-4">
-                <div>
+              <Box className="flex flex-row gap-4">
+                <Box>
                   <Typography variant="caption">Recipes</Typography>
                   <Typography variant="body1">{recipes.length}</Typography>
-                </div>
+                </Box>
 
-                <div>
+                <Box>
                   <Typography variant="caption">Followers</Typography>
                   <Typography variant="body1">123</Typography>
-                </div>
+                </Box>
 
-                <div>
+                <Box>
                   <Typography variant="caption">Following</Typography>
                   <Typography variant="body1">58</Typography>
-                </div>
-              </div>
+                </Box>
+              </Box>
 
               <Button variant="contained" size="small">
                 <GroupAdd /> Follow
               </Button>
-            </div>
-          </div>
-          <div className="flex w-1/2 flex-wrap items-center justify-center gap-8 bg-white">
+            </Box>
+          </Box>
+          <Box className="flex w-1/2 flex-wrap items-center justify-center gap-8 bg-white">
             <Typography variant="body1">Some random data here</Typography>
-          </div>
-        </div>
+          </Box>
+        </Box>
 
-        <div className="flex flex-col p-8">
+        <Box className="flex flex-col p-8">
           <Divider>
             <Typography variant="h5">
               {recipes.length} PUBLIC RECIPES
             </Typography>
           </Divider>
           <RecipeList recipes={recipes} />
-        </div>
-      </div>
-    </div>
+        </Box>
+      </Box>
+    </Box>
   );
 };
 

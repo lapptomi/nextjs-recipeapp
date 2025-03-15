@@ -5,6 +5,7 @@ import React, { useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
   Alert,
+  Box,
   Button,
   Grid,
   Link,
@@ -18,7 +19,7 @@ import { useForm } from "react-hook-form";
 import { createUser } from "@/lib/actions/user";
 import { APPLICATION_NAME } from "@/lib/constants";
 
-import { PAGES, UserSchema } from "../types";
+import { ROUTES, UserSchema } from "../types";
 
 import type { NewUser } from "../types";
 
@@ -51,17 +52,14 @@ const RegisterForm = () => {
           email: newUser.email,
           password: newUser.password,
           redirect: true,
-          callbackUrl: PAGES.RECIPES,
+          callbackUrl: ROUTES.RECIPES,
         });
       })
-      .catch((error) => {
-        console.log("ERROR = ", error);
-        setError(error.message);
-      });
+      .catch((error) => setError(error.message));
   };
 
   return (
-    <div className="signform">
+    <Box className="signform">
       {error && <Alert severity="error">{error}</Alert>}
       <Typography component="h1" variant="h5">
         Sign Up
@@ -119,7 +117,7 @@ const RegisterForm = () => {
           </Link>
         </Grid>
         <Grid item>
-          <Link href={PAGES.REGISTER} variant="body2">
+          <Link href={ROUTES.REGISTER} variant="body2">
             Dont have an account? Sign Up
           </Link>
         </Grid>
@@ -127,7 +125,7 @@ const RegisterForm = () => {
       <Typography variant="body2" color="GrayText" align="center">
         {`Copyright © ${APPLICATION_NAME} ${new Date().getFullYear()}.`}
       </Typography>
-    </div>
+    </Box>
   );
 };
 

@@ -1,10 +1,10 @@
 import { Add } from "@mui/icons-material";
-import { Button, Tooltip, Typography } from "@mui/material";
+import { Box, Button, Tooltip, Typography } from "@mui/material";
 import Link from "next/link";
 
 import { getSession } from "@/lib/actions/auth";
 import { APPLICATION_NAME } from "@/lib/constants";
-import { PAGES } from "@/types";
+import { ROUTES } from "@/types";
 
 import AccountMenu from "./AccountMenu";
 
@@ -12,16 +12,16 @@ const Navigation = async () => {
   const session = await getSession();
 
   return (
-    <div className="flex w-full flex-row justify-between border-b border-gray-200 bg-white px-8 py-2">
-      <div className="flex flex-row items-center gap-2">
-        <Link href={PAGES.HOME}>
+    <Box className="flex w-full flex-row justify-between border-b border-gray-200 bg-white px-8 py-2">
+      <Box className="flex flex-row items-center gap-2">
+        <Link href={ROUTES.HOME}>
           <Typography variant="body1" fontWeight="">
             {APPLICATION_NAME}
           </Typography>
         </Link>
 
         <Tooltip title="Home page">
-          <Button variant="text" size="small" href={PAGES.HOME}>
+          <Button variant="text" size="small" href={ROUTES.HOME}>
             <Typography variant="overline" fontWeight="medium">
               Home
             </Typography>
@@ -29,19 +29,19 @@ const Navigation = async () => {
         </Tooltip>
 
         <Tooltip title="Browse recipes">
-          <Button variant="text" size="small" href={PAGES.RECIPES}>
+          <Button variant="text" size="small" href={ROUTES.RECIPES}>
             <Typography variant="overline" fontWeight="medium">
               Recipes
             </Typography>
           </Button>
         </Tooltip>
-      </div>
+      </Box>
 
-      <div className="flex flex-row items-center gap-2">
+      <Box className="flex flex-row items-center gap-2">
         {session && session.user ? (
           <>
             <Tooltip title="Create new recipe">
-              <Button size="small" href={PAGES.CREATE_RECIPE}>
+              <Button size="small" href={ROUTES.CREATE_RECIPE}>
                 <Add color="primary" />
                 <Typography variant="overline">Create</Typography>
               </Button>
@@ -51,16 +51,16 @@ const Navigation = async () => {
           </>
         ) : (
           <>
-            <Button size="small" href={PAGES.LOGIN}>
+            <Button size="small" href={ROUTES.LOGIN}>
               Sign in
             </Button>
-            <Button size="small" variant="contained" href={PAGES.REGISTER}>
+            <Button size="small" variant="contained" href={ROUTES.REGISTER}>
               Sign up
             </Button>
           </>
         )}
-      </div>
-    </div>
+      </Box>
+    </Box>
   );
 };
 

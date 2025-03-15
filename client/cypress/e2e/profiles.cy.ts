@@ -1,6 +1,6 @@
 /// <reference types="cypress" />
 
-import { PAGES } from "../../src/types/index";
+import { ROUTES } from "../../src/types/index";
 import { LOCALHOST_BACKEND_URL, user } from "../constants";
 
 describe("Profiles", () => {
@@ -8,7 +8,7 @@ describe("Profiles", () => {
     cy.request("DELETE", `${LOCALHOST_BACKEND_URL}/users`);
     cy.request("POST", `${LOCALHOST_BACKEND_URL}/users`);
 
-    cy.visit(PAGES.LOGIN);
+    cy.visit(ROUTES.LOGIN);
     cy.get('input[name="email"]').type(user.email);
     cy.get('input[name="email"]').should("have.value", user.email);
 

@@ -104,7 +104,7 @@ export interface JwtToken {
   username: string;
 }
 
-export enum PAGES {
+export enum ROUTES {
   HOME = "/",
   LOGIN = "/auth/login",
   REGISTER = "/auth/register",

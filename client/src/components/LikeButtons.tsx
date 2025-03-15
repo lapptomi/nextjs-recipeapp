@@ -4,7 +4,7 @@
 import { useState } from "react";
 
 import { Share, ThumbDown, ThumbUpSharp } from "@mui/icons-material";
-import { Button, Snackbar, Tooltip, Typography } from "@mui/material";
+import { Box, Button, Snackbar, Tooltip, Typography } from "@mui/material";
 
 import { addRating, updateRating } from "@/lib/actions/recipe";
 
@@ -59,7 +59,7 @@ const LikeButtons = ({ recipe, session }: Props) => {
   };
 
   return (
-    <div className="flex flex-row items-center">
+    <Box className="flex flex-row items-center">
       <Tooltip title="Share">
         <Button onClick={handleClick} startIcon={<Share color="secondary" />}>
           <Typography variant="body2">Share</Typography>
@@ -117,7 +117,7 @@ const LikeButtons = ({ recipe, session }: Props) => {
           </Typography>
         </Button>
       </Tooltip>
-    </div>
+    </Box>
   );
 };
 

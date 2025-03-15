@@ -1,6 +1,6 @@
 /// <reference types="cypress" />
 
-import { PAGES } from "../../src/types/index";
+import { ROUTES } from "../../src/types/index";
 import { LOCALHOST_BACKEND_URL, recipe, user } from "../constants";
 
 describe("Recipes", () => {
@@ -8,7 +8,7 @@ describe("Recipes", () => {
     cy.request("DELETE", `${LOCALHOST_BACKEND_URL}/users`);
     cy.request("POST", `${LOCALHOST_BACKEND_URL}/users`, user);
 
-    cy.visit(PAGES.LOGIN);
+    cy.visit(ROUTES.LOGIN);
     cy.get('input[name="email"]').type(user.email);
     cy.get('input[name="email"]').should("have.value", user.email);
 
@@ -24,7 +24,7 @@ describe("Recipes", () => {
   });
 
   it("Can be created with correct data", () => {
-    cy.visit(PAGES.CREATE_RECIPE);
+    cy.visit(ROUTES.CREATE_RECIPE);
 
     cy.get('input[name="title"]').type(recipe.title);
     cy.get('input[name="title"]').should("have.value", recipe.title);
@@ -49,7 +49,7 @@ describe("Recipes", () => {
   });
 
   it("Can be commented on", () => {
-    cy.visit(PAGES.CREATE_RECIPE);
+    cy.visit(ROUTES.CREATE_RECIPE);
 
     cy.get('input[name="title"]').type(recipe.title);
     cy.get('input[name="title"]').should("have.value", recipe.title);
@@ -81,7 +81,7 @@ describe("Recipes", () => {
   });
 
   it("Can be liked", () => {
-    cy.visit(PAGES.CREATE_RECIPE);
+    cy.visit(ROUTES.CREATE_RECIPE);
 
     cy.get('input[name="title"]').type(recipe.title);
     cy.get('input[name="title"]').should("have.value", recipe.title);
@@ -109,7 +109,7 @@ describe("Recipes", () => {
   });
 
   it("Can be disliked", () => {
-    cy.visit(PAGES.CREATE_RECIPE);
+    cy.visit(ROUTES.CREATE_RECIPE);
 
     cy.get('input[name="title"]').type(recipe.title);
     cy.get('input[name="title"]').should("have.value", recipe.title);

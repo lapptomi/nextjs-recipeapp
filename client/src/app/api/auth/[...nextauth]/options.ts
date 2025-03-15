@@ -4,13 +4,13 @@ import CredentialsProvider from "next-auth/providers/credentials";
 import GitHubProvider from "next-auth/providers/github";
 
 import { API_URL, NEXTAUTH_SECRET } from "@/lib/constants";
-import { type JwtToken, PAGES } from "@/types";
+import { type JwtToken, ROUTES } from "@/types";
 
 import type { NextAuthOptions } from "next-auth";
 
 export const options: NextAuthOptions = {
   pages: {
-    signIn: PAGES.LOGIN,
+    signIn: ROUTES.LOGIN,
     signOut: "/auth/logout",
   },
   session: {

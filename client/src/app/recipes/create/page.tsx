@@ -1,14 +1,16 @@
+import { Box } from "@mui/material";
+
 import CreateRecipeForm from "@/components/CreateRecipeForm";
 import TitleHeader from "@/components/TitleHeader";
 
 const CreateRecipePage = () => {
   return (
-    <div>
+    <Box>
       <TitleHeader title="CREATE RECIPE" />
-      <div className="flex min-h-[300px] items-center justify-center p-8">
+      <Box className="flex min-h-[300px] items-center justify-center p-8">
         <CreateRecipeForm />
-      </div>
-    </div>
+      </Box>
+    </Box>
   );
 };
 
