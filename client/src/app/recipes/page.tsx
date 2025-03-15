@@ -1,6 +1,5 @@
 import { Suspense } from "react";
 
-import Await from "@/components/Await";
 import RecipeList from "@/components/RecipeList";
 import RecipeListSkeleton from "@/components/RecipeListSkeleton";
 import SearchRecipesForm from "@/components/SearchRecipesForm";
@@ -16,12 +15,20 @@ interface Params {
 
 export const dynamic = "force-dynamic";
 
+const RecipesList = async ({ queryParams }: { queryParams: string }) => {
+  const response = await getRecipes(queryParams);
+  return (
+    <div>
+      <SearchRecipesForm totalCount={response.totalElements} />
+      <RecipeList recipes={response.content} />
+    </div>
+  );
+};
+
 const BrowseRecipesPage = async ({ searchParams }: Params) => {
   const queryParams = Object.entries(await searchParams)
     .map(([key, value]) => `${key}=${value}`)
     .join("&");
-
-  const recipesPromise = getRecipes(queryParams);
 
   return (
     <div key={queryParams}>
@@ -33,14 +40,7 @@ const BrowseRecipesPage = async ({ searchParams }: Params) => {
           </div>
         }
       >
-        <Await promise={recipesPromise}>
-          {({ data: resolvedRecipes }) => (
-            <div>
-              <SearchRecipesForm totalCount={resolvedRecipes.totalElements} />
-              <RecipeList recipes={resolvedRecipes.content} />
-            </div>
-          )}
-        </Await>
+        <RecipesList queryParams={queryParams} />
       </Suspense>
     </div>
   );

@@ -5,13 +5,17 @@ import Image from "next/image";
 
 import recipeimage from "../../public/recipeimage.jpeg";
 import recipeimage2 from "../../public/recipeimage2.jpg";
-import Await from "../components/Await";
 import PricingCard from "../components/PricingCard";
 import RecipeList from "../components/RecipeList";
 import RecipeListSkeleton from "../components/RecipeListSkeleton";
 import { getRecipes } from "../lib/actions/recipe";
 import { APPLICATION_NAME } from "../lib/constants";
 import { PAGES } from "../types";
+
+const RecommendedRecipes = async () => {
+  const response = await getRecipes();
+  return <RecipeList recipes={response.content?.slice(0, 4)} />;
+};
 
 const Home = () => {
   return (
@@ -44,9 +48,7 @@ const Home = () => {
         </Typography>
 
         <Suspense fallback={<RecipeListSkeleton />}>
-          <Await promise={getRecipes()}>
-            {({ data }) => <RecipeList recipes={data.content?.slice(0, 4)} />}
-          </Await>
+          <RecommendedRecipes />
         </Suspense>
 
         <Button variant="outlined" href={PAGES.RECIPES} color="primary">
