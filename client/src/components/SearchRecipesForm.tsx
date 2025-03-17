@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import { SearchOutlined } from "@mui/icons-material";
 import {
@@ -22,8 +22,10 @@ interface Props {
   totalCount: number;
 }
 
+type SortOption = "date_asc" | "date_desc";
+
 const SearchRecipesForm = ({ totalCount }: Props) => {
-  const [sortBy, setSortBy] = useState<"date_asc" | "date_desc">("date_desc");
+  const [sortBy, setSortBy] = useState<SortOption>("date_desc");
   const [recipeTitle, setRecipeTitle] = useState("");
 
   const router = useRouter();
@@ -33,6 +35,11 @@ const SearchRecipesForm = ({ totalCount }: Props) => {
 
   useEffect(() => {
     setRecipeTitle(searchParams.get("title") || "");
+
+    const sortParam = searchParams.get("sort_by");
+    if (sortParam === "date_asc" || sortParam === "date_desc") {
+      setSortBy(sortParam);
+    }
   }, [searchParams]);
 
   const createQuery = (params: URLSearchParams) => {
@@ -40,20 +47,13 @@ const SearchRecipesForm = ({ totalCount }: Props) => {
     return search ? `?${search}` : "";
   };
 
-  const handleSubmit = useCallback(() => {
-    const current = new URLSearchParams(Array.from(searchParams.entries()));
-    const paramsToUpdate = {
-      title: recipeTitle,
-      sort_by: sortBy,
-      page: "1",
-    };
+  const handleSubmit = () => {
+    const current = new URLSearchParams();
 
-    Object.entries(paramsToUpdate).forEach(([key, value]) => {
-      current.set(key, value);
-    });
-
+    current.set("title", recipeTitle);
+    current.set("sort_by", sortBy);
     router.push(`${pathname}${createQuery(current)}`);
-  }, [searchParams, recipeTitle, sortBy, router, pathname]);
+  };
 
   const handlePageChange = (
     event: React.ChangeEvent<unknown>,
@@ -80,10 +80,10 @@ const SearchRecipesForm = ({ totalCount }: Props) => {
           <Select
             name="sortBy"
             value={sortBy}
-            onChange={(event) => setSortBy(event.target.value as any)}
+            onChange={(event) => setSortBy(event.target.value as SortOption)}
           >
-            <MenuItem value={"date_asc"}>Oldest</MenuItem>
-            <MenuItem value={"date_desc"}>Newest</MenuItem>
+            <MenuItem value="date_asc">Oldest first</MenuItem>
+            <MenuItem value="date_desc">Newest first</MenuItem>
           </Select>
         </FormControl>
 
