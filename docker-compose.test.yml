@@ -15,6 +15,8 @@ services:
 
   recipe-app-backend-test:
     image: recipe-app-backend-test
+    env_file:
+      - ./server/.env
     environment:
       - SPRING_PROFILES_ACTIVE=test
       - DATABASE_URL=jdbc:postgresql://postgres:5432/postgres

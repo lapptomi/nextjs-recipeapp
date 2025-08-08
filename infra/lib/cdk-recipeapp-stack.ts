@@ -49,6 +49,12 @@ export class CdkRecipeAppStack extends cdk.Stack {
       "RecipeappCredentials",
       "Recipeapp_Prod_Credentials" // your secret name in Secrets Manager
     );
+    const awsCredsSecret = secretsmanager.Secret.fromSecretNameV2(
+      this,
+      "AppRunnerAwsCreds",
+      "Recipeapp_CDK_IAM_Creds"
+    );
+    awsCredsSecret.grantRead(instanceRole);
     recipeappCredentials.grantRead(instanceRole);
 
     // Auto scaling configuration for the App Runner service
@@ -88,6 +94,14 @@ export class CdkRecipeAppStack extends cdk.Stack {
                   name: "SPRING_PROFILES_ACTIVE",
                   value: "prod",
                 },
+                {
+                  name: "AWS_BUCKET_REGION",
+                  value: this.region,
+                },
+                {
+                  name: "AWS_BUCKET_NAME",
+                  value: bucket.bucketName,
+                },
               ],
               runtimeEnvironmentSecrets: [
                 {
@@ -101,6 +115,14 @@ export class CdkRecipeAppStack extends cdk.Stack {
                 {
                   name: "DATABASE_PASSWORD",
                   value: `${recipeappCredentials.secretArn}:DATABASE_PASSWORD::`,
+                },
+                {
+                  name: "AWS_ACCESS_KEY_ID",
+                  value: `${awsCredsSecret.secretArn}:AWS_ACCESS_KEY_ID::`,
+                },
+                {
+                  name: "AWS_SECRET_ACCESS_KEY",
+                  value: `${awsCredsSecret.secretArn}:AWS_SECRET_ACCESS_KEY::`,
                 },
               ],
             },
