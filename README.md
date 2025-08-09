@@ -5,7 +5,8 @@
 
 ### Web application where users can create, rate, and comment on recipes.  
 
-The idea of this project was mainly to learn **Next.js**, **Nest.js** and Amazon Web Services, such as **Amazon S3**, **EC2**, **ECS**, **ECR** and **Fargate**.  
+The idea of this project has been mainly to learn and try out various technologies, such as **Next.js**, **Nest.js** and Amazon Web Services, such as **S3**, **EC2**, **ECS**, **ECR**, **Fargate**, **App Runner**, **Route53** and **CDK**, so the infrastructure might not be the most optimal, such as using external Kotlin backend server with Next.js etc.  
+
 
 <p float="left">
   <img src="https://github.com/lapptomi/nextjs-recipeapp/blob/main/assets/img1.png?raw=true" width="500">
@@ -31,7 +32,7 @@ The idea of this project was mainly to learn **Next.js**, **Nest.js** and Amazon
   <a href="https://spring.io/projects/spring-boot" target="blank"><img src="https://spring.io/img/spring.svg" width="150" alt="Spring Logo" /></a>
 </p>  
 
-The backend is created with **Kotlin & Spring Boot** and is running on **AWS Fargate**.  
+The backend is created with **Kotlin & Spring Boot** and is running on **AWS App Runner**.  
 
 ## Server API Documentation
 <img src="https://raw.githubusercontent.com/swagger-api/swagger.io/wordpress/images/assets/SWU-logo-clr.png" width="300">
@@ -41,7 +42,7 @@ The backend is created with **Kotlin & Spring Boot** and is running on **AWS Far
 </p>
 
 
-### <a href="https://nextjs-recipeapp.onrender.com/swagger-ui/swagger-ui/index.html" target="_blank">Open SwaggerUI</a>
+### <a href="https://api.nextjs-recipeapp-prod.click/swagger-ui/swagger-ui/index.html" target="_blank">Open SwaggerUI</a>
 
 # Client
 <p align="left">
@@ -84,22 +85,6 @@ The server will start on http://localhost:8080
 > [!NOTE]  
 > **When running in production mode, you'll have to set all the environment variables listed below to **.env** files on the server and client folders**
 
-
-# Testing
-
-When the app is running locally, you can run the Cypress tests on the client folder with command:  
-```
-npm run cypress:open
-```
-or  
-```
-npm run cypress:run
-```
-
-# Database
-When running the app locally with docker-compose on development or test mode, you can open pgadmin4 by going to http://localhost:8888 in your browser to view and edit PostgreSQL data easily.  
-The credentials can be found from *docker-compose* files.
-
 # Environment Variables
 
 ## Backend
@@ -124,3 +109,26 @@ NEXTAUTH_SECRET=(any string)
 NEXTAUTH_URL=(URL of the application, for example: https://example.com. <- is needed when hosting the app)
 NEXT_APP_API_URL=(address of the Java backend server)
 ```
+
+
+# Testing
+
+When the project is up and running locally with docker compose, you can run the Cypress tests by going to the client folder and entering command:  
+```
+npm run cypress:open
+```
+or  
+```
+npm run cypress:run
+```
+
+# Database
+When running the app locally with docker-compose on development or test mode, you can open pgadmin4 by going to http://localhost:8888 in your browser to view and edit PostgreSQL data easily.  
+The credentials can be found from *docker-compose* files.
+
+# Deployment
+The project has automated deployment pipelines for production and development environments.
+The deployment pipelines will run tests, deploy the backend to AWS, and lastly deploy the Next.js app to Vercel.
+
+## Github Actions
+When making changes to the **main** branch, it will trigger Github Actions pipeline to deploy the backend to AWS, and the Next.js app to Vercel prodution environment. But when changes are made in **dev** branch, it will also deploy the backend to AWS, but will deploy the Next.js app to preview environment in Vercel instead of production.
