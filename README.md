@@ -103,7 +103,7 @@ The credentials can be found from *docker-compose* files.
 # Environment Variables
 
 ## Backend
-The Spring Boot server uses the environment variables listed below:  
+The Spring Boot server requires the environment variables listed below:  
 ```
 DATABASE_URL=(JDBC PostgreSQL database host address)
 DATABASE_USERNAME=(PostgreSQL database username)
@@ -115,6 +115,7 @@ AWS_ACCESS_KEY_ID_(aws access key)
 AWS_SECRET_ACCESS_KEY=(aws secret access key)
 JWT_SECRET_KEY=(secret key for jwt tokens)
 ```
+The environment variables can be set in a **.env** file in the server folder **./server/.env**.
 
 ## Client
 The Next.js client uses environment variables listed below:  

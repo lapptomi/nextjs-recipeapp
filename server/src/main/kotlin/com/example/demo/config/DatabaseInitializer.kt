@@ -47,7 +47,7 @@ class DatabaseInitializer(
     private fun createRecipes(users: List<User>): List<Recipe> {
         fun generateRandomString(length: Int): String =
             (1..length).map { ('a'..'z').random() }.joinToString("")
-        return (0..20).map {
+        return (0..10).map {
             Recipe(
                 author = users[0],
                 title = "Recipe $it",
@@ -55,7 +55,7 @@ class DatabaseInitializer(
                 ingredients = (0..5).map { "Ingredient $it" },
                 cookingTime = 10,
                 servings = 2,
-                instructions = generateRandomString(5000),
+                instructions = generateRandomString(500),
                 image = null,
             )
         }

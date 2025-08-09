@@ -1,7 +1,6 @@
 /* eslint-disable no-null/no-null */
 import axios from "axios";
 import CredentialsProvider from "next-auth/providers/credentials";
-import GitHubProvider from "next-auth/providers/github";
 
 import { API_URL, NEXTAUTH_SECRET } from "@/lib/constants";
 import { type JwtToken, ROUTES } from "@/types";
@@ -50,10 +49,6 @@ export const options: NextAuthOptions = {
     },
   },
   providers: [
-    GitHubProvider({
-      clientId: process.env.GITHUB_ID as string,
-      clientSecret: process.env.GITHUB_SECRET as string,
-    }),
     CredentialsProvider({
       credentials: {
         email: {

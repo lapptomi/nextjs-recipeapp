@@ -9,6 +9,7 @@ import com.example.demo.recipe.domain.reciperating.dto.CreateRecipeRatingDTO
 import com.example.demo.recipe.mapper.RecipeMapper
 import com.example.demo.recipe.repository.RecipeCommentRepository
 import com.example.demo.recipe.repository.RecipeRatingRepository
+import com.example.demo.s3.S3Service
 import com.example.demo.user.domain.Recipe
 import com.example.demo.user.domain.RecipeDTO
 import com.example.demo.user.domain.User
@@ -25,12 +26,13 @@ class RecipeService(
     private val recipeCommentRepository: RecipeCommentRepository,
     private val recipeRatingRepository: RecipeRatingRepository,
     private val recipeMapper: RecipeMapper,
+    private val s3Service: S3Service,
 ) {
     fun getAll(recipeTitle: String, page: Int, pageSize: Int, sortBy: String): Page<RecipeDTO> {
         val sortDirection = if (sortBy == "date_asc") Sort.Direction.ASC else Sort.Direction.DESC
         val pageable = PageRequest.of(page - 1, pageSize, Sort.by(sortDirection, "createdAt"))
         return recipeRepository.findByTitleContainingIgnoreCase(recipeTitle, pageable).map {
-            RecipeMapper().toDTO(it)
+            recipeMapper.toDTO(it)
         }
     }
 
@@ -41,18 +43,19 @@ class RecipeService(
         createRecipeDTO: CreateRecipeDTO,
         image: MultipartFile?,
     ): RecipeDTO {
-        val recipe = recipeMapper.toEntity(createRecipeDTO, user)
+        val uploadedImageName = image?.let { s3Service.uploadFile(image) }
+        val recipe = recipeMapper.toEntity(uploadedImageName, createRecipeDTO, user)
         return recipeMapper.toDTO(recipeRepository.save(recipe))
     }
 
     fun addRating(user: User, recipeId: Int, rating: CreateRecipeRatingDTO): RecipeDTO {
         val recipe = findRecipeById(recipeId)
         val userHasRated = recipe.ratings.any { it.author.id == user.id }
-
         require(!userHasRated) { "User has already rated this recipe" }
 
         val rating = RecipeRating(author = user, recipe = recipe, type = rating.type)
         recipeRatingRepository.save(rating)
+
         return recipeMapper.toDTO(findRecipeById(recipeId))
     }
 
@@ -69,6 +72,7 @@ class RecipeService(
         val recipe = findRecipeById(recipeId)
         val comment = RecipeComment(author = user, message = commentDto.message, recipe = recipe)
         recipeCommentRepository.save(comment)
+
         return recipeMapper.toDTO(findRecipeById(recipeId))
     }
 

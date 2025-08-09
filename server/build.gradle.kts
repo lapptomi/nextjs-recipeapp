@@ -47,10 +47,17 @@ dependencies {
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit5")
     runtimeOnly("com.h2database:h2")
     implementation("com.bucket4j:bucket4j-core:8.10.1")
-
     developmentOnly("org.springframework.boot:spring-boot-devtools")
+
+    implementation("org.springframework.boot:spring-boot-starter-validation")
+    implementation("software.amazon.awssdk:s3:2.25.+")
+    implementation("software.amazon.awssdk:s3-transfer-manager:2.25.+")
 }
 
 kotlin { compilerOptions { freeCompilerArgs.addAll("-Xjsr305=strict") } }
 
-tasks.withType<Test> { useJUnitPlatform() }
+tasks.withType<Test> {
+    useJUnitPlatform()
+    // Set the active profile to 'test' for tests
+    systemProperty("spring.profiles.active", "test")
+}

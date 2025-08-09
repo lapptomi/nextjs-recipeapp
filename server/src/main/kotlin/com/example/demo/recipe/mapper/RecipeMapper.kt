@@ -4,14 +4,15 @@ import com.example.demo.recipe.domain.dto.CreateRecipeDTO
 import com.example.demo.recipe.domain.dto.RecipeAuthorDTO
 import com.example.demo.recipe.domain.recipecomment.dto.RecipeCommentDTO
 import com.example.demo.recipe.domain.reciperating.dto.RecipeRatingDTO
+import com.example.demo.s3.S3Service
 import com.example.demo.user.domain.Recipe
 import com.example.demo.user.domain.RecipeDTO
 import com.example.demo.user.domain.User
 import org.springframework.stereotype.Component
 
 @Component
-class RecipeMapper {
-    fun toEntity(dto: CreateRecipeDTO, user: User): Recipe {
+class RecipeMapper(private val s3Service: S3Service) {
+    fun toEntity(imageName: String?, dto: CreateRecipeDTO, user: User): Recipe {
         return Recipe(
             author = user,
             title = dto.title,
@@ -20,7 +21,7 @@ class RecipeMapper {
             cookingTime = dto.cookingTime,
             servings = dto.servings,
             instructions = dto.instructions,
-            image = null,
+            image = imageName,
         )
     }
 
@@ -29,7 +30,7 @@ class RecipeMapper {
             id = recipe.id,
             title = recipe.title,
             description = recipe.description,
-            image = recipe.image,
+            image = recipe.image?.let { s3Service.generatePresignedGetUrl(it) },
             ingredients = recipe.ingredients,
             cookingTime = recipe.cookingTime,
             servings = recipe.servings,
