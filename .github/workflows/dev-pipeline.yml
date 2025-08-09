@@ -15,7 +15,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       AWS_REGION: eu-west-1
-      CDK_STACKS: MyAppRunnerStack
+      CDK_STACKS: CdkRecipeAppStack
 
     steps:
       - name: Checkout
