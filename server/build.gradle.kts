@@ -57,8 +57,7 @@ dependencies {
 kotlin { compilerOptions { freeCompilerArgs.addAll("-Xjsr305=strict") } }
 
 tasks.withType<Test> {
-    // useJUnitPlatform()
-    // Temporarily disable tests to avoid issues with the current setup
-    // TODO: Re-enable tests once the issues are resolved
-    enabled = false
+    useJUnitPlatform()
+    // Set the active profile to 'test' for tests
+    systemProperty("spring.profiles.active", "test")
 }
