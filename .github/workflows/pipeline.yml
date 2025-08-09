@@ -3,35 +3,70 @@ name: Test And Deploy
 on:
   push:
     branches:
-    - main
+      - main
+
+permissions:
+  id-token: write # <-- required for OIDC to AWS
+  contents: read
 
 jobs:
   test_and_deploy_prod:
     timeout-minutes: 20
     runs-on: ubuntu-latest
+    env:
+      AWS_REGION: eu-west-1
+      CDK_STACKS: CdkRecipeAppStack
 
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
-    #- name: Start containers
-    #  run: docker compose -f "docker-compose.test.yml" up -d --build
+      - name: Start containers
+        run: docker compose -f "docker-compose.test.yml" up -d --build
 
-    #- name: Cypress run
-    #  uses: cypress-io/github-action@v6
-    #  with:
-    #    working-directory: ./client
-    #    wait-on: 'http://localhost:3000'
-    #    browser: chrome
+      - name: Cypress run
+        uses: cypress-io/github-action@v6
+        with:
+          working-directory: ./client
+          wait-on: 'http://localhost:3000'
+          browser: chrome
 
-    #- name: Stop containers
-    #  if: always()
-    #  run: docker compose -f "docker-compose.test.yml" down
+      - name: Stop containers
+        if: always()
+        run: docker compose -f "docker-compose.test.yml" down
 
-    #- name: Deploy to Render
-    #  if: success()
-    #  run: curl ${{ secrets.RENDER_DEPLOY_HOOK }}
-        
+      # AWS CDK Deploy backend
+      - name: Configure AWS credentials (OIDC)
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-region: ${{ env.AWS_REGION }}
+          role-to-assume: arn:aws:iam::171756462962:role/Github_Actions_Recipeapp_CDK_Deploy
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+          cache-dependency-path: |
+            cdk/package-lock.json
+            package-lock.json
+
+      - name: Install CDK app deps
+        working-directory: cdk
+        run: |
+          npm ci
+          npm i -g aws-cdk@latest
+
+      - name: cdk diff (optional)
+        working-directory: cdk
+        run: cdk diff $CDK_STACKS || true
+
+      - name: cdk deploy
+        working-directory: cdk
+        run: cdk deploy $CDK_STACKS --require-approval=never --verbose
+
+
+      # Deploy Next.js to Vercel
       - name: Install Vercel CLI
         run: npm install --global vercel@latest
 
@@ -40,6 +75,6 @@ jobs:
 
       - name: Build Project Artifacts
         run: vercel build --prod --token=${{ secrets.VERCEL_TOKEN }}
-        
+
       - name: Deploy Project Artifacts to Vercel
         run: vercel deploy --prebuilt --prod --token=${{ secrets.VERCEL_TOKEN }}
