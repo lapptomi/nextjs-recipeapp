@@ -61,6 +61,7 @@ const RecipePage = async ({ params }: Props) => {
           <Box className="size-[440px]">
             {recipe.image ? (
               <Image
+                className="size-full object-cover"
                 width={440}
                 height={440}
                 src={recipe.image}

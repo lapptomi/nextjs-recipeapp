@@ -48,23 +48,20 @@ class RecipeService(
         return recipeMapper.toDTO(recipeRepository.save(recipe))
     }
 
-    fun addRating(user: User, recipeId: Int, rating: CreateRecipeRatingDTO): RecipeDTO {
+    fun addRating(user: User, recipeId: Int, ratingDto: CreateRecipeRatingDTO): RecipeDTO {
         val recipe = findRecipeById(recipeId)
-        val userHasRated = recipe.ratings.any { it.author.id == user.id }
-        require(!userHasRated) { "User has already rated this recipe" }
-
-        val rating = RecipeRating(author = user, recipe = recipe, type = rating.type)
-        recipeRatingRepository.save(rating)
-
+        if (recipeRatingRepository.existsByRecipeIdAndAuthorId(recipeId, user.id)) {
+            throw IllegalArgumentException("User has already rated this recipe")
+        }
+        val newRating = RecipeRating(author = user, recipe = recipe, type = ratingDto.type)
+        recipeRatingRepository.save(newRating)
         return recipeMapper.toDTO(findRecipeById(recipeId))
     }
 
     fun updateRating(user: User, recipeId: Int, rating: CreateRecipeRatingDTO): RecipeDTO {
-        val existingRating =
-            recipeRatingRepository.findByRecipeIdAndAuthorId(recipeId, user.id)
-                ?: throw RecipeNotFoundException(recipeId.toString())
-
-        recipeRatingRepository.save(existingRating.copy(type = rating.type))
+        val existingRating = getUserRecipeRatingOrThrow(recipeId, user.id)
+        val updatedRating = existingRating.copy(type = rating.type)
+        recipeRatingRepository.save(updatedRating)
         return recipeMapper.toDTO(findRecipeById(recipeId))
     }
 
@@ -72,10 +69,13 @@ class RecipeService(
         val recipe = findRecipeById(recipeId)
         val comment = RecipeComment(author = user, message = commentDto.message, recipe = recipe)
         recipeCommentRepository.save(comment)
-
         return recipeMapper.toDTO(findRecipeById(recipeId))
     }
 
     private fun findRecipeById(id: Int): Recipe =
         recipeRepository.findById(id).orElseThrow { RecipeNotFoundException(id.toString()) }
+
+    private fun getUserRecipeRatingOrThrow(recipeId: Int, userId: Int): RecipeRating =
+        recipeRatingRepository.findByRecipeIdAndAuthorId(recipeId, userId)
+            ?: throw RecipeNotFoundException(recipeId.toString())
 }
