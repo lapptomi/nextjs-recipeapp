@@ -130,5 +130,11 @@ The credentials can be found from *docker-compose* files.
 The project has automated deployment pipelines for production and development environments.
 The deployment pipelines will run tests, deploy the backend to AWS, and lastly deploy the Next.js app to Vercel.
 
-## Github Actions
+### Github Actions
 When making changes to the **main** branch, it will trigger Github Actions pipeline to deploy the backend to AWS, and the Next.js app to Vercel prodution environment. But when changes are made in **dev** branch, it will also deploy the backend to AWS, but will deploy the Next.js app to preview environment in Vercel instead of production.
+
+### Manual CDK deployment
+The backend can also be deployed manually by running the following command in the **/cdk** folder:  
+```
+npx cdk deploy
+```

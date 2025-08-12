@@ -30,7 +30,7 @@ class RecipeMapper(private val s3Service: S3Service) {
             id = recipe.id,
             title = recipe.title,
             description = recipe.description,
-            image = recipe.image?.let { s3Service.generatePresignedGetUrl(it) },
+            image = recipe.image?.let { s3Service.getPresignedUrl(it) },
             ingredients = recipe.ingredients,
             cookingTime = recipe.cookingTime,
             servings = recipe.servings,

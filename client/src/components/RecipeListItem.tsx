@@ -36,11 +36,12 @@ const RecipeListItem = ({ recipe }: Props) => {
         <Box className="absolute size-full">
           {recipe.image ? (
             <Image
+              className="size-full object-cover"
               alt={recipe.title}
               src={recipe.image}
+              fill={true}
               quality={20}
               loading="lazy"
-              fill={true}
             />
           ) : (
             <Restaurant className="size-full opacity-10" />

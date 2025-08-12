@@ -5,12 +5,12 @@ export default function RecipeLoading() {
     <Box className="flex flex-col items-center justify-center p-10">
       <Box className="flex w-full max-w-[1920px] flex-wrap items-center justify-evenly">
         <Box>
-          <Skeleton variant="text" width={300} height={120} />
+          <Skeleton variant="text" width={500} height={120} />
           <Box className="flex flex-row gap-4">
             <Skeleton variant="circular" height={100} width={100} />
-            <Skeleton variant="text" width={180} height={100} />
+            <Skeleton variant="text" width={380} height={120} />
           </Box>
-          <Skeleton variant="text" width={300} height={80} />
+          <Skeleton variant="text" width={500} height={80} />
         </Box>
         <Skeleton variant="rectangular" width={440} height={440} />
       </Box>

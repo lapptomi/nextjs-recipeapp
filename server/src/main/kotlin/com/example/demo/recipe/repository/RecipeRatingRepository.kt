@@ -7,4 +7,6 @@ import org.springframework.stereotype.Repository
 @Repository
 interface RecipeRatingRepository : CrudRepository<RecipeRating, Int> {
     fun findByRecipeIdAndAuthorId(recipeId: Int, authorId: Int): RecipeRating?
+
+    fun existsByRecipeIdAndAuthorId(recipeId: Int, authorId: Int): Boolean
 }
