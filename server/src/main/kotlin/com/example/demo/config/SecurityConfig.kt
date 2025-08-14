@@ -29,7 +29,7 @@ class SecurityConfig(
             override fun addCorsMappings(registry: CorsRegistry) {
                 registry
                     .addMapping("/**")
-                    .allowedOrigins("https://api.nextjs-recipeapp-prod.click")
+                    .allowedOrigins("api.https://api.nextjs-recipeapp-prod.click")
                     .allowedMethods("GET", "POST", "PUT")
             }
         }
