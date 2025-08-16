@@ -29,12 +29,9 @@ class SecurityConfig(
             override fun addCorsMappings(registry: CorsRegistry) {
                 registry
                     .addMapping("/**") // Allow all paths
-                    .allowedOrigins(
-                        "https://api.nextjs-recipeapp-prod.click",
-                        "http://localhost:8080",
-                    ) // Allow specific origins
-                    .allowedMethods("GET, POST") // Allow all HTTP methods
-                    .allowedHeaders("*") // Allow all headers
+                    .allowedOrigins("https://api.nextjs-recipeapp-prod.click")
+                    .allowedMethods("GET", "POST")
+                    .allowedHeaders("*")
                     .allowCredentials(true)
             }
         }
