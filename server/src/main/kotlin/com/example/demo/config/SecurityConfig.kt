@@ -27,10 +27,11 @@ class SecurityConfig(
     fun corsConfigurer(): WebMvcConfigurer {
         return object : WebMvcConfigurer {
             override fun addCorsMappings(registry: CorsRegistry) {
-                registry
-                    .addMapping("/**")
-                    .allowedOrigins("api.https://api.nextjs-recipeapp-prod.click")
-                    .allowedMethods("GET", "POST", "PUT")
+                registry.addMapping("/**") // Allow all paths
+                .allowedOriginPatterns("*") // Allow all origins (use with caution in production)
+                .allowedMethods("*") // Allow all HTTP methods
+                .allowedHeaders("*") // Allow all headers
+                .allowCredentials(true)
             }
         }
     }
