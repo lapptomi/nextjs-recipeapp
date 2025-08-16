@@ -27,11 +27,14 @@ class SecurityConfig(
     fun corsConfigurer(): WebMvcConfigurer {
         return object : WebMvcConfigurer {
             override fun addCorsMappings(registry: CorsRegistry) {
-                registry.addMapping("/**") // Allow all paths
-                .allowedOriginPatterns("*") // Allow all origins (use with caution in production)
-                .allowedMethods("*") // Allow all HTTP methods
-                .allowedHeaders("*") // Allow all headers
-                .allowCredentials(true)
+                registry
+                    .addMapping("/**") // Allow all paths
+                    .allowedOriginPatterns(
+                        "*"
+                    ) // Allow all origins (use with caution in production)
+                    .allowedMethods("*") // Allow all HTTP methods
+                    .allowedHeaders("*") // Allow all headers
+                    .allowCredentials(true)
             }
         }
     }
