@@ -29,10 +29,10 @@ class SecurityConfig(
             override fun addCorsMappings(registry: CorsRegistry) {
                 registry
                     .addMapping("/**") // Allow all paths
-                    .allowedOriginPatterns(
-                        "*"
-                    ) // Allow all origins (use with caution in production)
-                    .allowedMethods("*") // Allow all HTTP methods
+                    .allowedOrigins(
+                        "https://api.nextjs-recipeapp-prod.click"
+                    ) // Allow specific origins
+                    .allowedMethods("GET") // Allow all HTTP methods
                     .allowedHeaders("*") // Allow all headers
                     .allowCredentials(true)
             }
@@ -42,6 +42,7 @@ class SecurityConfig(
     @Bean
     fun securityFilterChain(http: HttpSecurity): SecurityFilterChain {
         http
+            .cors(Customizer.withDefaults())
             .authorizeHttpRequests { requests ->
                 requests
                     .requestMatchers(HttpMethod.POST, "/api/recipes")
