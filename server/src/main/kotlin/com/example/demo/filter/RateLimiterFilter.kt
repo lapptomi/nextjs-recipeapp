@@ -24,7 +24,6 @@ class RateLimiterFilter : OncePerRequestFilter() {
         if (bucket.tryConsume(1)) {
             filterChain.doFilter(request, response)
         } else {
-            // Return 429 status code if the rate limit is exceeded
             response.sendError(HttpStatus.TOO_MANY_REQUESTS.value(), "Too many requests")
         }
     }
