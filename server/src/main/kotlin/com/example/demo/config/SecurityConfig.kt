@@ -33,7 +33,7 @@ class SecurityConfig(
                         "https://api.nextjs-recipeapp-prod.click",
                         "http://localhost:8080",
                     )
-                    .allowedMethods("GET", "POST")
+                    .allowedMethods("*")
                     .allowedHeaders("*")
                     .allowCredentials(true)
             }
