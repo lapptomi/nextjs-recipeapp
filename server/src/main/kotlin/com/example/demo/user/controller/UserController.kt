@@ -4,6 +4,7 @@ import com.example.demo.ApiPath
 import com.example.demo.user.domain.dto.CreateUserRequestDTO
 import com.example.demo.user.domain.dto.UserDTO
 import com.example.demo.user.service.UserService
+import org.springframework.context.annotation.Profile
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.DeleteMapping
@@ -25,11 +26,17 @@ class UserController(private val userService: UserService) {
     fun createUser(@RequestBody user: CreateUserRequestDTO): ResponseEntity<UserDTO> =
         ResponseEntity.status(HttpStatus.CREATED).body(userService.createUser(user))
 
-    @DeleteMapping
-    fun deleteUsers(): ResponseEntity<Unit> =
-        ResponseEntity.status(HttpStatus.NO_CONTENT).body(userService.deleteUsers())
-
     @GetMapping("/{id}")
     fun findUserById(@PathVariable id: Int): ResponseEntity<UserDTO> =
         ResponseEntity.ok(userService.findUserById(id))
+}
+
+// Load this controller only in "dev" and "test" spring profiles for cypress e2e testing
+@Profile("dev", "test")
+@RestController
+@RequestMapping(ApiPath.USERS_API)
+class DevUserDeleteController(private val userService: UserService) {
+    @DeleteMapping
+    fun deleteUsers(): ResponseEntity<Unit> =
+        ResponseEntity.status(HttpStatus.NO_CONTENT).body(userService.deleteUsers())
 }

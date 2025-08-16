@@ -29,7 +29,10 @@ class SecurityConfig(
             override fun addCorsMappings(registry: CorsRegistry) {
                 registry
                     .addMapping("/**") // Allow all paths
-                    .allowedOrigins("https://api.nextjs-recipeapp-prod.click")
+                    .allowedOrigins(
+                        "https://api.nextjs-recipeapp-prod.click",
+                        "http://localhost:8080",
+                    )
                     .allowedMethods("GET", "POST")
                     .allowedHeaders("*")
                     .allowCredentials(true)
@@ -45,10 +48,14 @@ class SecurityConfig(
                 requests
                     .requestMatchers(HttpMethod.POST, "/api/recipes")
                     .authenticated()
-                    .requestMatchers("/**")
-                    .permitAll()
-                    .anyRequest()
+                    .requestMatchers(HttpMethod.POST, "/api/recipes/**")
                     .authenticated()
+                    .requestMatchers(HttpMethod.PUT, "/api/recipes")
+                    .authenticated()
+                    .requestMatchers(HttpMethod.PUT, "/api/recipes/**")
+                    .authenticated()
+                    .anyRequest()
+                    .permitAll()
             }
             .addFilterBefore(
                 jwtAuthenticationFilter,
