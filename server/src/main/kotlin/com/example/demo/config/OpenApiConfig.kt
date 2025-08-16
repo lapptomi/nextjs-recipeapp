@@ -13,8 +13,11 @@ class OpenApiConfig(private val environment: Environment) {
     @Bean
     fun customOpenAPI(): OpenAPI {
         val serverUrl =
-            if (environment.activeProfiles.contains("prod")) "https://your-aws-domain.com"
-            else "http://localhost:8080"
+            if (environment.activeProfiles.contains("prod")) {
+                "https://api.nextjs-recipeapp-prod.click"
+            } else {
+                "http://localhost:8080"
+            }
 
         return OpenAPI()
             .info(
