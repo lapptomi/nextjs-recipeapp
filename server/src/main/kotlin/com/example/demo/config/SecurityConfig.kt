@@ -30,9 +30,10 @@ class SecurityConfig(
                 registry
                     .addMapping("/**") // Allow all paths
                     .allowedOrigins(
-                        "https://api.nextjs-recipeapp-prod.click"
+                        "https://api.nextjs-recipeapp-prod.click",
+                        "http://localhost:8080",
                     ) // Allow specific origins
-                    .allowedMethods("GET") // Allow all HTTP methods
+                    .allowedMethods("GET, POST") // Allow all HTTP methods
                     .allowedHeaders("*") // Allow all headers
                     .allowCredentials(true)
             }
