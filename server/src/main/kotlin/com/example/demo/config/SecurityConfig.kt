@@ -12,6 +12,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.security.web.SecurityFilterChain
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter
+import org.springframework.web.servlet.config.annotation.CorsRegistry
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer
 
 @Configuration
 @EnableWebSecurity
@@ -22,16 +24,38 @@ class SecurityConfig(
     @Bean fun passwordEncoder(): PasswordEncoder = BCryptPasswordEncoder()
 
     @Bean
+    fun corsConfigurer(): WebMvcConfigurer {
+        return object : WebMvcConfigurer {
+            override fun addCorsMappings(registry: CorsRegistry) {
+                registry
+                    .addMapping("/**") // Allow all paths
+                    .allowedOrigins(
+                        "https://api.nextjs-recipeapp-prod.click",
+                        "http://localhost:8080",
+                    )
+                    .allowedMethods("*")
+                    .allowedHeaders("*")
+                    .allowCredentials(true)
+            }
+        }
+    }
+
+    @Bean
     fun securityFilterChain(http: HttpSecurity): SecurityFilterChain {
         http
+            .cors(Customizer.withDefaults())
             .authorizeHttpRequests { requests ->
                 requests
                     .requestMatchers(HttpMethod.POST, "/api/recipes")
                     .authenticated()
-                    .requestMatchers("/**")
-                    .permitAll()
-                    .anyRequest()
+                    .requestMatchers(HttpMethod.POST, "/api/recipes/**")
                     .authenticated()
+                    .requestMatchers(HttpMethod.PUT, "/api/recipes")
+                    .authenticated()
+                    .requestMatchers(HttpMethod.PUT, "/api/recipes/**")
+                    .authenticated()
+                    .anyRequest()
+                    .permitAll()
             }
             .addFilterBefore(
                 jwtAuthenticationFilter,
