@@ -1,17 +1,5 @@
 package com.example.demo.user.service
 
-import com.example.demo.TextFixtures.users
-import com.example.demo.config.UserNotFoundException
-import com.example.demo.user.domain.User
-import com.example.demo.user.domain.dto.CreateUserRequestDTO
-import kotlin.test.Test
-import kotlin.test.assertEquals
-import org.junit.jupiter.api.AfterEach
-import org.junit.jupiter.api.BeforeEach
-import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.boot.test.context.SpringBootTest
-import org.springframework.test.annotation.DirtiesContext
-
 /*
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)

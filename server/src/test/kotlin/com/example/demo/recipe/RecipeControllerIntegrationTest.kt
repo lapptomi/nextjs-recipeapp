@@ -1,21 +1,7 @@
 package com.example.demo.recipe
 
-import com.example.demo.ApiPath
-import com.example.demo.TextFixtures.recipes
-import com.example.demo.TextFixtures.users
-import com.example.demo.user.domain.Recipe
-import com.example.demo.user.domain.User
-import org.junit.jupiter.api.AfterEach
-import org.junit.jupiter.api.BeforeEach
-import org.junit.jupiter.api.Test
-import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc
-import org.springframework.boot.test.context.SpringBootTest
-import org.springframework.http.MediaType
-import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
+
 
 /*
 @SpringBootTest
