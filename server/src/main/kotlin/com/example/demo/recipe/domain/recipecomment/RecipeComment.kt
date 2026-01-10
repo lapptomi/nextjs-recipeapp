@@ -2,17 +2,17 @@ package com.example.demo.recipe.domain.recipecomment
 
 import com.example.demo.user.domain.Recipe
 import com.example.demo.user.domain.User
-import jakarta.persistence.Column
-import jakarta.persistence.Entity
-import jakarta.persistence.GeneratedValue
-import jakarta.persistence.GenerationType
-import jakarta.persistence.Id
-import jakarta.persistence.JoinColumn
-import jakarta.persistence.ManyToOne
-import jakarta.persistence.Table
 import java.util.Date
-import org.springframework.data.annotation.CreatedDate
 
+data class RecipeComment(
+    var id: Int? = null,
+    var message: String,
+    val recipe: Recipe,
+    val author: User,
+    var createdAt: Date = Date(),
+)
+
+/*
 @Entity
 @Table(name = "recipe_comments")
 data class RecipeComment(
@@ -22,3 +22,5 @@ data class RecipeComment(
     @ManyToOne @JoinColumn(name = "user_id", nullable = false) val author: User,
     @CreatedDate @Column(name = "created_at", nullable = false) var createdAt: Date = Date(),
 )
+
+ */

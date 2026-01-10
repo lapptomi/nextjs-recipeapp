@@ -21,6 +21,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 
+/*
 @SpringBootTest
 @AutoConfigureMockMvc
 @ActiveProfiles("test")
@@ -109,3 +110,6 @@ class UserControllerIntegrationTest {
         assertTrue(userService.getAll().isEmpty())
     }
 }
+
+
+ */

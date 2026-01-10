@@ -1,6 +1,6 @@
 package com.example.demo.user.domain.dto
 
-import com.example.demo.user.domain.RecipeDTO
+import com.example.demo.recipe.domain.RecipeDTO
 
 data class UserDTO(
     val id: Int,

@@ -1,7 +1,7 @@
 package com.example.demo.filter
 
 import com.example.demo.auth.service.JwtService
-import com.example.demo.user.domain.User
+import com.example.demo.user.domain.UserV2
 import com.example.demo.user.repository.UserRepository
 import jakarta.servlet.FilterChain
 import jakarta.servlet.http.HttpServletRequest
@@ -37,7 +37,15 @@ class JwtAuthenticationFilter(
         filterChain.doFilter(request, response)
     }
 
+    /*
     private fun updateSecurityContext(user: User, request: HttpServletRequest) {
+        val authToken = UsernamePasswordAuthenticationToken(user, null, emptyList())
+        authToken.details = WebAuthenticationDetailsSource().buildDetails(request)
+        SecurityContextHolder.getContext().authentication = authToken
+    }
+     */
+
+    private fun updateSecurityContext(user: UserV2, request: HttpServletRequest) {
         val authToken = UsernamePasswordAuthenticationToken(user, null, emptyList())
         authToken.details = WebAuthenticationDetailsSource().buildDetails(request)
         SecurityContextHolder.getContext().authentication = authToken

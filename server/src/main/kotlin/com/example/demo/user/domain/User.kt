@@ -2,21 +2,20 @@ package com.example.demo.user.domain
 
 import com.example.demo.recipe.domain.recipecomment.RecipeComment
 import com.example.demo.recipe.domain.reciperating.RecipeRating
-import com.fasterxml.jackson.annotation.JsonIdentityInfo
-import com.fasterxml.jackson.annotation.JsonIgnore
-import com.fasterxml.jackson.annotation.ObjectIdGenerators
-import jakarta.persistence.CascadeType
-import jakarta.persistence.Column
-import jakarta.persistence.Entity
-import jakarta.persistence.FetchType
-import jakarta.persistence.GeneratedValue
-import jakarta.persistence.GenerationType
-import jakarta.persistence.Id
-import jakarta.persistence.OneToMany
-import jakarta.persistence.Table
 import java.time.LocalDateTime
-import org.springframework.data.annotation.CreatedDate
 
+data class User(
+    var id: Int = 0,
+    var username: String,
+    var email: String,
+    var password: String,
+    var recipes: List<Recipe> = listOf(),
+    var comments: List<RecipeComment> = listOf(),
+    var ratings: List<RecipeRating> = listOf(),
+    var createdAt: LocalDateTime = LocalDateTime.now(),
+)
+
+/*
 @Entity
 @Table(name = "users")
 @JsonIdentityInfo(
@@ -41,3 +40,4 @@ data class User(
 ) {
     override fun toString(): String = "User(id=$id, email='$email', username='$username')"
 }
+ */

@@ -2,20 +2,24 @@ package com.example.demo.user.domain
 
 import com.example.demo.recipe.domain.recipecomment.RecipeComment
 import com.example.demo.recipe.domain.reciperating.RecipeRating
-import jakarta.persistence.CascadeType
-import jakarta.persistence.Column
-import jakarta.persistence.Entity
-import jakarta.persistence.FetchType
-import jakarta.persistence.GeneratedValue
-import jakarta.persistence.GenerationType
-import jakarta.persistence.Id
-import jakarta.persistence.JoinColumn
-import jakarta.persistence.ManyToOne
-import jakarta.persistence.OneToMany
-import jakarta.persistence.Table
 import java.time.LocalDateTime
-import org.springframework.data.annotation.CreatedDate
 
+data class Recipe(
+    var id: Int = 0,
+    var title: String,
+    var description: String,
+    var image: String? = null,
+    var ingredients: List<String>,
+    var cookingTime: Int,
+    var servings: Int = 0,
+    var instructions: String,
+    var author: User,
+    var comments: List<RecipeComment> = listOf(),
+    var ratings: List<RecipeRating> = listOf(),
+    var createdAt: LocalDateTime = LocalDateTime.now(),
+)
+
+/*
 @Entity
 @Table(name = "recipes")
 data class Recipe(
@@ -39,3 +43,5 @@ data class Recipe(
     override fun toString(): String =
         "Recipe(id=$id, title='$title', description='$description', image=$image, ingredients=$ingredients, cookingTime=$cookingTime, servings=$servings, instructions='$instructions')"
 }
+
+ */

@@ -1,6 +1,6 @@
 package com.example.demo.recipe.domain.recipecomment.dto
 
-import com.example.demo.recipe.domain.dto.RecipeAuthorDTO
+import com.example.demo.recipe.domain.RecipeAuthorDTO
 
 data class RecipeCommentDTO(
     val author: RecipeAuthorDTO,

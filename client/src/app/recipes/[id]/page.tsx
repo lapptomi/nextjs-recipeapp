@@ -111,7 +111,7 @@ const RecipePage = async ({ params }: Props) => {
             <Typography variant="h5">INSTRUCTIONS</Typography>
           </Divider>
           <Typography
-            variant="body2"
+            variant="body1"
             className="whitespace-pre-wrap break-words"
           >
             {recipe.instructions}

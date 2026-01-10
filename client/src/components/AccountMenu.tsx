@@ -86,7 +86,7 @@ const AccountMenu: React.FC<Props> = ({ user }) => {
         <Divider />
 
         <Dialog open={modalOpen} onClose={() => setModalOpen(false)}>
-          <Box className="p-2">
+          <Box className="p-4">
             <DialogTitle>Confirm Sign Out</DialogTitle>
             <DialogContent>
               <DialogContentText>
