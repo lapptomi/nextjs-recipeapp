@@ -5,11 +5,11 @@ CREATE SEQUENCE recipe_ratings_seq START WITH 1 INCREMENT BY 1;
 
 CREATE TABLE users
 (
-    id       SERIAL PRIMARY KEY,
-    username VARCHAR(100) NOT NULL UNIQUE,
-    email    VARCHAR(255) NOT NULL UNIQUE,
-    password VARCHAR(255) NOT NULL,
-    created_at TIMESTAMP NOT NULL DEFAULT NOW()
+    id         SERIAL PRIMARY KEY,
+    username   VARCHAR(100) NOT NULL UNIQUE,
+    email      VARCHAR(255) NOT NULL UNIQUE,
+    password   VARCHAR(255) NOT NULL,
+    created_at TIMESTAMP    NOT NULL DEFAULT NOW()
 );
 
 CREATE TABLE recipes
@@ -24,7 +24,7 @@ CREATE TABLE recipes
     instructions VARCHAR(5000) NOT NULL,
     user_id      INT           NOT NULL,
     created_at   TIMESTAMP     NOT NULL DEFAULT NOW(),
-    CONSTRAINT fk_user FOREIGN KEY (user_id) REFERENCES users (id)
+    CONSTRAINT fk_user FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE CASCADE
 );
 
 CREATE TABLE recipe_comments
@@ -34,8 +34,8 @@ CREATE TABLE recipe_comments
     user_id    INT           NOT NULL,
     message    VARCHAR(1000) NOT NULL,
     created_at TIMESTAMP     NOT NULL DEFAULT NOW(),
-    CONSTRAINT fk_recipe FOREIGN KEY (recipe_id) REFERENCES recipes (id),
-    CONSTRAINT fk_comment_user FOREIGN KEY (user_id) REFERENCES users (id)
+    CONSTRAINT fk_recipe FOREIGN KEY (recipe_id) REFERENCES recipes (id) ON DELETE CASCADE,
+    CONSTRAINT fk_comment_user FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE CASCADE
 );
 
 CREATE TABLE recipe_ratings
@@ -44,8 +44,7 @@ CREATE TABLE recipe_ratings
     recipe_id INT         NOT NULL,
     user_id   INT         NOT NULL,
     type      VARCHAR(20) NOT NULL,
-    CONSTRAINT fk_rating_recipe FOREIGN KEY (recipe_id) REFERENCES recipes (id),
-    CONSTRAINT fk_rating_user FOREIGN KEY (user_id) REFERENCES users (id),
+    CONSTRAINT fk_rating_recipe FOREIGN KEY (recipe_id) REFERENCES recipes (id) ON DELETE CASCADE,
+    CONSTRAINT fk_rating_user FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE CASCADE,
     CONSTRAINT unique_recipe_user UNIQUE (recipe_id, user_id)
 );
-

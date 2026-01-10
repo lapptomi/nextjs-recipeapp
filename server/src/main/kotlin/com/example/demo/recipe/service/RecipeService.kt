@@ -1,12 +1,12 @@
 package com.example.demo.recipe.service
 
-import com.example.demo.PageResult
 import com.example.demo.config.RecipeNotFoundException
+import com.example.demo.domain.PageResult
+import com.example.demo.recipe.domain.CreateRecipeCommentDTO
 import com.example.demo.recipe.domain.CreateRecipeDTO
+import com.example.demo.recipe.domain.CreateRecipeRatingDTO
 import com.example.demo.recipe.domain.RecipeDTO
 import com.example.demo.recipe.domain.RecipeListItemDTO
-import com.example.demo.recipe.domain.recipecomment.dto.CreateRecipeCommentDTO
-import com.example.demo.recipe.domain.reciperating.dto.CreateRecipeRatingDTO
 import com.example.demo.recipe.repository.RecipeRepository
 import com.example.demo.s3.S3Service
 import com.example.demo.user.domain.User

@@ -1,10 +1,10 @@
 package com.example.demo.user.controller
 
 import com.example.demo.ApiPath
+import com.example.demo.recipe.domain.CreateRecipeCommentDTO
 import com.example.demo.recipe.domain.CreateRecipeDTO
+import com.example.demo.recipe.domain.CreateRecipeRatingDTO
 import com.example.demo.recipe.domain.RecipeDTO
-import com.example.demo.recipe.domain.recipecomment.dto.CreateRecipeCommentDTO
-import com.example.demo.recipe.domain.reciperating.dto.CreateRecipeRatingDTO
 import com.example.demo.recipe.service.RecipeService
 import com.example.demo.user.domain.User
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper

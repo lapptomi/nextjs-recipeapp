@@ -1,13 +1,11 @@
 package com.example.demo
 
-import com.example.demo.user.domain.Recipe
-import com.example.demo.user.domain.User
-
+/*
 object TextFixtures {
     val users =
         listOf(
             User(email = "email1", username = "user1", password = "password1"),
-            User(email = "email2", username = "user2", password = "password2"),
+            UserOLD(email = "email2", username = "user2", password = "password2"),
         )
 
     val recipes =
@@ -30,3 +28,5 @@ object TextFixtures {
             ),
         )
 }
+
+ */

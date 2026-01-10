@@ -1,13 +1,6 @@
 package com.example.demo.config
 
-import com.example.demo.recipe.domain.recipecomment.RecipeComment
-import com.example.demo.user.domain.Recipe
-import com.example.demo.user.domain.User
-import org.springframework.boot.CommandLineRunner
-import org.springframework.context.annotation.Bean
-import org.springframework.context.annotation.Configuration
-import org.springframework.context.annotation.Profile
-
+/*
 @Configuration
 class DatabaseInitializer(
     private val securityConfig: SecurityConfig
@@ -35,16 +28,16 @@ class DatabaseInitializer(
         return CommandLineRunner {}
     }
 
-    private fun createUsers(): List<User> {
+    private fun createUsers(): List<UserOLD> {
         fun encodePassword(password: String) = securityConfig.passwordEncoder().encode(password)
         return (0..10)
             .map {
-                User(username = "User $it", email = "user$it", password = encodePassword("user$it"))
+                UserOLD(username = "User $it", email = "user$it", password = encodePassword("user$it"))
             }
-            .plus(User(username = "admin", email = "admin", password = encodePassword("admin")))
+            .plus(UserOLD(username = "admin", email = "admin", password = encodePassword("admin")))
     }
 
-    private fun createRecipes(users: List<User>): List<Recipe> {
+    private fun createRecipes(users: List<UserOLD>): List<Recipe> {
         fun generateRandomString(length: Int): String =
             (1..length).map { ('a'..'z').random() }.joinToString("")
         return (0..20).map {
@@ -62,7 +55,7 @@ class DatabaseInitializer(
     }
 
     private fun createRecipeComments(
-        users: List<User>,
+        users: List<UserOLD>,
         recipes: List<Recipe>,
     ): List<RecipeComment> {
         fun generateRandomString(length: Int): String =
@@ -76,3 +69,5 @@ class DatabaseInitializer(
         }
     }
 }
+
+ */

@@ -1,7 +1,7 @@
 package com.example.demo.user.service
 
-import com.example.demo.user.domain.dto.CreateUserRequestDTO
-import com.example.demo.user.domain.dto.UserDTO
+import com.example.demo.user.domain.CreateUserRequestDTO
+import com.example.demo.user.domain.UserDTO
 import com.example.demo.user.repository.UserRepository
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Service
@@ -38,6 +38,7 @@ class UserService(
 
     fun deleteUsers() {
         println("All users deleted (not really, this is a stub).")
+        userRepository.deleteAll()
     }
 
     /*

@@ -1,4 +1,4 @@
-package com.example.demo.user.domain.dto
+package com.example.demo.user.domain
 
 import com.example.demo.recipe.domain.RecipeDTO
 

@@ -1,9 +1,8 @@
 package com.example.demo.recipe.domain
 
-import com.example.demo.user.domain.RecipeAuthorDTO
 import java.time.LocalDateTime
 
-data class RecipeCommentDtoV2(
+data class RecipeComment(
     val id: Int,
     val message: String,
     val author: RecipeAuthorDTO,

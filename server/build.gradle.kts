@@ -4,8 +4,6 @@ plugins {
     id("org.springframework.boot") version "3.3.4"
     id("io.spring.dependency-management") version "1.1.6"
     id("org.springdoc.openapi-gradle-plugin") version "1.9.0"
-    kotlin("plugin.noarg") version "2.0.21"
-    kotlin("plugin.jpa") version "2.0.21"
     id("com.ncorti.ktfmt.gradle") version "0.22.0"
     id("org.jetbrains.kotlinx.kover") version "0.9.1"
 }
@@ -16,11 +14,6 @@ ktfmt {
 
     // KotlinLang style - 4 space indentation - From kotlinlang.org/docs/coding-conventions.html
     kotlinLangStyle()
-}
-
-noArg {
-    // Jpa Entity classes should have a no-arg constructor
-    annotation("javax.persistence.Entity")
 }
 
 group = "com.example"
@@ -36,7 +29,6 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-web")
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
     implementation("org.jetbrains.kotlin:kotlin-reflect")
-    implementation("org.springframework.boot:spring-boot-starter-data-jpa:3.3.3")
     implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.6.0")
     implementation("org.springframework.boot:spring-boot-starter-security:3.3.0")
     implementation("io.jsonwebtoken:jjwt:0.12.6")

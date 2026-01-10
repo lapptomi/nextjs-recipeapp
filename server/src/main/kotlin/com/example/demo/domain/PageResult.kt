@@ -1,4 +1,4 @@
-package com.example.demo
+package com.example.demo.domain
 
 data class PageResult<T>(
     val content: List<T>,

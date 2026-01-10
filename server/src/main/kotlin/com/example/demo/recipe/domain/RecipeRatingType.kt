@@ -1,4 +1,4 @@
-package com.example.demo.recipe.domain.reciperating
+package com.example.demo.recipe.domain
 
 enum class RecipeRatingType {
     LIKE,
