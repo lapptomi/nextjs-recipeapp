@@ -35,17 +35,17 @@ const ProfilePage = async ({ params }: ProfilePageParams) => {
               <Typography variant="h4">{user.username}</Typography>
               <Box className="flex flex-row gap-4">
                 <Box>
-                  <Typography variant="caption">Recipes</Typography>
+                  <Typography variant="body1">Recipes</Typography>
                   <Typography variant="body1">{recipes.length}</Typography>
                 </Box>
 
                 <Box>
-                  <Typography variant="caption">Followers</Typography>
+                  <Typography variant="body1">Followers</Typography>
                   <Typography variant="body1">123</Typography>
                 </Box>
 
                 <Box>
-                  <Typography variant="caption">Following</Typography>
+                  <Typography variant="body1">Following</Typography>
                   <Typography variant="body1">58</Typography>
                 </Box>
               </Box>

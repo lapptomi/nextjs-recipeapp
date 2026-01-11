@@ -19,7 +19,7 @@ interface Props {
 
 const PricingCard = (props: Props) => {
   return (
-    <Card className="flex min-w-[350px] max-w-[350px] flex-col">
+    <Card className="flex min-w-[340px] max-w-[340px] flex-col">
       <CardMedia className="flex flex-col p-6">
         <Typography variant="h4">{props.title}</Typography>
         {props.price ? (

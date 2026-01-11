@@ -139,12 +139,14 @@ const RecipePage = async ({ params }: Props) => {
                           <Link
                             href={`${ROUTES.PROFILES}/${comment.author.id}`}
                           >
-                            {comment.author.username}-
-                            <Typography variant="caption">
-                              {comment.createdAt &&
-                                new Date(comment.createdAt)
-                                  .toISOString()
-                                  .split("T")[0]}
+                            <Typography variant="body1">
+                              {comment.author.username}{" "}
+                              <Typography variant="caption">
+                                {comment.createdAt &&
+                                  new Date(comment.createdAt)
+                                    .toISOString()
+                                    .split("T")[0]}
+                              </Typography>
                             </Typography>
                           </Link>
                         </Tooltip>

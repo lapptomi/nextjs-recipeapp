@@ -65,59 +65,61 @@ const AccountMenu: React.FC<Props> = ({ user }) => {
         transformOrigin={{ horizontal: "right", vertical: "top" }}
         anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
       >
-        <Link href={`${ROUTES.PROFILES}/${user.id}`}>
-          <MenuItem onClick={handleClose}>
+        <Box className="flex flex-col gap-1">
+          <Link href={`${ROUTES.PROFILES}/${user.id}`}>
+            <MenuItem onClick={handleClose}>
+              <ListItemIcon>
+                <Person fontSize="small" color="secondary" />
+              </ListItemIcon>
+              <Typography variant="body2">Profile</Typography>
+            </MenuItem>
+          </Link>
+
+          <Link href={ROUTES.CREATE_RECIPE}>
+            <MenuItem onClick={handleClose}>
+              <ListItemIcon>
+                <AddBox color="secondary" fontSize="small" />
+              </ListItemIcon>
+              <Typography variant="body2">Create Recipe</Typography>
+            </MenuItem>
+          </Link>
+
+          <Divider />
+
+          <Dialog open={modalOpen} onClose={() => setModalOpen(false)}>
+            <Box className="p-4">
+              <DialogTitle>Confirm Sign Out</DialogTitle>
+              <DialogContent>
+                <DialogContentText>
+                  Are you sure you want to sign out?
+                </DialogContentText>
+              </DialogContent>
+              <DialogActions>
+                <Button size="small" onClick={() => setModalOpen(false)}>
+                  Cancel
+                </Button>
+                <Button
+                  variant="contained"
+                  color="error"
+                  size="small"
+                  onClick={() => {
+                    setModalOpen(false);
+                    signOut({ callbackUrl: ROUTES.RECIPES });
+                  }}
+                >
+                  Sign Out
+                </Button>
+              </DialogActions>
+            </Box>
+          </Dialog>
+
+          <MenuItem onClick={() => setModalOpen(true)}>
             <ListItemIcon>
-              <Person fontSize="small" color="secondary" />
+              <Logout fontSize="small" />
             </ListItemIcon>
-            <Typography variant="body2">Profile</Typography>
+            <Typography variant="body2">Logout</Typography>
           </MenuItem>
-        </Link>
-
-        <Link href={ROUTES.CREATE_RECIPE}>
-          <MenuItem onClick={handleClose}>
-            <ListItemIcon>
-              <AddBox color="secondary" fontSize="small" />
-            </ListItemIcon>
-            <Typography variant="body2">Create Recipe</Typography>
-          </MenuItem>
-        </Link>
-
-        <Divider />
-
-        <Dialog open={modalOpen} onClose={() => setModalOpen(false)}>
-          <Box className="p-4">
-            <DialogTitle>Confirm Sign Out</DialogTitle>
-            <DialogContent>
-              <DialogContentText>
-                Are you sure you want to sign out?
-              </DialogContentText>
-            </DialogContent>
-            <DialogActions>
-              <Button size="small" onClick={() => setModalOpen(false)}>
-                Cancel
-              </Button>
-              <Button
-                variant="contained"
-                color="error"
-                size="small"
-                onClick={() => {
-                  setModalOpen(false);
-                  signOut({ callbackUrl: ROUTES.RECIPES });
-                }}
-              >
-                Sign Out
-              </Button>
-            </DialogActions>
-          </Box>
-        </Dialog>
-
-        <MenuItem onClick={() => setModalOpen(true)}>
-          <ListItemIcon>
-            <Logout fontSize="small" />
-          </ListItemIcon>
-          <Typography variant="body2">Logout</Typography>
-        </MenuItem>
+        </Box>
       </Menu>
     </>
   );
