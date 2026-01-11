@@ -118,6 +118,42 @@ class RecipeRepository(val jdbcTemplate: NamedParameterJdbcTemplate) {
         }
     }
 
+    fun fetchUserRecipes(userId: Int): List<Recipe> {
+        val sql =
+            """
+        SELECT
+            id,
+            title,
+            description,
+            image,
+            ingredients,
+            cooking_time,
+            servings,
+            instructions,
+            created_at
+        FROM recipes
+        WHERE user_id = :userId
+        ORDER BY created_at DESC
+    """
+
+        val params = MapSqlParameterSource().addValue("userId", userId)
+
+        return jdbcTemplate.query(sql, params) { rs, _ ->
+            Recipe(
+                author = fetchRecipeAuthor(userId),
+                id = rs.getInt("id"),
+                ingredients = rs.getString("ingredients").split(","),
+                cookingTime = rs.getInt("cooking_time"),
+                servings = rs.getInt("servings"),
+                instructions = rs.getString("instructions"),
+                title = rs.getString("title"),
+                description = rs.getString("description"),
+                image = rs.getString("image"),
+                createdAt = rs.getTimestamp("created_at").toLocalDateTime(),
+            )
+        }
+    }
+
     fun findById(recipeId: Int): Recipe {
         val sql =
             """
@@ -130,7 +166,7 @@ class RecipeRepository(val jdbcTemplate: NamedParameterJdbcTemplate) {
                 r.cooking_time, 
                 r.servings, 
                 r.instructions, 
-                r.created_at,
+                r.created_at
             FROM recipes r
             WHERE r.id = :recipeId
             """

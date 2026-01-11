@@ -7,6 +7,8 @@ import com.example.demo.recipe.domain.CreateRecipeDTO
 import com.example.demo.recipe.domain.CreateRecipeRatingDTO
 import com.example.demo.recipe.domain.RecipeDTO
 import com.example.demo.recipe.domain.RecipeListItemDTO
+import com.example.demo.recipe.mapper.toRecipeDTO
+import com.example.demo.recipe.mapper.toRecipeListItemDTO
 import com.example.demo.recipe.repository.RecipeRepository
 import com.example.demo.s3.S3Service
 import com.example.demo.user.domain.User
@@ -22,25 +24,15 @@ class RecipeService(val s3Service: S3Service, val recipeRepository: RecipeReposi
         sortBy: String,
     ): PageResult<RecipeListItemDTO> {
         val recipes = recipeRepository.fetchRecipes(recipeTitle, page, pageSize, sortBy)
-        val mappedRecipes =
-            recipes.map {
-                RecipeListItemDTO(
-                    id = it.id,
-                    title = it.title,
-                    description = it.description,
-                    ingredients = it.ingredients,
-                    instructions = it.instructions,
-                    image = it.image?.let { imageName -> s3Service.getPresignedUrl(imageName) },
-                    cookingTime = it.cookingTime,
-                    servings = it.servings,
-                    author = it.author,
-                    ratings = recipeRepository.fetchRecipeRatings(it.id),
-                    createdAt = it.createdAt,
-                )
-            }
-
         return PageResult(
-            content = mappedRecipes,
+            content =
+                recipes.map {
+                    it.toRecipeListItemDTO(
+                        presignedUrl =
+                            it.image?.let { imageName -> s3Service.getPresignedUrl(imageName) },
+                        ratings = recipeRepository.fetchRecipeRatings(it.id),
+                    )
+                },
             page = page,
             size = pageSize,
             numberOfElements = recipes.size,
@@ -53,21 +45,7 @@ class RecipeService(val s3Service: S3Service, val recipeRepository: RecipeReposi
         val recipeComments = recipeRepository.fetchRecipeComments(recipe.id)
         val recipeRatings = recipeRepository.fetchRecipeRatings(recipe.id)
         val presignedUrl = recipe.image?.let { s3Service.getPresignedUrl(it) }
-
-        return RecipeDTO(
-            id = recipe.id,
-            title = recipe.title,
-            description = recipe.description,
-            image = presignedUrl,
-            ingredients = recipe.ingredients,
-            cookingTime = recipe.cookingTime,
-            servings = recipe.servings,
-            instructions = recipe.instructions,
-            author = recipe.author,
-            createdAt = recipe.createdAt,
-            comments = recipeComments,
-            ratings = recipeRatings,
-        )
+        return recipe.toRecipeDTO(presignedUrl, recipeComments, recipeRatings)
     }
 
     fun createRecipe(
@@ -75,24 +53,13 @@ class RecipeService(val s3Service: S3Service, val recipeRepository: RecipeReposi
         createRecipeDTO: CreateRecipeDTO,
         image: MultipartFile?,
     ): RecipeDTO {
-        val createdRecipe =
-            recipeRepository.createRecipe(
-                userId = user.id,
-                createRecipeDTO = createRecipeDTO,
-                imageName = image?.let { s3Service.uploadFile(image) },
-            )
+        val imageName = image?.let { s3Service.uploadFile(it) }
+        val createdRecipe = recipeRepository.createRecipe(user.id, createRecipeDTO, imageName)
 
-        return RecipeDTO(
-            id = createdRecipe.id,
-            title = createdRecipe.title,
-            description = createdRecipe.description,
-            image = createdRecipe.image?.let { s3Service.getPresignedUrl(it) },
-            ingredients = createdRecipe.ingredients,
-            cookingTime = createdRecipe.cookingTime,
-            servings = createdRecipe.servings,
-            instructions = createdRecipe.instructions,
-            author = createdRecipe.author,
-            createdAt = createdRecipe.createdAt,
+        return createdRecipe.toRecipeDTO(
+            presignedUrl = imageName?.let { s3Service.getPresignedUrl(it) },
+            comments = emptyList(),
+            ratings = emptyList(),
         )
     }
 

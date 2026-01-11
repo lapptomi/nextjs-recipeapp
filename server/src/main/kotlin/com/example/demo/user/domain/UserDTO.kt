@@ -6,5 +6,5 @@ data class UserDTO(
     val id: Int,
     val username: String,
     val email: String,
-    val recipes: List<RecipeDTO> = listOf(),
+    val recipes: List<RecipeDTO>? = emptyList(),
 )

@@ -1,7 +1,11 @@
 package com.example.demo.user.service
 
+import com.example.demo.recipe.mapper.toRecipeDTO
+import com.example.demo.recipe.repository.RecipeRepository
+import com.example.demo.s3.S3Service
 import com.example.demo.user.domain.CreateUserRequestDTO
 import com.example.demo.user.domain.UserDTO
+import com.example.demo.user.mapper.toUserDTO
 import com.example.demo.user.repository.UserRepository
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Service
@@ -10,59 +14,36 @@ import org.springframework.stereotype.Service
 class UserService(
     private val passwordEncoder: PasswordEncoder,
     private val userRepository: UserRepository,
+    private val recipeRepository: RecipeRepository,
+    private val s3Service: S3Service,
 ) {
 
     fun getAll(): List<UserDTO> {
         val users = userRepository.fetchUsers()
-        return users.map { UserDTO(id = it.id, username = it.username, email = it.email) }
+        return users.map { it.toUserDTO() }
     }
 
     fun createUser(newUser: CreateUserRequestDTO): UserDTO {
-        val createdUser =
-            userRepository.createUser(
-                username = newUser.username,
-                email = newUser.email,
-                password = passwordEncoder.encode(newUser.password),
-            )
-        return UserDTO(
-            id = createdUser.id,
-            username = createdUser.username,
-            email = createdUser.email,
-        )
+        val password = passwordEncoder.encode(newUser.password)
+        val createdUser = userRepository.createUser(newUser.username, newUser.email, password)
+        return createdUser.toUserDTO()
     }
 
     fun findUserById(id: Int): UserDTO {
         val user = userRepository.findById(id)
-        return UserDTO(id = user.id, username = user.username, email = user.email)
+        val recipes =
+            recipeRepository.fetchUserRecipes(user.id).map {
+                it.toRecipeDTO(
+                    presignedUrl =
+                        it.image?.let { imageName -> s3Service.getPresignedUrl(imageName) },
+                    comments = emptyList(),
+                    ratings = recipeRepository.fetchRecipeRatings(it.id),
+                )
+            }
+        return user.toUserDTO(recipes)
     }
 
     fun deleteUsers() {
-        println("All users deleted (not really, this is a stub).")
         userRepository.deleteAll()
     }
-
-    /*
-    fun getAll(): List<UserDTO> =
-        userRepository.findAll().map {
-            UserDTO(id = it.id, username = it.username, email = it.email)
-        }
-
-    fun createUser(newUser: CreateUserRequestDTO): UserDTO {
-        val password = passwordEncoder.encode(newUser.password)
-        val user = User(email = newUser.email, username = newUser.username, password = password)
-        return UserDTO(
-            id = userRepository.save(user).id,
-            username = user.username,
-            email = user.email,
-        )
-    }
-
-    fun findUserById(id: Int): UserDTO {
-        val user = userRepository.findById(id).orElseThrow { UserNotFoundException(id.toString()) }
-        return UserDTO(id = user.id, username = user.username, email = user.email)
-    }
-
-    fun deleteUsers() = userRepository.deleteAll()
-
-     */
 }

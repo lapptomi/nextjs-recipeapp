@@ -1,10 +1,12 @@
 package com.example.demo.user.controller
 
 import com.example.demo.ApiPath
+import com.example.demo.domain.PageResult
 import com.example.demo.recipe.domain.CreateRecipeCommentDTO
 import com.example.demo.recipe.domain.CreateRecipeDTO
 import com.example.demo.recipe.domain.CreateRecipeRatingDTO
 import com.example.demo.recipe.domain.RecipeDTO
+import com.example.demo.recipe.domain.RecipeListItemDTO
 import com.example.demo.recipe.service.RecipeService
 import com.example.demo.user.domain.User
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
@@ -25,11 +27,11 @@ class RecipeController(private val recipeService: RecipeService) {
         @RequestParam(name = "page", defaultValue = "1", required = false) page: Int,
         @RequestParam(name = "page_size", defaultValue = "12", required = false) pageSize: Int,
         @RequestParam(name = "sort_by", defaultValue = "date_desc", required = false) sortBy: String,
-    ): ResponseEntity<Any> =
+    ): ResponseEntity<PageResult<RecipeListItemDTO>> =
         ResponseEntity.ok(recipeService.getAll(recipeTitle, page, pageSize, sortBy))
 
     @GetMapping("/{id}")
-    fun getRecipeById(@PathVariable id: Int): ResponseEntity<Any> =
+    fun getRecipeById(@PathVariable id: Int): ResponseEntity<RecipeDTO> =
         ResponseEntity.ok(recipeService.findById(id))
 
     @PostMapping
