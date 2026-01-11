@@ -68,7 +68,7 @@ const Home = () => {
           <Typography variant="h4" fontWeight="bold">
             All Your Favourite Recipes In One Place
           </Typography>
-          <Typography variant="body1">
+          <Typography variant="h6" fontWeight="normal">
             Manage, find and share your favourite recipes. <br />
             Join our community and start cooking today!
           </Typography>
@@ -79,8 +79,8 @@ const Home = () => {
       </Box>
 
       <Box className="flex flex-col flex-wrap items-center justify-center gap-8 bg-gray-50 px-2 py-24">
-        <Typography variant="h4" fontWeight="bold">
-          PRICING
+        <Typography variant="h3" fontWeight="bold">
+          Pricing
         </Typography>
         <Box className="flex flex-row flex-wrap justify-center gap-6">
           <PricingCard title="Personal" description="Some random description" />

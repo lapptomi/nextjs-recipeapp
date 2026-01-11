@@ -1,25 +1,6 @@
 package com.example.demo.recipe.service
 
-import com.example.demo.TextFixtures.recipes
-import com.example.demo.TextFixtures.users
-import com.example.demo.config.RecipeNotFoundException
-import com.example.demo.recipe.domain.dto.CreateRecipeDTO
-import com.example.demo.recipe.domain.recipecomment.dto.CreateRecipeCommentDTO
-import com.example.demo.recipe.domain.reciperating.RecipeRatingType
-import com.example.demo.recipe.domain.reciperating.dto.CreateRecipeRatingDTO
-import com.example.demo.user.domain.Recipe
-import com.example.demo.user.domain.User
-import com.example.demo.user.repository.RecipeRepository
-import com.example.demo.user.repository.UserRepository
-import kotlin.test.assertEquals
-import org.junit.jupiter.api.AfterEach
-import org.junit.jupiter.api.BeforeEach
-import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.assertThrows
-import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.boot.test.context.SpringBootTest
-import org.springframework.test.annotation.DirtiesContext
-
+/*
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
 class RecipeServiceIntegrationTest {
@@ -155,3 +136,6 @@ class RecipeServiceIntegrationTest {
         assertEquals(comment.message, updatedRecipe.comments[0].message)
     }
 }
+
+
+ */

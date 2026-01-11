@@ -111,7 +111,7 @@ const RecipePage = async ({ params }: Props) => {
             <Typography variant="h5">INSTRUCTIONS</Typography>
           </Divider>
           <Typography
-            variant="body2"
+            variant="body1"
             className="whitespace-pre-wrap break-words"
           >
             {recipe.instructions}
@@ -139,12 +139,14 @@ const RecipePage = async ({ params }: Props) => {
                           <Link
                             href={`${ROUTES.PROFILES}/${comment.author.id}`}
                           >
-                            {comment.author.username}-
-                            <Typography variant="caption">
-                              {comment.createdAt &&
-                                new Date(comment.createdAt)
-                                  .toISOString()
-                                  .split("T")[0]}
+                            <Typography variant="body1">
+                              {comment.author.username}{" "}
+                              <Typography variant="caption">
+                                {comment.createdAt &&
+                                  new Date(comment.createdAt)
+                                    .toISOString()
+                                    .split("T")[0]}
+                              </Typography>
                             </Typography>
                           </Link>
                         </Tooltip>

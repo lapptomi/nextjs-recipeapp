@@ -87,7 +87,7 @@ const SearchRecipesForm = ({ totalCount }: Props) => {
           </Select>
         </FormControl>
 
-        <Box className="flex flex-row">
+        <Box className="flex flex-row gap-2">
           <TextField
             label="Search"
             value={recipeTitle}
@@ -102,20 +102,19 @@ const SearchRecipesForm = ({ totalCount }: Props) => {
               ),
             }}
           />
-          <Box>
-            <Button
-              type="button"
-              onClick={() => {
-                router.replace(ROUTES.RECIPES);
-                setRecipeTitle("");
-              }}
-            >
-              Clear
-            </Button>
-            <Button type="submit" variant="contained">
-              Search
-            </Button>
-          </Box>
+          <Button
+            type="button"
+            variant="outlined"
+            onClick={() => {
+              router.replace(ROUTES.RECIPES);
+              setRecipeTitle("");
+            }}
+          >
+            Clear
+          </Button>
+          <Button type="submit" variant="contained">
+            Search
+          </Button>
         </Box>
       </form>
       <Pagination

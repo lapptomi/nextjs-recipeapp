@@ -1,8 +1,5 @@
-package com.example.demo.user.domain
+package com.example.demo.recipe.domain
 
-import com.example.demo.recipe.domain.dto.RecipeAuthorDTO
-import com.example.demo.recipe.domain.recipecomment.dto.RecipeCommentDTO
-import com.example.demo.recipe.domain.reciperating.dto.RecipeRatingDTO
 import java.time.LocalDateTime
 
 data class RecipeDTO(
@@ -16,6 +13,6 @@ data class RecipeDTO(
     val instructions: String,
     val author: RecipeAuthorDTO,
     val createdAt: LocalDateTime,
-    val comments: List<RecipeCommentDTO>,
-    val ratings: List<RecipeRatingDTO>,
+    val comments: List<RecipeComment> = emptyList(),
+    val ratings: List<RecipeRating> = emptyList(),
 )

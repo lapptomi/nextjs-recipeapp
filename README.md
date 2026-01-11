@@ -1,7 +1,8 @@
 
-# RecipeApp Pro
+# RecipeApp Pro [![Test And Deploy To Vercel](https://github.com/lapptomi/nextjs-recipeapp/actions/workflows/pipeline.yml/badge.svg)](https://github.com/lapptomi/nextjs-recipeapp/actions/workflows/pipeline.yml)
 
-[![Test And Deploy To Vercel](https://github.com/lapptomi/nextjs-recipeapp/actions/workflows/pipeline.yml/badge.svg)](https://github.com/lapptomi/nextjs-recipeapp/actions/workflows/pipeline.yml)
+
+### Link to application: https://nextjs-recipeapp.vercel.app
 
 ### Web application where users can create, rate, and comment on recipes.  
 
@@ -48,8 +49,6 @@ The backend is created with **Kotlin & Spring Boot** and is running on **AWS App
 <p align="left">
   <a href="http://nextjs.org/" target="blank"><img src="https://seeklogo.com/images/N/next-js-logo-7929BCD36F-seeklogo.com.png" width="150" alt="Next Logo" /></a>
 </p>  
-
-### <a href="https://nextjs-recipeapp.vercel.app" target="_blank">Open application on Vercel</a>
 
 The client is created with **TypeScript & NextJS** and is hosted online on Vercel and can be opened via the link above.
 

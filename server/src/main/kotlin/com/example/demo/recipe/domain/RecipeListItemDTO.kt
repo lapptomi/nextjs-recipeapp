@@ -2,7 +2,7 @@ package com.example.demo.recipe.domain
 
 import java.time.LocalDateTime
 
-data class Recipe(
+data class RecipeListItemDTO(
     val id: Int,
     val title: String,
     val description: String,
@@ -12,5 +12,6 @@ data class Recipe(
     val servings: Int,
     val instructions: String,
     val author: RecipeAuthorDTO,
+    val ratings: List<RecipeRating>,
     val createdAt: LocalDateTime,
 )
