@@ -1,34 +1,42 @@
 package com.example.demo.user.service
 
+import com.example.demo.TextFixtures.users
 import com.example.demo.config.UserNotFoundException
 import com.example.demo.user.domain.CreateUserRequestDTO
+import com.example.demo.user.domain.User
 import com.example.demo.user.repository.UserRepository
+import kotlin.test.Test
+import kotlin.test.assertEquals
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.test.annotation.DirtiesContext
-import kotlin.test.Test
-import kotlin.test.assertEquals
-import com.example.demo.TextFixtures.users
-import com.example.demo.user.domain.User
-
 
 @SpringBootTest
 @DirtiesContext
 class UserServiceIntegrationTest {
 
     @Autowired private lateinit var userService: UserService
-    @Autowired
-    private lateinit var userRepository: UserRepository
+    @Autowired private lateinit var userRepository: UserRepository
 
     private lateinit var testUser: User
     private lateinit var testUser2: User
 
     @BeforeEach
     fun setup() {
-        val user1 = userRepository.createUser(username = users[0].username, email = users[0].email, password = "password1")
-        val user2 = userRepository.createUser(username = users[1].username, email = users[1].email, password = "password2")
+        val user1 =
+            userRepository.createUser(
+                username = users[0].username,
+                email = users[0].email,
+                password = "password1",
+            )
+        val user2 =
+            userRepository.createUser(
+                username = users[1].username,
+                email = users[1].email,
+                password = "password2",
+            )
         testUser = user1
         testUser2 = user2
     }

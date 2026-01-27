@@ -3,7 +3,6 @@ package com.example.demo.recipe.service
 import com.example.demo.TextFixtures.recipes
 import com.example.demo.TextFixtures.users
 import com.example.demo.config.RecipeNotFoundException
-import com.example.demo.recipe.domain.CreateRecipeCommentDTO
 import com.example.demo.recipe.domain.CreateRecipeDTO
 import com.example.demo.recipe.domain.CreateRecipeRatingDTO
 import com.example.demo.recipe.domain.Recipe
@@ -11,6 +10,7 @@ import com.example.demo.recipe.domain.RecipeRatingType
 import com.example.demo.recipe.repository.RecipeRepository
 import com.example.demo.user.domain.User
 import com.example.demo.user.repository.UserRepository
+import kotlin.test.Test
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.BeforeEach
@@ -18,15 +18,12 @@ import org.junit.jupiter.api.assertThrows
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.test.annotation.DirtiesContext
-import kotlin.test.Test
-
 
 @SpringBootTest
 @DirtiesContext
 class RecipeServiceIntegrationTest {
 
-    @Autowired
-    private lateinit var reicpeRepository: RecipeRepository
+    @Autowired private lateinit var reicpeRepository: RecipeRepository
     @Autowired private lateinit var recipeService: RecipeService
     @Autowired private lateinit var userRepository: UserRepository
 
@@ -49,28 +46,30 @@ class RecipeServiceIntegrationTest {
         val recipe =
             reicpeRepository.createRecipe(
                 userId = user.id,
-                createRecipeDTO = CreateRecipeDTO(
-                    title = recipes[0].title,
-                    description = recipes[0].description,
-                    ingredients = recipes[0].ingredients,
-                    cookingTime = recipes[0].cookingTime,
-                    instructions = recipes[0].instructions,
-                    servings = recipes[0].servings,
-                ),
+                createRecipeDTO =
+                    CreateRecipeDTO(
+                        title = recipes[0].title,
+                        description = recipes[0].description,
+                        ingredients = recipes[0].ingredients,
+                        cookingTime = recipes[0].cookingTime,
+                        instructions = recipes[0].instructions,
+                        servings = recipes[0].servings,
+                    ),
                 imageName = null,
             )
 
         val recipe2 =
             reicpeRepository.createRecipe(
                 userId = user.id,
-                createRecipeDTO = CreateRecipeDTO(
-                    title = recipes[1].title,
-                    description = recipes[1].description,
-                    ingredients = recipes[1].ingredients,
-                    cookingTime = recipes[1].cookingTime,
-                    instructions = recipes[1].instructions,
-                    servings = recipes[1].servings,
-                ),
+                createRecipeDTO =
+                    CreateRecipeDTO(
+                        title = recipes[1].title,
+                        description = recipes[1].description,
+                        ingredients = recipes[1].ingredients,
+                        cookingTime = recipes[1].cookingTime,
+                        instructions = recipes[1].instructions,
+                        servings = recipes[1].servings,
+                    ),
                 imageName = null,
             )
 
@@ -198,4 +197,3 @@ class RecipeServiceIntegrationTest {
     }
     */
 }
-
