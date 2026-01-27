@@ -1,12 +1,28 @@
 package com.example.demo.user
 
+import com.example.demo.ApiPath
+import com.example.demo.user.domain.CreateUserRequestDTO
+import com.example.demo.user.domain.UserDTO
+import com.example.demo.user.repository.UserRepository
+import com.example.demo.user.service.UserService
+import com.fasterxml.jackson.databind.ObjectMapper
+import kotlin.test.Test
+import kotlin.test.assertTrue
+import org.junit.jupiter.api.AfterEach
+import org.junit.jupiter.api.BeforeEach
+import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc
+import org.springframework.boot.test.context.SpringBootTest
+import org.springframework.http.MediaType
+import org.springframework.test.annotation.DirtiesContext
+import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 
-
-/*
 @SpringBootTest
 @AutoConfigureMockMvc
-@ActiveProfiles("test")
+@DirtiesContext
 class UserControllerIntegrationTest {
 
     @Autowired private lateinit var mockMvc: MockMvc
@@ -14,12 +30,19 @@ class UserControllerIntegrationTest {
     @Autowired private lateinit var userRepository: UserRepository
     @Autowired private lateinit var objectMapper: ObjectMapper
 
-    private lateinit var testUser: User
+    private lateinit var testUser: UserDTO
 
     @BeforeEach
     fun setUp() {
 
-        val user = userRepository.save(users[0])
+        val user =
+            userService.createUser(
+                CreateUserRequestDTO(
+                    username = "testuser",
+                    email = "hello@world.com",
+                    password = "testpassword",
+                )
+            )
         testUser = user
     }
 
@@ -31,31 +54,29 @@ class UserControllerIntegrationTest {
     // TODO: Fix these tests later
     @Test
     fun `getUserById should return user when user exists`() {
-        val mock =
-            mockMvc
-                .perform(
-                    get(ApiPath.USERS_API + "/{id}", testUser.id)
-                        .contentType(MediaType.APPLICATION_JSON)
-                )
-                .andExpect(status().isOk)
-                .andExpect(jsonPath("$.id").value(testUser.id))
-                .andExpect(jsonPath("$.username").value(testUser.username))
-                .andExpect(jsonPath("$.email").value(testUser.email))
-                .andExpect(jsonPath("$.password").doesNotExist())
-                .andExpect(jsonPath("$.recipes").exists())
+        mockMvc
+            .perform(
+                get(ApiPath.USERS_API + "/{id}", testUser.id)
+                    .contentType(MediaType.APPLICATION_JSON)
+            )
+            .andExpect(status().isOk)
+            .andExpect(jsonPath("$.id").value(testUser.id))
+            .andExpect(jsonPath("$.username").value(testUser.username))
+            .andExpect(jsonPath("$.email").value(testUser.email))
+            .andExpect(jsonPath("$.password").doesNotExist())
+            .andExpect(jsonPath("$.recipes").exists())
     }
 
     @Test
     fun `getUserById should return 404 when user does not exist`() {
         val nonExistingId = -123
-        val mock =
-            mockMvc
-                .perform(
-                    get(ApiPath.USERS_API + "/{id}", nonExistingId)
-                        .contentType(MediaType.APPLICATION_JSON)
-                )
-                .andExpect(status().isNotFound)
-                .andExpect(jsonPath("$.message").value("User with id $nonExistingId not found"))
+        mockMvc
+            .perform(
+                get(ApiPath.USERS_API + "/{id}", nonExistingId)
+                    .contentType(MediaType.APPLICATION_JSON)
+            )
+            .andExpect(status().isNotFound)
+            .andExpect(jsonPath("$.message").value("User with id $nonExistingId not found"))
     }
 
     @Test
@@ -76,8 +97,7 @@ class UserControllerIntegrationTest {
     }
 
     @Test
-    fun `deleteUser should return 204 when user is deleted`() {
-        assertTrue(userRepository.existsById(testUser.id))
+    fun `deleteUsers should return 204 when users are deleted`() {
         assertTrue(userService.getAll().isNotEmpty())
 
         mockMvc
@@ -92,6 +112,3 @@ class UserControllerIntegrationTest {
         assertTrue(userService.getAll().isEmpty())
     }
 }
-
-
- */

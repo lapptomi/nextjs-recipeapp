@@ -1,15 +1,10 @@
-CREATE SEQUENCE users_seq START WITH 1 INCREMENT BY 1;
-CREATE SEQUENCE recipes_seq START WITH 1 INCREMENT BY 1;
-CREATE SEQUENCE recipe_comments_seq START WITH 1 INCREMENT BY 1;
-CREATE SEQUENCE recipe_ratings_seq START WITH 1 INCREMENT BY 1;
-
 CREATE TABLE users
 (
     id         SERIAL PRIMARY KEY,
     username   VARCHAR(100) NOT NULL UNIQUE,
     email      VARCHAR(255) NOT NULL UNIQUE,
     password   VARCHAR(255) NOT NULL,
-    created_at TIMESTAMP    NOT NULL DEFAULT NOW()
+    created_at TIMESTAMP    NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
 CREATE TABLE recipes
@@ -23,7 +18,7 @@ CREATE TABLE recipes
     servings     INT                    DEFAULT 0,
     instructions VARCHAR(5000) NOT NULL,
     user_id      INT           NOT NULL,
-    created_at   TIMESTAMP     NOT NULL DEFAULT NOW(),
+    created_at   TIMESTAMP     NOT NULL DEFAULT CURRENT_TIMESTAMP,
     CONSTRAINT fk_user FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE CASCADE
 );
 
@@ -33,7 +28,7 @@ CREATE TABLE recipe_comments
     recipe_id  INT           NOT NULL,
     user_id    INT           NOT NULL,
     message    VARCHAR(1000) NOT NULL,
-    created_at TIMESTAMP     NOT NULL DEFAULT NOW(),
+    created_at TIMESTAMP     NOT NULL DEFAULT CURRENT_TIMESTAMP,
     CONSTRAINT fk_recipe FOREIGN KEY (recipe_id) REFERENCES recipes (id) ON DELETE CASCADE,
     CONSTRAINT fk_comment_user FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE CASCADE
 );

@@ -2,6 +2,7 @@ package com.example.demo.user.repository
 
 import com.example.demo.config.UserNotFoundException
 import com.example.demo.user.domain.User
+import org.springframework.beans.factory.annotation.Value
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate
 import org.springframework.jdbc.support.GeneratedKeyHolder
@@ -9,10 +10,15 @@ import org.springframework.stereotype.Repository
 
 @Repository
 class UserRepository(val jdbcTemplate: NamedParameterJdbcTemplate) {
+
+    @Value("\${get.users}") private lateinit var getUsersQuery: String
+    @Value("\${find.user.by.user_email}") private lateinit var findUserByEmailQuery: String
+    @Value("\${find.user.by.user_id}") private lateinit var findUserByUserIdQuery: String
+    @Value("\${create.user}") private lateinit var createUserQuery: String
+
     fun fetchUsers(): List<User> {
-        val sql = "SELECT id, username, email, password, created_at FROM users"
         val users =
-            jdbcTemplate.query(sql) { rs, _ ->
+            jdbcTemplate.query(getUsersQuery) { rs, _ ->
                 User(
                     id = rs.getInt("id"),
                     username = rs.getString("username"),
@@ -26,12 +32,11 @@ class UserRepository(val jdbcTemplate: NamedParameterJdbcTemplate) {
     }
 
     fun findByEmail(email: String): User {
-        val sql = "SELECT id, username, email, password, created_at FROM users WHERE email = :email"
         val params = MapSqlParameterSource().addValue("email", email)
 
         val user =
             jdbcTemplate
-                .query(sql, params) { rs, _ ->
+                .query(findUserByEmailQuery, params) { rs, _ ->
                     User(
                         id = rs.getInt("id"),
                         username = rs.getString("username"),
@@ -46,12 +51,11 @@ class UserRepository(val jdbcTemplate: NamedParameterJdbcTemplate) {
     }
 
     fun findById(id: Int): User {
-        val sql = "SELECT id, username, email, password, created_at FROM users WHERE id = :id"
         val params = MapSqlParameterSource().addValue("id", id)
 
         val user =
             jdbcTemplate
-                .query(sql, params) { rs, _ ->
+                .query(findUserByUserIdQuery, params) { rs, _ ->
                     User(
                         id = rs.getInt("id"),
                         username = rs.getString("username"),
@@ -62,12 +66,10 @@ class UserRepository(val jdbcTemplate: NamedParameterJdbcTemplate) {
                 }
                 .firstOrNull()
 
-        return user ?: throw UserNotFoundException("User with id $id not found")
+        return user ?: throw UserNotFoundException(id = id.toString())
     }
 
     fun createUser(username: String, email: String, password: String): User {
-        val sql =
-            "INSERT INTO users (username, email, password) VALUES (:username, :email, :password)"
         val params =
             MapSqlParameterSource()
                 .addValue("username", username)
@@ -75,7 +77,7 @@ class UserRepository(val jdbcTemplate: NamedParameterJdbcTemplate) {
                 .addValue("password", password)
 
         val keyHolder = GeneratedKeyHolder()
-        jdbcTemplate.update(sql, params, keyHolder, arrayOf("id"))
+        jdbcTemplate.update(createUserQuery, params, keyHolder, arrayOf("id"))
         val id =
             keyHolder.keys?.get("id")?.toString()?.toInt()
                 ?: keyHolder.key?.toInt()

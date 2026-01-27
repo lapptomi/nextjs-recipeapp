@@ -1,11 +1,32 @@
 package com.example.demo.recipe.service
 
-/*
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-@DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
+import com.example.demo.TextFixtures.recipes
+import com.example.demo.TextFixtures.users
+import com.example.demo.config.RecipeNotFoundException
+import com.example.demo.recipe.domain.CreateRecipeCommentDTO
+import com.example.demo.recipe.domain.CreateRecipeDTO
+import com.example.demo.recipe.domain.CreateRecipeRatingDTO
+import com.example.demo.recipe.domain.Recipe
+import com.example.demo.recipe.domain.RecipeRatingType
+import com.example.demo.recipe.repository.RecipeRepository
+import com.example.demo.user.domain.User
+import com.example.demo.user.repository.UserRepository
+import org.junit.jupiter.api.AfterEach
+import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.assertThrows
+import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.boot.test.context.SpringBootTest
+import org.springframework.test.annotation.DirtiesContext
+import kotlin.test.Test
+
+
+@SpringBootTest
+@DirtiesContext
 class RecipeServiceIntegrationTest {
 
-    @Autowired private lateinit var reicpeRepository: RecipeRepository
+    @Autowired
+    private lateinit var reicpeRepository: RecipeRepository
     @Autowired private lateinit var recipeService: RecipeService
     @Autowired private lateinit var userRepository: UserRepository
 
@@ -15,9 +36,44 @@ class RecipeServiceIntegrationTest {
 
     @BeforeEach
     fun setup() {
-        val user = userRepository.save<User>(users[0])
-        val recipe = reicpeRepository.save<Recipe>(recipes[0].copy(author = user))
-        val recipe2 = reicpeRepository.save<Recipe>(recipes[1].copy(author = user))
+        // val user = userRepository.save<User>(users[0])
+        // val recipe = reicpeRepository.save<Recipe>(recipes[0].copy(author = user))
+        // val recipe2 = reicpeRepository.save<Recipe>(recipes[1].copy(author = user))
+        val user =
+            userRepository.createUser(
+                username = users[0].username,
+                email = users[0].email,
+                password = "password",
+            )
+
+        val recipe =
+            reicpeRepository.createRecipe(
+                userId = user.id,
+                createRecipeDTO = CreateRecipeDTO(
+                    title = recipes[0].title,
+                    description = recipes[0].description,
+                    ingredients = recipes[0].ingredients,
+                    cookingTime = recipes[0].cookingTime,
+                    instructions = recipes[0].instructions,
+                    servings = recipes[0].servings,
+                ),
+                imageName = null,
+            )
+
+        val recipe2 =
+            reicpeRepository.createRecipe(
+                userId = user.id,
+                createRecipeDTO = CreateRecipeDTO(
+                    title = recipes[1].title,
+                    description = recipes[1].description,
+                    ingredients = recipes[1].ingredients,
+                    cookingTime = recipes[1].cookingTime,
+                    instructions = recipes[1].instructions,
+                    servings = recipes[1].servings,
+                ),
+                imageName = null,
+            )
+
         testUser = user
         testRecipe = recipe
         testRecipe2 = recipe2
@@ -26,7 +82,7 @@ class RecipeServiceIntegrationTest {
     @AfterEach
     fun teardown() {
         userRepository.deleteAll()
-        reicpeRepository.deleteAll()
+        // reicpeRepository.deleteAll()
     }
 
     @Test
@@ -99,14 +155,16 @@ class RecipeServiceIntegrationTest {
     @Test
     fun `addRating creates new rating to the recipe`() {
         val rating = CreateRecipeRatingDTO(type = RecipeRatingType.DISLIKE)
-        val updatedRecipe = recipeService.addRating(testUser, testRecipe.id, rating)
+        // val updatedRecipe = recipeService.addRating(testUser, testRecipe.id, rating)
+        val updatedRecipe = recipeService.createRecipeRating(testUser, testRecipe.id, rating)
         assertEquals(rating.type, updatedRecipe.ratings[0].type)
     }
 
     @Test
     fun `updateRating updates the rating of the user`() {
         val rating = CreateRecipeRatingDTO(type = RecipeRatingType.DISLIKE)
-        val updatedRecipe = recipeService.addRating(testUser, testRecipe.id, rating)
+        // val updatedRecipe = recipeService.addRating(testUser, testRecipe.id, rating)
+        val updatedRecipe = recipeService.createRecipeRating(testUser, testRecipe.id, rating)
         assertEquals(rating.type, updatedRecipe.ratings[0].type)
 
         val updatedRating = CreateRecipeRatingDTO(type = RecipeRatingType.LIKE)
@@ -114,6 +172,7 @@ class RecipeServiceIntegrationTest {
         assertEquals(updatedRating.type, updatedRecipe2.ratings[0].type)
     }
 
+    /*
     @Test
     fun `addRating does not create a new rating if the user has already rated the recipe`() {
         val rating = CreateRecipeRatingDTO(type = RecipeRatingType.DISLIKE)
@@ -127,6 +186,8 @@ class RecipeServiceIntegrationTest {
         assertEquals("User has already rated this recipe", exception.message)
     }
 
+
+
     @Test
     fun `addComment creates a new comment`() {
         val comment = CreateRecipeCommentDTO(message = "comment")
@@ -135,7 +196,6 @@ class RecipeServiceIntegrationTest {
         assertEquals(testRecipe.comments.size + 1, updatedRecipe.comments.size)
         assertEquals(comment.message, updatedRecipe.comments[0].message)
     }
+    */
 }
 
-
- */
