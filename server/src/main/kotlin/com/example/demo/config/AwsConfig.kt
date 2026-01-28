@@ -20,9 +20,7 @@ class AwsConfig(
         S3Client.builder()
             .region(Region.of(region))
             .credentialsProvider(
-                StaticCredentialsProvider.create(
-                    AwsBasicCredentials.create(accessKey, secretAccessKey)
-                )
+                StaticCredentialsProvider.create(AwsBasicCredentials.create(accessKey, secretAccessKey))
             )
             .build()
 
@@ -31,9 +29,7 @@ class AwsConfig(
         S3Presigner.builder()
             .region(Region.of(region))
             .credentialsProvider(
-                StaticCredentialsProvider.create(
-                    AwsBasicCredentials.create(accessKey, secretAccessKey)
-                )
+                StaticCredentialsProvider.create(AwsBasicCredentials.create(accessKey, secretAccessKey))
             )
             .build()
 }

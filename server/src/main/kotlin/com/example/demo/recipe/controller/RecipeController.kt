@@ -31,8 +31,7 @@ class RecipeController(private val recipeService: RecipeService) {
         ResponseEntity.ok(recipeService.getAll(recipeTitle, page, pageSize, sortBy))
 
     @GetMapping("/{id}")
-    fun getRecipeById(@PathVariable id: Int): ResponseEntity<RecipeDTO> =
-        ResponseEntity.ok(recipeService.findById(id))
+    fun getRecipeById(@PathVariable id: Int): ResponseEntity<RecipeDTO> = ResponseEntity.ok(recipeService.findById(id))
 
     @PostMapping
     fun createRecipe(
@@ -42,8 +41,7 @@ class RecipeController(private val recipeService: RecipeService) {
     ): ResponseEntity<RecipeDTO> {
         val objectMapper = jacksonObjectMapper()
         val createRecipeDTO: CreateRecipeDTO = objectMapper.readValue(recipeJson)
-        return ResponseEntity.status(HttpStatus.CREATED)
-            .body(recipeService.createRecipe(user, createRecipeDTO, image))
+        return ResponseEntity.status(HttpStatus.CREATED).body(recipeService.createRecipe(user, createRecipeDTO, image))
     }
 
     @PostMapping("/{id}/comments")
@@ -52,8 +50,7 @@ class RecipeController(private val recipeService: RecipeService) {
         @PathVariable id: Int,
         @RequestBody commentDto: CreateRecipeCommentDTO,
     ): ResponseEntity<RecipeDTO> =
-        ResponseEntity.status(HttpStatus.CREATED)
-            .body(recipeService.addComment(user, id, commentDto))
+        ResponseEntity.status(HttpStatus.CREATED).body(recipeService.addComment(user, id, commentDto))
 
     @PostMapping("/{id}/ratings")
     fun addRating(
@@ -61,8 +58,7 @@ class RecipeController(private val recipeService: RecipeService) {
         @PathVariable id: Int,
         @RequestBody rating: CreateRecipeRatingDTO,
     ): ResponseEntity<RecipeDTO> =
-        ResponseEntity.status(HttpStatus.CREATED)
-            .body(recipeService.createRecipeRating(user, id, rating))
+        ResponseEntity.status(HttpStatus.CREATED).body(recipeService.createRecipeRating(user, id, rating))
 
     @PutMapping("/{id}/ratings")
     fun updateRating(

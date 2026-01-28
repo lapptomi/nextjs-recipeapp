@@ -14,10 +14,8 @@ import org.springframework.stereotype.Component
 import org.springframework.web.filter.OncePerRequestFilter
 
 @Component
-class JwtAuthenticationFilter(
-    private val jwtService: JwtService,
-    private val userRepository: UserRepository,
-) : OncePerRequestFilter() {
+class JwtAuthenticationFilter(private val jwtService: JwtService, private val userRepository: UserRepository) :
+    OncePerRequestFilter() {
     @Throws(Exception::class, IOException::class)
     override fun doFilterInternal(
         request: HttpServletRequest,

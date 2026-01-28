@@ -2,6 +2,7 @@
 
 import React, { useState } from "react";
 
+import GitHubIcon from "@mui/icons-material/GitHub";
 import {
   Alert,
   Box,
@@ -18,14 +19,15 @@ import { ROUTES } from "@/types";
 
 const LoginForm = () => {
   const [error, setError] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
-  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+  const handleEmailSignIn = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    const data = new FormData(event.currentTarget);
 
     signIn("credentials", {
-      email: data.get("email"),
-      password: data.get("password"),
+      email,
+      password,
       redirect: false,
     })
       .then((res) => {
@@ -40,11 +42,15 @@ const LoginForm = () => {
       });
   };
 
+  const handleGitHubSignIn = async () => {
+    signIn("github").catch((error) => setError(error.message));
+  };
+
   return (
     <Box className="signform">
       {error && <Alert severity="error">{error}</Alert>}
       <Typography variant="h5">Sign In</Typography>
-      <Box component="form" noValidate onSubmit={handleSubmit}>
+      <Box>
         <TextField
           margin="normal"
           required
@@ -52,6 +58,7 @@ const LoginForm = () => {
           label="Email Address"
           name="email"
           autoFocus
+          onChange={(event) => setEmail(event.target.value)}
         />
         <TextField
           margin="normal"
@@ -60,10 +67,30 @@ const LoginForm = () => {
           label="Password"
           name="password"
           type="password"
+          onChange={(event) => setPassword(event.target.value)}
         />
-        <Button color="primary" type="submit" fullWidth variant="contained">
-          Sign In
-        </Button>
+        <Box className="flex flex-col gap-2">
+          <Button
+            color="primary"
+            type="submit"
+            fullWidth
+            variant="contained"
+            onClick={handleEmailSignIn as any}
+          >
+            Sign In
+          </Button>
+
+          <Button
+            startIcon={<GitHubIcon />}
+            color="primary"
+            type="submit"
+            fullWidth
+            variant="outlined"
+            onClick={() => handleGitHubSignIn()}
+          >
+            Sign In With GitHub
+          </Button>
+        </Box>
       </Box>
       <Grid container>
         <Grid item xs>

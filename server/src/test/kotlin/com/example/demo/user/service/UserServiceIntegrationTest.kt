@@ -26,17 +26,9 @@ class UserServiceIntegrationTest {
     @BeforeEach
     fun setup() {
         val user1 =
-            userRepository.createUser(
-                username = users[0].username,
-                email = users[0].email,
-                password = "password1",
-            )
+            userRepository.createUser(username = users[0].username, email = users[0].email, password = "password1")
         val user2 =
-            userRepository.createUser(
-                username = users[1].username,
-                email = users[1].email,
-                password = "password2",
-            )
+            userRepository.createUser(username = users[1].username, email = users[1].email, password = "password2")
         testUser = user1
         testUser2 = user2
     }

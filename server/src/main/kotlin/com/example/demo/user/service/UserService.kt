@@ -1,6 +1,6 @@
 package com.example.demo.user.service
 
-import com.example.demo.recipe.mapper.toRecipeDTO
+import com.example.demo.recipe.mapper.toRecipeListItemDTO
 import com.example.demo.recipe.repository.RecipeRepository
 import com.example.demo.s3.S3Service
 import com.example.demo.user.domain.CreateUserRequestDTO
@@ -24,8 +24,9 @@ class UserService(
     }
 
     fun createUser(newUser: CreateUserRequestDTO): UserDTO {
-        val password = passwordEncoder.encode(newUser.password)
-        val createdUser = userRepository.createUser(newUser.username, newUser.email, password)
+        val password = validatePassword(newUser.password)
+        val passwordHash = passwordEncoder.encode(password)
+        val createdUser = userRepository.createUser(newUser.username, newUser.email, passwordHash)
         return createdUser.toUserDTO()
     }
 
@@ -33,11 +34,8 @@ class UserService(
         val user = userRepository.findById(id)
         val recipes =
             recipeRepository.fetchUserRecipes(user.id).map {
-                it.toRecipeDTO(
-                    presignedUrl =
-                        it.image?.let { imageName -> s3Service.getPresignedUrl(imageName) },
-                    comments = emptyList(),
-                    ratings = recipeRepository.fetchRecipeRatings(it.id),
+                it.toRecipeListItemDTO(
+                    presignedUrl = it.image?.let { imageName -> s3Service.getPresignedUrl(imageName) }
                 )
             }
         return user.toUserDTO(recipes)
@@ -45,5 +43,11 @@ class UserService(
 
     fun deleteUsers() {
         userRepository.deleteAll()
+    }
+
+    private fun validatePassword(password: String): String {
+        if (password.isEmpty()) throw IllegalArgumentException("Password cannot be null or empty")
+        if (password.length < 8) throw IllegalArgumentException("Password must be at least 8 characters long")
+        return password
     }
 }

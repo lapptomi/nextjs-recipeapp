@@ -17,20 +17,13 @@ import org.springframework.web.multipart.MultipartFile
 
 @Service
 class RecipeService(val s3Service: S3Service, val recipeRepository: RecipeRepository) {
-    fun getAll(
-        recipeTitle: String,
-        page: Int,
-        pageSize: Int,
-        sortBy: String,
-    ): PageResult<RecipeListItemDTO> {
+    fun getAll(recipeTitle: String, page: Int, pageSize: Int, sortBy: String): PageResult<RecipeListItemDTO> {
         val recipes = recipeRepository.fetchRecipes(recipeTitle, page, pageSize, sortBy)
         return PageResult(
             content =
                 recipes.map {
                     it.toRecipeListItemDTO(
-                        presignedUrl =
-                            it.image?.let { imageName -> s3Service.getPresignedUrl(imageName) },
-                        ratings = recipeRepository.fetchRecipeRatings(it.id),
+                        presignedUrl = it.image?.let { imageName -> s3Service.getPresignedUrl(imageName) }
                     )
                 },
             page = page,
@@ -48,19 +41,10 @@ class RecipeService(val s3Service: S3Service, val recipeRepository: RecipeReposi
         return recipe.toRecipeDTO(presignedUrl, recipeComments, recipeRatings)
     }
 
-    fun createRecipe(
-        user: User,
-        createRecipeDTO: CreateRecipeDTO,
-        image: MultipartFile?,
-    ): RecipeDTO {
+    fun createRecipe(user: User, createRecipeDTO: CreateRecipeDTO, image: MultipartFile?): RecipeDTO {
         val imageName = image?.let { s3Service.uploadFile(it) }
         val createdRecipe = recipeRepository.createRecipe(user.id, createRecipeDTO, imageName)
-
-        return createdRecipe.toRecipeDTO(
-            presignedUrl = imageName?.let { s3Service.getPresignedUrl(it) },
-            comments = emptyList(),
-            ratings = emptyList(),
-        )
+        return createdRecipe.toRecipeDTO(presignedUrl = imageName?.let { s3Service.getPresignedUrl(it) })
     }
 
     fun updateRating(user: User, recipeId: Int, ratingDto: CreateRecipeRatingDTO): RecipeDTO {

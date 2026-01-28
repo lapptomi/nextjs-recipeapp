@@ -108,6 +108,8 @@ The Next.js client uses environment variables listed below:
 NEXTAUTH_SECRET=(any string)
 NEXTAUTH_URL=(URL of the application, for example: https://example.com. <- is needed when hosting the app)
 NEXT_APP_API_URL=(address of the Java backend server)
+GITHUB_ID=(id for github sign in / authentication)
+GITHUB_SECRET=(secret token for github sign in / authentication)
 ```
 
 

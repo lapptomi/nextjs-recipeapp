@@ -17,19 +17,13 @@ import Link from "next/link";
 
 import { ROUTES } from "@/types";
 
-import type { Recipe, RecipeRatingType } from "@/types";
+import type { RecipeListItem as RecipeListItemType } from "@/types";
 
 interface Props {
-  recipe: Recipe;
+  recipe: RecipeListItemType;
 }
 
 const RecipeListItem = ({ recipe }: Props) => {
-  const countRatings = (type: RecipeRatingType) =>
-    recipe.ratings.filter((rating) => rating.type === type).length;
-
-  const likes = countRatings("LIKE");
-  const dislikes = countRatings("DISLIKE");
-
   return (
     <Link key={recipe.id} href={`${ROUTES.RECIPES}/${recipe.id}`}>
       <ImageListItem className="max-h-[300px] min-h-[300px] min-w-[300px] max-w-[300px] bg-gray-200 transition duration-200 ease-in-out hover:scale-[1.01] hover:bg-gray-100">
@@ -60,9 +54,9 @@ const RecipeListItem = ({ recipe }: Props) => {
           position="top"
           actionIcon={
             <Box className="flex flex-col">
-              <Rating readOnly value={(likes / (likes + dislikes)) * 5} />
+              <Rating readOnly value={recipe.averageRating} />
               <Typography variant="caption" color="white">
-                {recipe.ratings.length} ratings
+                {recipe.totalRatings} ratings
               </Typography>
             </Box>
           }

@@ -97,7 +97,20 @@ export interface Recipe {
   createdAt: Date;
 }
 
-export interface JwtToken {
+export interface RecipeListItem {
+  id: number;
+  title: string;
+  description: string;
+  image: string | null;
+  cookingTime: number;
+  servings: number;
+  author: Pick<User, "id" | "username">;
+  averageRating: number;
+  totalRatings: number;
+  createdAt: Date;
+}
+
+export interface JwtTokenResponse {
   token: string;
   email: string;
   userId: number;

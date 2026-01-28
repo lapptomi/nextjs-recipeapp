@@ -2,10 +2,10 @@ import { Box, Typography } from "@mui/material";
 
 import RecipeListItem from "@/components/RecipeListItem";
 
-import type { Recipe } from "@/types";
+import type { RecipeListItem as RecipeListItemType } from "@/types";
 
 interface Props {
-  recipes: Recipe[];
+  recipes: RecipeListItemType[];
 }
 
 const RecipeList = async ({ recipes }: Props) => {

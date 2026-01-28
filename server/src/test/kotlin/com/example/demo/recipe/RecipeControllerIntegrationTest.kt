@@ -68,10 +68,7 @@ class RecipeControllerIntegrationTest {
     @Test
     fun `getRecipeById should return recipe when recipe exists`() {
         mockMvc
-            .perform(
-                get(ApiPath.RECIPES_API + "/{id}", testRecipe.id)
-                    .contentType(MediaType.APPLICATION_JSON)
-            )
+            .perform(get(ApiPath.RECIPES_API + "/{id}", testRecipe.id).contentType(MediaType.APPLICATION_JSON))
             .andExpect(status().isOk)
             .andExpect(jsonPath("$.id").value(testRecipe.id))
             .andExpect(jsonPath("$.title").value(testRecipe.title))

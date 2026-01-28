@@ -29,10 +29,7 @@ class SecurityConfig(
             override fun addCorsMappings(registry: CorsRegistry) {
                 registry
                     .addMapping("/**") // Allow all paths
-                    .allowedOrigins(
-                        "https://api.nextjs-recipeapp-prod.click",
-                        "http://localhost:8080",
-                    )
+                    .allowedOrigins("https://api.nextjs-recipeapp-prod.click", "http://localhost:8080")
                     .allowedMethods("*")
                     .allowedHeaders("*")
                     .allowCredentials(true)
@@ -57,10 +54,7 @@ class SecurityConfig(
                     .anyRequest()
                     .permitAll()
             }
-            .addFilterBefore(
-                jwtAuthenticationFilter,
-                UsernamePasswordAuthenticationFilter::class.java,
-            )
+            .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter::class.java)
             .addFilterBefore(rateLimiterFilter, JwtAuthenticationFilter::class.java)
             .headers { it.frameOptions(Customizer.withDefaults()).disable() }
             .formLogin { it.disable() }

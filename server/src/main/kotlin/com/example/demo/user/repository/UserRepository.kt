@@ -86,6 +86,47 @@ class UserRepository(val jdbcTemplate: NamedParameterJdbcTemplate) {
         return User(id = id, username = username, email = email, password = password)
     }
 
+    fun createSocialUser(username: String, email: String, providerId: String): User {
+        val params =
+            MapSqlParameterSource()
+                .addValue("username", username)
+                .addValue("email", email)
+                .addValue("provider_id", providerId)
+
+        val sql =
+            """
+            INSERT INTO users (username, email, provider_id)
+            VALUES (:username, :email, :provider_id)
+        """
+                .trimIndent()
+
+        val keyHolder = GeneratedKeyHolder()
+        jdbcTemplate.update(sql, params, keyHolder, arrayOf("id"))
+        val id =
+            keyHolder.keys?.get("id")?.toString()?.toInt()
+                ?: keyHolder.key?.toInt()
+                ?: throw IllegalStateException("Failed to retrieve generated id")
+
+        return User(id = id, username = username, email = email, password = "")
+    }
+
+    fun findByProviderId(providerId: String): User? {
+        val sql = "SELECT * FROM users WHERE provider_id = :providerId"
+        val params = MapSqlParameterSource().addValue("providerId", providerId)
+
+        return jdbcTemplate
+            .query(sql, params) { rs, _ ->
+                User(
+                    id = rs.getInt("id"),
+                    username = rs.getString("username"),
+                    email = rs.getString("email"),
+                    password = null,
+                    createdAt = rs.getTimestamp("created_at").toLocalDateTime(),
+                )
+            }
+            .firstOrNull()
+    }
+
     fun deleteAll() {
         val sql = "DELETE FROM users"
         jdbcTemplate.update(sql, MapSqlParameterSource())

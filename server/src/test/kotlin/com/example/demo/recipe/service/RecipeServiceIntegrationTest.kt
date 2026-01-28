@@ -33,15 +33,8 @@ class RecipeServiceIntegrationTest {
 
     @BeforeEach
     fun setup() {
-        // val user = userRepository.save<User>(users[0])
-        // val recipe = reicpeRepository.save<Recipe>(recipes[0].copy(author = user))
-        // val recipe2 = reicpeRepository.save<Recipe>(recipes[1].copy(author = user))
         val user =
-            userRepository.createUser(
-                username = users[0].username,
-                email = users[0].email,
-                password = "password",
-            )
+            userRepository.createUser(username = users[0].username, email = users[0].email, password = "password")
 
         val recipe =
             reicpeRepository.createRecipe(
@@ -81,39 +74,25 @@ class RecipeServiceIntegrationTest {
     @AfterEach
     fun teardown() {
         userRepository.deleteAll()
-        // reicpeRepository.deleteAll()
     }
 
     @Test
     fun `getAll returns the right amount of recipes`() {
-        val result =
-            recipeService.getAll(recipeTitle = "", page = 1, pageSize = 10, sortBy = "date_asc")
+        val result = recipeService.getAll(recipeTitle = "", page = 1, pageSize = 10, sortBy = "date_asc")
         assertEquals(recipes.size, result.totalElements.toInt())
     }
 
     @Test
     fun `getAll returns the right amount of recipes when using the title param`() {
-        val result =
-            recipeService.getAll(recipeTitle = "", page = 1, pageSize = 10, sortBy = "date_asc")
+        val result = recipeService.getAll(recipeTitle = "", page = 1, pageSize = 10, sortBy = "date_asc")
         assertEquals(recipes.size, result.totalElements.toInt())
 
-        val result2 =
-            recipeService.getAll(
-                recipeTitle = testRecipe.title,
-                page = 1,
-                pageSize = 1,
-                sortBy = "date_asc",
-            )
+        val result2 = recipeService.getAll(recipeTitle = testRecipe.title, page = 1, pageSize = 1, sortBy = "date_asc")
         assertEquals(1, result2.totalElements.toInt())
         assertEquals(testRecipe.title, result2.content[0].title)
 
         val result3 =
-            recipeService.getAll(
-                recipeTitle = testRecipe2.title,
-                page = 1,
-                pageSize = 10,
-                sortBy = "date_asc",
-            )
+            recipeService.getAll(recipeTitle = testRecipe2.title, page = 1, pageSize = 10, sortBy = "date_asc")
         assertEquals(1, result3.totalElements.toInt())
         assertEquals(testRecipe2.title, result3.content[0].title)
     }
@@ -123,8 +102,7 @@ class RecipeServiceIntegrationTest {
         assertEquals(testRecipe.id, recipeService.findById(testRecipe.id).id)
 
         val nonExistentId = -999
-        val exception =
-            assertThrows<RecipeNotFoundException> { recipeService.findById(nonExistentId) }
+        val exception = assertThrows<RecipeNotFoundException> { recipeService.findById(nonExistentId) }
 
         assertEquals("Recipe with id $nonExistentId not found", exception.message)
     }
@@ -154,7 +132,6 @@ class RecipeServiceIntegrationTest {
     @Test
     fun `addRating creates new rating to the recipe`() {
         val rating = CreateRecipeRatingDTO(type = RecipeRatingType.DISLIKE)
-        // val updatedRecipe = recipeService.addRating(testUser, testRecipe.id, rating)
         val updatedRecipe = recipeService.createRecipeRating(testUser, testRecipe.id, rating)
         assertEquals(rating.type, updatedRecipe.ratings[0].type)
     }
@@ -162,7 +139,6 @@ class RecipeServiceIntegrationTest {
     @Test
     fun `updateRating updates the rating of the user`() {
         val rating = CreateRecipeRatingDTO(type = RecipeRatingType.DISLIKE)
-        // val updatedRecipe = recipeService.addRating(testUser, testRecipe.id, rating)
         val updatedRecipe = recipeService.createRecipeRating(testUser, testRecipe.id, rating)
         assertEquals(rating.type, updatedRecipe.ratings[0].type)
 

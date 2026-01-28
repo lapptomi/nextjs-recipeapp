@@ -5,10 +5,15 @@ import axios from "axios";
 import { getSession } from "./auth";
 import { API_URL } from "../constants";
 
-import type { CommentForm, Recipe, RecipeRatingType } from "@/types";
+import type {
+  CommentForm,
+  Recipe,
+  RecipeListItem,
+  RecipeRatingType,
+} from "@/types";
 
 interface Response {
-  content: Recipe[];
+  content: RecipeListItem[];
   totalElements: number;
 }
 

@@ -37,11 +37,7 @@ class UserControllerIntegrationTest {
 
         val user =
             userService.createUser(
-                CreateUserRequestDTO(
-                    username = "testuser",
-                    email = "hello@world.com",
-                    password = "testpassword",
-                )
+                CreateUserRequestDTO(username = "testuser", email = "hello@world.com", password = "testpassword")
             )
         testUser = user
     }
@@ -55,10 +51,7 @@ class UserControllerIntegrationTest {
     @Test
     fun `getUserById should return user when user exists`() {
         mockMvc
-            .perform(
-                get(ApiPath.USERS_API + "/{id}", testUser.id)
-                    .contentType(MediaType.APPLICATION_JSON)
-            )
+            .perform(get(ApiPath.USERS_API + "/{id}", testUser.id).contentType(MediaType.APPLICATION_JSON))
             .andExpect(status().isOk)
             .andExpect(jsonPath("$.id").value(testUser.id))
             .andExpect(jsonPath("$.username").value(testUser.username))
@@ -71,10 +64,7 @@ class UserControllerIntegrationTest {
     fun `getUserById should return 404 when user does not exist`() {
         val nonExistingId = -123
         mockMvc
-            .perform(
-                get(ApiPath.USERS_API + "/{id}", nonExistingId)
-                    .contentType(MediaType.APPLICATION_JSON)
-            )
+            .perform(get(ApiPath.USERS_API + "/{id}", nonExistingId).contentType(MediaType.APPLICATION_JSON))
             .andExpect(status().isNotFound)
             .andExpect(jsonPath("$.message").value("User with id $nonExistingId not found"))
     }

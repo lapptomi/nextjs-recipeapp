@@ -25,11 +25,7 @@ class S3Service(
         val uniqueFilename = "${UUID.randomUUID()}-${sanitizeFilename(file.originalFilename)}"
         try {
             s3Client.putObject(
-                PutObjectRequest.builder()
-                    .bucket(bucketName)
-                    .key(uniqueFilename)
-                    .contentType(file.contentType)
-                    .build(),
+                PutObjectRequest.builder().bucket(bucketName).key(uniqueFilename).contentType(file.contentType).build(),
                 RequestBody.fromBytes(file.bytes),
             )
             return uniqueFilename

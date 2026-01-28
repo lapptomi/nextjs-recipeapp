@@ -14,6 +14,8 @@ ktfmt {
 
     // KotlinLang style - 4 space indentation - From kotlinlang.org/docs/coding-conventions.html
     kotlinLangStyle()
+    // Max line length
+    maxWidth = 120
 }
 
 group = "com.example"

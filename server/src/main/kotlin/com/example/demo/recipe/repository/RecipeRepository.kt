@@ -27,12 +27,10 @@ class RecipeRepository(val jdbcTemplate: NamedParameterJdbcTemplate) {
     @Value("\${create.recipe}") private lateinit var createRecipeQuery: String
     @Value("\${find.recipes.with.paging}") private lateinit var findRecipesPagingQuery: String
     @Value("\${find.total.recipes.count}") private lateinit var findRecipesCountQuery: String
-    @Value("\${find.recipe_comments.by.recipe_id}")
-    private lateinit var findRecipeCommentsQuery: String
+    @Value("\${find.recipe_comments.by.recipe_id}") private lateinit var findRecipeCommentsQuery: String
     @Value("\${find.recipe.rating.by.recipe_id.and.author_id}")
     private lateinit var findRecipeRatingByRecipeIdAndAuthorIdQuery: String
-    @Value("\${find.recipe.ratings.by.recipe_id}")
-    private lateinit var findRecipeRatingsByRecipeIdQuery: String
+    @Value("\${find.recipe.ratings.by.recipe_id}") private lateinit var findRecipeRatingsByRecipeIdQuery: String
 
     fun fetchRecipes(recipeTitle: String, page: Int, pageSize: Int, sortBy: String): List<Recipe> {
         val params =
@@ -152,11 +150,7 @@ class RecipeRepository(val jdbcTemplate: NamedParameterJdbcTemplate) {
                 RecipeRating(
                     id = rs.getInt("rating_id"),
                     type = RecipeRatingType.valueOf(rs.getString("rating_type")),
-                    author =
-                        RecipeAuthorDTO(
-                            id = rs.getInt("user_id"),
-                            username = rs.getString("username"),
-                        ),
+                    author = RecipeAuthorDTO(id = rs.getInt("user_id"), username = rs.getString("username")),
                 )
             }
 
@@ -174,19 +168,14 @@ class RecipeRepository(val jdbcTemplate: NamedParameterJdbcTemplate) {
     }
 
     fun findRecipeRatingByRecipeIdAndAuthorId(recipeId: Int, userId: Int): RecipeRating? {
-        val params =
-            MapSqlParameterSource().addValue("recipeId", recipeId).addValue("userId", userId)
+        val params = MapSqlParameterSource().addValue("recipeId", recipeId).addValue("userId", userId)
 
         return jdbcTemplate
             .query(findRecipeRatingByRecipeIdAndAuthorIdQuery, params) { rs, _ ->
                 RecipeRating(
                     id = rs.getInt("rating_id"),
                     type = RecipeRatingType.valueOf(rs.getString("rating_type")),
-                    author =
-                        RecipeAuthorDTO(
-                            id = rs.getInt("author_id"),
-                            username = rs.getString("author_username"),
-                        ),
+                    author = RecipeAuthorDTO(id = rs.getInt("author_id"), username = rs.getString("author_username")),
                 )
             }
             .firstOrNull()
@@ -225,11 +214,7 @@ class RecipeRepository(val jdbcTemplate: NamedParameterJdbcTemplate) {
                     id = rs.getInt("comment_id"),
                     message = rs.getString("comment_message"),
                     createdAt = rs.getTimestamp("comment_created_at").toLocalDateTime(),
-                    author =
-                        RecipeAuthorDTO(
-                            id = rs.getInt("author_id"),
-                            username = rs.getString("author_username"),
-                        ),
+                    author = RecipeAuthorDTO(id = rs.getInt("author_id"), username = rs.getString("author_username")),
                 )
             }
 

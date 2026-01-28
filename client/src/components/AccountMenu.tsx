@@ -52,7 +52,9 @@ const AccountMenu: React.FC<Props> = ({ user }) => {
           size="small"
           className="flex flex-row gap-2"
         >
-          <Avatar className="size-7">{user.name ? user.name[0] : ""}</Avatar>
+          <Avatar alt="profile" src={user?.image || ""} className="size-8">
+            {user?.name ? user.name[0] : ""}
+          </Avatar>
           <Typography variant="body2">{user?.name || ""}</Typography>
         </Button>
       </Tooltip>
@@ -87,7 +89,7 @@ const AccountMenu: React.FC<Props> = ({ user }) => {
           <Divider />
 
           <Dialog open={modalOpen} onClose={() => setModalOpen(false)}>
-            <Box className="p-4">
+            <Box className="px-4 py-2">
               <DialogTitle>Confirm Sign Out</DialogTitle>
               <DialogContent>
                 <DialogContentText>
@@ -104,7 +106,7 @@ const AccountMenu: React.FC<Props> = ({ user }) => {
                   size="small"
                   onClick={() => {
                     setModalOpen(false);
-                    signOut({ callbackUrl: ROUTES.RECIPES });
+                    signOut();
                   }}
                 >
                   Sign Out

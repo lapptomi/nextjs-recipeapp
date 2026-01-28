@@ -21,10 +21,7 @@ class OpenApiConfig(private val environment: Environment) {
 
         return OpenAPI()
             .info(
-                Info()
-                    .title("Recipe API")
-                    .description("API for managing recipes, comments and ratings")
-                    .version("v1")
+                Info().title("Recipe API").description("API for managing recipes, comments and ratings").version("v1")
             )
             .servers(listOf(Server().url(serverUrl).description("API Server")))
     }

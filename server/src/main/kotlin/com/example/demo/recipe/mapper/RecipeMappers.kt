@@ -8,8 +8,8 @@ import com.example.demo.recipe.domain.RecipeRating
 
 fun Recipe.toRecipeDTO(
     presignedUrl: String?,
-    comments: List<RecipeComment>,
-    ratings: List<RecipeRating>,
+    comments: List<RecipeComment> = emptyList(),
+    ratings: List<RecipeRating> = emptyList(),
 ): RecipeDTO =
     RecipeDTO(
         id = id,
@@ -26,20 +26,16 @@ fun Recipe.toRecipeDTO(
         ratings = ratings,
     )
 
-fun Recipe.toRecipeListItemDTO(
-    presignedUrl: String?,
-    ratings: List<RecipeRating>,
-): RecipeListItemDTO =
+fun Recipe.toRecipeListItemDTO(presignedUrl: String?): RecipeListItemDTO =
     RecipeListItemDTO(
         id = id,
         title = title,
         description = description,
-        ingredients = ingredients,
-        instructions = instructions,
         image = presignedUrl,
         cookingTime = cookingTime,
         servings = servings,
         author = author,
-        ratings = ratings,
         createdAt = createdAt,
+        averageRating = 3.5,
+        totalRatings = 10,
     )
