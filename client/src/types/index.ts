@@ -22,8 +22,8 @@ const NewRecipeImageSchema = z
   .optional();
 
 export const NewRecipeSchema = z.object({
-  title: z.string().min(4).max(18),
-  description: z.string().max(50).optional(),
+  title: z.string().min(4).max(50),
+  description: z.string().max(60).optional(),
   ingredients: z
     .array(
       z.object({
@@ -40,8 +40,8 @@ export const NewRecipeSchema = z.object({
 
 export const UserSchema = z.object({
   email: z.string().email(),
-  username: z.string().min(4).max(18),
-  password: z.string().min(4).max(18),
+  username: z.string().min(4).max(20),
+  password: z.string().min(8).max(128),
 });
 
 export type NewUser = z.infer<typeof UserSchema>;

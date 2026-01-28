@@ -17,16 +17,19 @@ import org.springframework.web.bind.annotation.RestController
 @RestController
 @RequestMapping(ApiPath.AUTH_API)
 class AuthController(private val authService: AuthService) {
-    @PostMapping("/login")
-    fun login(@RequestBody authRequest: LoginDTO): ResponseEntity<JwtTokenDto> {
-        return ResponseEntity.ok(authService.login(authRequest.email, authRequest.password))
-    }
 
     @GetMapping("/me")
     fun me(@AuthenticationPrincipal user: User): ResponseEntity<User> {
         return ResponseEntity.ok(user)
     }
 
+    // Used for standard email/password login
+    @PostMapping("/login")
+    fun login(@RequestBody authRequest: LoginDTO): ResponseEntity<JwtTokenDto> {
+        return ResponseEntity.ok(authService.login(authRequest.email, authRequest.password))
+    }
+
+    // Used for social login (e.g., Google, Facebook, GitHub etc.)
     @PostMapping("/social-login")
     fun socialLogin(@RequestBody credentials: SocialLoginRequestDTO): ResponseEntity<JwtTokenDto> {
         val jwtToken = authService.socialLogin(credentials)

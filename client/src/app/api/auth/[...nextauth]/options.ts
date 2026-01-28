@@ -50,7 +50,7 @@ export const options: NextAuthOptions = {
           credentials,
         );
         token.jwt = jwtToken.token;
-        token.id = user.id;
+        token.id = jwtToken.userId;
       }
 
       return token;
