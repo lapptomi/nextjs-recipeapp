@@ -23,7 +23,9 @@ class RecipeService(val s3Service: S3Service, val recipeRepository: RecipeReposi
             content =
                 recipes.map {
                     it.toRecipeListItemDTO(
-                        presignedUrl = it.image?.let { imageName -> s3Service.getPresignedUrl(imageName) }
+                        totalRatings = recipeRepository.fetchTotalRatingsForRecipe(it.id),
+                        averageRating = recipeRepository.fetchAverageRatingForRecipe(it.id),
+                        presignedUrl = it.image?.let { imageName -> s3Service.getPresignedUrl(imageName) },
                     )
                 },
             page = page,

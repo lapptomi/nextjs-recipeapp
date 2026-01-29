@@ -1,4 +1,4 @@
-CREATE TABLE users
+CREATE TABLE IF NOT EXISTS users
 (
     id          SERIAL PRIMARY KEY,
     username    VARCHAR(100) NOT NULL UNIQUE,
@@ -8,7 +8,7 @@ CREATE TABLE users
     created_at  TIMESTAMP    NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
-CREATE TABLE recipes
+CREATE TABLE IF NOT EXISTS recipes
 (
     id           SERIAL PRIMARY KEY,
     title        VARCHAR(200)  NOT NULL,
@@ -23,7 +23,7 @@ CREATE TABLE recipes
     CONSTRAINT fk_user FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE CASCADE
 );
 
-CREATE TABLE recipe_comments
+CREATE TABLE IF NOT EXISTS recipe_comments
 (
     id         SERIAL PRIMARY KEY,
     recipe_id  INT           NOT NULL,
@@ -34,7 +34,7 @@ CREATE TABLE recipe_comments
     CONSTRAINT fk_comment_user FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE CASCADE
 );
 
-CREATE TABLE recipe_ratings
+CREATE TABLE IF NOT EXISTS recipe_ratings
 (
     id        SERIAL PRIMARY KEY,
     recipe_id INT         NOT NULL,

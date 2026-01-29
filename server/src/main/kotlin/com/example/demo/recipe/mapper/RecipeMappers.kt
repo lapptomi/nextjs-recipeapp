@@ -26,7 +26,7 @@ fun Recipe.toRecipeDTO(
         ratings = ratings,
     )
 
-fun Recipe.toRecipeListItemDTO(presignedUrl: String?): RecipeListItemDTO =
+fun Recipe.toRecipeListItemDTO(presignedUrl: String?, averageRating: Double, totalRatings: Int): RecipeListItemDTO =
     RecipeListItemDTO(
         id = id,
         title = title,
@@ -36,6 +36,6 @@ fun Recipe.toRecipeListItemDTO(presignedUrl: String?): RecipeListItemDTO =
         servings = servings,
         author = author,
         createdAt = createdAt,
-        averageRating = 3.5,
-        totalRatings = 10,
+        averageRating = averageRating,
+        totalRatings = totalRatings,
     )

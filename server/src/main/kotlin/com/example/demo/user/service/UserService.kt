@@ -35,7 +35,9 @@ class UserService(
         val recipes =
             recipeRepository.fetchUserRecipes(user.id).map {
                 it.toRecipeListItemDTO(
-                    presignedUrl = it.image?.let { imageName -> s3Service.getPresignedUrl(imageName) }
+                    totalRatings = recipeRepository.fetchTotalRatingsForRecipe(it.id),
+                    averageRating = recipeRepository.fetchAverageRatingForRecipe(it.id),
+                    presignedUrl = it.image?.let { imageName -> s3Service.getPresignedUrl(imageName) },
                 )
             }
         return user.toUserDTO(recipes)

@@ -60,6 +60,26 @@ class RecipeRepository(val jdbcTemplate: NamedParameterJdbcTemplate) {
         return recipes
     }
 
+    fun fetchAverageRatingForRecipe(recipeId: Int): Double {
+        val params = MapSqlParameterSource("recipeId", recipeId)
+        val averageRating =
+            jdbcTemplate.queryForObject(
+                "SELECT AVG(CASE WHEN type = 'LIKE' THEN 5 WHEN type = 'DISLIKE' THEN 0 END) FROM recipe_ratings WHERE recipe_id = :recipeId",
+                params,
+                Double::class.java,
+            ) ?: 0.0
+        return averageRating
+    }
+
+    fun fetchTotalRatingsForRecipe(recipeId: Int): Int {
+        val params = MapSqlParameterSource("recipeId", recipeId)
+        return jdbcTemplate.queryForObject(
+            "SELECT COUNT(*) FROM recipe_ratings WHERE recipe_id = :recipeId",
+            params,
+            Int::class.java,
+        ) ?: 0
+    }
+
     fun fetchTotalRecipesCount(recipeTitle: String?): Long {
         return jdbcTemplate.queryForObject(
             findRecipesCountQuery,

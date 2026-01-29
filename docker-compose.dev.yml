@@ -27,4 +27,5 @@ services:
     container_name: recipe-app-backend-dev
     volumes:
       - ./server/src/main:/app/src/main
+      - ./h2_storage:/data
     restart: always
