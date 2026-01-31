@@ -22,6 +22,7 @@ interface SocialLoginCredentials {
 type CustomUser = User & {
   id: string;
   jwt: string;
+  name: string;
 };
 
 const fetchJwtToken = async (
@@ -62,6 +63,7 @@ export const options: NextAuthOptions = {
       if (user && account?.provider === "credentials") {
         token.id = user.id;
         token.jwt = (user as CustomUser).jwt;
+        token.username = (user as CustomUser).name;
       }
       // If using GitHub provider, fetch the user's JWT and add it to the token
       if (user && account?.provider === "github") {
