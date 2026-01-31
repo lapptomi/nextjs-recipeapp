@@ -21,7 +21,7 @@ export function middleware(request: NextRequest) {
   // Only allow requests from Finland when running in production
   if (process.env.NODE_ENV === "production") {
     if (!country || country !== "FI") {
-      return NextResponse.json({ status: 403 });
+      return NextResponse.json({ error: "Forbidden", status: 403 });
     }
   }
 
