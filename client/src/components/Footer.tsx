@@ -1,5 +1,5 @@
 import { Facebook, Instagram, LinkedIn } from "@mui/icons-material";
-import { Box, Typography } from "@mui/material";
+import { Box, Link, Typography } from "@mui/material";
 
 import { APPLICATION_NAME } from "@/lib/constants";
 
@@ -51,6 +51,15 @@ export default function Footer() {
       <Typography variant="body2" color="text.secondary">
         © {new Date().getFullYear()} All Rights Reserved jne.
       </Typography>
+
+      <Box className="flex flex-row gap-2">
+        <Link href="/privacy" variant="body2" color="text.secondary">
+          Privacy Policy
+        </Link>
+        <Link href="/terms" variant="body2" color="text.secondary">
+          Terms of Service
+        </Link>
+      </Box>
     </footer>
   );
 }

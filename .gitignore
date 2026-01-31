@@ -50,3 +50,5 @@ dev.db*
 **/build
 **/.gradle
 **.env
+
+h2_storage/

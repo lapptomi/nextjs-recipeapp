@@ -75,6 +75,7 @@ class UserRepository(val jdbcTemplate: NamedParameterJdbcTemplate) {
                 .addValue("username", username)
                 .addValue("email", email)
                 .addValue("password", password)
+                .addValue("provider", "credentials")
 
         val keyHolder = GeneratedKeyHolder()
         jdbcTemplate.update(createUserQuery, params, keyHolder, arrayOf("id"))
@@ -86,18 +87,19 @@ class UserRepository(val jdbcTemplate: NamedParameterJdbcTemplate) {
         return User(id = id, username = username, email = email, password = password)
     }
 
-    fun createSocialUser(username: String, email: String, providerId: String): User {
+    fun createSocialUser(username: String, email: String, providerId: String, provider: String): User {
         val params =
             MapSqlParameterSource()
                 .addValue("username", username)
                 .addValue("email", email)
                 .addValue("provider_id", providerId)
+                .addValue("provider", provider)
 
         val sql =
             """
-            INSERT INTO users (username, email, provider_id)
-            VALUES (:username, :email, :provider_id)
-        """
+            INSERT INTO users (username, email, provider_id, provider)
+            VALUES (:username, :email, :provider_id, :provider)
+            """
                 .trimIndent()
 
         val keyHolder = GeneratedKeyHolder()
@@ -127,8 +129,33 @@ class UserRepository(val jdbcTemplate: NamedParameterJdbcTemplate) {
             .firstOrNull()
     }
 
+    fun deleteById(id: Int) {
+        val sql = "DELETE FROM users WHERE id = :id"
+        val params = MapSqlParameterSource().addValue("id", id)
+        jdbcTemplate.update(sql, params)
+    }
+
     fun deleteAll() {
         val sql = "DELETE FROM users"
         jdbcTemplate.update(sql, MapSqlParameterSource())
+    }
+
+    fun updateUser(userId: Int, username: String?, email: String?) {
+        val fieldsToUpdate = mutableListOf<String>()
+        if (username != null) fieldsToUpdate.add("username = :username")
+        if (email != null) fieldsToUpdate.add("email = :email")
+        if (fieldsToUpdate.isEmpty()) throw IllegalArgumentException("No fields provided to update")
+
+        val params =
+            MapSqlParameterSource().addValue("userId", userId).addValue("username", username).addValue("email", email)
+
+        val sql =
+            """
+            UPDATE users
+            SET ${fieldsToUpdate.joinToString(", ")}
+            WHERE id = :userId
+        """
+
+        jdbcTemplate.update(sql, params)
     }
 }

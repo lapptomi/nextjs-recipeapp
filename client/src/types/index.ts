@@ -73,6 +73,12 @@ export interface RecipeComment {
   updatedAt: string | null;
 }
 
+export interface UpdateUserRequest {
+  name?: string;
+  email?: string;
+  password?: string;
+}
+
 export type RecipeRatingType = "LIKE" | "DISLIKE";
 
 export interface RecipeRating {

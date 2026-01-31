@@ -13,6 +13,7 @@ import {
   Typography,
 } from "@mui/material";
 import { signIn } from "next-auth/react";
+import { FcGoogle } from "react-icons/fc";
 
 import { APPLICATION_NAME } from "@/lib/constants";
 import { ROUTES } from "@/types";
@@ -44,6 +45,10 @@ const LoginForm = () => {
 
   const handleGitHubSignIn = async () => {
     signIn("github").catch((error) => setError(error.message));
+  };
+
+  const handleGoogleSignIn = async () => {
+    signIn("google").catch((error) => setError(error.message));
   };
 
   return (
@@ -90,6 +95,21 @@ const LoginForm = () => {
           >
             Sign In With GitHub
           </Button>
+
+          <Button
+            startIcon={<FcGoogle />}
+            color="primary"
+            type="submit"
+            fullWidth
+            variant="outlined"
+            onClick={() => handleGoogleSignIn()}
+          >
+            Sign In With Google
+          </Button>
+          <Typography variant="caption" color="GrayText" align="center">
+            By signing in, you agree to our{" "}
+            <Link href="/privacy">Privacy Policy</Link>.
+          </Typography>
         </Box>
       </Box>
       <Grid container>

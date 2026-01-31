@@ -31,7 +31,12 @@ class AuthService(
     fun socialLogin(credentials: SocialLoginRequestDTO): JwtTokenDto {
         val user =
             userRepository.findByProviderId(credentials.providerId)
-                ?: userRepository.createSocialUser(credentials.name, credentials.email, credentials.providerId)
+                ?: userRepository.createSocialUser(
+                    username = credentials.name,
+                    email = credentials.email,
+                    provider = credentials.provider,
+                    providerId = credentials.providerId,
+                )
 
         return JwtTokenDto(
             token = jwtService.generateToken(user.email),

@@ -3,18 +3,8 @@
 
 import React from "react";
 
-import { AddBox, Person } from "@mui/icons-material";
-import Logout from "@mui/icons-material/Logout";
-import {
-  Box,
-  Button,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogContentText,
-  DialogTitle,
-  Typography,
-} from "@mui/material";
+import { Add, Person, Settings } from "@mui/icons-material";
+import { Box, Button, Typography } from "@mui/material";
 import Avatar from "@mui/material/Avatar";
 import Divider from "@mui/material/Divider";
 import ListItemIcon from "@mui/material/ListItemIcon";
@@ -22,9 +12,10 @@ import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import Tooltip from "@mui/material/Tooltip";
 import Link from "next/link";
-import { signOut } from "next-auth/react";
 
 import { ROUTES } from "@/types";
+
+import SignOutModal from "./SignOutModal";
 
 import type { Session } from "next-auth";
 
@@ -33,13 +24,14 @@ interface Props {
 }
 
 const AccountMenu: React.FC<Props> = ({ user }) => {
-  const [modalOpen, setModalOpen] = React.useState(false);
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+
   const open = Boolean(anchorEl);
 
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
   };
+
   const handleClose = () => {
     setAnchorEl(null);
   };
@@ -71,7 +63,7 @@ const AccountMenu: React.FC<Props> = ({ user }) => {
           <Link href={`${ROUTES.PROFILES}/${user.id}`}>
             <MenuItem onClick={handleClose}>
               <ListItemIcon>
-                <Person fontSize="small" color="secondary" />
+                <Person fontSize="small" color="inherit" />
               </ListItemIcon>
               <Typography variant="body2">Profile</Typography>
             </MenuItem>
@@ -80,47 +72,23 @@ const AccountMenu: React.FC<Props> = ({ user }) => {
           <Link href={ROUTES.CREATE_RECIPE}>
             <MenuItem onClick={handleClose}>
               <ListItemIcon>
-                <AddBox color="secondary" fontSize="small" />
+                <Add fontSize="small" />
               </ListItemIcon>
               <Typography variant="body2">Create Recipe</Typography>
             </MenuItem>
           </Link>
 
+          <Link href={`${ROUTES.PROFILES}/${user.id}/settings`}>
+            <MenuItem onClick={handleClose}>
+              <ListItemIcon>
+                <Settings color="inherit" fontSize="small" />
+              </ListItemIcon>
+              <Typography variant="body2">Settings</Typography>
+            </MenuItem>
+          </Link>
+
           <Divider />
-
-          <Dialog open={modalOpen} onClose={() => setModalOpen(false)}>
-            <Box className="px-4 py-2">
-              <DialogTitle>Confirm Sign Out</DialogTitle>
-              <DialogContent>
-                <DialogContentText>
-                  Are you sure you want to sign out?
-                </DialogContentText>
-              </DialogContent>
-              <DialogActions>
-                <Button size="small" onClick={() => setModalOpen(false)}>
-                  Cancel
-                </Button>
-                <Button
-                  variant="contained"
-                  color="error"
-                  size="small"
-                  onClick={() => {
-                    setModalOpen(false);
-                    signOut();
-                  }}
-                >
-                  Sign Out
-                </Button>
-              </DialogActions>
-            </Box>
-          </Dialog>
-
-          <MenuItem onClick={() => setModalOpen(true)}>
-            <ListItemIcon>
-              <Logout fontSize="small" />
-            </ListItemIcon>
-            <Typography variant="body2">Logout</Typography>
-          </MenuItem>
+          <SignOutModal />
         </Box>
       </Menu>
     </>

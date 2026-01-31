@@ -4,6 +4,8 @@ import com.example.demo.recipe.mapper.toRecipeListItemDTO
 import com.example.demo.recipe.repository.RecipeRepository
 import com.example.demo.s3.S3Service
 import com.example.demo.user.domain.CreateUserRequestDTO
+import com.example.demo.user.domain.UpdateUserRequestDTO
+import com.example.demo.user.domain.User
 import com.example.demo.user.domain.UserDTO
 import com.example.demo.user.mapper.toUserDTO
 import com.example.demo.user.repository.UserRepository
@@ -41,6 +43,14 @@ class UserService(
                 )
             }
         return user.toUserDTO(recipes)
+    }
+
+    fun deleteUser(user: User) {
+        userRepository.deleteById(user.id)
+    }
+
+    fun updateUser(user: User, updatedUser: UpdateUserRequestDTO) {
+        userRepository.updateUser(user.id, updatedUser.username, updatedUser.email)
     }
 
     fun deleteUsers() {

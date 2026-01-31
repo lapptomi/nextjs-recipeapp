@@ -42,7 +42,7 @@ const Home = () => {
         />
       </Box>
 
-      <Box className="flex flex-col items-center bg-gray-50 p-10">
+      <Box className="flex flex-col items-center bg-gray-50 py-10">
         <Typography variant="body2" fontWeight="bold">
           RECOMMENDED
         </Typography>
