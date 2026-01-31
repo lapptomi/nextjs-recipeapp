@@ -2,7 +2,7 @@
 # RecipeApp Pro [![Test And Deploy To Vercel](https://github.com/lapptomi/nextjs-recipeapp/actions/workflows/pipeline.yml/badge.svg)](https://github.com/lapptomi/nextjs-recipeapp/actions/workflows/pipeline.yml)
 
 
-### Link to application: https://nextjs-recipeapp.vercel.app
+### Link to application: https://recipeapp.dev
 
 ### Web application where users can create, rate, and comment on recipes.  
 
