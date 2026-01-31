@@ -59,26 +59,20 @@ export const options: NextAuthOptions = {
       if (trigger === "update") {
         token.username = session?.name;
       }
-      // If using credentials provider, add the user's ID and JWT to the token
-      if (user && account?.provider === "credentials") {
-        token.id = user.id;
-        token.jwt = (user as CustomUser).jwt;
-        token.username = (user as CustomUser).name;
-      }
-      // If using GitHub provider, fetch the user's JWT and add it to the token
-      if (user && account?.provider === "github") {
-        const jwtToken = await fetchJwtToken(user, "github");
-        console.log("JWT TOKEN ", jwtToken);
-        token.jwt = jwtToken.token;
-        token.id = jwtToken.userId;
-        token.username = jwtToken.username;
-      }
-      // If using Google provider, fetch the user's JWT and add it to the token
-      if (user && account?.provider === "google") {
-        const jwtToken = await fetchJwtToken(user, "google");
-        token.jwt = jwtToken.token;
-        token.id = jwtToken.userId;
-        token.username = jwtToken.username;
+
+      if (user && account) {
+        if (account.provider === "github" || account.provider === "google") {
+          // If using social login provider, such as GitHub or Google, fetch the user's JWT and add it to the token
+          const jwtToken = await fetchJwtToken(user, account.provider);
+          token.jwt = jwtToken.token;
+          token.id = jwtToken.userId;
+          token.username = jwtToken.username;
+        } else if (account.provider === "credentials") {
+          // If using credentials provider, add the user's ID and JWT to the token
+          token.id = user.id;
+          token.jwt = (user as CustomUser).jwt;
+          token.username = (user as CustomUser).name;
+        }
       }
 
       return token;
