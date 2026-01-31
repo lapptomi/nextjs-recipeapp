@@ -4,6 +4,7 @@ services:
     environment:
       - NEXTAUTH_SECRET=secretkey
       - NEXT_APP_API_URL=http://recipe-app-backend-test:8080
+      - SKIP_COUNTRY_CHECK=true
     build:
       context: ./client
       dockerfile: Dockerfile
