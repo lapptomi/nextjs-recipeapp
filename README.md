@@ -328,12 +328,4 @@ npx cdk deploy
 **Prerequisites:** AWS CLI configured • CDK CLI installed • IAM permissions
 
 
----
-
-<div align="center">
-
-**⭐ Star this repository if you found it helpful!**
-
-Made with ❤️ using Next.js, Kotlin & AWS
-
 </div>
