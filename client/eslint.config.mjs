@@ -27,6 +27,8 @@ const eslintConfig = defineConfig([
       // Disable ESLint's own comma rules (let Prettier handle it)
       "comma-dangle": "off",
       "@typescript-eslint/comma-dangle": "off",
+      // Allow setState in useEffect (common pattern for syncing external state)
+      "react-hooks/set-state-in-effect": "off",
       // Run Prettier as an ESLint rule
       "prettier/prettier": "error"
     },

@@ -1,4 +1,3 @@
-/* eslint-disable no-null/no-null */
 "use client";
 
 import { useState } from "react";
@@ -20,9 +19,7 @@ const LikeButtons = ({ recipe, session }: Props) => {
   const [open, setOpen] = useState(false);
 
   const userHasRatedThisType = (ratingType: RecipeRatingType) =>
-    recipe.ratings.some(
-      (r) => r.author.id === Number(session?.user.id) && r.type === ratingType,
-    );
+    recipe.ratings.some((r) => r.author.id === Number(session?.user.id) && r.type === ratingType);
 
   const userHasRatedAny = () =>
     recipe.ratings.some((r) => r.author.id === Number(session?.user.id));
@@ -48,10 +45,7 @@ const LikeButtons = ({ recipe, session }: Props) => {
     setOpen(true);
   };
 
-  const handleClose = (
-    event: React.SyntheticEvent | Event,
-    reason?: string,
-  ) => {
+  const handleClose = (event: React.SyntheticEvent | Event, reason?: string) => {
     if (reason === "clickaway") {
       return;
     }
@@ -79,16 +73,10 @@ const LikeButtons = ({ recipe, session }: Props) => {
           disabled={session === null}
           onClick={() => handleClickRating("LIKE")}
           startIcon={
-            <ThumbUpSharp
-              color={userHasRatedThisType("LIKE") ? "secondary" : "primary"}
-            />
+            <ThumbUpSharp color={userHasRatedThisType("LIKE") ? "secondary" : "primary"} />
           }
         >
-          <Typography
-            variant="overline"
-            color="primary"
-            data-testid="like-count"
-          >
+          <Typography variant="overline" color="primary" data-testid="like-count">
             {recipe.ratings.filter((rating) => rating.type === "LIKE").length}
           </Typography>
         </Button>
@@ -100,20 +88,11 @@ const LikeButtons = ({ recipe, session }: Props) => {
           disabled={session === null}
           onClick={() => handleClickRating("DISLIKE")}
           startIcon={
-            <ThumbDown
-              color={userHasRatedThisType("DISLIKE") ? "secondary" : "primary"}
-            />
+            <ThumbDown color={userHasRatedThisType("DISLIKE") ? "secondary" : "primary"} />
           }
         >
-          <Typography
-            variant="overline"
-            color="primary"
-            data-testid="dislike-count"
-          >
-            {
-              recipe.ratings.filter((rating) => rating.type === "DISLIKE")
-                .length
-            }
+          <Typography variant="overline" color="primary" data-testid="dislike-count">
+            {recipe.ratings.filter((rating) => rating.type === "DISLIKE").length}
           </Typography>
         </Button>
       </Tooltip>

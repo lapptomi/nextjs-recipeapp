@@ -51,9 +51,7 @@ const RecipeCommentForm: React.FC<Props> = ({ recipe }) => {
           id="comment-button"
           size="small"
           variant="contained"
-          onClick={handleSubmit(handleFormSubmit, (error) =>
-            console.log(error),
-          )}
+          onClick={handleSubmit(handleFormSubmit, (error) => console.log(error))}
         >
           SEND COMMENT
         </Button>

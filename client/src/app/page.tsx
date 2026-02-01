@@ -33,13 +33,7 @@ const Home = () => {
             Get Started
           </Button>
         </Box>
-        <Image
-          src={recipeimage}
-          alt="food"
-          quality={10}
-          width={600}
-          height={600}
-        />
+        <Image src={recipeimage} alt="food" quality={10} width={600} height={600} />
       </Box>
 
       <Box className="flex flex-col items-center bg-gray-50 py-10">
@@ -57,13 +51,7 @@ const Home = () => {
       </Box>
 
       <Box className="flex min-h-[600px] flex-row flex-wrap items-center justify-evenly gap-10 bg-white p-10">
-        <Image
-          src={recipeimage2}
-          alt="food"
-          quality={10}
-          width={450}
-          height={450}
-        />
+        <Image src={recipeimage2} alt="food" quality={10} width={450} height={450} />
         <Box className="flex max-w-[500px] flex-col gap-6">
           <Typography variant="h4" fontWeight="bold">
             All Your Favourite Recipes In One Place
@@ -84,16 +72,8 @@ const Home = () => {
         </Typography>
         <Box className="flex flex-row flex-wrap justify-center gap-6">
           <PricingCard title="Personal" description="Some random description" />
-          <PricingCard
-            title="Professional"
-            price={10}
-            description="Some random description"
-          />
-          <PricingCard
-            title="Enterprise"
-            price={1337}
-            description="Some random description"
-          />
+          <PricingCard title="Professional" price={10} description="Some random description" />
+          <PricingCard title="Enterprise" price={1337} description="Some random description" />
         </Box>
       </Box>
     </Box>

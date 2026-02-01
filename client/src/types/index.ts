@@ -28,7 +28,7 @@ export const NewRecipeSchema = z.object({
     .array(
       z.object({
         ingredient: z.string().min(4).max(30),
-      }),
+      })
     )
     .min(1)
     .max(200),

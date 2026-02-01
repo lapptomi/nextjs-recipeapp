@@ -70,8 +70,7 @@ export default function SettingsPage() {
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    // eslint-disable-next-line react-hooks/set-state-in-effect
-    setUser(session?.user); // TODO: Fix this later
+    setUser(session?.user);
     setEditedUsername(user?.name || "");
     setEditedEmail(user?.email || "");
   }, [session, user]);

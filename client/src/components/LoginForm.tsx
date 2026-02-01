@@ -99,8 +99,7 @@ const LoginForm = () => {
             Sign In With Google
           </Button>
           <Typography variant="caption" color="GrayText" align="center">
-            By signing in, you agree to our{" "}
-            <Link href="/privacy">Privacy Policy</Link>.
+            By signing in, you agree to our <Link href="/privacy">Privacy Policy</Link>.
           </Typography>
         </Box>
       </Box>

@@ -1,13 +1,5 @@
 import { Check } from "@mui/icons-material";
-import {
-  Box,
-  Button,
-  Card,
-  CardContent,
-  CardMedia,
-  Divider,
-  Typography,
-} from "@mui/material";
+import { Box, Button, Card, CardContent, CardMedia, Divider, Typography } from "@mui/material";
 
 import { ROUTES } from "@/types";
 
@@ -55,12 +47,7 @@ const PricingCard = (props: Props) => {
             ))}
         </Box>
 
-        <Button
-          size="small"
-          variant="contained"
-          href={ROUTES.RECIPES}
-          color="primary"
-        >
+        <Button size="small" variant="contained" href={ROUTES.RECIPES} color="primary">
           Get Started
         </Button>
       </CardContent>

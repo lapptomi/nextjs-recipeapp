@@ -18,11 +18,7 @@ export const metadata: Metadata = {
   description: "Your favourite recipe app",
 };
 
-export default function RootLayout({
-  children,
-}: {
-  readonly children: React.ReactNode;
-}) {
+export default function RootLayout({ children }: { readonly children: React.ReactNode }) {
   return (
     <html lang="en">
       <body className={inter.className} id="root">

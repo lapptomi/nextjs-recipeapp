@@ -86,10 +86,7 @@ const RecipePage = async ({ params }: Props) => {
             </Typography>
           </Divider>
 
-          <Typography
-            variant="body1"
-            className="whitespace-pre-wrap break-words"
-          >
+          <Typography variant="body1" className="whitespace-pre-wrap break-words">
             {recipe.description}
           </Typography>
 
@@ -110,19 +107,14 @@ const RecipePage = async ({ params }: Props) => {
           <Divider>
             <Typography variant="h5">INSTRUCTIONS</Typography>
           </Divider>
-          <Typography
-            variant="body1"
-            className="whitespace-pre-wrap break-words"
-          >
+          <Typography variant="body1" className="whitespace-pre-wrap break-words">
             {recipe.instructions}
           </Typography>
 
           <Box>
             <List className="flex w-full flex-col">
               <Divider>
-                <Typography variant="body1">
-                  {recipe.comments.length} COMMENTS
-                </Typography>
+                <Typography variant="body1">{recipe.comments.length} COMMENTS</Typography>
               </Divider>
               {(recipe.comments ?? []).map((comment, index: number) => (
                 <ListItem key={index} className="my-2 bg-gray-50 p-3">
@@ -133,19 +125,13 @@ const RecipePage = async ({ params }: Props) => {
                     className="whitespace-pre-wrap break-words"
                     primary={
                       <Typography variant="body1">
-                        <Tooltip
-                          title={`View profile of ${comment.author.username}`}
-                        >
-                          <Link
-                            href={`${ROUTES.PROFILES}/${comment.author.id}`}
-                          >
+                        <Tooltip title={`View profile of ${comment.author.username}`}>
+                          <Link href={`${ROUTES.PROFILES}/${comment.author.id}`}>
                             <Typography variant="body1">
                               {comment.author.username}{" "}
                               <Typography variant="caption">
                                 {comment.createdAt &&
-                                  new Date(comment.createdAt)
-                                    .toISOString()
-                                    .split("T")[0]}
+                                  new Date(comment.createdAt).toISOString().split("T")[0]}
                               </Typography>
                             </Typography>
                           </Link>
@@ -161,9 +147,7 @@ const RecipePage = async ({ params }: Props) => {
             {session?.user && recipe ? (
               <RecipeCommentForm recipe={recipe} />
             ) : (
-              <Typography variant="body1">
-                Please sign in to comment...
-              </Typography>
+              <Typography variant="body1">Please sign in to comment...</Typography>
             )}
           </Box>
         </Box>

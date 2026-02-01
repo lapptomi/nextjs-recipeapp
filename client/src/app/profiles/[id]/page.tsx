@@ -62,9 +62,7 @@ const ProfilePage = async ({ params }: ProfilePageParams) => {
 
         <Box className="flex flex-col p-8">
           <Divider>
-            <Typography variant="h5">
-              {recipes.length} PUBLIC RECIPES
-            </Typography>
+            <Typography variant="h5">{recipes.length} PUBLIC RECIPES</Typography>
           </Divider>
           <RecipeList recipes={recipes} />
         </Box>

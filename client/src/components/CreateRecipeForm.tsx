@@ -1,4 +1,3 @@
-/* eslint-disable no-null/no-null */
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -57,6 +56,7 @@ const CreateRecipeForm = () => {
     name: "ingredients",
   });
 
+  // eslint-disable-next-line react-hooks/incompatible-library
   const selectedImage = watch("image");
   const router = useRouter();
 
@@ -71,10 +71,8 @@ const CreateRecipeForm = () => {
         instructions: data.instructions,
         cookingTime: data.cookingTime,
         servings: data.servings,
-        ingredients: data.ingredients.map(
-          (ingredient) => ingredient.ingredient,
-        ),
-      }),
+        ingredients: data.ingredients.map((ingredient) => ingredient.ingredient),
+      })
     );
     formData.append("image", selectedImage as any);
 
@@ -86,9 +84,7 @@ const CreateRecipeForm = () => {
   return (
     <form
       className="flex h-full w-[70vw] flex-col items-center justify-center gap-5 border-2 border-gray-100 p-6"
-      onSubmit={handleSubmit(handleFormSubmit, (error) =>
-        console.log("ERROR = ", error),
-      )}
+      onSubmit={handleSubmit(handleFormSubmit, (error) => console.log("ERROR = ", error))}
     >
       <TextField
         required
@@ -156,10 +152,7 @@ const CreateRecipeForm = () => {
             />
           );
         })}
-        <Button
-          size="small"
-          onClick={(event: any) => append({ ingredient: event.target.value })}
-        >
+        <Button size="small" onClick={(event: any) => append({ ingredient: event.target.value })}>
           <Add color="primary" />
           <Typography variant="caption">ADD INGREDIENT</Typography>
         </Button>
@@ -244,9 +237,7 @@ const CreateRecipeForm = () => {
             </IconButton>
           </Box>
         )}
-        <Typography variant="caption">
-          {selectedImage && selectedImage.name}
-        </Typography>
+        <Typography variant="caption">{selectedImage && selectedImage.name}</Typography>
       </Box>
 
       {Object.keys(errors).length !== 0 && (
