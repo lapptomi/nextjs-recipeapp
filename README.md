@@ -12,6 +12,13 @@
 
 <img src="https://github.com/lapptomi/nextjs-recipeapp/blob/main/assets/img1.png?raw=true" width="700" alt="RecipeApp Screenshot">
 
+<p>
+  <img src="https://github.com/lapptomi/nextjs-recipeapp/blob/main/assets/1.png?raw=true" width="160" alt="Screenshot 1">
+  <img src="https://github.com/lapptomi/nextjs-recipeapp/blob/main/assets/2.png?raw=true" width="160" alt="Screenshot 2">
+  <img src="https://github.com/lapptomi/nextjs-recipeapp/blob/main/assets/3.png?raw=true" width="160" alt="Screenshot 3">
+  <img src="https://github.com/lapptomi/nextjs-recipeapp/blob/main/assets/4.png?raw=true" width="160" alt="Screenshot 4">
+</p>
+
 </div>
 
 ---
