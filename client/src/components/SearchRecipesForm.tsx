@@ -55,10 +55,7 @@ const SearchRecipesForm = ({ totalCount }: Props) => {
     router.push(`${pathname}${createQuery(current)}`);
   };
 
-  const handlePageChange = (
-    event: React.ChangeEvent<unknown>,
-    value: number,
-  ) => {
+  const handlePageChange = (event: React.ChangeEvent<unknown>, value: number) => {
     event.preventDefault();
     const current = new URLSearchParams(Array.from(searchParams.entries()));
     current.set("page", String(value));

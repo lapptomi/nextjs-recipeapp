@@ -40,12 +40,8 @@ export const theme = createTheme({
   },
   typography: {
     fontSize: 12,
-    fontFamily: [
-      "-apple-system",
-      "BlinkMacSystemFont",
-      "'Segoe UI'",
-      "Roboto",
-      "sans-serif",
-    ].join(","),
+    fontFamily: ["-apple-system", "BlinkMacSystemFont", "'Segoe UI'", "Roboto", "sans-serif"].join(
+      ","
+    ),
   },
 });

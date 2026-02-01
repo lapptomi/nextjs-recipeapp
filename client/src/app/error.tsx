@@ -4,11 +4,7 @@ import { Alert, Box, Button, Typography } from "@mui/material";
 
 import { ROUTES } from "@/types";
 
-export default function ErrorPage({
-  error,
-}: {
-  readonly error: Error & { digest?: string };
-}) {
+export default function ErrorPage({ error }: { readonly error: Error & { digest?: string } }) {
   return (
     <Box className="flex min-h-screen flex-col items-center justify-center gap-5">
       <Typography variant="h1">404</Typography>

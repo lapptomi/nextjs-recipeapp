@@ -72,10 +72,7 @@ const RecipeListItem = ({ recipe }: Props) => {
             },
           }}
           title={
-            <Typography
-              className="line-clamp-1 whitespace-pre-wrap break-words"
-              variant="caption"
-            >
+            <Typography className="line-clamp-1 whitespace-pre-wrap break-words" variant="caption">
               {recipe.description}
             </Typography>
           }

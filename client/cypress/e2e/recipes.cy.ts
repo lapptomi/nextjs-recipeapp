@@ -30,16 +30,10 @@ describe("Recipes", () => {
     cy.get('input[name="title"]').should("have.value", recipe.title);
 
     cy.get('input[name="description"]').type(recipe.description);
-    cy.get('input[name="description"]').should(
-      "have.value",
-      recipe.description,
-    );
+    cy.get('input[name="description"]').should("have.value", recipe.description);
 
     cy.get('textarea[name="instructions"]').type(recipe.instructions);
-    cy.get('textarea[name="instructions"]').should(
-      "have.value",
-      recipe.instructions,
-    );
+    cy.get('textarea[name="instructions"]').should("have.value", recipe.instructions);
 
     cy.get("button").contains("Submit").click();
 
@@ -55,16 +49,10 @@ describe("Recipes", () => {
     cy.get('input[name="title"]').should("have.value", recipe.title);
 
     cy.get('input[name="description"]').type(recipe.description);
-    cy.get('input[name="description"]').should(
-      "have.value",
-      recipe.description,
-    );
+    cy.get('input[name="description"]').should("have.value", recipe.description);
 
     cy.get('textarea[name="instructions"]').type(recipe.instructions);
-    cy.get('textarea[name="instructions"]').should(
-      "have.value",
-      recipe.instructions,
-    );
+    cy.get('textarea[name="instructions"]').should("have.value", recipe.instructions);
 
     cy.get("button").contains("Submit").click();
 
@@ -87,16 +75,10 @@ describe("Recipes", () => {
     cy.get('input[name="title"]').should("have.value", recipe.title);
 
     cy.get('input[name="description"]').type(recipe.description);
-    cy.get('input[name="description"]').should(
-      "have.value",
-      recipe.description,
-    );
+    cy.get('input[name="description"]').should("have.value", recipe.description);
 
     cy.get('textarea[name="instructions"]').type(recipe.instructions);
-    cy.get('textarea[name="instructions"]').should(
-      "have.value",
-      recipe.instructions,
-    );
+    cy.get('textarea[name="instructions"]').should("have.value", recipe.instructions);
 
     cy.get("button").contains("Submit").click();
 
@@ -115,16 +97,10 @@ describe("Recipes", () => {
     cy.get('input[name="title"]').should("have.value", recipe.title);
 
     cy.get('input[name="description"]').type(recipe.description);
-    cy.get('input[name="description"]').should(
-      "have.value",
-      recipe.description,
-    );
+    cy.get('input[name="description"]').should("have.value", recipe.description);
 
     cy.get('textarea[name="instructions"]').type(recipe.instructions);
-    cy.get('textarea[name="instructions"]').should(
-      "have.value",
-      recipe.instructions,
-    );
+    cy.get('textarea[name="instructions"]').should("have.value", recipe.instructions);
 
     cy.get("button").contains("Submit").click();
 

@@ -32,20 +32,13 @@ export default function SignOutModal() {
         <Box className="px-4 py-2">
           <DialogTitle>Confirm Sign Out</DialogTitle>
           <DialogContent>
-            <DialogContentText>
-              Are you sure you want to sign out?
-            </DialogContentText>
+            <DialogContentText>Are you sure you want to sign out?</DialogContentText>
           </DialogContent>
           <DialogActions>
             <Button size="small" onClick={() => setLogoutModalOpen(false)}>
               Cancel
             </Button>
-            <Button
-              variant="contained"
-              color="error"
-              size="small"
-              onClick={() => handleSignOut()}
-            >
+            <Button variant="contained" color="error" size="small" onClick={() => handleSignOut()}>
               Sign Out
             </Button>
           </DialogActions>

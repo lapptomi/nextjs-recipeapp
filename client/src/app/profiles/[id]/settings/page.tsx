@@ -65,9 +65,7 @@ export default function SettingsPage() {
   const [user, setUser] = useState<User | undefined>(undefined);
   const [editedUsername, setEditedUsername] = useState(user?.name || "");
   const [editedEmail, setEditedEmail] = useState(user?.email || "");
-  const [editedPassword, setEditedPassword] = useState<string | undefined>(
-    undefined,
-  );
+  const [editedPassword, setEditedPassword] = useState<string | undefined>(undefined);
   const [alertOpen, setAlertOpen] = useState(false);
   const [loading, setLoading] = useState(false);
 
@@ -81,9 +79,7 @@ export default function SettingsPage() {
     editedUsername.length === 0 ||
     editedEmail.length === 0 ||
     editedPassword?.length === 0 ||
-    (editedUsername === user?.name &&
-      editedEmail === user?.email &&
-      editedPassword === undefined);
+    (editedUsername === user?.name && editedEmail === user?.email && editedPassword === undefined);
 
   const saveChanges = () => {
     setLoading(true);
@@ -99,10 +95,8 @@ export default function SettingsPage() {
         setAlertOpen(true);
         setTimeout(() => window.location.reload(), 3000);
       })
-      .finally(() => {
-        update({ name: editedUsername });
-        setLoading(false);
-      });
+      .then(() => update({ name: editedUsername }))
+      .finally(() => setLoading(false));
   };
 
   return (

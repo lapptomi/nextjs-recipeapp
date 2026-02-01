@@ -1,4 +1,3 @@
-/* eslint-disable no-null/no-null */
 "use client";
 
 import React from "react";
@@ -39,11 +38,7 @@ const AccountMenu: React.FC<Props> = ({ user }) => {
   return (
     <>
       <Tooltip title="Account menu">
-        <Button
-          onClick={handleClick}
-          size="small"
-          className="flex flex-row gap-2"
-        >
+        <Button onClick={handleClick} size="small" className="flex flex-row gap-2">
           <Avatar alt="profile" src={user?.image || ""} className="size-8">
             {user?.name ? user.name[0] : ""}
           </Avatar>

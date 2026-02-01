@@ -40,12 +40,9 @@ export default function DeleteAccountModal() {
         <Box className="px-4 py-2">
           <DialogTitle>Confirm Delete Account</DialogTitle>
           <DialogContent>
+            <DialogContentText>Are you sure you want to delete your account?</DialogContentText>
             <DialogContentText>
-              Are you sure you want to delete your account?
-            </DialogContentText>
-            <DialogContentText>
-              This action will permanently delete your account and all
-              associated data.
+              This action will permanently delete your account and all associated data.
             </DialogContentText>
           </DialogContent>
           <DialogActions>

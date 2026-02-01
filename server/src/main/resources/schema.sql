@@ -1,12 +1,10 @@
-CREATE TYPE IF NOT EXISTS oauth_provider AS ENUM ('github', 'google', 'credentials');
-
 CREATE TABLE IF NOT EXISTS users
 (
     id          SERIAL PRIMARY KEY,
     username    VARCHAR(100) NOT NULL UNIQUE,
     email       VARCHAR(255) NOT NULL UNIQUE,
     provider_id VARCHAR(255)          DEFAULT NULL,
-    provider    oauth_provider        NOT NULL DEFAULT 'credentials',
+    provider    VARCHAR(255) NOT NULL DEFAULT 'credentials',
     password    VARCHAR(255),
     created_at  TIMESTAMP    NOT NULL DEFAULT CURRENT_TIMESTAMP
 );

@@ -3,15 +3,7 @@
 import React, { useState } from "react";
 
 import GitHubIcon from "@mui/icons-material/GitHub";
-import {
-  Alert,
-  Box,
-  Button,
-  Grid,
-  Link,
-  TextField,
-  Typography,
-} from "@mui/material";
+import { Alert, Box, Button, Link, TextField, Typography } from "@mui/material";
 import { signIn } from "next-auth/react";
 import { FcGoogle } from "react-icons/fc";
 
@@ -107,23 +99,19 @@ const LoginForm = () => {
             Sign In With Google
           </Button>
           <Typography variant="caption" color="GrayText" align="center">
-            By signing in, you agree to our{" "}
-            <Link href="/privacy">Privacy Policy</Link>.
+            By signing in, you agree to our <Link href="/privacy">Privacy Policy</Link>.
           </Typography>
         </Box>
       </Box>
-      <Grid container>
-        <Grid item xs>
-          <Link href="/resetpassword" variant="body2">
-            Forgot password?
-          </Link>
-        </Grid>
-        <Grid item>
-          <Link href={ROUTES.REGISTER} variant="body2">
-            Dont have an account? Sign Up
-          </Link>
-        </Grid>
-      </Grid>
+
+      <Box sx={{ display: "flex", justifyContent: "space-between", mt: 2 }}>
+        <Link href="/resetpassword" variant="body2">
+          Forgot password?
+        </Link>
+        <Link href={ROUTES.REGISTER} variant="body2">
+          Dont have an account? Sign Up
+        </Link>
+      </Box>
       <Typography variant="body2" color="GrayText" align="center">
         {`Copyright © ${APPLICATION_NAME} ${new Date().getFullYear()}.`}
       </Typography>

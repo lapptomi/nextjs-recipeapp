@@ -3,9 +3,6 @@ import type { NextConfig } from "next";
 const nextConfig: NextConfig = {
   output: "standalone",
   reactStrictMode: false,
-  eslint: {
-    ignoreDuringBuilds: false,
-  },
   images: {
     // Allow loading images only from S3 when using Next.js <Image> component
     remotePatterns: [
