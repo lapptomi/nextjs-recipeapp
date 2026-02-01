@@ -1,16 +1,8 @@
 "use server";
 
-import axios from "axios";
+import { apiClient } from "../apiClient";
 
-import { getSession } from "./auth";
-import { API_URL } from "../constants";
-
-import type {
-  CommentForm,
-  Recipe,
-  RecipeListItem,
-  RecipeRatingType,
-} from "@/types";
+import type { CommentForm, Recipe, RecipeListItem, RecipeRatingType } from "@/types";
 
 interface Response {
   content: RecipeListItem[];
@@ -18,42 +10,27 @@ interface Response {
 }
 
 export const getRecipes = async (queryParams?: string) => {
-  const response = await axios.get<Response>(
-    `${API_URL}/recipes?${queryParams}`,
-  );
+  const response = await apiClient.get<Response>(`/recipes?${queryParams}`);
   return response.data;
 };
 
 export const findRecipeById = async (recipeId: string) => {
-  const response = await axios.get<Recipe>(`${API_URL}/recipes/${recipeId}`);
+  const response = await apiClient.get<Recipe>(`/recipes/${recipeId}`);
   return response.data;
 };
 
 export const createRecipe = async (formData: FormData) => {
-  const session = await getSession();
-  const response = await axios.post(`${API_URL}/recipes`, formData, {
-    headers: {
-      "Content-Type": "multipart/form-data",
-      Authorization: `Bearer ${session?.user.jwt}`,
-    },
+  const response = await apiClient.post(`/recipes`, formData, {
+    headers: { "Content-Type": "multipart/form-data" },
   });
 
   return response.data;
 };
 
 export const addComment = async (data: CommentForm) => {
-  const session = await getSession();
-  const response = await axios.post(
-    `${API_URL}/recipes/${data.recipeId}/comments`,
-    {
-      message: data.message,
-    },
-    {
-      headers: {
-        Authorization: `Bearer ${session?.user.jwt}`,
-      },
-    },
-  );
+  const response = await apiClient.post(`/recipes/${data.recipeId}/comments`, {
+    message: data.message,
+  });
 
   return response.data;
 };
@@ -64,35 +41,17 @@ interface RatingParams {
 }
 
 export const addRating = async (data: RatingParams) => {
-  const session = await getSession();
-  const response = await axios.post(
-    `${API_URL}/recipes/${data.recipeId}/ratings`,
-    {
-      type: data.type,
-    },
-    {
-      headers: {
-        Authorization: `Bearer ${session?.user.jwt}`,
-      },
-    },
-  );
+  const response = await apiClient.post(`/recipes/${data.recipeId}/ratings`, {
+    type: data.type,
+  });
 
   return response.data;
 };
 
 export const updateRating = async (data: RatingParams) => {
-  const session = await getSession();
-  const response = await axios.put(
-    `${API_URL}/recipes/${data.recipeId}/ratings`,
-    {
-      type: data.type,
-    },
-    {
-      headers: {
-        Authorization: `Bearer ${session?.user.jwt}`,
-      },
-    },
-  );
+  const response = await apiClient.put(`/recipes/${data.recipeId}/ratings`, {
+    type: data.type,
+  });
 
   return response.data;
 };

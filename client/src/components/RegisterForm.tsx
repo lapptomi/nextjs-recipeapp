@@ -3,15 +3,7 @@
 import React, { useState } from "react";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import {
-  Alert,
-  Box,
-  Button,
-  Grid,
-  Link,
-  TextField,
-  Typography,
-} from "@mui/material";
+import { Alert, Box, Button, Link, TextField, Typography } from "@mui/material";
 import { signIn } from "next-auth/react";
 import "@/app/globals.css";
 import { useForm } from "react-hook-form";
@@ -110,18 +102,14 @@ const RegisterForm = () => {
         </Button>
       </form>
 
-      <Grid container>
-        <Grid item xs>
-          <Link href="/resetpassword" variant="body2">
-            Forgot password?
-          </Link>
-        </Grid>
-        <Grid item>
-          <Link href={ROUTES.REGISTER} variant="body2">
-            Dont have an account? Sign Up
-          </Link>
-        </Grid>
-      </Grid>
+      <Box className="flex flex-row justify-between">
+        <Link href="/resetpassword" variant="body2">
+          Forgot password?
+        </Link>
+        <Link href={ROUTES.REGISTER} variant="body2">
+          Dont have an account? Sign Up
+        </Link>
+      </Box>
       <Typography variant="body2" color="GrayText" align="center">
         {`Copyright © ${APPLICATION_NAME} ${new Date().getFullYear()}.`}
       </Typography>

@@ -1,14 +1,13 @@
-/* eslint-disable no-null/no-null */
-import axios from "axios";
 import CredentialsProvider from "next-auth/providers/credentials";
 import GithubProvider from "next-auth/providers/github";
 import GoogleProvider from "next-auth/providers/google";
 
-import { API_URL, NEXTAUTH_SECRET } from "@/lib/constants";
+import { NEXTAUTH_SECRET } from "@/lib/constants";
 import { ROUTES } from "@/types";
 
 import type { JwtTokenResponse } from "@/types";
 import type { NextAuthOptions, User } from "next-auth";
+import { apiClient } from "@/lib/apiClient";
 
 type SocialLoginProvider = "github" | "google";
 
@@ -27,7 +26,7 @@ type CustomUser = User & {
 
 const fetchJwtToken = async (
   user: User,
-  provider: SocialLoginProvider,
+  provider: SocialLoginProvider
 ): Promise<JwtTokenResponse> => {
   const credentials: SocialLoginCredentials = {
     name: user.name as string,
@@ -35,9 +34,9 @@ const fetchJwtToken = async (
     providerId: user.id as string,
     provider: provider,
   };
-  const { data: jwtToken } = await axios.post<JwtTokenResponse>(
-    `${API_URL}/auth/social-login`,
-    credentials,
+  const { data: jwtToken } = await apiClient.post<JwtTokenResponse>(
+    "/auth/social-login",
+    credentials
   );
   return jwtToken;
 };
@@ -112,9 +111,9 @@ export const options: NextAuthOptions = {
           throw new Error("Invalid or missing credentials");
         }
 
-        const { data: jwtToken } = await axios.post<JwtTokenResponse>(
-          `${API_URL}/auth/login`,
-          credentials,
+        const { data: jwtToken } = await apiClient.post<JwtTokenResponse>(
+          "/auth/login",
+          credentials
         );
 
         if (!jwtToken.token) {
