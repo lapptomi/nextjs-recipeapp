@@ -52,3 +52,6 @@ dev.db*
 **.env
 
 h2_storage/
+
+.cursor/
+.mcp/
