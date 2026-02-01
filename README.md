@@ -12,18 +12,7 @@
 
 <img src="https://github.com/lapptomi/nextjs-recipeapp/blob/main/assets/1.png?raw=true" width="700" alt="RecipeApp Screenshot" style="box-shadow: 0 4px 20px 4px rgba(0,0,0,0.25); border-radius: 8px;">
 
----
-
-<p style="margin-top: 30px;">
-  <img src="https://github.com/lapptomi/nextjs-recipeapp/blob/main/assets/1.png?raw=true" width="160" height="160" alt="Screenshot 1" style="margin: 5px; object-fit: cover; box-shadow: 0 2px 15px 3px rgba(0,0,0,0.2); border-radius: 6px;">
-  <img src="https://github.com/lapptomi/nextjs-recipeapp/blob/main/assets/2.png?raw=true" width="160" height="160" alt="Screenshot 2" style="margin: 5px; object-fit: cover; box-shadow: 0 2px 15px 3px rgba(0,0,0,0.2); border-radius: 6px;">
-  <img src="https://github.com/lapptomi/nextjs-recipeapp/blob/main/assets/3.png?raw=true" width="160" height="160" alt="Screenshot 3" style="margin: 5px; object-fit: cover; box-shadow: 0 2px 15px 3px rgba(0,0,0,0.2); border-radius: 6px;">
-  <img src="https://github.com/lapptomi/nextjs-recipeapp/blob/main/assets/4.png?raw=true" width="160" height="160" alt="Screenshot 4" style="margin: 5px; object-fit: cover; box-shadow: 0 2px 15px 3px rgba(0,0,0,0.2); border-radius: 6px;">
-</p>
-
 </div>
-
----
 
 ## 📋 Table of Contents
 
