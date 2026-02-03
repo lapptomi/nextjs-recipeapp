@@ -103,10 +103,10 @@ const RegisterForm = () => {
       </form>
 
       <Box className="flex flex-row justify-between">
-        <Link href="/resetpassword" variant="body2">
+        <Link href="/resetpassword" variant="body2" color="text.primary">
           Forgot password?
         </Link>
-        <Link href={ROUTES.REGISTER} variant="body2">
+        <Link href={ROUTES.REGISTER} variant="body2" color="text.primary">
           Dont have an account? Sign Up
         </Link>
       </Box>

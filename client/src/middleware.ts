@@ -30,6 +30,7 @@ export function middleware(request: NextRequest) {
 
 // Redirect to login page if not authenticated.
 // Works with regex.
+// TODO: Remove the /:path* and use the /recipes/create instead.
 export const config = {
   // matcher: ["/recipes/create"],
   matcher: ["/recipes/create", "/:path*"],

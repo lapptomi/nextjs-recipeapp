@@ -42,7 +42,9 @@ const AccountMenu: React.FC<Props> = ({ user }) => {
           <Avatar alt="profile" src={user?.image || ""} className="size-8">
             {user?.name ? user.name[0] : ""}
           </Avatar>
-          <Typography variant="body2">{user?.name || ""}</Typography>
+          <Typography variant="body2" color="text.secondary">
+            {user?.name || ""}
+          </Typography>
         </Button>
       </Tooltip>
 
