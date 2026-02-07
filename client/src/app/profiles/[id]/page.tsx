@@ -122,53 +122,12 @@ export default async function ProfilePage({ params }: { params: Promise<{ id: st
         </Container>
       </Box>
 
-      <Container maxWidth="xl" className="py-8">
+      <Container maxWidth="lg" className="py-8">
         <Box className="mb-6">
-          <Tabs
-            value={0}
-            sx={{
-              "& .MuiTabs-indicator": {
-                bgcolor: "primary.main",
-                height: 3,
-              },
-            }}
-          >
-            <Tab
-              label="Recipes"
-              sx={{
-                textTransform: "none",
-                fontWeight: 600,
-                fontSize: "1rem",
-                color: "text.secondary",
-                "&.Mui-selected": {
-                  color: "text.primary",
-                },
-              }}
-            />
-            <Tab
-              label="Liked"
-              sx={{
-                textTransform: "none",
-                fontWeight: 600,
-                fontSize: "1rem",
-                color: "text.secondary",
-                "&.Mui-selected": {
-                  color: "text.primary",
-                },
-              }}
-            />
-            <Tab
-              label="Saved"
-              sx={{
-                textTransform: "none",
-                fontWeight: 600,
-                fontSize: "1rem",
-                color: "text.secondary",
-                "&.Mui-selected": {
-                  color: "text.primary",
-                },
-              }}
-            />
+          <Tabs value={0}>
+            <Tab label="Recipes" tabIndex={0} />
+            <Tab label="Followers" tabIndex={1} />
+            <Tab label="Saved" tabIndex={2} />
           </Tabs>
         </Box>
 

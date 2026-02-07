@@ -132,8 +132,6 @@ const RecipeGrid = ({
   totalPages: number;
   totalElements: number;
 }) => {
-  console.log(recipes);
-
   if (!recipes || recipes.length === 0) {
     return (
       <Box className="flex justify-center py-20">
@@ -220,8 +218,6 @@ export default async function BrowseRecipesPage({ searchParams }: Params) {
     .map(([key, value]) => `${key}=${value}`)
     .join("&");
 
-  console.log(params);
-
   return (
     <Box className="min-h-screen bg-gray-50 mx-8">
       <Container maxWidth="xl" className="py-8">
@@ -236,7 +232,7 @@ export default async function BrowseRecipesPage({ searchParams }: Params) {
 
         <RecipeFilters />
 
-        <Suspense fallback={<RecipeGridSkeleton />}>
+        <Suspense key={queryParams} fallback={<RecipeGridSkeleton />}>
           <RecipesList queryParams={queryParams} />
         </Suspense>
       </Container>

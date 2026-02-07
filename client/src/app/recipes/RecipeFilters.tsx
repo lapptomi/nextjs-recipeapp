@@ -107,23 +107,6 @@ export default function RecipeFilters() {
               onClick={() => handleCategoryChange(category)}
               variant={selectedCategory === category ? "filled" : "outlined"}
               color={selectedCategory === category ? "primary" : "default"}
-              sx={
-                selectedCategory === category
-                  ? {
-                      bgcolor: "primary.main",
-                      color: "primary.contrastText",
-                      "&:hover": {
-                        bgcolor: "primary.dark",
-                      },
-                    }
-                  : {
-                      borderColor: "grey.300",
-                      color: "text.primary",
-                      "&:hover": {
-                        bgcolor: "grey.100",
-                      },
-                    }
-              }
               size="small"
             />
           ))}
@@ -138,14 +121,6 @@ export default function RecipeFilters() {
             onChange={(e) => handleSortChange(e.target.value as SortOption)}
             size="small"
             className="min-w-[180px] bg-white"
-            sx={{
-              "& .MuiOutlinedInput-notchedOutline": {
-                borderColor: "grey.300",
-              },
-              "&:hover .MuiOutlinedInput-notchedOutline": {
-                borderColor: "grey.400",
-              },
-            }}
           >
             <MenuItem value="date_desc">Newest first</MenuItem>
             <MenuItem value="date_asc">Oldest first</MenuItem>

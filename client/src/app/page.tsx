@@ -140,28 +140,28 @@ const LandingPage = () => {
                 </Button>
               </Box>
 
-              <Box className="flex flex-wrap gap-8 border-t pt-6" sx={{ borderColor: "grey.200" }}>
+              <Box className="flex flex-wrap gap-8 border-t pt-6">
                 <Box>
-                  <Typography variant="h4" className="font-bold" sx={{ color: "text.primary" }}>
+                  <Typography variant="h4" className="font-bold" color="text.primary">
                     500+
                   </Typography>
-                  <Typography variant="body2" sx={{ color: "text.secondary" }}>
+                  <Typography variant="body2" color="text.secondary">
                     Recipes
                   </Typography>
                 </Box>
                 <Box>
-                  <Typography variant="h4" className="font-bold" sx={{ color: "text.primary" }}>
+                  <Typography variant="h4" className="font-bold" color="text.primary">
                     10K+
                   </Typography>
-                  <Typography variant="body2" sx={{ color: "text.secondary" }}>
+                  <Typography variant="body2" color="text.secondary">
                     Home Cooks
                   </Typography>
                 </Box>
                 <Box>
-                  <Typography variant="h4" className="font-bold" sx={{ color: "text.primary" }}>
+                  <Typography variant="h4" className="font-bold" color="text.primary">
                     4.8★
                   </Typography>
-                  <Typography variant="body2" sx={{ color: "text.secondary" }}>
+                  <Typography variant="body2" color="text.secondary">
                     Avg Rating
                   </Typography>
                 </Box>
@@ -169,16 +169,7 @@ const LandingPage = () => {
             </Box>
 
             <Box className="flex justify-center">
-              <Box
-                className="relative overflow-hidden"
-                sx={{
-                  width: { xs: "100%", md: 500 },
-                  height: { xs: 400, md: 560 },
-                  borderRadius: 6,
-                  boxShadow:
-                    "0px 20px 25px -5px rgba(0,0,0,0.1), 0px 8px 10px -6px rgba(0,0,0,0.1)",
-                }}
-              >
+              <Box className="relative overflow-hidden w-[500px] h-[560px] rounded-3xl shadow-xl">
                 <Image
                   src={imgHeroRecipe}
                   alt="Delicious recipe"
@@ -253,15 +244,7 @@ const LandingPage = () => {
         <Container maxWidth="xl">
           <Box className="grid grid-cols-1 items-center gap-12 lg:grid-cols-2">
             <Box className="flex justify-center">
-              <Box
-                className="relative overflow-hidden"
-                sx={{
-                  width: { xs: "100%", md: 400 },
-                  height: { xs: 400, md: 500 },
-                  borderRadius: 4,
-                  boxShadow: "0px 10px 20px rgba(0,0,0,0.1)",
-                }}
-              >
+              <Box className="relative overflow-hidden w-[400px] h-[500px] rounded-3xl shadow-2xl">
                 <Image
                   src={imgKitchen}
                   alt="Kitchen setup"
@@ -276,7 +259,7 @@ const LandingPage = () => {
               <Typography variant="h3" className="font-bold leading-tight" color="text.primary">
                 Start your culinary journey today
               </Typography>
-              <Typography variant="h6" color="text.secondary" fontWeight={400}>
+              <Typography variant="h6" color="text.secondary" fontWeight="normal">
                 Sign up for a seasoned Chef {APPLICATION_NAME}, have you discover new flavors,
                 master techniques, and share your passion with a community that cares.
               </Typography>

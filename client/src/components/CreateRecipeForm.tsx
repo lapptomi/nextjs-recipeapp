@@ -60,8 +60,6 @@ const CreateRecipeForm = () => {
   const selectedImage = watch("image");
   const router = useRouter();
 
-  console.log("SELECTED IMAGE = ", selectedImage);
-
   const handleFormSubmit = (data: NewRecipe) => {
     const formData = new FormData();
 

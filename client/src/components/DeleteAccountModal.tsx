@@ -46,7 +46,7 @@ export default function DeleteAccountModal() {
             </DialogContentText>
           </DialogContent>
           <DialogActions>
-            <Button size="small" onClick={() => setModalOpen(false)}>
+            <Button size="small" color="secondary" onClick={() => setModalOpen(false)}>
               Cancel
             </Button>
 
@@ -67,6 +67,7 @@ export default function DeleteAccountModal() {
       <Button
         variant="outlined"
         size="small"
+        color="secondary"
         startIcon={<Delete />}
         onClick={() => setModalOpen(true)}
       >

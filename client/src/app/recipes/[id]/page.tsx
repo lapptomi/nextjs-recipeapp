@@ -95,13 +95,7 @@ export default async function RecipeDetailPage({ params }: Props) {
 
               <Link href={`${ROUTES.PROFILES}/${recipe.author.id}`}>
                 <Box className="flex flex-row items-center gap-2">
-                  <Avatar
-                    sx={{
-                      background: "rgba(255, 255, 255, 0.20)",
-                      width: 70,
-                      height: 70,
-                    }}
-                  >
+                  <Avatar className="size-20 bg-[rgb(255_255_255_/_0.20)]">
                     {recipe.author.username[0].toUpperCase()}
                   </Avatar>
                   <Box>
@@ -137,7 +131,7 @@ export default async function RecipeDetailPage({ params }: Props) {
                     icon={<StarIcon fontSize="inherit" className="text-yellow-400" />}
                     emptyIcon={<StarIcon fontSize="inherit" className="text-gray-400" />}
                   />
-                  <Typography variant="body2" sx={{ color: "common.white" }}>
+                  <Typography variant="body2" color="textPrimaryLight">
                     {averageRating.toFixed(1)} ({recipe.ratings.length})
                   </Typography>
                 </Box>
@@ -154,10 +148,10 @@ export default async function RecipeDetailPage({ params }: Props) {
           <CardContent className="p-8">
             <Box className="mb-6 flex items-center gap-3">
               <Box
-                className="flex size-10 items-center justify-center rounded-full"
+                className="flex size-10 items-center justify-center rounded-full "
                 sx={{ bgcolor: "primary.main" }}
               >
-                <RestaurantIcon sx={{ color: "primary.contrastText" }} fontSize="small" />
+                <RestaurantIcon className="text-white" fontSize="small" />
               </Box>
               <Typography variant="h5" color="text.primary" fontWeight="medium">
                 Ingredients
@@ -181,7 +175,7 @@ export default async function RecipeDetailPage({ params }: Props) {
                 className="flex size-10 items-center justify-center rounded-full"
                 sx={{ bgcolor: "primary.main" }}
               >
-                <SearchIcon sx={{ color: "primary.contrastText" }} fontSize="small" />
+                <SearchIcon className="text-white" fontSize="small" />
               </Box>
               <Typography variant="h5" color="text.primary" fontWeight="medium">
                 Instructions
@@ -189,28 +183,21 @@ export default async function RecipeDetailPage({ params }: Props) {
             </Box>
 
             <Box className="flex flex-col gap-4">
-              {recipe.instructions
-                .split("\n")
-                .filter(Boolean)
-                .map((instruction, index) => (
-                  <Box key={index} className="flex items-start gap-4">
-                    <Box
-                      className="flex size-8 shrink-0 items-center justify-center rounded-full"
-                      sx={{ bgcolor: "primary.main" }}
-                    >
-                      <Typography
-                        variant="body2"
-                        className="font-bold"
-                        sx={{ color: "primary.contrastText" }}
-                      >
-                        {index + 1}
-                      </Typography>
-                    </Box>
-                    <Typography variant="body1" className="pt-1" sx={{ color: "text.secondary" }}>
-                      {instruction}
+              {recipe.instructions.split("\n").map((instruction, index) => (
+                <Box key={index} className="flex items-start gap-4">
+                  <Box
+                    className="flex size-8 shrink-0 items-center justify-center rounded-full"
+                    sx={{ bgcolor: "primary.main" }}
+                  >
+                    <Typography variant="body2" className="font-bold text-white">
+                      {index + 1}
                     </Typography>
                   </Box>
-                ))}
+                  <Typography variant="body1" className="pt-1" color="text.secondary">
+                    {instruction}
+                  </Typography>
+                </Box>
+              ))}
             </Box>
           </CardContent>
         </Card>
