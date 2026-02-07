@@ -1,10 +1,23 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import SearchIcon from "@mui/icons-material/Search";
-import { Box, Chip, InputAdornment, MenuItem, Select, TextField, Typography } from "@mui/material";
+import {
+  Box,
+  Chip,
+  IconButton,
+  InputAdornment,
+  MenuItem,
+  Select,
+  TextField,
+  Typography,
+} from "@mui/material";
 import { useRouter, useSearchParams } from "next/navigation";
+import { ROUTES } from "@/types";
+import ClearIcon from "@mui/icons-material/Clear";
+
+type SortOption = "date_asc" | "date_desc";
 
 const categories = ["All Recipes", "Breakfast", "Salad", "Pasta", "Dessert", "Other"];
 
@@ -15,8 +28,24 @@ export default function RecipeFilters() {
   const [selectedCategory, setSelectedCategory] = useState(
     searchParams.get("category") || "All Recipes"
   );
-  const [selectedSort, setSelectedSort] = useState(searchParams.get("sort") || "newest");
+  const [selectedSort, setSelectedSort] = useState(searchParams.get("sort") || "date_desc");
   const [searchQuery, setSearchQuery] = useState(searchParams.get("title") || "");
+
+  // Debounce search query
+  useEffect(() => {
+    const timeoutId = setTimeout(() => {
+      const params = new URLSearchParams(searchParams.toString());
+      if (searchQuery) {
+        params.set("title", searchQuery);
+      } else {
+        params.delete("title");
+      }
+      router.push(`${ROUTES.RECIPES}?${params.toString()}`);
+    }, 500);
+
+    return () => clearTimeout(timeoutId);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [searchQuery]);
 
   const handleCategoryChange = (category: string) => {
     setSelectedCategory(category);
@@ -26,32 +55,22 @@ export default function RecipeFilters() {
     } else {
       params.set("category", category);
     }
-    router.push(`/recipes2?${params.toString()}`);
+    router.push(`${ROUTES.RECIPES}?${params.toString()}`);
   };
 
-  const handleSortChange = (sort: string) => {
+  const handleSortChange = (sort: SortOption) => {
     setSelectedSort(sort);
     const params = new URLSearchParams(searchParams.toString());
     params.set("sort", sort);
-    router.push(`/recipes2?${params.toString()}`);
+    router.push(`${ROUTES.RECIPES}?${params.toString()}`);
   };
 
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const query = e.target.value;
-    setSearchQuery(query);
-
-    const params = new URLSearchParams(searchParams.toString());
-    if (query) {
-      params.set("title", query);
-    } else {
-      params.delete("title");
-    }
-    router.push(`/recipes2?${params.toString()}`);
+    setSearchQuery(e.target.value);
   };
 
   return (
     <Box className="mb-8 flex flex-col gap-6">
-      {/* Search Bar */}
       <TextField
         placeholder="Search recipes by name, ingredient, or author..."
         variant="outlined"
@@ -66,12 +85,17 @@ export default function RecipeFilters() {
               <SearchIcon className="text-gray-400" />
             </InputAdornment>
           ),
+          endAdornment: searchQuery && (
+            <InputAdornment position="end">
+              <IconButton size="small" onClick={() => setSearchQuery("")}>
+                <ClearIcon />
+              </IconButton>
+            </InputAdornment>
+          ),
         }}
       />
 
-      {/* Filters and Sort */}
       <Box className="flex flex-wrap items-center justify-between gap-4">
-        {/* Category Filters */}
         <Box className="flex flex-wrap items-center gap-2">
           <Typography variant="body2" className="mr-2 font-medium" color="text.secondary">
             Filter:
@@ -105,14 +129,13 @@ export default function RecipeFilters() {
           ))}
         </Box>
 
-        {/* Sort Dropdown */}
         <Box className="flex items-center gap-2">
           <Typography variant="body2" className="font-medium" color="text.secondary">
             Sort by:
           </Typography>
           <Select
             value={selectedSort}
-            onChange={(e) => handleSortChange(e.target.value)}
+            onChange={(e) => handleSortChange(e.target.value as SortOption)}
             size="small"
             className="min-w-[180px] bg-white"
             sx={{
@@ -124,10 +147,8 @@ export default function RecipeFilters() {
               },
             }}
           >
-            <MenuItem value="newest">Newest first</MenuItem>
-            <MenuItem value="oldest">Oldest first</MenuItem>
-            <MenuItem value="popular">Most popular</MenuItem>
-            <MenuItem value="rating">Highest rated</MenuItem>
+            <MenuItem value="date_desc">Newest first</MenuItem>
+            <MenuItem value="date_asc">Oldest first</MenuItem>
           </Select>
         </Box>
       </Box>

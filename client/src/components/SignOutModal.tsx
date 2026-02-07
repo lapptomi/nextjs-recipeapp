@@ -29,13 +29,13 @@ export default function SignOutModal() {
   return (
     <>
       <Dialog open={modalOpen} onClose={() => setLogoutModalOpen(false)}>
-        <Box className="px-4 py-2">
+        <Box className="px-10 py-4">
           <DialogTitle>Confirm Sign Out</DialogTitle>
           <DialogContent>
             <DialogContentText>Are you sure you want to sign out?</DialogContentText>
           </DialogContent>
           <DialogActions>
-            <Button size="small" onClick={() => setLogoutModalOpen(false)}>
+            <Button color="secondary" size="small" onClick={() => setLogoutModalOpen(false)}>
               Cancel
             </Button>
             <Button variant="contained" color="error" size="small" onClick={() => handleSignOut()}>
@@ -47,9 +47,11 @@ export default function SignOutModal() {
 
       <MenuItem onClick={() => setLogoutModalOpen(true)}>
         <ListItemIcon>
-          <Logout color="error" fontSize="small" />
+          <Logout color="error" fontSize="medium" />
         </ListItemIcon>
-        <Typography variant="body2">Logout</Typography>
+        <Typography variant="body1" color="text.secondary" fontWeight="medium">
+          Logout
+        </Typography>
       </MenuItem>
     </>
   );

@@ -10,13 +10,7 @@ import {
   CardContent,
   Chip,
   Container,
-  Divider,
-  List,
-  ListItem,
-  ListItemAvatar,
-  ListItemText,
   Rating,
-  TextField,
   Typography,
 } from "@mui/material";
 import Image from "next/image";
@@ -27,11 +21,12 @@ import { findRecipeById } from "@/lib/actions/recipe";
 import { ROUTES } from "@/types";
 import LikeButtons2 from "@/components/LikeButtons2";
 import SearchIcon from "@mui/icons-material/Search";
+import RecipeCommentForm from "./RecipeCommentForm";
 interface Props {
   params: Promise<{ id: string }>;
 }
 
-const RecipeDetailPage = async ({ params }: Props) => {
+export default async function RecipeDetailPage({ params }: Props) {
   const recipeId = (await params).id;
   const recipe = await findRecipeById(recipeId);
 
@@ -52,7 +47,7 @@ const RecipeDetailPage = async ({ params }: Props) => {
 
   return (
     <Box className="min-h-screen bg-gray-50">
-      <Box className="relative h-[400px] w-full bg-gray-900">
+      <Box className="relative h-[460px] w-full bg-gray-900">
         {recipe.image ? (
           <Image
             src={recipe.image}
@@ -71,22 +66,14 @@ const RecipeDetailPage = async ({ params }: Props) => {
           <Container maxWidth="lg" className="relative h-full">
             <Box className="pt-6">
               <Link href={ROUTES.RECIPES}>
-                <Button
-                  startIcon={<ArrowBackIcon />}
-                  sx={{
-                    bgcolor: "white",
-                    color: "text.primary",
-                    "&:hover": { bgcolor: "grey.100" },
-                  }}
-                  size="small"
-                >
+                <Button startIcon={<ArrowBackIcon />} variant="contained" color="info" size="small">
                   Back to Recipes
                 </Button>
               </Link>
             </Box>
 
             <Box className="absolute bottom-8 left-8 right-8 flex flex-col gap-3">
-              <Chip label={"CATEGORY"} className="w-fit bg-orange-400 text-white" />
+              <Chip size="small" label={"Category"} className="w-fit bg-orange-400 text-white" />
               <Typography
                 variant="h3"
                 className="font-bold"
@@ -228,117 +215,8 @@ const RecipeDetailPage = async ({ params }: Props) => {
           </CardContent>
         </Card>
 
-        <Card className="overflow-hidden rounded-2xl border border-gray-200">
-          <CardContent className="p-8">
-            <Typography variant="h5" className="mb-6" color="text.primary" fontWeight="medium">
-              Comments
-            </Typography>
-
-            {session?.user ? (
-              <Box className="mb-8">
-                <Typography
-                  variant="subtitle1"
-                  className="mb-3"
-                  color="text.secondary"
-                  fontWeight="medium"
-                >
-                  Leave a Comment
-                </Typography>
-                <TextField
-                  fullWidth
-                  multiline
-                  rows={4}
-                  placeholder="Share your experience with this recipe..."
-                  variant="outlined"
-                  className="mb-3"
-                  sx={{
-                    "& .MuiOutlinedInput-root": {
-                      bgcolor: "grey.50",
-                      "&:hover .MuiOutlinedInput-notchedOutline": {
-                        borderColor: "grey.400",
-                      },
-                    },
-                  }}
-                />
-                <Button variant="contained" color="primary">
-                  Submit Comment
-                </Button>
-              </Box>
-            ) : (
-              <Box className="mb-8 rounded-lg bg-gray-100 p-4 text-center">
-                <Typography variant="body2" sx={{ color: "text.secondary" }}>
-                  Please{" "}
-                  <Link href={ROUTES.LOGIN} className="underline">
-                    <Typography
-                      component="span"
-                      sx={{ color: "primary.main", "&:hover": { color: "primary.dark" } }}
-                    >
-                      sign in
-                    </Typography>
-                  </Link>{" "}
-                  to leave a comment
-                </Typography>
-              </Box>
-            )}
-
-            <Divider className="mb-6" />
-
-            {recipe.comments.length > 0 ? (
-              <List className="flex flex-col gap-4">
-                {recipe.comments.map((comment, index) => (
-                  <ListItem
-                    key={index}
-                    className="rounded-lg bg-gray-50 p-4"
-                    alignItems="flex-start"
-                  >
-                    <ListItemAvatar>
-                      <Avatar sx={{ bgcolor: "primary.main" }}>
-                        {comment.author.username[0].toUpperCase()}
-                      </Avatar>
-                    </ListItemAvatar>
-                    <ListItemText
-                      primary={
-                        <Box className="mb-2 flex items-center gap-2">
-                          <Link href={`${ROUTES.PROFILES}/${comment.author.id}`}>
-                            <Typography
-                              variant="subtitle2"
-                              className="font-semibold hover:underline"
-                              sx={{ color: "text.primary" }}
-                            >
-                              @{comment.author.username}
-                            </Typography>
-                          </Link>
-                          <Typography variant="caption" sx={{ color: "text.secondary" }}>
-                            {comment.createdAt &&
-                              new Date(comment.createdAt).toLocaleDateString("en-US", {
-                                year: "numeric",
-                                month: "long",
-                                day: "numeric",
-                              })}
-                          </Typography>
-                        </Box>
-                      }
-                      secondary={
-                        <Typography variant="body2" sx={{ color: "text.secondary" }}>
-                          {comment.message}
-                        </Typography>
-                      }
-                    />
-                  </ListItem>
-                ))}
-              </List>
-            ) : (
-              <Box className="py-8 text-center">
-                <Typography variant="body1" sx={{ color: "text.secondary" }}>
-                  No comments yet. Be the first to share your thoughts!
-                </Typography>
-              </Box>
-            )}
-          </CardContent>
-        </Card>
+        <RecipeCommentForm recipe={recipe} />
       </Container>
     </Box>
   );
-};
-
-export default RecipeDetailPage;
+}

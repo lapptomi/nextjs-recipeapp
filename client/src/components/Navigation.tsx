@@ -11,10 +11,10 @@ const Navigation = async () => {
   const session = await getSession();
 
   return (
-    <Box className="flex w-full flex-row justify-between border-b border-gray-200 bg-white px-8 py-4">
-      <Link href={ROUTES.HOME}>
+    <Box className="flex w-full flex-row justify-between border-b border-gray-200 bg-white px-8 py-3">
+      <Link href={ROUTES.HOME} className="flex items-center justify-center">
         <Box className="flex items-center gap-2">
-          <Box className="flex items-center justify-center rounded-lg p-1 bg-orange-400">
+          <Box className="flex items-center justify-center rounded-lg p-1 bg-orange-400 hover:bg-orange-500">
             <SoupKitchenOutlinedIcon color="info" sx={{ fontSize: 28 }} />
           </Box>
           <Typography variant="h5" fontWeight="bold" color="text.primary">
@@ -29,7 +29,7 @@ const Navigation = async () => {
             <Tooltip title="Create new recipe">
               <Button size="small" href={ROUTES.CREATE_RECIPE}>
                 <Add color="primary" />
-                <Typography variant="overline" color="text.secondary">
+                <Typography variant="body2" color="text.secondary" fontWeight="medium">
                   Create
                 </Typography>
               </Button>
@@ -41,16 +41,17 @@ const Navigation = async () => {
           <>
             <Button
               sx={{ color: "text.secondary" }}
-              size="small"
               href={ROUTES.LOGIN}
               startIcon={<PersonOutlineOutlinedIcon />}
             >
-              <Typography variant="body2" color="text.primary" fontWeight="medium">
+              <Typography variant="body2" color="text.secondary" fontWeight="medium">
                 Sign in
               </Typography>
             </Button>
             <Button size="small" variant="contained" href={ROUTES.REGISTER} color="primary">
-              Sign up
+              <Typography variant="body2" color="text.primaryLight" fontWeight="medium">
+                Sign up
+              </Typography>
             </Button>
           </>
         )}

@@ -25,74 +25,13 @@ import { ROUTES } from "@/types";
 
 import type { RecipeListItem } from "@/types";
 import { APPLICATION_NAME } from "@/lib/constants";
+import RecipeListCardSmall from "@/components/RecipeListCardSmall";
 
 const imgHeroRecipe = "/recipeimage.jpeg";
 const imgKitchen = "/recipeimage2.jpg";
 
 const CARD_WIDTH = 280;
 const CARD_GAP = 16;
-
-const PopularRecipeCard = ({ recipe }: { recipe: RecipeListItem }) => {
-  return (
-    <Link href={`${ROUTES.RECIPES}/${recipe.id}`}>
-      <Card
-        className="h-full overflow-hidden transition-all duration-200 hover:shadow-lg"
-        sx={{
-          borderRadius: 3,
-          border: "1px solid",
-          borderColor: "grey.200",
-        }}
-      >
-        <Box className="relative h-48 bg-gray-100">
-          {recipe.image ? (
-            <CardMedia component="div" className="relative h-full w-full">
-              <Image
-                src={recipe.image}
-                alt={recipe.title}
-                fill
-                className="object-cover"
-                quality={80}
-              />
-            </CardMedia>
-          ) : (
-            <Box className="flex h-full items-center justify-center">
-              <RestaurantMenuIcon className="text-gray-300" style={{ fontSize: 60 }} />
-            </Box>
-          )}
-          <Box className="absolute right-2 top-2 flex items-center gap-1 rounded-lg bg-white px-2 py-1 shadow-sm">
-            <StarIcon sx={{ color: "primary.main", fontSize: 16 }} />
-            <Typography variant="caption" className="font-semibold">
-              {recipe.averageRating.toFixed(1)}
-            </Typography>
-          </Box>
-        </Box>
-
-        <CardContent className="p-4">
-          <Typography color="text.primary" variant="h6" className="mb-1 line-clamp-1 font-semibold">
-            {recipe.title}
-          </Typography>
-          <Typography variant="caption" className="mb-2" sx={{ color: "text.secondary" }}>
-            @{recipe.author.username}
-          </Typography>
-          <Box className="flex items-center gap-3">
-            <Box className="flex items-center gap-1">
-              <AccessTimeIcon sx={{ fontSize: 14, color: "text.secondary" }} />
-              <Typography variant="caption" color="text.secondary">
-                {recipe.cookingTime}m
-              </Typography>
-            </Box>
-            <Box className="flex items-center gap-1">
-              <RestaurantIcon sx={{ fontSize: 14, color: "text.secondary" }} />
-              <Typography variant="caption" color="text.secondary">
-                {recipe.servings}
-              </Typography>
-            </Box>
-          </Box>
-        </CardContent>
-      </Card>
-    </Link>
-  );
-};
 
 const PopularRecipesSkeleton = () => {
   return (
@@ -118,7 +57,7 @@ const PopularRecipesSkeleton = () => {
 };
 
 const PopularRecipes = async () => {
-  const response = await getRecipes("pageSize=4");
+  const response = await getRecipes("page=1&page_size=4");
   return (
     <Box
       className="grid justify-center"
@@ -128,7 +67,7 @@ const PopularRecipes = async () => {
       }}
     >
       {response.content.map((recipe) => (
-        <PopularRecipeCard key={recipe.id} recipe={recipe} />
+        <RecipeListCardSmall key={recipe.id} recipe={recipe} />
       ))}
     </Box>
   );
@@ -166,16 +105,12 @@ const LandingPage = () => {
     <Box>
       <Box className="bg-white">
         <Container maxWidth="xl" className="py-16">
-          <Box className="grid grid-cols-1 items-center gap-12 lg:grid-cols-2">
-            <Box className="flex flex-col gap-6">
-              <Typography
-                variant="h2"
-                className="font-bold leading-tight"
-                sx={{ color: "text.primary", fontSize: { xs: "2.5rem", md: "3.5rem" } }}
-              >
+          <Box className="flex items-center gap-4 flex-row bg justify-evenly flex-wrap">
+            <Box className="flex flex-col gap-6 max-w-[500px] min-w-[500px] ">
+              <Typography variant="h2" fontWeight="bold" color="text.primary">
                 Discover & share recipes you&apos;ll love
               </Typography>
-              <Typography variant="h6" sx={{ color: "text.secondary", fontWeight: 400 }}>
+              <Typography variant="h6" color="text.secondary" fontWeight="normal">
                 Join thousands of home cooks sharing their favorite recipes. Browse, create, and
                 cook delicious meals every day.
               </Typography>
@@ -259,20 +194,22 @@ const LandingPage = () => {
 
       <Box className="bg-gray-50 py-10">
         <Container maxWidth="xl">
-          <Box className="mb-8 flex items-center justify-between">
-            <Box>
-              <Typography variant="h4" className="mb-2 font-bold" color="text.primary">
-                Popular Recipes
-              </Typography>
-              <Typography variant="body2" color="text.secondary">
-                Trending dishes our community loves
-              </Typography>
+          <Box className="mb-8 flex items-center justify-center">
+            <Box className="flex w-full max-w-[1200px] items-center justify-between">
+              <Box>
+                <Typography variant="h4" className="mb-2 font-bold" color="text.primary">
+                  Popular Recipes
+                </Typography>
+                <Typography variant="body2" color="text.secondary">
+                  Trending dishes our community loves
+                </Typography>
+              </Box>
+              <Link href={ROUTES.RECIPES}>
+                <Button endIcon={<ArrowForwardIcon />} color="secondary">
+                  View all
+                </Button>
+              </Link>
             </Box>
-            <Link href={ROUTES.RECIPES}>
-              <Button endIcon={<ArrowForwardIcon />} color="primary">
-                View all
-              </Button>
-            </Link>
           </Box>
 
           <Suspense fallback={<PopularRecipesSkeleton />}>
@@ -312,7 +249,7 @@ const LandingPage = () => {
         </Container>
       </Box>
 
-      <Box className="bg-grey-50 py-12">
+      <Box className="bg-gray-50 py-12">
         <Container maxWidth="xl">
           <Box className="grid grid-cols-1 items-center gap-12 lg:grid-cols-2">
             <Box className="flex justify-center">

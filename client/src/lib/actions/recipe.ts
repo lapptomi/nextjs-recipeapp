@@ -7,6 +7,9 @@ import type { CommentForm, Recipe, RecipeListItem, RecipeRatingType } from "@/ty
 interface Response {
   content: RecipeListItem[];
   totalElements: number;
+  page: number;
+  size: number;
+  numberOfElements: number;
 }
 
 export const getRecipes = async (queryParams?: string) => {

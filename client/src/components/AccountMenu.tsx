@@ -22,7 +22,26 @@ interface Props {
   user: Session["user"];
 }
 
-const AccountMenu: React.FC<Props> = ({ user }) => {
+const MenuItemWithIcon = ({
+  icon,
+  label,
+  onClick,
+}: {
+  icon: React.ReactNode;
+  label: string;
+  onClick: () => void;
+}) => {
+  return (
+    <MenuItem onClick={onClick}>
+      <ListItemIcon>{icon}</ListItemIcon>
+      <Typography variant="body1" color="text.secondary" fontWeight="medium">
+        {label}
+      </Typography>
+    </MenuItem>
+  );
+};
+
+export default function AccountMenu({ user }: Props) {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
 
   const open = Boolean(anchorEl);
@@ -42,7 +61,7 @@ const AccountMenu: React.FC<Props> = ({ user }) => {
           <Avatar alt="profile" src={user?.image || ""} className="size-8">
             {user?.name ? user.name[0] : ""}
           </Avatar>
-          <Typography variant="body2" color="text.secondary">
+          <Typography variant="body1" color="text.secondary" fontWeight="medium">
             {user?.name || ""}
           </Typography>
         </Button>
@@ -58,30 +77,27 @@ const AccountMenu: React.FC<Props> = ({ user }) => {
       >
         <Box className="flex flex-col gap-1">
           <Link href={`${ROUTES.PROFILES}/${user.id}`}>
-            <MenuItem onClick={handleClose}>
-              <ListItemIcon>
-                <Person fontSize="small" color="inherit" />
-              </ListItemIcon>
-              <Typography variant="body2">Profile</Typography>
-            </MenuItem>
+            <MenuItemWithIcon
+              icon={<Person fontSize="medium" color="inherit" />}
+              label="Profile"
+              onClick={() => handleClose()}
+            />
           </Link>
 
           <Link href={ROUTES.CREATE_RECIPE}>
-            <MenuItem onClick={handleClose}>
-              <ListItemIcon>
-                <Add fontSize="small" />
-              </ListItemIcon>
-              <Typography variant="body2">Create Recipe</Typography>
-            </MenuItem>
+            <MenuItemWithIcon
+              icon={<Add fontSize="medium" />}
+              label="Create Recipe"
+              onClick={() => handleClose()}
+            />
           </Link>
 
           <Link href={`${ROUTES.PROFILES}/${user.id}/settings`}>
-            <MenuItem onClick={handleClose}>
-              <ListItemIcon>
-                <Settings color="inherit" fontSize="small" />
-              </ListItemIcon>
-              <Typography variant="body2">Settings</Typography>
-            </MenuItem>
+            <MenuItemWithIcon
+              icon={<Settings fontSize="medium" color="inherit" />}
+              label="Settings"
+              onClick={() => handleClose()}
+            />
           </Link>
 
           <Divider />
@@ -90,6 +106,4 @@ const AccountMenu: React.FC<Props> = ({ user }) => {
       </Menu>
     </>
   );
-};
-
-export default AccountMenu;
+}

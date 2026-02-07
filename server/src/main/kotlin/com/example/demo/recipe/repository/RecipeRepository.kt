@@ -22,7 +22,6 @@ class RecipeRepository(val jdbcTemplate: NamedParameterJdbcTemplate) {
     @Value("\${update.recipe_rating}") private lateinit var updateRecipeRatingQuery: String
     @Value("\${create.recipe_rating}") private lateinit var createRecipeRatingQuery: String
     @Value("\${find.recipe_author}") private lateinit var findRecipeAuthorQuery: String
-    @Value("\${find.recipes.by.user_id}") private lateinit var findRecipesByUserIdQuery: String
     @Value("\${create.recipe_comment}") private lateinit var createRecipeCommentQuery: String
     @Value("\${create.recipe}") private lateinit var createRecipeQuery: String
     @Value("\${find.recipes.with.paging}") private lateinit var findRecipesPagingQuery: String
@@ -123,21 +122,50 @@ class RecipeRepository(val jdbcTemplate: NamedParameterJdbcTemplate) {
 
     fun fetchUserRecipes(userId: Int): List<Recipe> {
         val params = MapSqlParameterSource().addValue("userId", userId)
+        val sql =
+            """
+            SELECT r.*, u.id AS user_id, u.username
+            FROM recipes r
+            JOIN users u ON r.user_id = u.id
+            WHERE u.id = :userId
+            ORDER BY r.created_at DESC
+            """
+                .trimIndent()
 
-        return jdbcTemplate.query(findRecipesByUserIdQuery, params) { rs, _ ->
-            Recipe(
-                author = fetchRecipeAuthor(userId),
-                id = rs.getInt("id"),
-                ingredients = rs.getString("ingredients").split(","),
-                cookingTime = rs.getInt("cooking_time"),
-                servings = rs.getInt("servings"),
-                instructions = rs.getString("instructions"),
-                title = rs.getString("title"),
-                description = rs.getString("description"),
-                image = rs.getString("image"),
-                createdAt = rs.getTimestamp("created_at").toLocalDateTime(),
-            )
-        }
+        /*
+        TODO: check this later
+        find.recipes.by.user_id=SELECT \
+        id, \
+        title, \
+        description, \
+        image, \
+        ingredients, \
+        cooking_time, \
+        servings, \
+        instructions, \
+        created_at \
+        FROM recipes \
+        WHERE user_id = :userId \
+        ORDER BY created_at DESC∫
+        */
+
+        val recipes =
+            jdbcTemplate.query(sql, params) { rs, _ ->
+                Recipe(
+                    author = RecipeAuthorDTO(id = rs.getInt("user_id"), username = rs.getString("username")),
+                    id = rs.getInt("id"),
+                    ingredients = rs.getString("ingredients").split(","),
+                    cookingTime = rs.getInt("cooking_time"),
+                    servings = rs.getInt("servings"),
+                    instructions = rs.getString("instructions"),
+                    title = rs.getString("title"),
+                    description = rs.getString("description"),
+                    image = rs.getString("image"),
+                    createdAt = rs.getTimestamp("created_at").toLocalDateTime(),
+                )
+            }
+
+        return recipes
     }
 
     fun findById(recipeId: Int): Recipe {

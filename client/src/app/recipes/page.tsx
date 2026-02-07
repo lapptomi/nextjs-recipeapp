@@ -10,6 +10,7 @@ import {
   CardMedia,
   Chip,
   Container,
+  Pagination,
   Rating,
   Skeleton,
   Typography,
@@ -23,6 +24,7 @@ import { ROUTES } from "@/types";
 import type { RecipeListItem } from "@/types";
 
 import RecipeFilters from "@/app/recipes/RecipeFilters";
+import RecipePagination from "@/components/RecipePagination";
 
 interface Params {
   searchParams: Promise<{
@@ -37,14 +39,14 @@ interface Params {
 export const dynamic = "force-dynamic";
 
 // Grid configuration constants
-const CARD_WIDTH = 400; // Card width in pixels
+const CARD_WIDTH = 350; // Card width in pixels
 const CARD_GAP = 24; // Gap between cards in pixels (gap-6 = 24px)
 
 const RecipeCard = ({ recipe }: { recipe: RecipeListItem }) => {
   return (
     <Link href={`${ROUTES.RECIPES}/${recipe.id}`} className="block h-full w-full">
       <Card className="h-full w-full overflow-hidden rounded-2xl border border-gray-200 shadow-sm transition-all duration-200 hover:shadow-md">
-        <Box className="relative h-72 bg-gray-100">
+        <Box className="relative h-[250px] bg-gray-100">
           {recipe.image ? (
             <CardMedia component="div" className="relative h-full w-full">
               <Image
@@ -76,6 +78,9 @@ const RecipeCard = ({ recipe }: { recipe: RecipeListItem }) => {
             </Typography>
             <Typography variant="body2" className="text-sm text-gray-500">
               @{recipe.author?.username}
+            </Typography>
+            <Typography variant="body2" className="text-sm text-gray-500">
+              {recipe.description}
             </Typography>
           </Box>
 
@@ -116,7 +121,19 @@ const RecipeCard = ({ recipe }: { recipe: RecipeListItem }) => {
   );
 };
 
-const RecipeGrid = ({ recipes }: { recipes: RecipeListItem[] }) => {
+const RecipeGrid = ({
+  recipes,
+  currentPage,
+  totalPages,
+  totalElements,
+}: {
+  recipes: RecipeListItem[];
+  currentPage: number;
+  totalPages: number;
+  totalElements: number;
+}) => {
+  console.log(recipes);
+
   if (!recipes || recipes.length === 0) {
     return (
       <Box className="flex justify-center py-20">
@@ -133,16 +150,27 @@ const RecipeGrid = ({ recipes }: { recipes: RecipeListItem[] }) => {
   }
 
   return (
-    <Box
-      className="grid justify-center"
-      sx={{
-        gridTemplateColumns: `repeat(auto-fit, minmax(${CARD_WIDTH}px, ${CARD_WIDTH}px))`,
-        gap: `${CARD_GAP}px`,
-      }}
-    >
-      {recipes.map((recipe) => (
-        <RecipeCard key={recipe.id} recipe={recipe} />
-      ))}
+    <Box className="flex flex-col gap-8">
+      <Box
+        className="grid justify-center"
+        sx={{
+          gridTemplateColumns: `repeat(auto-fit, minmax(${CARD_WIDTH}px, ${CARD_WIDTH}px))`,
+          gap: `${CARD_GAP}px`,
+        }}
+      >
+        {recipes.map((recipe) => (
+          <RecipeCard key={recipe.id} recipe={recipe} />
+        ))}
+      </Box>
+
+      <Box className="flex flex-col items-center justify-center gap-4">
+        <RecipePagination currentPage={currentPage} totalPages={totalPages} />
+        <Box>
+          <Typography variant="body2" className="text-gray-600">
+            Showing {currentPage * 12 - 12 + 1}-{currentPage * 12} of {totalElements} recipes
+          </Typography>
+        </Box>
+      </Box>
     </Box>
   );
 };
@@ -176,7 +204,14 @@ const RecipeGridSkeleton = () => {
 
 const RecipesList = async ({ queryParams }: { queryParams: string }) => {
   const response = await getRecipes(queryParams);
-  return <RecipeGrid recipes={response.content} />;
+  return (
+    <RecipeGrid
+      recipes={response.content}
+      currentPage={response.page}
+      totalPages={Math.ceil(response.totalElements / response.size)}
+      totalElements={response.totalElements}
+    />
+  );
 };
 
 export default async function BrowseRecipesPage({ searchParams }: Params) {
@@ -184,6 +219,8 @@ export default async function BrowseRecipesPage({ searchParams }: Params) {
   const queryParams = Object.entries(params)
     .map(([key, value]) => `${key}=${value}`)
     .join("&");
+
+  console.log(params);
 
   return (
     <Box className="min-h-screen bg-gray-50 mx-8">
@@ -202,12 +239,6 @@ export default async function BrowseRecipesPage({ searchParams }: Params) {
         <Suspense fallback={<RecipeGridSkeleton />}>
           <RecipesList queryParams={queryParams} />
         </Suspense>
-
-        <Box className="mt-12 text-center">
-          <Typography variant="body2" className="text-gray-600">
-            Showing 1-6 of 6 recipes
-          </Typography>
-        </Box>
       </Container>
     </Box>
   );

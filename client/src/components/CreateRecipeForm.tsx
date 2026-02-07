@@ -44,7 +44,7 @@ const CreateRecipeForm = () => {
       title: "",
       description: "",
       ingredients: [{ ingredient: "Add ingredient..." }],
-      instructions: "",
+      instructions: [{ instruction: "Add instruction...", step: 1 }],
       cookingTime: 0,
       servings: 0,
       image: null,
@@ -59,6 +59,8 @@ const CreateRecipeForm = () => {
   // eslint-disable-next-line react-hooks/incompatible-library
   const selectedImage = watch("image");
   const router = useRouter();
+
+  console.log("SELECTED IMAGE = ", selectedImage);
 
   const handleFormSubmit = (data: NewRecipe) => {
     const formData = new FormData();
@@ -216,7 +218,9 @@ const CreateRecipeForm = () => {
             hidden
             accept="image/png, image/jpeg"
             {...register("image")}
-            onChange={(event: any) => setValue("image", event.target.files[0])}
+            onChange={(event: any) => {
+              setValue("image", event.target.files[0]);
+            }}
           />
         </Button>
         {selectedImage && (

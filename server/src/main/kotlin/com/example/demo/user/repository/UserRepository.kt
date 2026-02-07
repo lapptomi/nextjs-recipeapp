@@ -100,7 +100,6 @@ class UserRepository(val jdbcTemplate: NamedParameterJdbcTemplate) {
             INSERT INTO users (username, email, provider_id, provider)
             VALUES (:username, :email, :provider_id, :provider)
             """
-                .trimIndent()
 
         val keyHolder = GeneratedKeyHolder()
         jdbcTemplate.update(sql, params, keyHolder, arrayOf("id"))
