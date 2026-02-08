@@ -36,6 +36,7 @@ class AuthService(
                     email = credentials.email,
                     provider = credentials.provider,
                     providerId = credentials.providerId,
+                    image = credentials.image,
                 )
 
         return JwtTokenDto(

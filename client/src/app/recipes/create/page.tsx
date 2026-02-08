@@ -1,17 +1,13 @@
-import { Box } from "@mui/material";
+import CreateRecipeForm from "./CreateRecipeForm";
+import { getSession } from "@/lib/actions/auth";
+import { ROUTES } from "@/types";
+import { redirect } from "next/navigation";
 
-import CreateRecipeForm from "@/components/CreateRecipeForm";
-import TitleHeader from "@/components/TitleHeader";
+export default async function CreateRecipePage() {
+  const session = await getSession();
+  if (!session) {
+    redirect(ROUTES.LOGIN);
+  }
 
-const CreateRecipePage = () => {
-  return (
-    <Box>
-      <TitleHeader title="CREATE RECIPE" />
-      <Box className="flex min-h-[300px] items-center justify-center p-8">
-        <CreateRecipeForm />
-      </Box>
-    </Box>
-  );
-};
-
-export default CreateRecipePage;
+  return <CreateRecipeForm />;
+}

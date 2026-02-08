@@ -28,11 +28,20 @@ export const NewRecipeSchema = z.object({
     .array(
       z.object({
         ingredient: z.string().min(4).max(30),
+        amount: z.string().min(0).max(10000),
       })
     )
     .min(1)
     .max(200),
-  instructions: z.string().min(4).max(5000),
+  instructions: z
+    .array(
+      z.object({
+        instruction: z.string().min(4).max(5000),
+        step: z.number(),
+      })
+    )
+    .min(1)
+    .max(200),
   cookingTime: z.number().optional(),
   servings: z.number().min(0).optional(),
   image: NewRecipeImageSchema.nullable().optional(),
@@ -50,7 +59,7 @@ export type NewRecipe = z.infer<typeof NewRecipeSchema>;
 
 export const CommentSchema = z.object({
   recipeId: z.number(),
-  message: z.string().min(4).max(1000),
+  message: z.string().min(1).max(1000),
 });
 
 export type CommentForm = z.infer<typeof CommentSchema>;
@@ -60,8 +69,10 @@ export interface User {
   email: string;
   username: string;
   password: string;
+  bio: string | null;
   image: string | null;
-  recipes: Recipe[];
+  createdAt: Date;
+  recipes: RecipeListItem[];
 }
 
 export interface RecipeComment {

@@ -47,6 +47,7 @@ function EditField({
         defaultValue={defaultValue}
       />
       <Button
+        color="secondary"
         variant="text"
         size="small"
         onClick={() => {

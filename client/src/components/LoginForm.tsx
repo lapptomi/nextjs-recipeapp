@@ -79,7 +79,7 @@ const LoginForm = () => {
 
           <Button
             startIcon={<GitHubIcon />}
-            color="primary"
+            color="secondary"
             type="submit"
             fullWidth
             variant="outlined"
@@ -90,7 +90,7 @@ const LoginForm = () => {
 
           <Button
             startIcon={<FcGoogle />}
-            color="primary"
+            color="secondary"
             type="submit"
             fullWidth
             variant="outlined"
@@ -98,17 +98,17 @@ const LoginForm = () => {
           >
             Sign In With Google
           </Button>
-          <Typography variant="caption" color="GrayText" align="center">
+          <Typography variant="body2" color="text.secondary" align="center">
             By signing in, you agree to our <Link href="/privacy">Privacy Policy</Link>.
           </Typography>
         </Box>
       </Box>
 
       <Box sx={{ display: "flex", justifyContent: "space-between", mt: 2 }}>
-        <Link href="/resetpassword" variant="body2">
+        <Link href="/resetpassword" variant="body2" color="text.primary">
           Forgot password?
         </Link>
-        <Link href={ROUTES.REGISTER} variant="body2">
+        <Link href={ROUTES.REGISTER} variant="body2" color="text.primary">
           Dont have an account? Sign Up
         </Link>
       </Box>

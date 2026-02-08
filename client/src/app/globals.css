@@ -87,6 +87,7 @@ html,
 body {
   max-width: 100vw;
   overflow-x: hidden;
+  padding-right: 0px !important; /* Prevent empty space on the right when using mui select */
 }
 
 body {

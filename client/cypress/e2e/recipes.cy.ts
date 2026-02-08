@@ -29,13 +29,16 @@ describe("Recipes", () => {
     cy.get('input[name="title"]').type(recipe.title);
     cy.get('input[name="title"]').should("have.value", recipe.title);
 
-    cy.get('input[name="description"]').type(recipe.description);
-    cy.get('input[name="description"]').should("have.value", recipe.description);
+    cy.get('textarea[name="description"]').type(recipe.description);
+    cy.get('textarea[name="description"]').should("have.value", recipe.description);
 
-    cy.get('textarea[name="instructions"]').type(recipe.instructions);
-    cy.get('textarea[name="instructions"]').should("have.value", recipe.instructions);
+    cy.get('input[name="ingredients.0.amount"]').type("2 cups");
+    cy.get('input[name="ingredients.0.ingredient"]').type("flour");
 
-    cy.get("button").contains("Submit").click();
+    cy.get('textarea[name="instructions.0.instruction"]').type(recipe.instructions);
+    cy.get('textarea[name="instructions.0.instruction"]').should("have.value", recipe.instructions);
+
+    cy.contains("button", "Publish Recipe").click();
 
     cy.contains("Test recipe", { matchCase: false });
     cy.contains("Test description", { matchCase: false });
@@ -48,22 +51,27 @@ describe("Recipes", () => {
     cy.get('input[name="title"]').type(recipe.title);
     cy.get('input[name="title"]').should("have.value", recipe.title);
 
-    cy.get('input[name="description"]').type(recipe.description);
-    cy.get('input[name="description"]').should("have.value", recipe.description);
+    cy.get('textarea[name="description"]').type(recipe.description);
+    cy.get('textarea[name="description"]').should("have.value", recipe.description);
 
-    cy.get('textarea[name="instructions"]').type(recipe.instructions);
-    cy.get('textarea[name="instructions"]').should("have.value", recipe.instructions);
+    cy.get('input[name="ingredients.0.amount"]').type("2 cups");
+    cy.get('input[name="ingredients.0.ingredient"]').type("flour");
 
-    cy.get("button").contains("Submit").click();
+    cy.get('textarea[name="instructions.0.instruction"]').type(recipe.instructions);
+    cy.get('textarea[name="instructions.0.instruction"]').should("have.value", recipe.instructions);
+
+    cy.contains("button", "Publish Recipe").click();
 
     cy.contains("Test recipe", { matchCase: false });
     cy.contains("Test description", { matchCase: false });
     cy.contains("Test instructions", { matchCase: false });
 
+    // Wait for the comment form to be visible
+    cy.get('textarea[name="message"]').should("be.visible");
     cy.get('textarea[name="message"]').type("Test comment");
     cy.get('textarea[name="message"]').should("have.value", "Test comment");
 
-    cy.get("#comment-button").click();
+    cy.contains("button", "Send").should("be.visible").click();
 
     cy.contains("Test comment", { matchCase: false });
   });
@@ -74,19 +82,23 @@ describe("Recipes", () => {
     cy.get('input[name="title"]').type(recipe.title);
     cy.get('input[name="title"]').should("have.value", recipe.title);
 
-    cy.get('input[name="description"]').type(recipe.description);
-    cy.get('input[name="description"]').should("have.value", recipe.description);
+    cy.get('textarea[name="description"]').type(recipe.description);
+    cy.get('textarea[name="description"]').should("have.value", recipe.description);
 
-    cy.get('textarea[name="instructions"]').type(recipe.instructions);
-    cy.get('textarea[name="instructions"]').should("have.value", recipe.instructions);
+    cy.get('input[name="ingredients.0.amount"]').type("2 cups");
+    cy.get('input[name="ingredients.0.ingredient"]').type("flour");
 
-    cy.get("button").contains("Submit").click();
+    cy.get('textarea[name="instructions.0.instruction"]').type(recipe.instructions);
+    cy.get('textarea[name="instructions.0.instruction"]').should("have.value", recipe.instructions);
+
+    cy.contains("button", "Publish Recipe").click();
 
     cy.contains("Test recipe", { matchCase: false });
     cy.contains("Test description", { matchCase: false });
     cy.contains("Test instructions", { matchCase: false });
 
-    cy.get("#like-button").click();
+    // Find the like button by its count element and click the parent button
+    cy.get('[data-testid="like-count"]').parent("button").click();
     cy.get('[data-testid="like-count"]').should("have.text", "1");
   });
 
@@ -96,19 +108,23 @@ describe("Recipes", () => {
     cy.get('input[name="title"]').type(recipe.title);
     cy.get('input[name="title"]').should("have.value", recipe.title);
 
-    cy.get('input[name="description"]').type(recipe.description);
-    cy.get('input[name="description"]').should("have.value", recipe.description);
+    cy.get('textarea[name="description"]').type(recipe.description);
+    cy.get('textarea[name="description"]').should("have.value", recipe.description);
 
-    cy.get('textarea[name="instructions"]').type(recipe.instructions);
-    cy.get('textarea[name="instructions"]').should("have.value", recipe.instructions);
+    cy.get('input[name="ingredients.0.amount"]').type("2 cups");
+    cy.get('input[name="ingredients.0.ingredient"]').type("flour");
 
-    cy.get("button").contains("Submit").click();
+    cy.get('textarea[name="instructions.0.instruction"]').type(recipe.instructions);
+    cy.get('textarea[name="instructions.0.instruction"]').should("have.value", recipe.instructions);
+
+    cy.contains("button", "Publish Recipe").click();
 
     cy.contains("Test recipe", { matchCase: false });
     cy.contains("Test description", { matchCase: false });
     cy.contains("Test instructions", { matchCase: false });
 
-    cy.get("#dislike-button").click();
+    // Find the dislike button by its count element and click the parent button
+    cy.get('[data-testid="dislike-count"]').parent("button").click();
     cy.get('[data-testid="dislike-count"]').should("have.text", "1");
   });
 });

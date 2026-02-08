@@ -2,6 +2,14 @@
 
 import { createTheme } from "@mui/material";
 
+// Extend Material-UI's TypeScript types to include custom colors
+declare module "@mui/material/styles" {
+  interface TypeText {
+    primaryLight: string;
+    secondaryLight: string;
+  }
+}
+
 export const theme = createTheme({
   components: {
     MuiTextField: {
@@ -21,21 +29,36 @@ export const theme = createTheme({
     MuiButton: {
       styleOverrides: {
         root: {
-          borderRadius: "2px",
+          borderRadius: "8px",
           padding: "8px 12px",
+          boxShadow: "none",
+          "&:hover": {
+            boxShadow: "none",
+          },
+          "&:active": {
+            boxShadow: "none",
+          },
         },
       },
     },
   },
   palette: {
     primary: {
-      main: "#000000",
+      main: "#ed6c02",
+      contrastText: "#ffffff", // White text on primary color
     },
     secondary: {
-      main: "#ed6c02",
+      main: "#000000",
+      contrastText: "#ffffff", // White text on secondary color
     },
     info: {
       main: "#ffffff",
+    },
+    text: {
+      primary: "#171717", // Dark text for light backgrounds
+      secondary: "#666666", // Secondary dark text
+      primaryLight: "#ffffff", // White text for dark backgrounds
+      secondaryLight: "#e5e5e5", // Light gray text for dark backgrounds
     },
   },
   typography: {

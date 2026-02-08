@@ -33,7 +33,7 @@ class UserService(
     }
 
     fun findUserById(id: Int): UserDTO {
-        val user = userRepository.findById(id)
+        val user = userRepository.findUserById(id)
         val recipes =
             recipeRepository.fetchUserRecipes(user.id).map {
                 it.toRecipeListItemDTO(
@@ -61,5 +61,24 @@ class UserService(
         if (password.isEmpty()) throw IllegalArgumentException("Password cannot be null or empty")
         if (password.length < 8) throw IllegalArgumentException("Password must be at least 8 characters long")
         return password
+    }
+
+    fun followUser(followerId: Int, userToFollowId: Int) {
+        if (followerId == userToFollowId) throw IllegalArgumentException("Users cannot follow themselves")
+        userRepository.addFollower(followerId, userToFollowId)
+    }
+
+    fun getUserFollowers(userId: Int): List<UserDTO> {
+        val followers = userRepository.getUserFollowers(userId)
+        return followers.map { it.toUserDTO() }
+    }
+
+    fun unfollowUser(followerId: Int, userToUnfollowId: Int) {
+        userRepository.removeFollower(followerId, userToUnfollowId)
+    }
+
+    fun getUserFollowing(userId: Int): List<UserDTO> {
+        val following = userRepository.getUserFollowing(userId)
+        return following.map { it.toUserDTO() }
     }
 }

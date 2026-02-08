@@ -1,13 +1,6 @@
 import { NextResponse } from "next/server";
-import { withAuth } from "next-auth/middleware";
-
-import { NEXTAUTH_SECRET } from "./lib/constants";
 
 import type { NextRequest } from "next/server";
-
-export default withAuth({
-  secret: NEXTAUTH_SECRET,
-});
 
 export function middleware(request: NextRequest) {
   const country = request.headers.get("x-vercel-ip-country");
@@ -18,6 +11,13 @@ export function middleware(request: NextRequest) {
     return NextResponse.next();
   }
 
+  console.log(request.headers.get("x-internal-edge"));
+  /*
+  if (request.headers.get("x-internal-edge") !== process.env.CF_EDGE_SECRET) {
+    return new Response("Forbidden", { status: 403 });
+  }
+  */
+
   // Only allow requests from Finland when running in production
   if (process.env.NODE_ENV === "production") {
     if (!country || country !== "FI") {
@@ -27,10 +27,3 @@ export function middleware(request: NextRequest) {
 
   return NextResponse.next();
 }
-
-// Redirect to login page if not authenticated.
-// Works with regex.
-export const config = {
-  // matcher: ["/recipes/create"],
-  matcher: ["/recipes/create", "/:path*"],
-};
