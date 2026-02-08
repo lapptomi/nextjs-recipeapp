@@ -19,7 +19,7 @@ import Link from "next/link";
 import { getSession } from "@/lib/actions/auth";
 import { findRecipeById } from "@/lib/actions/recipe";
 import { ROUTES } from "@/types";
-import LikeButtons2 from "@/components/LikeButtons2";
+import LikeButtons from "@/components/LikeButtons";
 import SearchIcon from "@mui/icons-material/Search";
 import RecipeCommentForm from "./RecipeCommentForm";
 interface Props {
@@ -137,7 +137,7 @@ export default async function RecipeDetailPage({ params }: Props) {
                 </Box>
               </Box>
 
-              <LikeButtons2 recipe={recipe} session={session} />
+              <LikeButtons recipe={recipe} session={session} />
             </Box>
           </Container>
         </Box>
