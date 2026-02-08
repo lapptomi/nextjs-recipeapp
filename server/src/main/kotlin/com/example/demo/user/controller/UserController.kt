@@ -31,6 +31,20 @@ class UserController(private val userService: UserService) {
     @GetMapping("/{id}")
     fun findUserById(@PathVariable id: Int): ResponseEntity<UserDTO> = ResponseEntity.ok(userService.findUserById(id))
 
+    @GetMapping("/{id}/followers")
+    fun getFollowers(@PathVariable id: Int): ResponseEntity<List<UserDTO>> =
+        ResponseEntity.ok(userService.getUserFollowers(id))
+
+    @GetMapping("/{id}/following")
+    fun getFollowing(@PathVariable id: Int): ResponseEntity<List<UserDTO>> =
+        ResponseEntity.ok(userService.getUserFollowing(id))
+
+    @DeleteMapping("/{id}/followers")
+    fun unfollowUser(@AuthenticationPrincipal user: User, @PathVariable id: Int): ResponseEntity<Void> {
+        userService.unfollowUser(user.id, id)
+        return ResponseEntity.noContent().build()
+    }
+
     @PutMapping("/me")
     fun updateUser(
         @AuthenticationPrincipal user: User,
@@ -44,5 +58,11 @@ class UserController(private val userService: UserService) {
     fun deleteUser(@AuthenticationPrincipal user: User): ResponseEntity<Void> {
         userService.deleteUser(user)
         return ResponseEntity.noContent().build()
+    }
+
+    @PostMapping("/follow/{id}")
+    fun followUser(@AuthenticationPrincipal user: User, @PathVariable id: Int): ResponseEntity<Void> {
+        userService.followUser(user.id, id)
+        return ResponseEntity.ok().build()
     }
 }

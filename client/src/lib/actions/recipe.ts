@@ -12,18 +12,20 @@ interface Response {
   numberOfElements: number;
 }
 
+const endpoint = "/recipes";
+
 export const getRecipes = async (queryParams?: string) => {
-  const response = await apiClient.get<Response>(`/recipes?${queryParams}`);
+  const response = await apiClient.get<Response>(`${endpoint}?${queryParams}`);
   return response.data;
 };
 
 export const findRecipeById = async (recipeId: string) => {
-  const response = await apiClient.get<Recipe>(`/recipes/${recipeId}`);
+  const response = await apiClient.get<Recipe>(`${endpoint}/${recipeId}`);
   return response.data;
 };
 
 export const createRecipe = async (formData: FormData) => {
-  const response = await apiClient.post(`/recipes`, formData, {
+  const response = await apiClient.post(`${endpoint}`, formData, {
     headers: { "Content-Type": "multipart/form-data" },
   });
 
@@ -31,7 +33,7 @@ export const createRecipe = async (formData: FormData) => {
 };
 
 export const addComment = async (data: CommentForm) => {
-  const response = await apiClient.post(`/recipes/${data.recipeId}/comments`, {
+  const response = await apiClient.post(`${endpoint}/${data.recipeId}/comments`, {
     message: data.message,
   });
 
@@ -44,7 +46,7 @@ interface RatingParams {
 }
 
 export const addRating = async (data: RatingParams) => {
-  const response = await apiClient.post(`/recipes/${data.recipeId}/ratings`, {
+  const response = await apiClient.post(`${endpoint}/${data.recipeId}/ratings`, {
     type: data.type,
   });
 
@@ -52,7 +54,7 @@ export const addRating = async (data: RatingParams) => {
 };
 
 export const updateRating = async (data: RatingParams) => {
-  const response = await apiClient.put(`/recipes/${data.recipeId}/ratings`, {
+  const response = await apiClient.put(`${endpoint}/${data.recipeId}/ratings`, {
     type: data.type,
   });
 

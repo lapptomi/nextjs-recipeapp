@@ -16,6 +16,7 @@ interface SocialLoginCredentials {
   email: string;
   providerId: string;
   provider: SocialLoginProvider;
+  image: string | null;
 }
 
 type CustomUser = User & {
@@ -33,6 +34,7 @@ const fetchJwtToken = async (
     email: user.email as string,
     providerId: user.id as string,
     provider: provider,
+    image: user.image ?? null,
   };
   const { data: jwtToken } = await apiClient.post<JwtTokenResponse>(
     "/auth/social-login",

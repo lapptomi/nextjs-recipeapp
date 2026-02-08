@@ -8,8 +8,8 @@ import java.time.LocalDateTime
 object TextFixtures {
     val users =
         listOf(
-            UserDTO(id = 1, email = "email1", username = "user1"),
-            UserDTO(id = 2, email = "email2", username = "user2"),
+            UserDTO(id = 1, email = "email1", username = "user1", createdAt = "2024-01-01T00:00:00"),
+            UserDTO(id = 2, email = "email2", username = "user2", createdAt = "2024-01-02T00:00:00"),
         )
 
     val recipes =

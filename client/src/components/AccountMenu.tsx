@@ -58,7 +58,7 @@ export default function AccountMenu({ user }: Props) {
     <>
       <Tooltip title="Account menu">
         <Button onClick={handleClick} size="small" className="flex flex-row gap-2">
-          <Avatar alt="profile" src={user?.image || ""} className="size-8">
+          <Avatar alt="profile" src={user?.image ?? undefined} className="size-8">
             {user?.name ? user.name[0] : ""}
           </Avatar>
           <Typography variant="body1" color="text.secondary" fontWeight="medium">

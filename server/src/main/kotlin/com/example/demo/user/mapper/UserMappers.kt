@@ -5,4 +5,11 @@ import com.example.demo.user.domain.User
 import com.example.demo.user.domain.UserDTO
 
 fun User.toUserDTO(recipes: List<RecipeListItemDTO>? = emptyList()): UserDTO =
-    UserDTO(id = id, username = username, email = email, recipes = recipes)
+    UserDTO(
+        id = id,
+        username = username,
+        email = email,
+        recipes = recipes,
+        createdAt = createdAt.toString(),
+        image = image,
+    )

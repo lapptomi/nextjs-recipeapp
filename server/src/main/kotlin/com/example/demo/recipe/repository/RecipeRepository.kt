@@ -73,7 +73,7 @@ class RecipeRepository(val jdbcTemplate: NamedParameterJdbcTemplate) {
     fun fetchTotalRatingsForRecipe(recipeId: Int): Int {
         val params = MapSqlParameterSource("recipeId", recipeId)
         return jdbcTemplate.queryForObject(
-            "SELECT COUNT(*) FROM recipe_ratings WHERE recipe_id = :recipeId",
+            "SELECT COUNT(*) FROM recipe_ratings WHERE recipe_id = :recipeId AND type = 'LIKE'",
             params,
             Int::class.java,
         ) ?: 0

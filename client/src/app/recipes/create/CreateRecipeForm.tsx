@@ -44,7 +44,7 @@ export default function CreateRecipeForm() {
     defaultValues: {
       title: "",
       description: "",
-      ingredients: [{ ingredient: "" }],
+      ingredients: [{ ingredient: "", amount: "" }],
       instructions: [{ instruction: "", step: 1 }],
       cookingTime: 0,
       servings: 0,
@@ -86,7 +86,9 @@ export default function CreateRecipeForm() {
         instructions: data.instructions.map((instruction) => instruction.instruction).join("\n"),
         cookingTime: data.cookingTime,
         servings: data.servings,
-        ingredients: data.ingredients.map((ingredient) => ingredient.ingredient),
+        ingredients: data.ingredients.map(
+          (ingredient) => `${ingredient.amount} ${ingredient.ingredient}`
+        ),
       })
     );
     formData.append("image", selectedImage as any);
@@ -95,6 +97,7 @@ export default function CreateRecipeForm() {
       .then((recipe) => router.push(`${ROUTES.RECIPES}/${recipe.id}`))
       .catch((error) => console.log("ERROR = ", error));
   };
+
   return (
     <Box className="bg-gray-50 min-h-screen py-4">
       <Container maxWidth="md">
@@ -292,7 +295,7 @@ export default function CreateRecipeForm() {
             <Box className="mb-6 flex items-center justify-between">
               <Box className="flex items-center gap-3">
                 <Box className="h-5 w-1 rounded-full" sx={{ bgcolor: "primary.main" }} />
-                <Typography variant="h6" className="font-semibold" sx={{ color: "text.primary" }}>
+                <Typography variant="h6" className="font-semibold" color="text.primary">
                   Ingredients
                 </Typography>
               </Box>
@@ -304,18 +307,17 @@ export default function CreateRecipeForm() {
             <Box className="flex flex-col gap-3">
               {ingredientsFields.map((field, index) => (
                 <Box key={index} className="flex items-center gap-2">
-                  <Box
-                    className="flex size-6 shrink-0 items-center justify-center rounded bg-gray-100"
-                    sx={{ color: "text.secondary" }}
-                  >
+                  <Box className="flex size-6 shrink-0 items-center justify-center rounded bg-gray-100">
                     <Typography variant="caption" className="font-medium">
                       {index + 1}
                     </Typography>
                   </Box>
+
                   <TextField
+                    {...register(`ingredients.${index}.amount`)}
+                    error={!!errors.ingredients?.[index]?.amount}
                     size="small"
                     placeholder="Amount"
-                    {...register(`ingredients.${index}.ingredient`)}
                     sx={{
                       width: "80px",
                       "& .MuiOutlinedInput-root": {
@@ -328,7 +330,6 @@ export default function CreateRecipeForm() {
                   <TextField
                     {...register(`ingredients.${index}.ingredient`)}
                     error={!!errors.ingredients?.[index]?.ingredient}
-                    helperText={errors.ingredients?.[index]?.ingredient?.message}
                     size="small"
                     placeholder="Ingredient name"
                     className="flex-1"
@@ -356,23 +357,39 @@ export default function CreateRecipeForm() {
                   const ingredients = watch("ingredients");
                   const index = ingredients.length - 1;
 
-                  if (!ingredients[index]?.ingredient?.trim()) {
+                  const amountError = ingredients[index]?.amount?.trim();
+                  const ingredientError = ingredients[index]?.ingredient?.trim();
+
+                  if (!ingredientError) {
                     setError(`ingredients.${index}.ingredient`, {
                       type: "manual",
                       message: "Ingredient cannot be empty",
                     });
-                    return;
+                  }
+                  if (!amountError) {
+                    setError(`ingredients.${index}.amount`, {
+                      type: "manual",
+                      message: "Amount cannot be empty",
+                    });
                   }
 
-                  clearErrors(`ingredients.${index}.ingredient`);
+                  if (amountError && ingredientError) {
+                    clearErrors(`ingredients.${index}.amount`);
 
-                  appendIngredient({
-                    ingredient: "",
-                  });
+                    appendIngredient({
+                      ingredient: "",
+                      amount: "",
+                    });
+                  }
                 }}
               >
                 Add Ingredient
               </Button>
+              {errors.ingredients && (
+                <Typography variant="caption" color="error">
+                  Amount or ingredient cannot be empty
+                </Typography>
+              )}
             </Box>
           </CardContent>
         </Card>

@@ -28,6 +28,7 @@ export const NewRecipeSchema = z.object({
     .array(
       z.object({
         ingredient: z.string().min(4).max(30),
+        amount: z.string().min(0).max(10000),
       })
     )
     .min(1)
@@ -68,8 +69,10 @@ export interface User {
   email: string;
   username: string;
   password: string;
+  bio: string | null;
   image: string | null;
-  recipes: Recipe[];
+  createdAt: Date;
+  recipes: RecipeListItem[];
 }
 
 export interface RecipeComment {
