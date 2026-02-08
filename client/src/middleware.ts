@@ -11,6 +11,13 @@ export function middleware(request: NextRequest) {
     return NextResponse.next();
   }
 
+  console.log(request.headers.get("x-internal-edge"));
+  /*
+  if (request.headers.get("x-internal-edge") !== process.env.CF_EDGE_SECRET) {
+    return new Response("Forbidden", { status: 403 });
+  }
+  */
+
   // Only allow requests from Finland when running in production
   if (process.env.NODE_ENV === "production") {
     if (!country || country !== "FI") {
