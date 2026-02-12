@@ -1,5 +1,6 @@
 package com.example.demo.recipe.service
 
+import com.example.demo.auth.service.AuthService
 import com.example.demo.config.RecipeNotFoundException
 import com.example.demo.domain.PageResult
 import com.example.demo.recipe.domain.CreateRecipeCommentDTO
@@ -11,12 +12,15 @@ import com.example.demo.recipe.mapper.toRecipeDTO
 import com.example.demo.recipe.mapper.toRecipeListItemDTO
 import com.example.demo.recipe.repository.RecipeRepository
 import com.example.demo.s3.S3Service
-import com.example.demo.user.domain.User
 import org.springframework.stereotype.Service
 import org.springframework.web.multipart.MultipartFile
 
 @Service
-class RecipeService(val s3Service: S3Service, val recipeRepository: RecipeRepository) {
+class RecipeService(
+    private val s3Service: S3Service,
+    private val recipeRepository: RecipeRepository,
+    private val authService: AuthService,
+) {
     fun getAll(recipeTitle: String, page: Int, pageSize: Int, sortBy: String): PageResult<RecipeListItemDTO> {
         val recipes = recipeRepository.fetchRecipes(recipeTitle, page, pageSize, sortBy)
         return PageResult(
@@ -43,15 +47,18 @@ class RecipeService(val s3Service: S3Service, val recipeRepository: RecipeReposi
         return recipe.toRecipeDTO(presignedUrl, recipeComments, recipeRatings)
     }
 
-    fun createRecipe(user: User, createRecipeDTO: CreateRecipeDTO, image: MultipartFile?): RecipeDTO {
+    fun createRecipe(createRecipeDTO: CreateRecipeDTO, image: MultipartFile?): RecipeDTO {
+        val userId = authService.getCurrentUser().sub
         val imageName = image?.let { s3Service.uploadFile(it) }
-        val createdRecipe = recipeRepository.createRecipe(user.id, createRecipeDTO, imageName)
+        val createdRecipe = recipeRepository.createRecipe(userId, createRecipeDTO, imageName)
         return createdRecipe.toRecipeDTO(presignedUrl = imageName?.let { s3Service.getPresignedUrl(it) })
     }
 
-    fun updateRating(user: User, recipeId: Int, ratingDto: CreateRecipeRatingDTO): RecipeDTO {
+    fun updateRating(recipeId: Int, ratingDto: CreateRecipeRatingDTO): RecipeDTO {
+        val userId = authService.getCurrentUser().sub
+
         val existingRating =
-            recipeRepository.findRecipeRatingByRecipeIdAndAuthorId(recipeId, user.id)
+            recipeRepository.findRecipeRatingByRecipeIdAndAuthorId(recipeId, userId)
                 ?: throw RecipeNotFoundException(recipeId.toString())
 
         recipeRepository.updateRecipeRating(ratingId = existingRating.id, type = ratingDto.type)
@@ -59,17 +66,20 @@ class RecipeService(val s3Service: S3Service, val recipeRepository: RecipeReposi
         return recipeWithUpdatedRatings
     }
 
-    fun createRecipeRating(user: User, recipeId: Int, ratingDto: CreateRecipeRatingDTO): RecipeDTO {
-        if (recipeRepository.existsByRecipeIdAndAuthorId(recipeId, user.id)) {
+    fun createRecipeRating(recipeId: Int, ratingDto: CreateRecipeRatingDTO): RecipeDTO {
+        val userId = authService.getCurrentUser().sub
+
+        if (recipeRepository.existsByRecipeIdAndAuthorId(recipeId, userId)) {
             throw IllegalArgumentException("User has already rated this recipe")
         }
-        recipeRepository.createRecipeRating(recipeId, user.id, ratingDto.type)
+        recipeRepository.createRecipeRating(recipeId, userId, ratingDto.type)
         val recipeWithUpdatedRatings = findById(recipeId)
         return recipeWithUpdatedRatings
     }
 
-    fun addComment(user: User, recipeId: Int, commentDto: CreateRecipeCommentDTO): RecipeDTO {
-        recipeRepository.createRecipeComment(recipeId, user.id, commentDto.message)
+    fun addComment(recipeId: Int, commentDto: CreateRecipeCommentDTO): RecipeDTO {
+        val userId = authService.getCurrentUser().sub
+        recipeRepository.createRecipeComment(recipeId, userId, commentDto.message)
         val recipeWithUpdatedComments = findById(recipeId)
         return recipeWithUpdatedComments
     }

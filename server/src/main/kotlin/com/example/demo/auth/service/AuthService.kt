@@ -3,8 +3,12 @@ package com.example.demo.auth.service
 import com.example.demo.auth.domain.JwtTokenDto
 import com.example.demo.auth.domain.SocialLoginRequestDTO
 import com.example.demo.config.SecurityConfig
+import com.example.demo.domain.CurrentUser
 import com.example.demo.user.repository.UserRepository
+import kotlin.text.toInt
 import org.springframework.security.authentication.BadCredentialsException
+import org.springframework.security.core.context.SecurityContextHolder
+import org.springframework.security.oauth2.jwt.Jwt
 import org.springframework.stereotype.Service
 
 @Service
@@ -13,6 +17,22 @@ class AuthService(
     private val securityConfig: SecurityConfig,
     private val userRepository: UserRepository,
 ) {
+
+    fun getCurrentUser(): CurrentUser {
+        val authentication = SecurityContextHolder.getContext().authentication
+        val jwt = authentication.principal as? Jwt
+
+        val expireDate = jwt?.expiresAt
+        val issuedAt = jwt?.issuedAt
+        val userId = jwt?.subject
+
+        if (userId == null || expireDate == null || issuedAt == null) {
+            throw BadCredentialsException("Invalid JWT token: missing required claims")
+        }
+
+        return CurrentUser(exp = expireDate, sub = userId.toInt(), iat = issuedAt)
+    }
+
     fun login(email: String, password: String): JwtTokenDto {
         val user = userRepository.findByEmail(email)
 
@@ -21,7 +41,7 @@ class AuthService(
         }
 
         return JwtTokenDto(
-            token = jwtService.generateToken(user.email),
+            token = jwtService.generateToken(user.id),
             email = user.email,
             username = user.username,
             userId = user.id,
@@ -40,7 +60,7 @@ class AuthService(
                 )
 
         return JwtTokenDto(
-            token = jwtService.generateToken(user.email),
+            token = jwtService.generateToken(user.id),
             email = user.email,
             username = user.username,
             userId = user.id,
