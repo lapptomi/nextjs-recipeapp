@@ -27,7 +27,7 @@ export const NewRecipeSchema = z.object({
   ingredients: z
     .array(
       z.object({
-        ingredient: z.string().min(4).max(30),
+        ingredient: z.string().min(1).max(30),
         amount: z.string().min(0).max(10000),
       })
     )
@@ -45,6 +45,7 @@ export const NewRecipeSchema = z.object({
   cookingTime: z.number().optional(),
   servings: z.number().min(0).optional(),
   image: NewRecipeImageSchema.nullable().optional(),
+  category: z.string().min(1).max(100).optional(),
 });
 
 export const UserSchema = z.object({
@@ -112,6 +113,7 @@ export interface Recipe {
   comments: RecipeComment[];
   ratings: RecipeRating[];
   createdAt: Date;
+  category: string | null;
 }
 
 export interface RecipeListItem {
@@ -125,6 +127,7 @@ export interface RecipeListItem {
   averageRating: number;
   totalRatings: number;
   createdAt: Date;
+  category: string | null;
 }
 
 export interface JwtTokenResponse {

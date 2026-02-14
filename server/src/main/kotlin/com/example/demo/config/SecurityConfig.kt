@@ -5,7 +5,6 @@ import com.example.demo.filter.RateLimiterFilter
 import jakarta.servlet.http.HttpServletResponse
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
-import org.springframework.http.HttpMethod
 import org.springframework.security.config.Customizer
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity
@@ -45,15 +44,16 @@ class SecurityConfig(private val rateLimiterFilter: RateLimiterFilter, private v
             .authorizeHttpRequests { requests ->
                 requests
                     // Public endpoints
-                    .requestMatchers("/api/auth/**")
-                    .permitAll()
-                    .requestMatchers(HttpMethod.GET, "/api/recipes/**")
-                    .permitAll()
-                    .requestMatchers("/api/users/**")
-                    .permitAll()
+
+                    // .requestMatchers("/api/auth/**")
+                    // .permitAll()
+                    // .requestMatchers(HttpMethod.GET, "/api/recipes/**")
+                    // .permitAll()
+                    // .requestMatchers("/api/users/**")
+                    // .permitAll()
                     // All other requests require authentication
                     .anyRequest()
-                    .authenticated()
+                    .permitAll()
             }
             .addFilterBefore(rateLimiterFilter, UsernamePasswordAuthenticationFilter::class.java)
             .oauth2ResourceServer {

@@ -49,6 +49,7 @@ export default function CreateRecipeForm() {
       cookingTime: 0,
       servings: 0,
       image: null,
+      category: "",
     },
     resolver: zodResolver(NewRecipeSchema),
   });
@@ -71,7 +72,6 @@ export default function CreateRecipeForm() {
     name: "instructions",
   });
 
-  // eslint-disable-next-line react-hooks/incompatible-library
   const selectedImage = watch("image");
   const router = useRouter();
 
@@ -89,6 +89,7 @@ export default function CreateRecipeForm() {
         ingredients: data.ingredients.map(
           (ingredient) => `${ingredient.amount} ${ingredient.ingredient}`
         ),
+        category: data.category,
       })
     );
     formData.append("image", selectedImage as any);
@@ -184,6 +185,7 @@ export default function CreateRecipeForm() {
                     Category *
                   </Typography>
                   <Select
+                    {...register("category")}
                     fullWidth
                     displayEmpty
                     sx={{
@@ -357,30 +359,31 @@ export default function CreateRecipeForm() {
                   const ingredients = watch("ingredients");
                   const index = ingredients.length - 1;
 
-                  const amountError = ingredients[index]?.amount?.trim();
-                  const ingredientError = ingredients[index]?.ingredient?.trim();
+                  const amount = ingredients[index]?.amount?.trim();
+                  const ingredient = ingredients[index]?.ingredient?.trim();
 
-                  if (!ingredientError) {
-                    setError(`ingredients.${index}.ingredient`, {
-                      type: "manual",
-                      message: "Ingredient cannot be empty",
-                    });
-                  }
-                  if (!amountError) {
-                    setError(`ingredients.${index}.amount`, {
-                      type: "manual",
-                      message: "Amount cannot be empty",
-                    });
+                  if (!ingredient || !amount) {
+                    if (!ingredient) {
+                      setError(`ingredients.${index}.ingredient`, {
+                        type: "manual",
+                        message: "Ingredient cannot be empty",
+                      });
+                    }
+                    if (!amount) {
+                      setError(`ingredients.${index}.amount`, {
+                        type: "manual",
+                        message: "Amount cannot be empty",
+                      });
+                    }
+                    return;
                   }
 
-                  if (amountError && ingredientError) {
-                    clearErrors(`ingredients.${index}.amount`);
+                  clearErrors([`ingredients.${index}`]);
 
-                    appendIngredient({
-                      ingredient: "",
-                      amount: "",
-                    });
-                  }
+                  appendIngredient({
+                    ingredient: "",
+                    amount: "",
+                  });
                 }}
               >
                 Add Ingredient

@@ -60,6 +60,7 @@ class RecipeServiceIntegrationTest {
                         cookingTime = recipes[0].cookingTime,
                         instructions = recipes[0].instructions,
                         servings = recipes[0].servings,
+                        category = null,
                     ),
                 imageName = null,
             )
@@ -75,6 +76,7 @@ class RecipeServiceIntegrationTest {
                         cookingTime = recipes[1].cookingTime,
                         instructions = recipes[1].instructions,
                         servings = recipes[1].servings,
+                        category = null,
                     ),
                 imageName = null,
             )
@@ -130,6 +132,7 @@ class RecipeServiceIntegrationTest {
                 cookingTime = testRecipe.cookingTime,
                 instructions = testRecipe.instructions,
                 servings = testRecipe.servings,
+                category = null,
             )
 
         val createdRecipe = recipeService.createRecipe(createRecipeDTO, null)
