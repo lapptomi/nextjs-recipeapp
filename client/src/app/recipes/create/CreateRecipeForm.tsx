@@ -244,7 +244,7 @@ export default function CreateRecipeForm() {
               </Typography>
             </Box>
 
-            <Box className="grid grid-cols-3 gap-4">
+            <Box className="grid grid-cols-2 gap-4">
               <Box>
                 <Box className="mb-2 flex items-center gap-2">
                   <AccessTimeIcon sx={{ fontSize: 16, color: "#404040" }} />

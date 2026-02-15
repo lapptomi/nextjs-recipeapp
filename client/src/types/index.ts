@@ -45,7 +45,7 @@ export const NewRecipeSchema = z.object({
   cookingTime: z.number().optional(),
   servings: z.number().min(0).optional(),
   image: NewRecipeImageSchema.nullable().optional(),
-  category: z.string().min(1).max(100).optional(),
+  category: z.string().max(100).optional(),
 });
 
 export const UserSchema = z.object({
