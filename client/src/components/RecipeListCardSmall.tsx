@@ -6,7 +6,7 @@ import Image from "next/image";
 import StarIcon from "@mui/icons-material/Star";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import RestaurantIcon from "@mui/icons-material/Restaurant";
-import { People, PeopleOutline } from "@mui/icons-material";
+import { PeopleOutline } from "@mui/icons-material";
 
 export default function RecipeListCardSmall({ recipe }: { recipe: RecipeListItem }) {
   return (

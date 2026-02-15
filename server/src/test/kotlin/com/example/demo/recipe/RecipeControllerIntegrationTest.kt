@@ -53,6 +53,7 @@ class RecipeControllerIntegrationTest {
                         cookingTime = recipes[0].cookingTime,
                         servings = recipes[0].servings,
                         instructions = recipes[0].instructions,
+                        category = recipes[0].category,
                     ),
                 imageName = null,
             )

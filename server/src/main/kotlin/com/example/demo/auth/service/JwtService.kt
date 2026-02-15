@@ -1,30 +1,25 @@
 package com.example.demo.auth.service
 
-import io.jsonwebtoken.Claims
 import io.jsonwebtoken.Jwts
+import io.jsonwebtoken.io.Decoders
+import io.jsonwebtoken.security.Keys
 import java.util.Date
+import javax.crypto.SecretKey
+import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Service
 
 @Service
-class JwtService {
-    private val secretKey = Jwts.SIG.HS512.key().build()
+class JwtService(@Value("\${jwt.secret}") private val jwtSecret: String) {
 
-    private val jwtExpiration = 60 * 60 * 1000 // Expires in 1 hour
+    fun getSecretKey(): SecretKey = Keys.hmacShaKeyFor(Decoders.BASE64.decode(jwtSecret))
 
-    private fun getAllClaims(token: String): Claims =
-        Jwts.parser().verifyWith(secretKey).build().parseSignedClaims(token).payload
-
-    fun extractEmail(token: String): String = getAllClaims(token).subject
-
-    fun validateToken(token: String, email: String): Boolean = email == getAllClaims(token).subject
-
-    fun generateToken(email: String): String =
+    fun generateToken(userId: Int): String =
         Jwts.builder()
             .claims()
-            .subject(email)
+            .subject(userId.toString())
             .issuedAt(Date(System.currentTimeMillis()))
-            .expiration(Date(System.currentTimeMillis() + jwtExpiration))
+            .expiration(Date(System.currentTimeMillis() + 60 * 60 * 1000)) // Expires in 1 hour
             .and()
-            .signWith(secretKey)
+            .signWith(getSecretKey())
             .compact()
 }

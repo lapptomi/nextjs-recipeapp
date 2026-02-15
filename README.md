@@ -204,6 +204,10 @@ GITHUB_SECRET=(secret token for github sign in / authentication)
 # OAuth Providers (Google)
 GOOGLE_ID=(google oauth client id)
 GOOGLE_SECRET=(google oauth client secret)
+
+# Middleware.tsx
+CF_EDGE_SECRET=(any string to check that the requests are coming from cloudflare, but have to be the same as the one in cloudflare request headers)
+SKIP_COUNTRY_CHECK=(true or false, check if the requests are from finland or not)
 ```
 
 <details>

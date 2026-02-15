@@ -17,14 +17,11 @@ import org.springframework.stereotype.Repository
 @Repository
 class RecipeRepository(val jdbcTemplate: NamedParameterJdbcTemplate) {
 
-    @Value("\${find.recipe.by.id}") private lateinit var findRecipeByIdQuery: String
     @Value("\${recipe.rating.already.exists}") private lateinit var ratingAlreadyExistsQuery: String
     @Value("\${update.recipe_rating}") private lateinit var updateRecipeRatingQuery: String
     @Value("\${create.recipe_rating}") private lateinit var createRecipeRatingQuery: String
     @Value("\${find.recipe_author}") private lateinit var findRecipeAuthorQuery: String
     @Value("\${create.recipe_comment}") private lateinit var createRecipeCommentQuery: String
-    @Value("\${create.recipe}") private lateinit var createRecipeQuery: String
-    @Value("\${find.recipes.with.paging}") private lateinit var findRecipesPagingQuery: String
     @Value("\${find.total.recipes.count}") private lateinit var findRecipesCountQuery: String
     @Value("\${find.recipe_comments.by.recipe_id}") private lateinit var findRecipeCommentsQuery: String
     @Value("\${find.recipe.rating.by.recipe_id.and.author_id}")
@@ -39,8 +36,33 @@ class RecipeRepository(val jdbcTemplate: NamedParameterJdbcTemplate) {
                 .addValue("offset", (page - 1) * pageSize)
                 .addValue("sortBy", sortBy)
 
+        val sql =
+            """
+            SELECT 
+                r.id AS recipe_id, 
+                r.title, 
+                r.description, 
+                r.image, 
+                r.ingredients, 
+                r.cooking_time, 
+                r.servings, 
+                r.instructions, 
+                r.category,
+                r.created_at, 
+                u.id AS user_id, 
+                u.username, 
+                u.email 
+            FROM recipes r 
+            JOIN users u ON r.user_id = u.id 
+            WHERE r.title ILIKE '%' || :recipeTitle || '%' 
+            ORDER BY CASE WHEN :sortBy = 'date_asc' THEN r.created_at END ASC, 
+                     CASE WHEN :sortBy = 'date_desc' THEN r.created_at END DESC 
+            LIMIT :limit OFFSET :offset
+        """
+                .trimIndent()
+
         val recipes =
-            jdbcTemplate.query(findRecipesPagingQuery, params) { rs, _ ->
+            jdbcTemplate.query(sql, params) { rs, _ ->
                 val recipeId = rs.getInt("recipe_id")
                 Recipe(
                     id = rs.getInt("recipe_id"),
@@ -53,6 +75,7 @@ class RecipeRepository(val jdbcTemplate: NamedParameterJdbcTemplate) {
                     instructions = rs.getString("instructions"),
                     author = fetchRecipeAuthor(recipeId),
                     createdAt = rs.getTimestamp("created_at").toLocalDateTime(),
+                    category = rs.getString("category"),
                 )
             }
 
@@ -98,9 +121,17 @@ class RecipeRepository(val jdbcTemplate: NamedParameterJdbcTemplate) {
                 .addValue("cookingTime", createRecipeDTO.cookingTime)
                 .addValue("servings", createRecipeDTO.servings)
                 .addValue("instructions", createRecipeDTO.instructions)
+                .addValue("category", createRecipeDTO.category)
+
+        val sql =
+            """
+            INSERT INTO recipes (user_id, title, description, image, ingredients, cooking_time, servings, instructions, category, created_at) 
+            VALUES (:userId, :title, :description, :image, :ingredients, :cookingTime, :servings, :instructions, :category, NOW())
+            """
+                .trimIndent()
 
         val keyHolder: KeyHolder = GeneratedKeyHolder()
-        jdbcTemplate.update(createRecipeQuery, params, keyHolder, arrayOf("id"))
+        jdbcTemplate.update(sql, params, keyHolder, arrayOf("id"))
         val generatedId = keyHolder.key?.toInt() ?: throw IllegalStateException("No ID returned")
 
         return findById(generatedId)
@@ -132,23 +163,6 @@ class RecipeRepository(val jdbcTemplate: NamedParameterJdbcTemplate) {
             """
                 .trimIndent()
 
-        /*
-        TODO: check this later
-        find.recipes.by.user_id=SELECT \
-        id, \
-        title, \
-        description, \
-        image, \
-        ingredients, \
-        cooking_time, \
-        servings, \
-        instructions, \
-        created_at \
-        FROM recipes \
-        WHERE user_id = :userId \
-        ORDER BY created_at DESC∫
-        */
-
         val recipes =
             jdbcTemplate.query(sql, params) { rs, _ ->
                 Recipe(
@@ -162,6 +176,7 @@ class RecipeRepository(val jdbcTemplate: NamedParameterJdbcTemplate) {
                     description = rs.getString("description"),
                     image = rs.getString("image"),
                     createdAt = rs.getTimestamp("created_at").toLocalDateTime(),
+                    category = rs.getString("category"),
                 )
             }
 
@@ -170,9 +185,28 @@ class RecipeRepository(val jdbcTemplate: NamedParameterJdbcTemplate) {
 
     fun findById(recipeId: Int): Recipe {
         val params = MapSqlParameterSource("recipeId", recipeId)
+
+        val sql =
+            """
+            SELECT 
+                r.id, 
+                r.title, 
+                r.description, 
+                r.image, 
+                r.ingredients, 
+                r.cooking_time, 
+                r.servings, 
+                r.instructions, 
+                r.category, 
+                r.created_at 
+            FROM recipes r 
+            WHERE r.id = :recipeId
+
+        """
+                .trimIndent()
         val recipe =
             jdbcTemplate
-                .query(findRecipeByIdQuery, params) { rs, _ ->
+                .query(sql, params) { rs, _ ->
                     Recipe(
                         id = rs.getInt("id"),
                         title = rs.getString("title"),
@@ -184,6 +218,7 @@ class RecipeRepository(val jdbcTemplate: NamedParameterJdbcTemplate) {
                         instructions = rs.getString("instructions"),
                         author = fetchRecipeAuthor(rs.getInt("id")),
                         createdAt = rs.getTimestamp("created_at").toLocalDateTime(),
+                        category = rs.getString("category"),
                     )
                 }
                 .firstOrNull()

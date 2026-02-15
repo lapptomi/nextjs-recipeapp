@@ -13,4 +13,5 @@ data class Recipe(
     val instructions: String,
     val author: RecipeAuthorDTO,
     val createdAt: LocalDateTime,
+    val category: String?,
 )

@@ -10,7 +10,6 @@ import {
   CardMedia,
   Chip,
   Container,
-  Pagination,
   Rating,
   Skeleton,
   Typography,
@@ -64,11 +63,13 @@ const RecipeCard = ({ recipe }: { recipe: RecipeListItem }) => {
             </Box>
           )}
 
-          <Chip
-            label={"CATEGORY"}
-            className="absolute left-3 top-3 bg-white/95 shadow-sm"
-            size="small"
-          />
+          {recipe.category && (
+            <Chip
+              label={recipe.category}
+              className="absolute left-3 top-3 bg-white/95 shadow-sm"
+              size="small"
+            />
+          )}
         </Box>
 
         <CardContent className="flex flex-col gap-3 p-5">

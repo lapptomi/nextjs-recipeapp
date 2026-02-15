@@ -13,4 +13,5 @@ data class RecipeListItemDTO(
     val averageRating: Double,
     val totalRatings: Int,
     val createdAt: LocalDateTime,
+    val category: String? = null,
 )
