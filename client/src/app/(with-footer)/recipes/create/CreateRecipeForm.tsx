@@ -178,59 +178,6 @@ export default function CreateRecipeForm() {
                   {watch("description")?.length}/500 characters
                 </Typography>
               </Box>
-
-              <Box className="grid grid-cols-2 gap-4">
-                <Box>
-                  <Typography variant="body2" className="mb-2 font-medium" color="text.primary">
-                    Category *
-                  </Typography>
-                  <Select
-                    {...register("category")}
-                    fullWidth
-                    displayEmpty
-                    sx={{
-                      bgcolor: "#f3f3f5",
-                      "& .MuiOutlinedInput-notchedOutline": { borderColor: "#d4d4d4" },
-                      "&:hover .MuiOutlinedInput-notchedOutline": { borderColor: "#d4d4d4" },
-                    }}
-                  >
-                    <MenuItem value="" disabled>
-                      Select category
-                    </MenuItem>
-                    <MenuItem value="breakfast">Breakfast</MenuItem>
-                    <MenuItem value="lunch">Lunch</MenuItem>
-                    <MenuItem value="dinner">Dinner</MenuItem>
-                    <MenuItem value="dessert">Dessert</MenuItem>
-                    <MenuItem value="snack">Snack</MenuItem>
-                  </Select>
-                </Box>
-
-                <Box>
-                  <Typography
-                    variant="body2"
-                    className="mb-2 font-medium"
-                    sx={{ color: "#404040" }}
-                  >
-                    Difficulty Level *
-                  </Typography>
-                  <Select
-                    fullWidth
-                    displayEmpty
-                    sx={{
-                      bgcolor: "#f3f3f5",
-                      "& .MuiOutlinedInput-notchedOutline": { borderColor: "#d4d4d4" },
-                      "&:hover .MuiOutlinedInput-notchedOutline": { borderColor: "#d4d4d4" },
-                    }}
-                  >
-                    <MenuItem value="" disabled>
-                      Select difficulty
-                    </MenuItem>
-                    <MenuItem value="easy">Easy</MenuItem>
-                    <MenuItem value="medium">Medium</MenuItem>
-                    <MenuItem value="hard">Hard</MenuItem>
-                  </Select>
-                </Box>
-              </Box>
             </Box>
           </CardContent>
         </Card>
@@ -244,7 +191,7 @@ export default function CreateRecipeForm() {
               </Typography>
             </Box>
 
-            <Box className="grid grid-cols-2 gap-4">
+            <Box className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3">
               <Box>
                 <Box className="mb-2 flex items-center gap-2">
                   <AccessTimeIcon sx={{ fontSize: 16, color: "#404040" }} />
@@ -287,6 +234,37 @@ export default function CreateRecipeForm() {
                     },
                   }}
                 />
+              </Box>
+
+              <Box>
+                <Typography variant="body2" className="mb-2 font-medium" color="text.primary">
+                  Category *
+                </Typography>
+                <Select
+                  {...register("category")}
+                  error={!!errors.category}
+                  fullWidth
+                  displayEmpty
+                  sx={{
+                    bgcolor: "#f3f3f5",
+                    "& .MuiOutlinedInput-notchedOutline": { borderColor: "#d4d4d4" },
+                    "&:hover .MuiOutlinedInput-notchedOutline": { borderColor: "#d4d4d4" },
+                  }}
+                >
+                  <MenuItem value="" disabled>
+                    Select category
+                  </MenuItem>
+                  <MenuItem value="breakfast">Breakfast</MenuItem>
+                  <MenuItem value="lunch">Lunch</MenuItem>
+                  <MenuItem value="dinner">Dinner</MenuItem>
+                  <MenuItem value="dessert">Dessert</MenuItem>
+                  <MenuItem value="snack">Snack</MenuItem>
+                </Select>
+                {errors.category && (
+                  <Typography variant="caption" color="error">
+                    {errors.category.message}
+                  </Typography>
+                )}
               </Box>
             </Box>
           </CardContent>

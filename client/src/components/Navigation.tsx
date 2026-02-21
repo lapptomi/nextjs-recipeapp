@@ -1,5 +1,5 @@
-import { Add, NotificationsOutlined } from "@mui/icons-material";
-import { Badge, Box, Button, IconButton, Tooltip, Typography } from "@mui/material";
+import { Add } from "@mui/icons-material";
+import { Box, Button, Tooltip, Typography } from "@mui/material";
 import Link from "next/link";
 import { getSession } from "@/lib/actions/auth";
 import { APPLICATION_NAME } from "@/lib/constants";
