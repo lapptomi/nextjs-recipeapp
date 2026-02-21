@@ -3,6 +3,7 @@ services:
     image: recipe-app-next-client-dev
     environment:
       - NEXTAUTH_SECRET=secretkey
+      - NEXTAUTH_URL=http://localhost:3000
       - NEXT_APP_API_URL=http://recipe-app-backend-dev:8080
     build:
       context: ./client
@@ -27,5 +28,10 @@ services:
     container_name: recipe-app-backend-dev
     volumes:
       - ./server/src/main:/app/src/main
+      - ./server/build:/app/build
       - ./h2_storage:/data
+      - gradle-cache:/root/.gradle
     restart: always
+
+volumes:
+  gradle-cache:

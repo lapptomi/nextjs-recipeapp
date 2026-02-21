@@ -41,20 +41,7 @@ class SecurityConfig(private val rateLimiterFilter: RateLimiterFilter, private v
     fun securityFilterChain(http: HttpSecurity): SecurityFilterChain {
         http
             .cors(Customizer.withDefaults())
-            .authorizeHttpRequests { requests ->
-                requests
-                    // Public endpoints
-
-                    // .requestMatchers("/api/auth/**")
-                    // .permitAll()
-                    // .requestMatchers(HttpMethod.GET, "/api/recipes/**")
-                    // .permitAll()
-                    // .requestMatchers("/api/users/**")
-                    // .permitAll()
-                    // All other requests require authentication
-                    .anyRequest()
-                    .permitAll()
-            }
+            .authorizeHttpRequests { requests -> requests.anyRequest().permitAll() }
             .addFilterBefore(rateLimiterFilter, UsernamePasswordAuthenticationFilter::class.java)
             .oauth2ResourceServer {
                 // Add JWT Bearer token automatically to the security context

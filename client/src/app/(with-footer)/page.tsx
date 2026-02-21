@@ -1,29 +1,16 @@
 import { Suspense } from "react";
 
-import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import GroupsIcon from "@mui/icons-material/Groups";
-import RestaurantIcon from "@mui/icons-material/Restaurant";
 import RestaurantMenuIcon from "@mui/icons-material/RestaurantMenu";
 import SearchIcon from "@mui/icons-material/Search";
-import StarIcon from "@mui/icons-material/Star";
-import {
-  Box,
-  Button,
-  Card,
-  CardContent,
-  CardMedia,
-  Container,
-  Skeleton,
-  Typography,
-} from "@mui/material";
+import { Box, Button, Card, CardContent, Container, Skeleton, Typography } from "@mui/material";
 import Image from "next/image";
 import Link from "next/link";
 
 import { getRecipes } from "@/lib/actions/recipe";
 import { ROUTES } from "@/types";
 
-import type { RecipeListItem } from "@/types";
 import { APPLICATION_NAME } from "@/lib/constants";
 import RecipeListCardSmall from "@/components/RecipeListCardSmall";
 
