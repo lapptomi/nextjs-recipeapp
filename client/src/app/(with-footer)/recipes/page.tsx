@@ -10,7 +10,6 @@ import {
   CardMedia,
   Chip,
   Container,
-  Pagination,
   Rating,
   Skeleton,
   Typography,
@@ -23,7 +22,7 @@ import { ROUTES } from "@/types";
 
 import type { RecipeListItem } from "@/types";
 
-import RecipeFilters from "@/app/recipes/RecipeFilters";
+import RecipeFilters from "./RecipeFilters";
 import RecipePagination from "@/components/RecipePagination";
 
 interface Params {
@@ -46,7 +45,7 @@ const RecipeCard = ({ recipe }: { recipe: RecipeListItem }) => {
   return (
     <Link href={`${ROUTES.RECIPES}/${recipe.id}`} className="block h-full w-full">
       <Card className="h-full w-full overflow-hidden rounded-2xl border border-gray-200 shadow-sm transition-all duration-200 hover:shadow-md">
-        <Box className="relative h-[250px] bg-gray-100">
+        <Box className="group relative h-[250px] overflow-hidden bg-gray-100 transition-all duration-200">
           {recipe.image ? (
             <CardMedia component="div" className="relative h-full w-full">
               <Image
@@ -64,11 +63,16 @@ const RecipeCard = ({ recipe }: { recipe: RecipeListItem }) => {
             </Box>
           )}
 
-          <Chip
-            label={"CATEGORY"}
-            className="absolute left-3 top-3 bg-white/95 shadow-sm"
-            size="small"
-          />
+          {/* Gradient overlay on hover */}
+          <Box className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/5 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
+
+          {recipe.category && (
+            <Chip
+              label={recipe.category}
+              className="absolute left-3 top-3 bg-white/95 shadow-sm"
+              size="small"
+            />
+          )}
         </Box>
 
         <CardContent className="flex flex-col gap-3 p-5">

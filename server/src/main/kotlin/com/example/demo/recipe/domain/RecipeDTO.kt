@@ -15,4 +15,5 @@ data class RecipeDTO(
     val createdAt: LocalDateTime,
     val comments: List<RecipeComment> = emptyList(),
     val ratings: List<RecipeRating> = emptyList(),
+    val category: String?,
 )

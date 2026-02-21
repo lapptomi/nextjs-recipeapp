@@ -46,6 +46,7 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-validation")
     implementation("software.amazon.awssdk:s3:2.25.+")
     implementation("software.amazon.awssdk:s3-transfer-manager:2.25.+")
+    implementation("org.springframework.boot:spring-boot-starter-oauth2-resource-server")
 }
 
 kotlin { compilerOptions { freeCompilerArgs.addAll("-Xjsr305=strict") } }

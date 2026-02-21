@@ -73,7 +73,13 @@ export default async function RecipeDetailPage({ params }: Props) {
             </Box>
 
             <Box className="absolute bottom-8 left-8 right-8 flex flex-col gap-3">
-              <Chip size="small" label={"Category"} className="w-fit bg-orange-400 text-white" />
+              {recipe.category && (
+                <Chip
+                  size="small"
+                  label={recipe.category}
+                  className="w-fit bg-orange-400 text-white"
+                />
+              )}
               <Typography
                 variant="h3"
                 className="font-bold"

@@ -66,8 +66,7 @@ describe("Recipes", () => {
     cy.contains("Test description", { matchCase: false });
     cy.contains("Test instructions", { matchCase: false });
 
-    // Wait for the comment form to be visible
-    cy.get('textarea[name="message"]').should("be.visible");
+    cy.get('textarea[name="message"]').scrollIntoView().should("be.visible");
     cy.get('textarea[name="message"]').type("Test comment");
     cy.get('textarea[name="message"]').should("have.value", "Test comment");
 

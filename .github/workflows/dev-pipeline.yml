@@ -5,6 +5,10 @@ on:
     branches:
     - dev
 
+concurrency:
+  group: dev-pipeline-${{ github.ref }}
+  cancel-in-progress: true
+
 permissions:
   id-token: write # <-- required for OIDC to AWS
   contents: read
@@ -21,8 +25,15 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+          cache: gradle
+
       - name: Test backend
-        run: cd server && ./gradlew clean test
+        run: cd server && ./gradlew test
 
       - name: Start containers
         run: docker compose -f "docker-compose.test.yml" up -d --build
@@ -56,27 +67,20 @@ jobs:
 
       - name: Install CDK app deps
         working-directory: cdk
-        run: |
-          npm ci
-          npm i -g aws-cdk@latest
+        run: npm ci
 
       - name: cdk diff (optional)
         working-directory: cdk
-        run: cdk diff $CDK_STACKS || true
+        run: npx cdk diff $CDK_STACKS || true
 
       - name: cdk deploy
         working-directory: cdk
-        run: cdk deploy $CDK_STACKS --require-approval=never --verbose
-
-
-      # Deploy client to Vercel
-      - name: Install Vercel CLI
-        run: npm install --global vercel@latest
+        run: npx cdk deploy $CDK_STACKS --require-approval=never --verbose
 
       - name: Pull Vercel Environment Information
-        run: vercel pull --yes --environment=preview --token=${{ secrets.VERCEL_TOKEN }}
+        run: npx vercel pull --yes --environment=preview --token=${{ secrets.VERCEL_TOKEN }}
       - name: Build Project Artifacts
-        run: vercel build --token=${{ secrets.VERCEL_TOKEN }}
+        run: npx vercel build --token=${{ secrets.VERCEL_TOKEN }}
 
       - name: Deploy Project Artifacts to Vercel
-        run: vercel deploy --prebuilt --token=${{ secrets.VERCEL_TOKEN }}
+        run: npx vercel deploy --prebuilt --token=${{ secrets.VERCEL_TOKEN }}

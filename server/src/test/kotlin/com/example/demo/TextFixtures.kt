@@ -25,6 +25,7 @@ object TextFixtures {
                 image = null,
                 servings = 2,
                 createdAt = LocalDateTime.now(),
+                category = "category1",
             ),
             RecipeDTO(
                 id = 2,
@@ -37,6 +38,7 @@ object TextFixtures {
                 image = null,
                 servings = 2,
                 createdAt = LocalDateTime.now(),
+                category = "category2",
             ),
         )
 }

@@ -4,7 +4,6 @@ import { AppRouterCacheProvider } from "@mui/material-nextjs/v15-appRouter";
 import { Inter } from "next/font/google";
 
 import AuthProvider from "@/components/AuthProvider";
-import Footer from "@/components/Footer";
 import Navigation from "@/components/Navigation";
 import ThemeRegistry from "@/components/ThemeRegistry";
 import { APPLICATION_NAME } from "@/lib/constants";
@@ -26,9 +25,10 @@ export default function RootLayout({ children }: { readonly children: React.Reac
           <AppRouterCacheProvider>
             <AuthProvider>
               <ThemeRegistry>
-                <Navigation />
-                <main className="min-h-screen">{children}</main>
-                <Footer />
+                <div className="flex flex-col" style={{ height: "100dvh", overflow: "hidden" }}>
+                  <Navigation />
+                  <main className="flex-1 min-h-0 overflow-y-auto flex flex-col">{children}</main>
+                </div>
               </ThemeRegistry>
             </AuthProvider>
           </AppRouterCacheProvider>

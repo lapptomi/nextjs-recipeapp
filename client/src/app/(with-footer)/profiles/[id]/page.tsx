@@ -2,7 +2,6 @@ import { Avatar, Box, Container, Typography } from "@mui/material";
 import CalendarTodayIcon from "@mui/icons-material/CalendarToday";
 
 import { fetchUserFollowers, fetchUserFollowing, findUserById } from "@/lib/actions/user";
-import TitleHeader from "@/components/TitleHeader";
 import ProfileHeaderButtons from "./ProfileHeaderButtons";
 import ProfileTabViews from "./ProfileTabViews";
 
@@ -11,7 +10,7 @@ export default async function ProfilePage({ params }: { params: Promise<{ id: st
   const user = await findUserById(userId);
 
   if (!user) {
-    return <TitleHeader title="404" />;
+    throw new Error("User not found");
   }
 
   const userFollowers = await fetchUserFollowers(Number(userId));
