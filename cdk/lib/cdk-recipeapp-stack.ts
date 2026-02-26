@@ -117,6 +117,10 @@ export class CdkRecipeAppStack extends cdk.Stack {
                   value: `${recipeappCredentials.secretArn}:DATABASE_PASSWORD::`,
                 },
                 {
+                  name: "OPENAI_API_KEY",
+                  value: `${recipeappCredentials.secretArn}:OPENAI_API_KEY::`,
+                },
+                {
                   name: "AWS_ACCESS_KEY_ID",
                   value: `${awsCredsSecret.secretArn}:AWS_ACCESS_KEY_ID::`,
                 },

@@ -28,24 +28,19 @@ export default async function Navigation() {
       <Box className="flex flex-row items-center gap-2">
         {session && session.user ? (
           <Box className="flex flex-row items-center gap-1">
-            {
-              // TODO: Add this later
-              false && (
-                <Tooltip title="Generate recipes easily with AI">
-                  <Button
-                    startIcon={<AutoAwesomeIcon />}
-                    size="small"
-                    href={ROUTES.AI_CHEF_ASSISTANT}
-                    color="primary"
-                    variant="outlined"
-                  >
-                    <Typography variant="body2" color="text.secondary" fontWeight="medium">
-                      Generate Recipe
-                    </Typography>
-                  </Button>
-                </Tooltip>
-              )
-            }
+            <Tooltip title="Generate recipes easily with AI">
+              <Button
+                startIcon={<AutoAwesomeIcon />}
+                size="small"
+                href={ROUTES.GENERATE_RECIPE}
+                color="primary"
+                variant="outlined"
+              >
+                <Typography variant="body2" color="text.secondary" fontWeight="medium">
+                  Generate Recipe
+                </Typography>
+              </Button>
+            </Tooltip>
 
             <Tooltip title="Create new recipe">
               <Button size="small" href={ROUTES.CREATE_RECIPE}>

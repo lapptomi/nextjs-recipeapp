@@ -1,11 +1,12 @@
 package com.example.demo.user.service
 
+import com.example.demo.auth.service.AuthService
+import com.example.demo.config.UserNotFoundException
 import com.example.demo.recipe.mapper.toRecipeListItemDTO
 import com.example.demo.recipe.repository.RecipeRepository
 import com.example.demo.s3.S3Service
 import com.example.demo.user.domain.CreateUserRequestDTO
 import com.example.demo.user.domain.UpdateUserRequestDTO
-import com.example.demo.user.domain.User
 import com.example.demo.user.domain.UserDTO
 import com.example.demo.user.mapper.toUserDTO
 import com.example.demo.user.repository.UserRepository
@@ -15,6 +16,7 @@ import org.springframework.stereotype.Service
 @Service
 class UserService(
     private val passwordEncoder: PasswordEncoder,
+    private val authService: AuthService,
     private val userRepository: UserRepository,
     private val recipeRepository: RecipeRepository,
     private val s3Service: S3Service,
@@ -33,7 +35,7 @@ class UserService(
     }
 
     fun findUserById(id: Int): UserDTO {
-        val user = userRepository.findUserById(id)
+        val user = requireUser(id)
         val recipes =
             recipeRepository.fetchUserRecipes(user.id).map {
                 it.toRecipeListItemDTO(
@@ -45,12 +47,14 @@ class UserService(
         return user.toUserDTO(recipes)
     }
 
-    fun deleteUser(user: User) {
-        userRepository.deleteById(user.id)
+    fun deleteUser() {
+        val userId = authService.getCurrentUser().sub
+        userRepository.deleteById(userId)
     }
 
-    fun updateUser(user: User, updatedUser: UpdateUserRequestDTO) {
-        userRepository.updateUser(user.id, updatedUser.username, updatedUser.email)
+    fun updateUser(updatedUser: UpdateUserRequestDTO) {
+        val userId = authService.getCurrentUser().sub
+        userRepository.updateUser(userId, updatedUser.username, updatedUser.email)
     }
 
     fun deleteUsers() {
@@ -63,7 +67,8 @@ class UserService(
         return password
     }
 
-    fun followUser(followerId: Int, userToFollowId: Int) {
+    fun followUser(userToFollowId: Int) {
+        val followerId = authService.getCurrentUser().sub
         if (followerId == userToFollowId) throw IllegalArgumentException("Users cannot follow themselves")
         userRepository.addFollower(followerId, userToFollowId)
     }
@@ -73,7 +78,8 @@ class UserService(
         return followers.map { it.toUserDTO() }
     }
 
-    fun unfollowUser(followerId: Int, userToUnfollowId: Int) {
+    fun unfollowUser(userToUnfollowId: Int) {
+        val followerId = authService.getCurrentUser().sub
         userRepository.removeFollower(followerId, userToUnfollowId)
     }
 
@@ -81,4 +87,7 @@ class UserService(
         val following = userRepository.getUserFollowing(userId)
         return following.map { it.toUserDTO() }
     }
+
+    private fun requireUser(id: Int) =
+        userRepository.findUserByIdOrNull(id) ?: throw UserNotFoundException(id = id.toString())
 }

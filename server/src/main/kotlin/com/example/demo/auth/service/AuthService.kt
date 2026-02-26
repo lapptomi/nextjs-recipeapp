@@ -20,7 +20,7 @@ class AuthService(
 
     fun getCurrentUser(): CurrentUser {
         val authentication = SecurityContextHolder.getContext().authentication
-        val jwt = authentication.principal as? Jwt
+        val jwt = authentication?.principal as? Jwt
 
         val expireDate = jwt?.expiresAt
         val issuedAt = jwt?.issuedAt

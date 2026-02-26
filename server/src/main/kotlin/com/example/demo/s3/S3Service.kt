@@ -49,6 +49,23 @@ class S3Service(
         return s3Presigner.presignGetObject(presignReq).url().toString()
     }
 
+    fun uploadBytes(bytes: ByteArray, extension: String, contentType: String): String {
+        if (bytes.isEmpty()) throw IOException("File is empty")
+
+        val safeExtension = extension.trim().trimStart('.').ifBlank { "bin" }
+        val uniqueFilename = "${UUID.randomUUID()}.$safeExtension"
+
+        try {
+            s3Client.putObject(
+                PutObjectRequest.builder().bucket(bucketName).key(uniqueFilename).contentType(contentType).build(),
+                RequestBody.fromBytes(bytes),
+            )
+            return uniqueFilename
+        } catch (e: Exception) {
+            throw IOException("Failed to upload file", e)
+        }
+    }
+
     private fun sanitizeFilename(filename: String?): String =
         filename?.replace(Regex("[^a-zA-Z0-9\\.\\-_]"), "_") ?: "file"
 }

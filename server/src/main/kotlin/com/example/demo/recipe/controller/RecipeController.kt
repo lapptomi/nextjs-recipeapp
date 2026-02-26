@@ -22,11 +22,26 @@ class RecipeController(private val recipeService: RecipeService) {
     @GetMapping
     fun getAll(
         @RequestParam(name = "title", defaultValue = "", required = false) recipeTitle: String,
+        @RequestParam(name = "category", required = false) category: String?,
         @RequestParam(name = "page", defaultValue = "1", required = false) page: Int,
-        @RequestParam(name = "page_size", defaultValue = "12", required = false) pageSize: Int,
-        @RequestParam(name = "sort_by", defaultValue = "date_desc", required = false) sortBy: String,
+        @RequestParam(name = "page_size", required = false) pageSize: Int?,
+        @RequestParam(name = "pageSize", required = false) pageSizeAlias: Int?,
+        @RequestParam(name = "sort_by", required = false) sortBy: String?,
+        @RequestParam(name = "sort", required = false) sortByAlias: String?,
     ): ResponseEntity<PageResult<RecipeListItemDTO>> {
-        return ResponseEntity.ok(recipeService.getAll(recipeTitle, page, pageSize, sortBy))
+        val resolvedPageSize = pageSize ?: pageSizeAlias ?: 12
+        val resolvedSortBy = sortBy ?: sortByAlias ?: "date_desc"
+        val normalizedCategory = category?.trim()?.lowercase()?.takeIf { it.isNotEmpty() && it != "all" }
+
+        return ResponseEntity.ok(
+            recipeService.getAll(
+                recipeTitle = recipeTitle,
+                category = normalizedCategory,
+                page = page,
+                pageSize = resolvedPageSize,
+                sortBy = resolvedSortBy,
+            )
+        )
     }
 
     @GetMapping("/{id}")

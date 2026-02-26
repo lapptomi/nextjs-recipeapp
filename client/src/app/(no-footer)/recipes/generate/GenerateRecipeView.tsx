@@ -1,22 +1,16 @@
 "use client";
 
-import {
-  Box,
-  Button,
-  Chip,
-  Container,
-  IconButton,
-  InputAdornment,
-  TextField,
-  Typography,
-} from "@mui/material";
-import AutoAwesomeIcon from "@mui/icons-material/AutoAwesome";
-import SendIcon from "@mui/icons-material/Send";
+import { Box, Container, IconButton, InputAdornment, TextField, Typography } from "@mui/material";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
+import AutoAwesomeIcon from "@mui/icons-material/AutoAwesome";
 import PeopleOutlineIcon from "@mui/icons-material/PeopleOutline";
 import RestaurantIcon from "@mui/icons-material/Restaurant";
+import SendIcon from "@mui/icons-material/Send";
+import { Button, Chip } from "@mui/material";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import { useState, useCallback } from "react";
+import { ROUTES } from "@/types";
 
 const QUICK_START_CARDS = [
   {
@@ -51,19 +45,32 @@ const FILTER_CHIPS = [
   { id: "diet", label: "Diet preferences", icon: RestaurantIcon },
 ];
 
-interface GenerateRecipeViewProps {
-  onStartChat: (prompt: string) => void;
-}
-
-export default function GenerateRecipeView({ onStartChat }: GenerateRecipeViewProps) {
+export default function GenerateRecipeView() {
   const [prompt, setPrompt] = useState("");
+  const router = useRouter();
+
+  const startChat = useCallback(
+    (value: string) => {
+      const trimmedPrompt = value.trim();
+      if (!trimmedPrompt) return;
+
+      const chatId =
+        typeof crypto !== "undefined" && "randomUUID" in crypto
+          ? crypto.randomUUID()
+          : Date.now().toString();
+
+      const params = new URLSearchParams({ prompt: trimmedPrompt });
+      router.push(`${ROUTES.GENERATE_RECIPE}/${chatId}?${params.toString()}`);
+    },
+    [router]
+  );
 
   const handleSubmit = useCallback(
     (e?: React.FormEvent) => {
       e?.preventDefault();
-      if (prompt.trim()) onStartChat(prompt.trim());
+      startChat(prompt);
     },
-    [prompt, onStartChat]
+    [prompt, startChat]
   );
 
   const handleKeyDown = useCallback(
@@ -80,19 +87,12 @@ export default function GenerateRecipeView({ onStartChat }: GenerateRecipeViewPr
     <Box className="flex-1 overflow-y-auto">
       <Container maxWidth="lg" className="py-10">
         <Box className="flex flex-col items-center gap-8">
-          {/* Accent icon + Heading - horizontal layout */}
           <Box className="flex items-center gap-6">
-            <Box
-              className="flex size-16 items-center justify-center rounded-xl"
-              sx={{
-                background: "linear-gradient(135deg, #ff9f4d 0%, #ed6c02 50%, #e65100 100%)",
-                boxShadow: "0 8px 24px rgba(237, 108, 2, 0.35)",
-              }}
-            >
-              <AutoAwesomeIcon sx={{ color: "white", fontSize: 32 }} />
+            <Box className="flex size-16 items-center justify-center rounded-xl bg-gradient-to-br from-orange-400 via-secondary-main to-orange-700 shadow-lg shadow-secondary-main/40">
+              <AutoAwesomeIcon className="text-[32px] text-white" />
             </Box>
             <Box className="text-left">
-              <Typography variant="h3" className="mb-1 font-bold" sx={{ color: "text.primary" }}>
+              <Typography variant="h3" className="mb-1 font-bold text-primary-main">
                 What are you craving?
               </Typography>
               <Typography variant="body1" color="text.secondary">
@@ -101,7 +101,6 @@ export default function GenerateRecipeView({ onStartChat }: GenerateRecipeViewPr
             </Box>
           </Box>
 
-          {/* Prompt input */}
           <Box className="w-full max-w-2xl">
             <form onSubmit={handleSubmit}>
               <TextField
@@ -126,27 +125,8 @@ export default function GenerateRecipeView({ onStartChat }: GenerateRecipeViewPr
                       </IconButton>
                     </InputAdornment>
                   ),
-                  sx: {
-                    borderRadius: 2,
-                    backgroundColor: "white",
-                    "& fieldset": {
-                      borderColor: "#d4d4d4",
-                      "&:hover": {
-                        borderColor: "#a3a3a3",
-                      },
-                    },
-                  },
                 }}
-                sx={{
-                  "& .MuiOutlinedInput-root": {
-                    "&:hover fieldset": {
-                      borderColor: "#a3a3a3",
-                    },
-                    "&.Mui-focused fieldset": {
-                      borderColor: "primary.main",
-                    },
-                  },
-                }}
+                className="[&_.MuiOutlinedInput-root]:rounded-lg [&_.MuiOutlinedInput-root]:bg-backgroundWhite [&_.MuiOutlinedInput-root.Mui-focused_.MuiOutlinedInput-notchedOutline]:border-secondary-main"
               />
               <Typography
                 variant="caption"
@@ -158,9 +138,7 @@ export default function GenerateRecipeView({ onStartChat }: GenerateRecipeViewPr
             </form>
           </Box>
 
-          {/* Quick Start section */}
           <Box className="flex w-full max-w-5xl flex-col gap-6">
-            {/* Section title with dividers */}
             <Box className="flex items-center justify-center gap-4">
               <Box className="h-px flex-1 bg-gray-200" />
               <Typography variant="overline" className="tracking-widest" color="text.secondary">
@@ -169,20 +147,12 @@ export default function GenerateRecipeView({ onStartChat }: GenerateRecipeViewPr
               <Box className="h-px flex-1 bg-gray-200" />
             </Box>
 
-            {/* Recipe cards - fixed size 220×165 (4:3) */}
             <Box className="flex flex-wrap justify-center gap-4">
               {QUICK_START_CARDS.map(({ id, label, image, alt }) => (
                 <Button
                   key={id}
-                  className="group h-[165px] w-[220px] shrink-0 overflow-hidden rounded-xl p-0 text-left normal-case"
-                  onClick={() => onStartChat(label)}
-                  sx={{
-                    boxShadow: "0 2px 8px rgba(0,0,0,0.12), 0 4px 16px rgba(0,0,0,0.08)",
-                    "&:hover": {
-                      bgcolor: "transparent",
-                      boxShadow: "0 4px 12px rgba(0,0,0,0.15), 0 8px 24px rgba(0,0,0,0.12)",
-                    },
-                  }}
+                  className="group h-[150px] w-[220px] shrink-0 overflow-hidden rounded-xl p-0 text-left normal-case shadow-md transition-shadow hover:bg-transparent hover:shadow-lg"
+                  onClick={() => startChat(label)}
                 >
                   <Box className="relative h-full w-full">
                     <Image
@@ -191,21 +161,8 @@ export default function GenerateRecipeView({ onStartChat }: GenerateRecipeViewPr
                       fill
                       className="object-cover transition-transform duration-200 group-hover:scale-105"
                     />
-                    {/* Static gradient overlay - bottom black to transparent */}
-                    <Box
-                      className="pointer-events-none absolute inset-0"
-                      sx={{
-                        background: "linear-gradient(to top, rgba(0,0,0,0.99), transparent 60%)",
-                      }}
-                    />
-                    {/* AI Chef icon - top right, black square with white border */}
-                    <Box
-                      className="absolute right-2 top-2 flex size-8 items-center justify-center rounded-lg border-2 border-white"
-                      sx={{ bgcolor: "rgba(0,0,0,0.6)" }}
-                    >
-                      <AutoAwesomeIcon sx={{ color: "primary.main", fontSize: 16 }} />
-                    </Box>
-                    {/* Label - bottom left */}
+                    <Box className="pointer-events-none absolute inset-0 bg-[linear-gradient(to_top,rgba(0,0,0,0.99),transparent_60%)]" />
+
                     <Typography
                       variant="body2"
                       className="absolute bottom-3 left-3 right-3 font-medium text-white"
@@ -217,18 +174,14 @@ export default function GenerateRecipeView({ onStartChat }: GenerateRecipeViewPr
               ))}
             </Box>
 
-            {/* Filter chips */}
             <Box className="flex flex-wrap justify-center gap-2">
               {FILTER_CHIPS.map(({ id, label, icon: Icon }) => (
                 <Chip
                   key={id}
-                  icon={<Icon sx={{ fontSize: 18 }} />}
+                  icon={<Icon className="text-[18px]" />}
                   label={label}
                   variant="outlined"
-                  className="rounded-full border-gray-200 bg-gray-50"
-                  sx={{
-                    "&:hover": { borderColor: "primary.main", bgcolor: "rgba(237, 108, 2, 0.04)" },
-                  }}
+                  className="rounded-full border-gray-200 bg-gray-50 transition-colors hover:border-secondary-main hover:bg-secondary-main/5"
                 />
               ))}
             </Box>
