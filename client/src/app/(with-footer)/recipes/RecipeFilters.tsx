@@ -28,15 +28,25 @@ const categoryOptions = [
   { label: "Snack", value: "snack" },
 ] as const;
 
-const validCategoryValues = new Set(categoryOptions.map((category) => category.value));
+type CategoryValue = (typeof categoryOptions)[number]["value"];
+
+const validCategoryValues = new Set<CategoryValue>(
+  categoryOptions.map((category) => category.value)
+);
+
+function isCategoryValue(value: string): value is CategoryValue {
+  return validCategoryValues.has(value as CategoryValue);
+}
 
 export default function RecipeFilters() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const categoryFromQuery = searchParams.get("category")?.toLowerCase() ?? "all";
-  const initialCategory = validCategoryValues.has(categoryFromQuery) ? categoryFromQuery : "all";
+  const initialCategory: CategoryValue = isCategoryValue(categoryFromQuery)
+    ? categoryFromQuery
+    : "all";
 
-  const [selectedCategory, setSelectedCategory] = useState(initialCategory);
+  const [selectedCategory, setSelectedCategory] = useState<CategoryValue>(initialCategory);
   const [selectedSort, setSelectedSort] = useState(searchParams.get("sort") || "date_desc");
   const [searchQuery, setSearchQuery] = useState(searchParams.get("title") || "");
 
@@ -56,7 +66,7 @@ export default function RecipeFilters() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchQuery]);
 
-  const handleCategoryChange = (category: string) => {
+  const handleCategoryChange = (category: CategoryValue) => {
     setSelectedCategory(category);
     const params = new URLSearchParams(searchParams.toString());
     if (category === "all") {
