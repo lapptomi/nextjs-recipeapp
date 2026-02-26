@@ -6,6 +6,7 @@ import com.example.demo.recipe.domain.RecipeAuthorDTO
 import com.example.demo.recipe.domain.RecipeComment
 import com.example.demo.recipe.domain.RecipeRating
 import com.example.demo.recipe.domain.RecipeRatingType
+import java.sql.Types
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate
 import org.springframework.jdbc.support.GeneratedKeyHolder
@@ -18,7 +19,7 @@ class RecipeRepository(val jdbcTemplate: NamedParameterJdbcTemplate) {
         val params =
             MapSqlParameterSource()
                 .addValue("recipeTitle", recipeTitle)
-                .addValue("category", category)
+                .addValue("category", category, Types.VARCHAR)
                 .addValue("limit", pageSize)
                 .addValue("offset", (page - 1) * pageSize)
                 .addValue("sortBy", sortBy)
@@ -95,7 +96,7 @@ class RecipeRepository(val jdbcTemplate: NamedParameterJdbcTemplate) {
             "SELECT COUNT(*) FROM recipes WHERE title ILIKE '%' || :recipeTitle || '%' AND (:category IS NULL OR LOWER(category) = LOWER(:category))"
         return jdbcTemplate.queryForObject(
             sql,
-            MapSqlParameterSource().addValue("recipeTitle", recipeTitle).addValue("category", category),
+            MapSqlParameterSource().addValue("recipeTitle", recipeTitle).addValue("category", category, Types.VARCHAR),
             Long::class.java,
         ) ?: 0L
     }
