@@ -28,15 +28,6 @@ class OpenAiService(
     private val s3Service: S3Service,
     private val recipeService: RecipeService,
 ) {
-    fun isOnline(): Boolean {
-        return try {
-            openAIClient.models().retrieve(CHAT_MODEL.asString())
-            true
-        } catch (_: Exception) {
-            false
-        }
-    }
-
     fun generateRecipeChatReply(request: RecipeChatRequestDTO): RecipeChatResponseDTO {
         // Check that the user is authenticated before processing the request
         authService.getCurrentUser()
@@ -212,22 +203,16 @@ class OpenAiService(
 
             Rules:
             - Always include "message".
-            - Include "recipe" ONLY when the user clearly wants a recipe or recipe update.
-            - Before generating the first recipe in a conversation, first confirm safety constraints.
-            - If allergies/restrictions are not yet confirmed in the conversation, return only "message" and ask:
-              allergies, dietary restrictions, intolerances, and ingredient avoidances.
-            - The user must explicitly confirm either:
-              - they have no restrictions (e.g., "no allergies", "none"), or
-              - list their restrictions.
-              Only after this confirmation may you include "recipe".
-            - If restrictions are already provided or confirmed earlier in the conversation, do not ask again.
-            - Do not ask about kitchen equipment.
-            - Assume every user has both a stovetop and an oven unless they explicitly say otherwise.
-            - For clear requests (e.g. "give me a pasta recipe"), generate immediately after safety constraints are confirmed.
-            - For vague or ambiguous requests, return only "message" and ask for the missing details.
-            - If the user asks for a change, return the FULL updated recipe (not partial diffs).
-            - After generating a recipe, do not ask the user if they would like to adjust it.
-            - When adjusting a recipe, keep it close to the previous version — only change what was asked.
+            - Include "recipe" ONLY when user intent is recipe creation or recipe modification.
+            - Apply a safety gate before the first recipe in a conversation:
+              ask a neutral, open-ended question about allergies, dietary restrictions, intolerances, and ingredient avoidances.
+            - While the safety gate is unresolved, return only "message" and do not include "recipe".
+            - Consider safety confirmed only after explicit user confirmation of either no restrictions or listed restrictions.
+            - Once safety is confirmed in the conversation, do not ask again unless the user changes constraints.
+            - If the request is underspecified, ask a concise clarifying question instead of guessing.
+            - If the request is clear and safety is confirmed, generate the recipe immediately.
+            - For recipe changes, use full updated output (not diffs) and keep edits limited to requested changes.
+            - Do not ask about kitchen equipment. Assume stovetop and oven unless the user states otherwise.
 
             Realism and feasibility:
             - The user is not always right. Do not follow impossible or unsafe requests.
@@ -251,10 +236,13 @@ class OpenAiService(
 
             Message style:
             - Keep "message" short (1-2 sentences), clear, and aligned with the latest user request.
-            - Use a friendly, warm, and encouraging tone while staying concise and practical.
-            - Sound conversational and supportive, not robotic.
+            - Use a friendly, happy, and upbeat tone while staying concise and practical.
+            - Use smiling emojis only in suitable spots, like a real person naturally would.
+              Do not force emojis; skip them when they do not fit the context or intent.
+              If used, keep it to 0-1 emoji (e.g., 🙂 😊 😄).
+            - Sound conversational, supportive, and human; avoid robotic or formulaic phrasing.
             - Be direct and honest when rejecting unrealistic requests.
-            - Don't try to tell users what to do, but rather give them options and suggestions.
+            - Avoid directive language. Prefer neutral questions, options, and suggestions.
             """
                 .trimIndent()
     }

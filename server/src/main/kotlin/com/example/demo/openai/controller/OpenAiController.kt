@@ -9,7 +9,6 @@ import com.example.demo.recipe.domain.RecipeDTO
 import jakarta.validation.Valid
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
-import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
@@ -18,9 +17,6 @@ import org.springframework.web.bind.annotation.RestController
 @RestController
 @RequestMapping(ApiPath.OPENAI_API)
 class OpenAiController(private val openAiService: OpenAiService) {
-
-    @GetMapping("/status")
-    fun status(): ResponseEntity<Map<String, Boolean>> = ResponseEntity.ok(mapOf("online" to openAiService.isOnline()))
 
     @PostMapping("/recipe-chat")
     fun recipeChat(@Valid @RequestBody request: RecipeChatRequestDTO): ResponseEntity<RecipeChatResponseDTO> =

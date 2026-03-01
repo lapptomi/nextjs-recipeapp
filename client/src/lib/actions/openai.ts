@@ -37,19 +37,6 @@ export interface SaveGeneratedRecipePayload {
 
 const endpoint = "/openai"; ///recipe-chat";
 
-interface OpenAiStatusResponse {
-  online: boolean;
-}
-
-export const getOpenAiStatus = async (): Promise<boolean> => {
-  try {
-    const response = await apiClient.get<OpenAiStatusResponse>(`${endpoint}/status`);
-    return Boolean(response.data.online);
-  } catch {
-    return false;
-  }
-};
-
 export const generateRecipeChatReply = async (
   messages: RecipeChatTurn[]
 ): Promise<RecipeChatReply> => {
