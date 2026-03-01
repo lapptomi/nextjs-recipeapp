@@ -39,7 +39,7 @@ class OpenAiService(
         val openAiRequestBuilder =
             ChatCompletionCreateParams.builder()
                 .model(CHAT_MODEL)
-                .reasoningEffort(ReasoningEffort.LOW)
+                .reasoningEffort(ReasoningEffort.MEDIUM)
                 .maxCompletionTokens(3000)
                 .addSystemMessage(SYSTEM_PROMPT)
 
@@ -197,7 +197,7 @@ class OpenAiService(
                 "ingredients": ["200g pasta", "2 cloves garlic", "optional: fresh basil for serving"],
                 "instructions": ["Boil water.", "Cook pasta for 10 minutes."],
                 "tags": ["Italian", "Quick"],
-                "adjustments": ["Make vegan", "Double serving", "Spicier version"]
+                "adjustments": ["Simpler version", "Double serving", "Make vegan", "Spicier version"]
               }
             }
 
@@ -232,7 +232,15 @@ class OpenAiService(
             - When a recipe is included, make it complete:
               - instructions: use clear steps
               - tags: 2-6 useful tags
-              - adjustments: at least 3 suggestions, each 2-4 words (e.g., "Make vegan", "Faster version", "Double serving", "Simple version")
+              - adjustments: 4-5 recipe-specific suggestions, each 2-4 words.
+            - Always include "Simpler version" in "adjustments".
+            - Prefer including "Double serving" unless it is clearly not useful for the current recipe context.
+            - Include "Make vegan" when the current recipe is not vegan and a vegan adaptation is realistic.
+            - "adjustments" must be relevant to the specific recipe, not generic filler.
+            - Do not include adjustments that are already true for the recipe.
+              Example: if the recipe is already gluten-free, do not include "Gluten free";
+              if the recipe is already vegan, do not include "Make vegan".
+            - Avoid duplicate or near-duplicate adjustments.
 
             Message style:
             - Keep "message" short (1-2 sentences), clear, and aligned with the latest user request.
