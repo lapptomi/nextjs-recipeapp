@@ -1,7 +1,7 @@
+import { redirect } from "next/navigation";
 import { getSession } from "@/lib/actions/auth";
 import { ROUTES } from "@/types";
-import { redirect } from "next/navigation";
-import GenerateRecipePageClient from "./GenerateRecipePageClient";
+import GenerateRecipeView from "./GenerateRecipeView";
 
 export default async function GenerateRecipePage() {
   const session = await getSession();
@@ -9,5 +9,5 @@ export default async function GenerateRecipePage() {
     redirect(ROUTES.LOGIN);
   }
 
-  return <GenerateRecipePageClient />;
+  return <GenerateRecipeView />;
 }

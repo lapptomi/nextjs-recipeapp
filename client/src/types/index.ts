@@ -144,5 +144,5 @@ export enum ROUTES {
   RECIPES = "/recipes",
   CREATE_RECIPE = "/recipes/create",
   PROFILES = "/profiles",
-  AI_CHEF_ASSISTANT = "/recipes/generate",
+  GENERATE_RECIPE = "/recipes/generate",
 }

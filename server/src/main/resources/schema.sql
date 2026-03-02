@@ -29,7 +29,7 @@ CREATE TABLE IF NOT EXISTS recipes
     title        VARCHAR(200)  NOT NULL,
     description  VARCHAR(1000) NOT NULL,
     image        VARCHAR(5000),
-    ingredients  VARCHAR(500)  NOT NULL,
+    ingredients  VARCHAR(5000) NOT NULL,
     cooking_time INT           NOT NULL,
     servings     INT                    DEFAULT 0,
     category     VARCHAR(100),

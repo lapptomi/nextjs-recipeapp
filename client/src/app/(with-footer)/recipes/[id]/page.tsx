@@ -22,6 +22,7 @@ import { ROUTES } from "@/types";
 import LikeButtons from "@/components/LikeButtons";
 import SearchIcon from "@mui/icons-material/Search";
 import RecipeCommentForm from "./RecipeCommentForm";
+
 interface Props {
   params: Promise<{ id: string }>;
 }
@@ -44,6 +45,9 @@ export default async function RecipeDetailPage({ params }: Props) {
   const likes = recipe.ratings.filter((r) => r.type === "LIKE").length;
   const dislikes = recipe.ratings.filter((r) => r.type === "DISLIKE").length;
   const averageRating = recipe.ratings.length > 0 ? (likes / (likes + dislikes)) * 5 : 0;
+  const middleIndex = Math.ceil(recipe.ingredients.length / 2);
+  const leftIngredients = recipe.ingredients.slice(0, middleIndex);
+  const rightIngredients = recipe.ingredients.slice(middleIndex);
 
   return (
     <Box className="min-h-screen bg-gray-50">
@@ -87,21 +91,13 @@ export default async function RecipeDetailPage({ params }: Props) {
               >
                 {recipe.title}
               </Typography>
-              <Typography
-                variant="body1"
-                className="max-w-3xl"
-                sx={{
-                  color: "common.white",
-                  opacity: 0.9,
-                  textShadow: "0 1px 2px rgba(0,0,0,0.3)",
-                }}
-              >
+              <Typography variant="h6" color="textSecondaryLight">
                 {recipe.description}
               </Typography>
 
               <Link href={`${ROUTES.PROFILES}/${recipe.author.id}`}>
                 <Box className="flex flex-row items-center gap-2">
-                  <Avatar className="size-20 bg-[rgb(255_255_255_/_0.20)]">
+                  <Avatar className="size-12 bg-[rgb(255_255_255_/_0.20)]">
                     {recipe.author.username[0].toUpperCase()}
                   </Avatar>
                   <Box>
@@ -117,14 +113,14 @@ export default async function RecipeDetailPage({ params }: Props) {
 
               <Box className="flex flex-wrap items-center gap-3">
                 <Box className="flex items-center gap-2">
-                  <AccessTimeIcon sx={{ color: "common.white" }} fontSize="small" />
-                  <Typography variant="body2" sx={{ color: "common.white" }}>
+                  <AccessTimeIcon className="text-white" fontSize="medium" />
+                  <Typography variant="body1" color="textPrimaryLight">
                     {recipe.cookingTime} min
                   </Typography>
                 </Box>
                 <Box className="flex items-center gap-2">
-                  <RestaurantIcon sx={{ color: "common.white" }} fontSize="small" />
-                  <Typography variant="body2" sx={{ color: "common.white" }}>
+                  <RestaurantIcon className="text-white" fontSize="medium" />
+                  <Typography variant="body1" color="textPrimaryLight">
                     {recipe.servings} servings
                   </Typography>
                 </Box>
@@ -133,11 +129,11 @@ export default async function RecipeDetailPage({ params }: Props) {
                     value={averageRating}
                     readOnly
                     precision={0.1}
-                    size="small"
+                    size="medium"
                     icon={<StarIcon fontSize="inherit" className="text-yellow-400" />}
                     emptyIcon={<StarIcon fontSize="inherit" className="text-gray-400" />}
                   />
-                  <Typography variant="body2" color="textPrimaryLight">
+                  <Typography variant="body1" color="textPrimaryLight">
                     {averageRating.toFixed(1)} ({recipe.ratings.length})
                   </Typography>
                 </Box>
@@ -164,12 +160,27 @@ export default async function RecipeDetailPage({ params }: Props) {
               </Typography>
             </Box>
 
-            <Box className="flex flex-col gap-2">
-              {recipe.ingredients.map((ingredient, index) => (
-                <Typography key={index} variant="body1" color="text.secondary">
-                  - {ingredient}
-                </Typography>
-              ))}
+            <Box className="grid grid-cols-1 gap-x-8 gap-y-2 md:grid-cols-2">
+              <Box className="flex flex-col gap-2">
+                {leftIngredients.map((ingredient, index) => (
+                  <Box key={`left-${index}`} className="flex items-start gap-3">
+                    <Box className="mt-2 size-1.5 shrink-0 rounded-full bg-secondary-main" />
+                    <Typography variant="body1" color="text.secondary">
+                      {ingredient}
+                    </Typography>
+                  </Box>
+                ))}
+              </Box>
+              <Box className="flex flex-col gap-2">
+                {rightIngredients.map((ingredient, index) => (
+                  <Box key={`right-${index}`} className="flex items-start gap-3">
+                    <Box className="mt-2 size-1.5 shrink-0 rounded-full bg-secondary-main" />
+                    <Typography variant="body1" color="text.secondary">
+                      {ingredient}
+                    </Typography>
+                  </Box>
+                ))}
+              </Box>
             </Box>
           </CardContent>
         </Card>
@@ -190,14 +201,9 @@ export default async function RecipeDetailPage({ params }: Props) {
 
             <Box className="flex flex-col gap-4">
               {recipe.instructions.split("\n").map((instruction, index) => (
-                <Box key={index} className="flex items-start gap-4">
-                  <Box
-                    className="flex size-8 shrink-0 items-center justify-center rounded-full"
-                    sx={{ bgcolor: "primary.main" }}
-                  >
-                    <Typography variant="body2" className="font-bold text-white">
-                      {index + 1}
-                    </Typography>
+                <Box key={index} className="flex items-center gap-4">
+                  <Box>
+                    <Typography variant="body2">{index + 1}.</Typography>
                   </Box>
                   <Typography variant="body1" className="pt-1" color="text.secondary">
                     {instruction}

@@ -6,13 +6,14 @@ import {
   CardContent,
   Typography,
   TextField,
-  Button,
   Divider,
   List,
   ListItem,
   ListItemAvatar,
   Avatar,
   ListItemText,
+  InputAdornment,
+  IconButton,
 } from "@mui/material";
 import { Box } from "@mui/system";
 import Link from "next/link";
@@ -20,7 +21,7 @@ import { useSession } from "next-auth/react";
 import { addComment } from "@/lib/actions/recipe";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Send } from "@mui/icons-material";
+import SendIcon from "@mui/icons-material/Send";
 
 export default function RecipeCommentForm({ recipe }: { recipe: Recipe }) {
   const session = useSession();
@@ -68,7 +69,21 @@ export default function RecipeCommentForm({ recipe }: { recipe: Recipe }) {
               rows={4}
               placeholder="Share your experience with this recipe..."
               variant="outlined"
-              className="mb-3"
+              className="mb-1"
+              InputProps={{
+                endAdornment: (
+                  <InputAdornment position="end">
+                    <IconButton
+                      onClick={handleSubmit(onSubmit)}
+                      color="primary"
+                      aria-label="send comment"
+                      sx={{ alignSelf: "flex-end", mb: 0.5 }}
+                    >
+                      <SendIcon fontSize="small" />
+                    </IconButton>
+                  </InputAdornment>
+                ),
+              }}
               sx={{
                 "& .MuiOutlinedInput-root": {
                   bgcolor: "grey.50",
@@ -78,15 +93,6 @@ export default function RecipeCommentForm({ recipe }: { recipe: Recipe }) {
                 },
               }}
             />
-            <Button
-              size="small"
-              startIcon={<Send fontSize="small" />}
-              variant="contained"
-              color="primary"
-              onClick={handleSubmit(onSubmit)}
-            >
-              Send
-            </Button>
           </Box>
         ) : (
           <Box className="mb-8 rounded-lg bg-gray-100 p-4 text-center">

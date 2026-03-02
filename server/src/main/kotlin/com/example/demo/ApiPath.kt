@@ -7,5 +7,6 @@ class ApiPath {
         const val USERS_API = ROOT + "/users"
         const val RECIPES_API = ROOT + "/recipes"
         const val AUTH_API = ROOT + "/auth"
+        const val OPENAI_API = ROOT + "/openai"
     }
 }

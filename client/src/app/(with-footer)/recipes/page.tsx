@@ -80,10 +80,10 @@ const RecipeCard = ({ recipe }: { recipe: RecipeListItem }) => {
             <Typography variant="h6" className="line-clamp-1 text-lg font-semibold text-gray-900">
               {recipe.title}
             </Typography>
-            <Typography variant="body2" className="text-sm text-gray-500">
+            <Typography variant="body2" color="textSecondary" className="text-sm">
               @{recipe.author?.username}
             </Typography>
-            <Typography variant="body2" className="text-sm text-gray-500">
+            <Typography variant="caption" className="line-clamp-2">
               {recipe.description}
             </Typography>
           </Box>

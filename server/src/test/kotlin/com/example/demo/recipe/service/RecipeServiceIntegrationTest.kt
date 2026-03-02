@@ -60,7 +60,7 @@ class RecipeServiceIntegrationTest {
                         cookingTime = recipes[0].cookingTime,
                         instructions = recipes[0].instructions,
                         servings = recipes[0].servings,
-                        category = null,
+                        category = "breakfast",
                     ),
                 imageName = null,
             )
@@ -76,7 +76,7 @@ class RecipeServiceIntegrationTest {
                         cookingTime = recipes[1].cookingTime,
                         instructions = recipes[1].instructions,
                         servings = recipes[1].servings,
-                        category = null,
+                        category = "dinner",
                     ),
                 imageName = null,
             )
@@ -93,23 +93,57 @@ class RecipeServiceIntegrationTest {
 
     @Test
     fun `getAll returns the right amount of recipes`() {
-        val result = recipeService.getAll(recipeTitle = "", page = 1, pageSize = 10, sortBy = "date_asc")
+        val result =
+            recipeService.getAll(recipeTitle = "", category = null, page = 1, pageSize = 10, sortBy = "date_asc")
         assertEquals(recipes.size, result.totalElements.toInt())
     }
 
     @Test
     fun `getAll returns the right amount of recipes when using the title param`() {
-        val result = recipeService.getAll(recipeTitle = "", page = 1, pageSize = 10, sortBy = "date_asc")
+        val result =
+            recipeService.getAll(recipeTitle = "", category = null, page = 1, pageSize = 10, sortBy = "date_asc")
         assertEquals(recipes.size, result.totalElements.toInt())
 
-        val result2 = recipeService.getAll(recipeTitle = testRecipe.title, page = 1, pageSize = 1, sortBy = "date_asc")
+        val result2 =
+            recipeService.getAll(
+                recipeTitle = testRecipe.title,
+                category = null,
+                page = 1,
+                pageSize = 1,
+                sortBy = "date_asc",
+            )
         assertEquals(1, result2.totalElements.toInt())
         assertEquals(testRecipe.title, result2.content[0].title)
 
         val result3 =
-            recipeService.getAll(recipeTitle = testRecipe2.title, page = 1, pageSize = 10, sortBy = "date_asc")
+            recipeService.getAll(
+                recipeTitle = testRecipe2.title,
+                category = null,
+                page = 1,
+                pageSize = 10,
+                sortBy = "date_asc",
+            )
         assertEquals(1, result3.totalElements.toInt())
         assertEquals(testRecipe2.title, result3.content[0].title)
+    }
+
+    @Test
+    fun `getAll returns only recipes in selected category`() {
+        val breakfastResult =
+            recipeService.getAll(
+                recipeTitle = "",
+                category = "breakfast",
+                page = 1,
+                pageSize = 10,
+                sortBy = "date_desc",
+            )
+        assertEquals(1, breakfastResult.totalElements.toInt())
+        assertEquals("breakfast", breakfastResult.content[0].category)
+
+        val caseInsensitiveResult =
+            recipeService.getAll(recipeTitle = "", category = "DINNER", page = 1, pageSize = 10, sortBy = "date_desc")
+        assertEquals(1, caseInsensitiveResult.totalElements.toInt())
+        assertEquals("dinner", caseInsensitiveResult.content[0].category)
     }
 
     @Test

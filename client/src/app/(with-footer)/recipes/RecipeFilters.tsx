@@ -19,15 +19,34 @@ import ClearIcon from "@mui/icons-material/Clear";
 
 type SortOption = "date_asc" | "date_desc";
 
-const categories = ["All Recipes", "Breakfast", "Salad", "Pasta", "Dessert", "Other"];
+const categoryOptions = [
+  { label: "All Recipes", value: "all" },
+  { label: "Breakfast", value: "breakfast" },
+  { label: "Lunch", value: "lunch" },
+  { label: "Dinner", value: "dinner" },
+  { label: "Dessert", value: "dessert" },
+  { label: "Snack", value: "snack" },
+] as const;
+
+type CategoryValue = (typeof categoryOptions)[number]["value"];
+
+const validCategoryValues = new Set<CategoryValue>(
+  categoryOptions.map((category) => category.value)
+);
+
+function isCategoryValue(value: string): value is CategoryValue {
+  return validCategoryValues.has(value as CategoryValue);
+}
 
 export default function RecipeFilters() {
   const router = useRouter();
   const searchParams = useSearchParams();
+  const categoryFromQuery = searchParams.get("category")?.toLowerCase() ?? "all";
+  const initialCategory: CategoryValue = isCategoryValue(categoryFromQuery)
+    ? categoryFromQuery
+    : "all";
 
-  const [selectedCategory, setSelectedCategory] = useState(
-    searchParams.get("category") || "All Recipes"
-  );
+  const [selectedCategory, setSelectedCategory] = useState<CategoryValue>(initialCategory);
   const [selectedSort, setSelectedSort] = useState(searchParams.get("sort") || "date_desc");
   const [searchQuery, setSearchQuery] = useState(searchParams.get("title") || "");
 
@@ -47,10 +66,10 @@ export default function RecipeFilters() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchQuery]);
 
-  const handleCategoryChange = (category: string) => {
+  const handleCategoryChange = (category: CategoryValue) => {
     setSelectedCategory(category);
     const params = new URLSearchParams(searchParams.toString());
-    if (category === "All Recipes") {
+    if (category === "all") {
       params.delete("category");
     } else {
       params.set("category", category);
@@ -100,13 +119,13 @@ export default function RecipeFilters() {
           <Typography variant="body2" className="mr-2 font-medium" color="text.secondary">
             Filter:
           </Typography>
-          {categories.map((category) => (
+          {categoryOptions.map((category) => (
             <Chip
-              key={category}
-              label={category}
-              onClick={() => handleCategoryChange(category)}
-              variant={selectedCategory === category ? "filled" : "outlined"}
-              color={selectedCategory === category ? "primary" : "default"}
+              key={category.value}
+              label={category.label}
+              onClick={() => handleCategoryChange(category.value)}
+              variant={selectedCategory === category.value ? "filled" : "outlined"}
+              color={selectedCategory === category.value ? "primary" : "default"}
               size="small"
             />
           ))}

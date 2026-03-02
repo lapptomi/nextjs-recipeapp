@@ -57,6 +57,20 @@ class RecipeControllerIntegrationTest {
                     ),
                 imageName = null,
             )
+        recipeRepository.createRecipe(
+            userId = user.id,
+            createRecipeDTO =
+                CreateRecipeDTO(
+                    title = recipes[1].title,
+                    description = recipes[1].description,
+                    ingredients = recipes[1].ingredients,
+                    cookingTime = recipes[1].cookingTime,
+                    servings = recipes[1].servings,
+                    instructions = recipes[1].instructions,
+                    category = "dessert",
+                ),
+            imageName = null,
+        )
         testUser = user
         testRecipe = recipe
     }
@@ -83,5 +97,31 @@ class RecipeControllerIntegrationTest {
             .andExpect(jsonPath("$.createdAt").exists())
             .andExpect(jsonPath("$.comments").exists())
             .andExpect(jsonPath("$.ratings").exists())
+    }
+
+    @Test
+    fun `getAll should filter by category`() {
+        mockMvc
+            .perform(
+                get(ApiPath.RECIPES_API).param("category", testRecipe.category).contentType(MediaType.APPLICATION_JSON)
+            )
+            .andExpect(status().isOk)
+            .andExpect(jsonPath("$.totalElements").value(1))
+            .andExpect(jsonPath("$.content[0].id").value(testRecipe.id))
+            .andExpect(jsonPath("$.content[0].category").value(testRecipe.category))
+    }
+
+    @Test
+    fun `getAll should support sort and pageSize aliases`() {
+        mockMvc
+            .perform(
+                get(ApiPath.RECIPES_API)
+                    .param("sort", "date_desc")
+                    .param("pageSize", "1")
+                    .contentType(MediaType.APPLICATION_JSON)
+            )
+            .andExpect(status().isOk)
+            .andExpect(jsonPath("$.size").value(1))
+            .andExpect(jsonPath("$.totalElements").value(2))
     }
 }

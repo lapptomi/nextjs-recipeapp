@@ -43,7 +43,7 @@ apiClient.interceptors.response.use(
     }
 
     // Optionally transform error message
-    const message = error.response?.data?.message || "Something went wrong";
+    const message = error.response?.data?.message || error.message || "Something went wrong";
     return Promise.reject(new Error(message));
   }
 );

@@ -10,7 +10,6 @@ import org.springframework.stereotype.Service
 
 @Service
 class JwtService(@Value("\${jwt.secret}") private val jwtSecret: String) {
-
     fun getSecretKey(): SecretKey = Keys.hmacShaKeyFor(Decoders.BASE64.decode(jwtSecret))
 
     fun generateToken(userId: Int): String =

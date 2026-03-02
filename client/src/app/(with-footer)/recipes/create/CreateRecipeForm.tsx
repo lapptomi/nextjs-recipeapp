@@ -8,6 +8,7 @@ import {
   Container,
   IconButton,
   MenuItem,
+  OutlinedInput,
   Select,
   TextField,
   Typography,
@@ -28,6 +29,18 @@ import { createRecipe } from "@/lib/actions/recipe";
 import { NewRecipe, NewRecipeSchema, ROUTES } from "@/types";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm, useFieldArray } from "react-hook-form";
+
+const recipeOutlinedInputSx = {
+  bgcolor: "grey.100",
+  "& fieldset": { borderColor: "grey.300" },
+  "&:hover fieldset": { borderColor: "grey.300" },
+};
+
+const recipeFieldSlotProps = {
+  input: {
+    sx: recipeOutlinedInputSx,
+  },
+};
 
 export default function CreateRecipeForm() {
   const {
@@ -111,7 +124,7 @@ export default function CreateRecipeForm() {
             <SoupKitchenOutlinedIcon color="primary" fontSize="large" />
           </Box>
           <Box>
-            <Typography variant="h4" className="font-bold" sx={{ color: "text.primary" }}>
+            <Typography variant="h4" className="font-bold" color="text.primary">
               Create New Recipe
             </Typography>
             <Typography variant="body1" color="text.secondary">
@@ -126,7 +139,7 @@ export default function CreateRecipeForm() {
           </Alert>
         )}
 
-        <Card className="mb-8" sx={{ borderRadius: 3.5, boxShadow: 2 }}>
+        <Card className="mb-8 rounded-[14px] shadow-md">
           <CardContent className="p-6">
             <Box className="mb-6 flex items-center gap-3">
               <Box className="h-5 w-1 rounded-full" />
@@ -146,19 +159,13 @@ export default function CreateRecipeForm() {
                   helperText={errors.title?.message}
                   fullWidth
                   placeholder="e.g., Grandma's Secret Chocolate Chip Cookies"
-                  sx={{
-                    "& .MuiOutlinedInput-root": {
-                      bgcolor: "#f3f3f5",
-                      "& fieldset": { borderColor: "#d4d4d4" },
-                      "&:hover fieldset": { borderColor: "#d4d4d4" },
-                    },
-                  }}
+                  slotProps={recipeFieldSlotProps}
                 />
               </Box>
 
               <Box>
                 <Typography variant="body2" className="mb-2 font-medium" color="text.primary">
-                  Description *
+                  Description
                 </Typography>
                 <TextField
                   {...register("description")}
@@ -166,13 +173,7 @@ export default function CreateRecipeForm() {
                   multiline
                   rows={3}
                   placeholder="Brief description of your recipe... What makes it special?"
-                  sx={{
-                    "& .MuiOutlinedInput-root": {
-                      bgcolor: "#f3f3f5",
-                      "& fieldset": { borderColor: "#d4d4d4" },
-                      "&:hover fieldset": { borderColor: "#d4d4d4" },
-                    },
-                  }}
+                  slotProps={recipeFieldSlotProps}
                 />
                 <Typography variant="caption" color="text.secondary">
                   {watch("description")?.length}/500 characters
@@ -182,11 +183,11 @@ export default function CreateRecipeForm() {
           </CardContent>
         </Card>
 
-        <Card className="mb-8" sx={{ borderRadius: 3.5, boxShadow: 2 }}>
+        <Card className="mb-8 rounded-[14px] shadow-md">
           <CardContent className="p-6">
             <Box className="mb-6 flex items-center gap-3">
-              <Box className="h-5 w-1 rounded-full" sx={{ bgcolor: "primary.main" }} />
-              <Typography variant="h6" className="font-semibold" sx={{ color: "text.primary" }}>
+              <Box className="h-5 w-1 rounded-full bg-orange-600" />
+              <Typography variant="h6" className="font-semibold" color="text.primary">
                 Recipe Details
               </Typography>
             </Box>
@@ -194,9 +195,9 @@ export default function CreateRecipeForm() {
             <Box className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3">
               <Box>
                 <Box className="mb-2 flex items-center gap-2">
-                  <AccessTimeIcon sx={{ fontSize: 16, color: "#404040" }} />
-                  <Typography variant="body2" color="text.primary">
-                    Cooking Time (minutes) *
+                  <AccessTimeIcon className="text-base text-neutral-700" />
+                  <Typography variant="body2" color="text.secondary">
+                    Cooking Time (minutes)
                   </Typography>
                 </Box>
                 <TextField
@@ -204,21 +205,15 @@ export default function CreateRecipeForm() {
                   type="number"
                   placeholder="30"
                   {...register("cookingTime", { valueAsNumber: true })}
-                  sx={{
-                    "& .MuiOutlinedInput-root": {
-                      bgcolor: "#f3f3f5",
-                      "& fieldset": { borderColor: "#d4d4d4" },
-                      "&:hover fieldset": { borderColor: "#d4d4d4" },
-                    },
-                  }}
+                  slotProps={recipeFieldSlotProps}
                 />
               </Box>
 
               <Box>
                 <Box className="mb-2 flex items-center gap-2">
-                  <RestaurantMenuIcon sx={{ fontSize: 16, color: "#404040" }} />
-                  <Typography variant="body2" className="font-medium" sx={{ color: "#404040" }}>
-                    Servings *
+                  <RestaurantMenuIcon className="text-base text-neutral-700" />
+                  <Typography variant="body2" className="font-medium" color="text.secondary">
+                    Servings
                   </Typography>
                 </Box>
                 <TextField
@@ -226,30 +221,20 @@ export default function CreateRecipeForm() {
                   type="number"
                   placeholder="4"
                   {...register("servings", { valueAsNumber: true })}
-                  sx={{
-                    "& .MuiOutlinedInput-root": {
-                      bgcolor: "#f3f3f5",
-                      "& fieldset": { borderColor: "#d4d4d4" },
-                      "&:hover fieldset": { borderColor: "#d4d4d4" },
-                    },
-                  }}
+                  slotProps={recipeFieldSlotProps}
                 />
               </Box>
 
               <Box>
                 <Typography variant="body2" className="mb-2 font-medium" color="text.primary">
-                  Category *
+                  Category
                 </Typography>
                 <Select
                   {...register("category")}
                   error={!!errors.category}
                   fullWidth
                   displayEmpty
-                  sx={{
-                    bgcolor: "#f3f3f5",
-                    "& .MuiOutlinedInput-notchedOutline": { borderColor: "#d4d4d4" },
-                    "&:hover .MuiOutlinedInput-notchedOutline": { borderColor: "#d4d4d4" },
-                  }}
+                  input={<OutlinedInput sx={recipeOutlinedInputSx} />}
                 >
                   <MenuItem value="" disabled>
                     Select category
@@ -270,11 +255,11 @@ export default function CreateRecipeForm() {
           </CardContent>
         </Card>
 
-        <Card className="mb-8" sx={{ borderRadius: 3.5, boxShadow: 2 }}>
+        <Card className="mb-8 rounded-[14px] shadow-md">
           <CardContent className="p-6">
             <Box className="mb-6 flex items-center justify-between">
               <Box className="flex items-center gap-3">
-                <Box className="h-5 w-1 rounded-full" sx={{ bgcolor: "primary.main" }} />
+                <Box className="h-5 w-1 rounded-full bg-orange-600" />
                 <Typography variant="h6" className="font-semibold" color="text.primary">
                   Ingredients
                 </Typography>
@@ -285,7 +270,7 @@ export default function CreateRecipeForm() {
             </Box>
 
             <Box className="flex flex-col gap-3">
-              {ingredientsFields.map((field, index) => (
+              {ingredientsFields.map((_, index) => (
                 <Box key={index} className="flex items-center gap-2">
                   <Box className="flex size-6 shrink-0 items-center justify-center rounded bg-gray-100">
                     <Typography variant="caption" className="font-medium">
@@ -298,13 +283,8 @@ export default function CreateRecipeForm() {
                     error={!!errors.ingredients?.[index]?.amount}
                     size="small"
                     placeholder="Amount"
-                    sx={{
-                      width: "80px",
-                      "& .MuiOutlinedInput-root": {
-                        bgcolor: "#f3f3f5",
-                        "& fieldset": { borderColor: "#d4d4d4" },
-                      },
-                    }}
+                    className="w-20"
+                    slotProps={recipeFieldSlotProps}
                   />
 
                   <TextField
@@ -313,12 +293,7 @@ export default function CreateRecipeForm() {
                     size="small"
                     placeholder="Ingredient name"
                     className="flex-1"
-                    sx={{
-                      "& .MuiOutlinedInput-root": {
-                        bgcolor: "#f3f3f5",
-                        "& fieldset": { borderColor: "#d4d4d4" },
-                      },
-                    }}
+                    slotProps={recipeFieldSlotProps}
                   />
                   <IconButton
                     size="small"
@@ -375,12 +350,12 @@ export default function CreateRecipeForm() {
           </CardContent>
         </Card>
 
-        <Card className="mb-8" sx={{ borderRadius: 3.5, boxShadow: 2 }}>
+        <Card className="mb-8 rounded-[14px] shadow-md">
           <CardContent className="p-6">
             <Box className="mb-6 flex items-center justify-between">
               <Box className="flex items-center gap-3">
-                <Box className="h-5 w-1 rounded-full" sx={{ bgcolor: "primary.main" }} />
-                <Typography variant="h6" className="font-semibold" sx={{ color: "text.primary" }}>
+                <Box className="h-5 w-1 rounded-full bg-orange-600" />
+                <Typography variant="h6" className="font-semibold" color="text.primary">
                   Instructions
                 </Typography>
               </Box>
@@ -390,17 +365,10 @@ export default function CreateRecipeForm() {
             </Box>
 
             <Box className="flex flex-col gap-3">
-              {instructionsFields.map((field, index) => (
+              {instructionsFields.map((_, index) => (
                 <Box key={index} className="flex items-start gap-3">
-                  <Box
-                    className="flex size-8 shrink-0 items-center justify-center rounded-full"
-                    sx={{ bgcolor: "#fef3c6" }}
-                  >
-                    <Typography
-                      variant="body2"
-                      className="font-semibold"
-                      sx={{ color: "primary.main" }}
-                    >
+                  <Box className="flex size-8 shrink-0 items-center justify-center rounded-full bg-amber-100">
+                    <Typography variant="body2" className="font-semibold text-orange-600">
                       {index + 1}
                     </Typography>
                   </Box>
@@ -412,13 +380,7 @@ export default function CreateRecipeForm() {
                     multiline
                     rows={2}
                     placeholder={`Step ${index + 1}: Describe this step in detail...`}
-                    sx={{
-                      "& .MuiOutlinedInput-root": {
-                        bgcolor: "#f3f3f5",
-                        "& fieldset": { borderColor: "#d4d4d4" },
-                        "&:hover fieldset": { borderColor: "#d4d4d4" },
-                      },
-                    }}
+                    slotProps={recipeFieldSlotProps}
                   />
                   <IconButton
                     size="small"
@@ -459,7 +421,7 @@ export default function CreateRecipeForm() {
           </CardContent>
         </Card>
 
-        <Card className="mb-8" sx={{ borderRadius: 3.5, boxShadow: 2 }}>
+        <Card className="mb-8 rounded-[14px] shadow-md">
           <CardContent className="p-6">
             <Box className="mb-6 flex items-center gap-3">
               <Box className="h-5 w-1 rounded-full" />
@@ -468,10 +430,7 @@ export default function CreateRecipeForm() {
               </Typography>
             </Box>
 
-            <Box
-              className="flex flex-col items-center justify-center rounded-lg border-2 border-dashed p-12"
-              sx={{ borderColor: "#e5e5e5", bgcolor: "#fafafa" }}
-            >
+            <Box className="flex flex-col items-center justify-center rounded-lg border-2 border-dashed border-gray-200 bg-gray-50 p-12">
               <Typography variant="caption" color="error">
                 {errors.image && errors.image.message}
               </Typography>
@@ -505,7 +464,7 @@ export default function CreateRecipeForm() {
                 </Box>
               ) : (
                 <>
-                  <CloudUploadOutlinedIcon sx={{ fontSize: 48, color: "text.secondary", mb: 2 }} />
+                  <CloudUploadOutlinedIcon className="mb-2 text-5xl text-gray-500" />
                   <Typography variant="body1" color="text.primary">
                     Click to upload recipe photo
                   </Typography>

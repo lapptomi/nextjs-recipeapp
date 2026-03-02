@@ -21,8 +21,14 @@ class RecipeService(
     private val recipeRepository: RecipeRepository,
     private val authService: AuthService,
 ) {
-    fun getAll(recipeTitle: String, page: Int, pageSize: Int, sortBy: String): PageResult<RecipeListItemDTO> {
-        val recipes = recipeRepository.fetchRecipes(recipeTitle, page, pageSize, sortBy)
+    fun getAll(
+        recipeTitle: String,
+        category: String?,
+        page: Int,
+        pageSize: Int,
+        sortBy: String,
+    ): PageResult<RecipeListItemDTO> {
+        val recipes = recipeRepository.fetchRecipes(recipeTitle, category, page, pageSize, sortBy)
         return PageResult(
             content =
                 recipes.map {
@@ -35,12 +41,12 @@ class RecipeService(
             page = page,
             size = pageSize,
             numberOfElements = recipes.size,
-            totalElements = recipeRepository.fetchTotalRecipesCount(recipeTitle),
+            totalElements = recipeRepository.fetchTotalRecipesCount(recipeTitle, category),
         )
     }
 
     fun findById(id: Int): RecipeDTO {
-        val recipe = recipeRepository.findById(id)
+        val recipe = requireRecipe(id)
         val recipeComments = recipeRepository.fetchRecipeComments(recipe.id)
         val recipeRatings = recipeRepository.fetchRecipeRatings(recipe.id)
         val presignedUrl = recipe.image?.let { s3Service.getPresignedUrl(it) }
@@ -48,8 +54,12 @@ class RecipeService(
     }
 
     fun createRecipe(createRecipeDTO: CreateRecipeDTO, image: MultipartFile?): RecipeDTO {
-        val userId = authService.getCurrentUser().sub
         val imageName = image?.let { s3Service.uploadFile(it) }
+        return createRecipeWithImageName(createRecipeDTO, imageName)
+    }
+
+    fun createRecipeWithImageName(createRecipeDTO: CreateRecipeDTO, imageName: String?): RecipeDTO {
+        val userId = authService.getCurrentUser().sub
         val createdRecipe = recipeRepository.createRecipe(userId, createRecipeDTO, imageName)
         return createdRecipe.toRecipeDTO(presignedUrl = imageName?.let { s3Service.getPresignedUrl(it) })
     }
@@ -83,4 +93,7 @@ class RecipeService(
         val recipeWithUpdatedComments = findById(recipeId)
         return recipeWithUpdatedComments
     }
+
+    private fun requireRecipe(recipeId: Int) =
+        recipeRepository.findByIdOrNull(recipeId) ?: throw RecipeNotFoundException(recipeId.toString())
 }

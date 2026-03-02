@@ -47,6 +47,7 @@ dependencies {
     implementation("software.amazon.awssdk:s3:2.25.+")
     implementation("software.amazon.awssdk:s3-transfer-manager:2.25.+")
     implementation("org.springframework.boot:spring-boot-starter-oauth2-resource-server")
+    implementation("com.openai:openai-java-spring-boot-starter:4.22.0")
 }
 
 kotlin { compilerOptions { freeCompilerArgs.addAll("-Xjsr305=strict") } }
