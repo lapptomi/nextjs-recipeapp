@@ -4,7 +4,7 @@ import { API_URL } from "./constants";
 
 export const apiClient = axios.create({
   baseURL: API_URL,
-  timeout: 30000, // 30 second timeout
+  timeout: 60000, // 60 second timeout
 });
 
 // Request interceptor - runs before every request

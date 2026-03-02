@@ -39,8 +39,8 @@ class OpenAiService(
         val openAiRequestBuilder =
             ChatCompletionCreateParams.builder()
                 .model(CHAT_MODEL)
-                .reasoningEffort(ReasoningEffort.MEDIUM)
-                .maxCompletionTokens(3000)
+                .reasoningEffort(ReasoningEffort.LOW)
+                .maxCompletionTokens(1200)
                 .addSystemMessage(SYSTEM_PROMPT)
 
         request.messages.forEach { message ->
