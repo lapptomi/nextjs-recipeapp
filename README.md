@@ -166,6 +166,9 @@ AWS_SECRET_ACCESS_KEY=(aws secret access key)
 
 # Security
 JWT_SECRET_KEY=(secret key for jwt tokens)
+
+# OpenAI
+OPENAI_API_KEY=(openai api key / token for recipe generation)
 ```
 
 <details>
@@ -180,6 +183,7 @@ AWS_BUCKET_REGION=us-east-1
 AWS_ACCESS_KEY_ID_=AKIA...
 AWS_SECRET_ACCESS_KEY=wJalr...
 JWT_SECRET_KEY=your-secure-random-string
+OPENAI_API_KEY=sk-...
 ```
 </details>
 

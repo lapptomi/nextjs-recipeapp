@@ -25,7 +25,8 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 
-import { createRecipe } from "@/lib/actions/recipe";
+import { createRecipe, uploadRecipeImage } from "@/lib/actions/recipe";
+import type { CreateRecipePayload } from "@/types";
 import { NewRecipe, NewRecipeSchema, ROUTES } from "@/types";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm, useFieldArray } from "react-hook-form";
@@ -88,29 +89,31 @@ export default function CreateRecipeForm() {
   const selectedImage = watch("image");
   const router = useRouter();
 
-  const handleFormSubmit = (data: NewRecipe) => {
-    const formData = new FormData();
+  async function handleFormSubmit(data: NewRecipe) {
+    const recipePayload: CreateRecipePayload = {
+      title: data.title,
+      description: data.description ?? "",
+      instructions: data.instructions.map((instruction) => instruction.instruction).join("\n"),
+      cookingTime: data.cookingTime ?? 0,
+      servings: data.servings ?? 0,
+      ingredients: data.ingredients.map(
+        (ingredient) => `${ingredient.amount} ${ingredient.ingredient}`
+      ),
+      category: data.category || undefined,
+    };
 
-    formData.append(
-      "recipe",
-      JSON.stringify({
-        title: data.title,
-        description: data.description,
-        instructions: data.instructions.map((instruction) => instruction.instruction).join("\n"),
-        cookingTime: data.cookingTime,
-        servings: data.servings,
-        ingredients: data.ingredients.map(
-          (ingredient) => `${ingredient.amount} ${ingredient.ingredient}`
-        ),
-        category: data.category,
-      })
-    );
-    formData.append("image", selectedImage as any);
+    try {
+      const createdRecipe = await createRecipe(recipePayload);
 
-    createRecipe(formData)
-      .then((recipe) => router.push(`${ROUTES.RECIPES}/${recipe.id}`))
-      .catch((error) => console.log("ERROR = ", error));
-  };
+      if (selectedImage instanceof File) {
+        await uploadRecipeImage(createdRecipe.id, selectedImage);
+      }
+
+      router.push(`${ROUTES.RECIPES}/${createdRecipe.id}`);
+    } catch (error) {
+      console.log("ERROR = ", error);
+    }
+  }
 
   return (
     <Box className="bg-gray-50 min-h-screen py-4">

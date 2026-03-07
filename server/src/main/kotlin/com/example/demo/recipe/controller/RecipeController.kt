@@ -1,4 +1,4 @@
-package com.example.demo.user.controller
+package com.example.demo.recipe.controller
 
 import com.example.demo.ApiPath
 import com.example.demo.domain.PageResult
@@ -8,9 +8,8 @@ import com.example.demo.recipe.domain.CreateRecipeRatingDTO
 import com.example.demo.recipe.domain.RecipeDTO
 import com.example.demo.recipe.domain.RecipeListItemDTO
 import com.example.demo.recipe.service.RecipeService
-import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
-import com.fasterxml.jackson.module.kotlin.readValue
 import org.springframework.http.HttpStatus
+import org.springframework.http.MediaType
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 import org.springframework.web.multipart.MultipartFile
@@ -48,14 +47,8 @@ class RecipeController(private val recipeService: RecipeService) {
     fun getRecipeById(@PathVariable id: Int): ResponseEntity<RecipeDTO> = ResponseEntity.ok(recipeService.findById(id))
 
     @PostMapping
-    fun createRecipe(
-        @RequestPart(value = "recipe") recipeJson: String,
-        @RequestPart(value = "image", required = false) image: MultipartFile?,
-    ): ResponseEntity<RecipeDTO> {
-        val objectMapper = jacksonObjectMapper()
-        val createRecipeDTO: CreateRecipeDTO = objectMapper.readValue(recipeJson)
-        return ResponseEntity.status(HttpStatus.CREATED).body(recipeService.createRecipe(createRecipeDTO, image))
-    }
+    fun createRecipe(@RequestBody createRecipeDTO: CreateRecipeDTO): ResponseEntity<RecipeDTO> =
+        ResponseEntity.status(HttpStatus.CREATED).body(recipeService.createRecipe(createRecipeDTO))
 
     @PostMapping("/{id}/comments")
     fun addComment(@PathVariable id: Int, @RequestBody commentDto: CreateRecipeCommentDTO): ResponseEntity<RecipeDTO> =
@@ -64,6 +57,14 @@ class RecipeController(private val recipeService: RecipeService) {
     @PostMapping("/{id}/ratings")
     fun addRating(@PathVariable id: Int, @RequestBody rating: CreateRecipeRatingDTO): ResponseEntity<RecipeDTO> =
         ResponseEntity.status(HttpStatus.CREATED).body(recipeService.createRecipeRating(id, rating))
+
+    @PostMapping("/{id}/image", consumes = [MediaType.MULTIPART_FORM_DATA_VALUE])
+    fun uploadImage(@PathVariable id: Int, @RequestPart("image") image: MultipartFile): ResponseEntity<RecipeDTO> =
+        ResponseEntity.ok(recipeService.uploadRecipeImage(id, image))
+
+    @PostMapping("/{id}/image/generate")
+    fun generateImage(@PathVariable id: Int): ResponseEntity<RecipeDTO> =
+        ResponseEntity.ok(recipeService.generateRecipeImage(id))
 
     @PutMapping("/{id}/ratings")
     fun updateRating(@PathVariable id: Int, @RequestBody rating: CreateRecipeRatingDTO): ResponseEntity<RecipeDTO> =

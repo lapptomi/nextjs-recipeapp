@@ -49,6 +49,7 @@ const LoginForm = () => {
       <Typography variant="h5">Sign In</Typography>
       <Box>
         <TextField
+          id="login-email"
           margin="normal"
           required
           fullWidth
@@ -58,6 +59,7 @@ const LoginForm = () => {
           onChange={(event) => setEmail(event.target.value)}
         />
         <TextField
+          id="login-password"
           margin="normal"
           required
           fullWidth

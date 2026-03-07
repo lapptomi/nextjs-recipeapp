@@ -6,6 +6,7 @@ import { Inter } from "next/font/google";
 import AuthProvider from "@/components/AuthProvider";
 import Navigation from "@/components/Navigation";
 import ThemeRegistry from "@/components/ThemeRegistry";
+import { getSession } from "@/lib/actions/auth";
 import { APPLICATION_NAME } from "@/lib/constants";
 
 import type { Metadata } from "next";
@@ -17,13 +18,15 @@ export const metadata: Metadata = {
   description: "Your favourite recipe app",
 };
 
-export default function RootLayout({ children }: { readonly children: React.ReactNode }) {
+export default async function RootLayout({ children }: { readonly children: React.ReactNode }) {
+  const session = await getSession();
+
   return (
     <html lang="en">
       <body className={inter.className} id="root">
         <StyledEngineProvider injectFirst>
           <AppRouterCacheProvider>
-            <AuthProvider>
+            <AuthProvider session={session}>
               <ThemeRegistry>
                 <div className="flex flex-col" style={{ height: "100dvh", overflow: "hidden" }}>
                   <Navigation />

@@ -6,7 +6,8 @@ import AutoAwesomeIcon from "@mui/icons-material/AutoAwesome";
 import SendIcon from "@mui/icons-material/Send";
 import { Box, IconButton, InputAdornment, TextField, Typography } from "@mui/material";
 
-import type { ChatMessage } from "./chatModel";
+import { ChatRole } from "@/types";
+import type { ChatMessage } from "@/types";
 import GeneratedRecipeCard from "./GeneratedRecipeCard";
 
 interface RecipeChatViewProps {
@@ -14,7 +15,7 @@ interface RecipeChatViewProps {
   assistantThinking: boolean;
   input: string;
   onInputChange: (value: string) => void;
-  onSend: (text?: string) => void;
+  onSend: (message: string) => void;
   onAdjust: (adjustment: string) => void;
 }
 
@@ -38,7 +39,7 @@ export default function RecipeChatView({
   const handleKeyDown = (e: React.KeyboardEvent) => {
     if (e.key === "Enter" && !e.shiftKey) {
       e.preventDefault();
-      onSend();
+      onSend(input);
     }
   };
   const canSend = input.trim().length > 0 && !assistantThinking;
@@ -48,7 +49,7 @@ export default function RecipeChatView({
       <Box ref={scrollContainerRef} className="flex-1 overflow-y-auto py-6">
         <Box className="mx-auto flex w-full max-w-[860px] flex-col gap-3 px-3">
           {messages.map((message) =>
-            message.role === "user" ? (
+            message.role === ChatRole.User ? (
               <Box key={message.id} className="flex items-start justify-end gap-3">
                 <Box
                   className="max-w-[75%] rounded-2xl px-5 py-3.5 shadow-sm"
@@ -114,7 +115,7 @@ export default function RecipeChatView({
               endAdornment: (
                 <InputAdornment position="end">
                   <IconButton
-                    onClick={() => onSend()}
+                    onClick={() => onSend(input)}
                     disabled={!canSend}
                     color={canSend ? "primary" : "default"}
                   >

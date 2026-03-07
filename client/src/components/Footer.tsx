@@ -5,13 +5,7 @@ import { Box, Container, Link, Typography } from "@mui/material";
 import { APPLICATION_NAME } from "@/lib/constants";
 import { ROUTES } from "@/types";
 
-const FooterLink = ({ href, children }: { href: string; children: React.ReactNode }) => {
-  return (
-    <Link href={href} variant="body2" color="text.secondaryLight">
-      {children}
-    </Link>
-  );
-};
+import FooterLink from "./FooterLink";
 
 export default function Footer() {
   return (
@@ -43,21 +37,21 @@ export default function Footer() {
               <Box
                 component="a"
                 href="#"
-                className="flex items-center justify-center rounded-lg size-9 bg-zinc-700 transition-colors duration-200 hover:bg-zinc-800"
+                className="flex size-9 items-center justify-center rounded-lg bg-zinc-700 transition-colors duration-200 hover:bg-zinc-800"
               >
                 <Instagram sx={{ color: "common.white", fontSize: 16 }} />
               </Box>
               <Box
                 component="a"
                 href="#"
-                className="flex items-center justify-center rounded-lg size-9 bg-zinc-700 transition-colors duration-200 hover:bg-zinc-800"
+                className="flex size-9 items-center justify-center rounded-lg bg-zinc-700 transition-colors duration-200 hover:bg-zinc-800"
               >
                 <Facebook sx={{ color: "common.white", fontSize: 16 }} />
               </Box>
               <Box
                 component="a"
                 href="#"
-                className="flex items-center justify-center rounded-lg size-9 bg-zinc-700 transition-colors duration-200 hover:bg-zinc-800"
+                className="flex size-9 items-center justify-center rounded-lg bg-zinc-700 transition-colors duration-200 hover:bg-zinc-800"
               >
                 <LinkedIn sx={{ color: "common.white", fontSize: 16 }} />
               </Box>
@@ -125,8 +119,7 @@ export default function Footer() {
           </Box>
         </Box>
 
-        {/* Bottom Section */}
-        <Box className="flex flex-wrap items-center justify-between gap-4 border-t pt-6 border-zinc-700">
+        <Box className="flex flex-wrap items-center justify-between gap-4 border-t border-zinc-700 pt-6">
           <Typography variant="body2" sx={{ color: "#a1a1a1" }}>
             © {new Date().getFullYear()} {APPLICATION_NAME}. All rights reserved
           </Typography>

@@ -58,6 +58,40 @@ export type NewUser = z.infer<typeof UserSchema>;
 
 export type NewRecipe = z.infer<typeof NewRecipeSchema>;
 
+export interface CreateRecipePayload {
+  title: string;
+  description: string;
+  ingredients: string[];
+  cookingTime: number;
+  servings: number;
+  instructions: string;
+  category?: string;
+}
+
+export enum ChatRole {
+  User = "user",
+  Assistant = "assistant",
+}
+
+export interface GeneratedRecipe extends Omit<CreateRecipePayload, "instructions" | "category"> {
+  difficulty: string;
+  instructions: string[];
+  adjustments: string[];
+}
+
+export interface RecipeChatTurn {
+  role: ChatRole;
+  content: string;
+  recipe?: GeneratedRecipe;
+}
+
+export interface ChatMessage {
+  id: string;
+  role: ChatRole;
+  content: string;
+  recipe?: GeneratedRecipe;
+}
+
 export const CommentSchema = z.object({
   recipeId: z.number(),
   message: z.string().min(1).max(1000),

@@ -101,13 +101,12 @@ class RecipeRepository(val jdbcTemplate: NamedParameterJdbcTemplate) {
         ) ?: 0L
     }
 
-    fun createRecipe(userId: Int, createRecipeDTO: CreateRecipeDTO, imageName: String?): Recipe {
+    fun createRecipe(userId: Int, createRecipeDTO: CreateRecipeDTO): Recipe {
         val params =
             MapSqlParameterSource()
                 .addValue("userId", userId)
                 .addValue("title", createRecipeDTO.title)
                 .addValue("description", createRecipeDTO.description)
-                .addValue("image", imageName)
                 .addValue("ingredients", createRecipeDTO.ingredients.joinToString(","))
                 .addValue("cookingTime", createRecipeDTO.cookingTime)
                 .addValue("servings", createRecipeDTO.servings)
@@ -116,8 +115,8 @@ class RecipeRepository(val jdbcTemplate: NamedParameterJdbcTemplate) {
 
         val sql =
             """
-            INSERT INTO recipes (user_id, title, description, image, ingredients, cooking_time, servings, instructions, category, created_at) 
-            VALUES (:userId, :title, :description, :image, :ingredients, :cookingTime, :servings, :instructions, :category, NOW())
+            INSERT INTO recipes (user_id, title, description, ingredients, cooking_time, servings, instructions, category, created_at) 
+            VALUES (:userId, :title, :description, :ingredients, :cookingTime, :servings, :instructions, :category, NOW())
             """
                 .trimIndent()
 
@@ -297,6 +296,13 @@ class RecipeRepository(val jdbcTemplate: NamedParameterJdbcTemplate) {
                 .addValue("userId", userId)
                 .addValue("type", type.name)
         val sql = "INSERT INTO recipe_ratings (recipe_id, user_id, type) VALUES (:recipeId, :userId, :type)"
+
+        jdbcTemplate.update(sql, params)
+    }
+
+    fun updateRecipeImage(recipeId: Int, imageName: String) {
+        val params = MapSqlParameterSource().addValue("recipeId", recipeId).addValue("image", imageName)
+        val sql = "UPDATE recipes SET image = :image WHERE id = :recipeId"
 
         jdbcTemplate.update(sql, params)
     }

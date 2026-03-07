@@ -1,5 +1,6 @@
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import PeopleOutlineIcon from "@mui/icons-material/PeopleOutline";
 import RestaurantIcon from "@mui/icons-material/Restaurant";
 import StarIcon from "@mui/icons-material/Star";
 import {
@@ -16,12 +17,13 @@ import {
 import Image from "next/image";
 import Link from "next/link";
 
+import RecipeStatChip from "@/components/RecipeStatChip";
 import { getSession } from "@/lib/actions/auth";
 import { findRecipeById } from "@/lib/actions/recipe";
 import { ROUTES } from "@/types";
-import LikeButtons from "@/components/LikeButtons";
 import SearchIcon from "@mui/icons-material/Search";
-import RecipeCommentForm from "./RecipeCommentForm";
+import LikeButtons from "./components/LikeButtons";
+import RecipeCommentForm from "./components/RecipeCommentForm";
 
 interface Props {
   params: Promise<{ id: string }>;
@@ -112,18 +114,26 @@ export default async function RecipeDetailPage({ params }: Props) {
               </Link>
 
               <Box className="flex flex-wrap items-center gap-3">
-                <Box className="flex items-center gap-2">
-                  <AccessTimeIcon className="text-white" fontSize="medium" />
-                  <Typography variant="body1" color="textPrimaryLight">
-                    {recipe.cookingTime} min
-                  </Typography>
-                </Box>
-                <Box className="flex items-center gap-2">
-                  <RestaurantIcon className="text-white" fontSize="medium" />
-                  <Typography variant="body1" color="textPrimaryLight">
-                    {recipe.servings} servings
-                  </Typography>
-                </Box>
+                <RecipeStatChip icon={<AccessTimeIcon className="text-base" />}>
+                  <Box className="flex items-center gap-1">
+                    <Typography variant="body2" fontWeight="bold">
+                      {recipe.cookingTime}
+                    </Typography>
+                    <Typography variant="caption" className="text-white">
+                      min
+                    </Typography>
+                  </Box>
+                </RecipeStatChip>
+                <RecipeStatChip icon={<PeopleOutlineIcon className="text-base" />}>
+                  <Box className="flex items-center gap-1">
+                    <Typography variant="body2" fontWeight="bold">
+                      {recipe.servings}
+                    </Typography>
+                    <Typography variant="caption" className="text-white">
+                      servings
+                    </Typography>
+                  </Box>
+                </RecipeStatChip>
                 <Box className="flex items-center gap-2">
                   <Rating
                     value={averageRating}

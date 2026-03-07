@@ -2,8 +2,8 @@ import { Avatar, Box, Container, Typography } from "@mui/material";
 import CalendarTodayIcon from "@mui/icons-material/CalendarToday";
 
 import { fetchUserFollowers, fetchUserFollowing, findUserById } from "@/lib/actions/user";
-import ProfileHeaderButtons from "./ProfileHeaderButtons";
-import ProfileTabViews from "./ProfileTabViews";
+import ProfileHeaderButtons from "./components/ProfileHeaderButtons";
+import ProfileTabViews from "./components/ProfileTabViews";
 
 export default async function ProfilePage({ params }: { params: Promise<{ id: string }> }) {
   const userId = (await params).id;

@@ -7,7 +7,7 @@ import com.example.demo.recipe.domain.RecipeListItemDTO
 import com.example.demo.recipe.domain.RecipeRating
 
 fun Recipe.toRecipeDTO(
-    presignedUrl: String?,
+    presignedUrl: String? = null,
     comments: List<RecipeComment> = emptyList(),
     ratings: List<RecipeRating> = emptyList(),
 ): RecipeDTO =

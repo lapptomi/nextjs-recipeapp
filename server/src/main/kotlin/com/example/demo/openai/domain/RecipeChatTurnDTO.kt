@@ -1,3 +1,10 @@
 package com.example.demo.openai.domain
 
-data class RecipeChatTurnDTO(val role: String = "user", val content: String = "")
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties
+
+@JsonIgnoreProperties(ignoreUnknown = true)
+data class RecipeChatTurnDTO(
+    val role: RecipeChatRole = RecipeChatRole.USER,
+    val content: String = "",
+    val recipe: GeneratedRecipeDTO? = null,
+)

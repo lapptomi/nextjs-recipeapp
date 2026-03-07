@@ -2,64 +2,16 @@
 
 import { useEffect, useState } from "react";
 
-import {
-  Alert,
-  AlertTitle,
-  Avatar,
-  Button,
-  Divider,
-  Snackbar,
-  TextField,
-  Typography,
-} from "@mui/material";
+import { Alert, AlertTitle, Avatar, Button, Divider, Snackbar, Typography } from "@mui/material";
 import { Box } from "@mui/system";
 import { useSession } from "next-auth/react";
 
-import DeleteAccountModal from "@/components/DeleteAccountModal";
 import { updateUser } from "@/lib/actions/user";
 
+import DeleteAccountModal from "./components/DeleteAccountModal";
+import EditField from "./components/EditField";
+
 import type { User } from "next-auth";
-
-function EditField({
-  label,
-  value,
-  defaultValue,
-  onChange,
-  onCancel,
-}: {
-  label: string;
-  value?: string;
-  defaultValue?: string;
-  onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
-  onCancel: () => void;
-}) {
-  const [edit, setEdit] = useState(false);
-
-  return (
-    <Box className="flex flex-row justify-between gap-2">
-      <TextField
-        fullWidth
-        variant="standard"
-        label={label || ""}
-        value={value}
-        disabled={!edit}
-        onChange={onChange}
-        defaultValue={defaultValue}
-      />
-      <Button
-        color="secondary"
-        variant="text"
-        size="small"
-        onClick={() => {
-          setEdit(!edit);
-          onCancel();
-        }}
-      >
-        {edit ? "Cancel" : "Edit"}
-      </Button>
-    </Box>
-  );
-}
 
 export default function SettingsPage() {
   const { data: session, update } = useSession();
@@ -82,13 +34,13 @@ export default function SettingsPage() {
     editedPassword?.length === 0 ||
     (editedUsername === user?.name && editedEmail === user?.email && editedPassword === undefined);
 
-  const saveChanges = () => {
+  function saveChanges() {
     setLoading(true);
 
     const fieldsToUpdate = {
       username: editedUsername !== user?.name ? editedUsername : undefined,
       email: editedEmail !== user?.email ? editedEmail : undefined,
-      password: editedPassword ? editedPassword : undefined,
+      password: editedPassword || undefined,
     };
 
     updateUser(fieldsToUpdate)
@@ -98,7 +50,7 @@ export default function SettingsPage() {
       })
       .then(() => update({ name: editedUsername }))
       .finally(() => setLoading(false));
-  };
+  }
 
   return (
     <>
@@ -162,7 +114,7 @@ export default function SettingsPage() {
               variant="contained"
               color="primary"
               disabled={saveChangesDisabled}
-              onClick={() => saveChanges()}
+              onClick={saveChanges}
               loading={loading}
             >
               Save Changes

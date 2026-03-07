@@ -3,9 +3,11 @@ package com.example.demo.recipe.service
 import com.example.demo.auth.service.AuthService
 import com.example.demo.config.RecipeNotFoundException
 import com.example.demo.domain.PageResult
+import com.example.demo.openai.service.OpenAiImageService
 import com.example.demo.recipe.domain.CreateRecipeCommentDTO
 import com.example.demo.recipe.domain.CreateRecipeDTO
 import com.example.demo.recipe.domain.CreateRecipeRatingDTO
+import com.example.demo.recipe.domain.Recipe
 import com.example.demo.recipe.domain.RecipeDTO
 import com.example.demo.recipe.domain.RecipeListItemDTO
 import com.example.demo.recipe.mapper.toRecipeDTO
@@ -20,6 +22,7 @@ class RecipeService(
     private val s3Service: S3Service,
     private val recipeRepository: RecipeRepository,
     private val authService: AuthService,
+    private val openAiImageService: OpenAiImageService,
 ) {
     fun getAll(
         recipeTitle: String,
@@ -53,15 +56,29 @@ class RecipeService(
         return recipe.toRecipeDTO(presignedUrl, recipeComments, recipeRatings)
     }
 
-    fun createRecipe(createRecipeDTO: CreateRecipeDTO, image: MultipartFile?): RecipeDTO {
-        val imageName = image?.let { s3Service.uploadFile(it) }
-        return createRecipeWithImageName(createRecipeDTO, imageName)
+    fun createRecipe(createRecipeDTO: CreateRecipeDTO): RecipeDTO {
+        val userId = authService.getCurrentUser().sub
+        return recipeRepository.createRecipe(userId, createRecipeDTO).toRecipeDTO()
     }
 
-    fun createRecipeWithImageName(createRecipeDTO: CreateRecipeDTO, imageName: String?): RecipeDTO {
-        val userId = authService.getCurrentUser().sub
-        val createdRecipe = recipeRepository.createRecipe(userId, createRecipeDTO, imageName)
-        return createdRecipe.toRecipeDTO(presignedUrl = imageName?.let { s3Service.getPresignedUrl(it) })
+    fun uploadRecipeImage(recipeId: Int, image: MultipartFile): RecipeDTO {
+        val recipe = requireRecipe(recipeId)
+        requireCurrentUserToBeAuthor(recipe)
+
+        val imageName = s3Service.uploadFile(image)
+        recipeRepository.updateRecipeImage(recipeId, imageName)
+
+        return findById(recipeId)
+    }
+
+    fun generateRecipeImage(recipeId: Int): RecipeDTO {
+        val recipe = requireRecipe(recipeId)
+        requireCurrentUserToBeAuthor(recipe)
+
+        val imageName = openAiImageService.generateRecipeImage(recipe)
+        recipeRepository.updateRecipeImage(recipeId, imageName)
+
+        return findById(recipeId)
     }
 
     fun updateRating(recipeId: Int, ratingDto: CreateRecipeRatingDTO): RecipeDTO {
@@ -72,8 +89,7 @@ class RecipeService(
                 ?: throw RecipeNotFoundException(recipeId.toString())
 
         recipeRepository.updateRecipeRating(ratingId = existingRating.id, type = ratingDto.type)
-        val recipeWithUpdatedRatings = findById(recipeId)
-        return recipeWithUpdatedRatings
+        return findById(recipeId)
     }
 
     fun createRecipeRating(recipeId: Int, ratingDto: CreateRecipeRatingDTO): RecipeDTO {
@@ -83,17 +99,23 @@ class RecipeService(
             throw IllegalArgumentException("User has already rated this recipe")
         }
         recipeRepository.createRecipeRating(recipeId, userId, ratingDto.type)
-        val recipeWithUpdatedRatings = findById(recipeId)
-        return recipeWithUpdatedRatings
+        return findById(recipeId)
     }
 
     fun addComment(recipeId: Int, commentDto: CreateRecipeCommentDTO): RecipeDTO {
         val userId = authService.getCurrentUser().sub
         recipeRepository.createRecipeComment(recipeId, userId, commentDto.message)
-        val recipeWithUpdatedComments = findById(recipeId)
-        return recipeWithUpdatedComments
+        return findById(recipeId)
     }
 
     private fun requireRecipe(recipeId: Int) =
         recipeRepository.findByIdOrNull(recipeId) ?: throw RecipeNotFoundException(recipeId.toString())
+
+    private fun requireCurrentUserToBeAuthor(recipe: Recipe) {
+        val currentUserId = authService.getCurrentUser().sub
+
+        if (recipe.author.id != currentUserId) {
+            throw IllegalArgumentException("Only the recipe author can modify the recipe image.")
+        }
+    }
 }

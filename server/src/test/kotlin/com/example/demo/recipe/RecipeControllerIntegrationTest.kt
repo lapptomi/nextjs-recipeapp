@@ -55,7 +55,6 @@ class RecipeControllerIntegrationTest {
                         instructions = recipes[0].instructions,
                         category = recipes[0].category,
                     ),
-                imageName = null,
             )
         recipeRepository.createRecipe(
             userId = user.id,
@@ -69,7 +68,6 @@ class RecipeControllerIntegrationTest {
                     instructions = recipes[1].instructions,
                     category = "dessert",
                 ),
-            imageName = null,
         )
         testUser = user
         testRecipe = recipe

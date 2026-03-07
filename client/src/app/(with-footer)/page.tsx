@@ -4,96 +4,27 @@ import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import GroupsIcon from "@mui/icons-material/Groups";
 import RestaurantMenuIcon from "@mui/icons-material/RestaurantMenu";
 import SearchIcon from "@mui/icons-material/Search";
-import { Box, Button, Card, CardContent, Container, Skeleton, Typography } from "@mui/material";
+import { Box, Button, Container, Typography } from "@mui/material";
 import Image from "next/image";
 import Link from "next/link";
 
-import { getRecipes } from "@/lib/actions/recipe";
+import { APPLICATION_NAME } from "@/lib/constants";
 import { ROUTES } from "@/types";
 
-import { APPLICATION_NAME } from "@/lib/constants";
-import RecipeListCardSmall from "@/components/RecipeListCardSmall";
+import FeatureCard from "./components/FeatureCard";
+import PopularRecipes from "./components/PopularRecipes";
+import PopularRecipesSkeleton from "./components/PopularRecipesSkeleton";
 
 const imgHeroRecipe = "/recipeimage.jpeg";
 const imgKitchen = "/recipeimage2.jpg";
 
-const CARD_WIDTH = 280;
-const CARD_GAP = 16;
-
-const PopularRecipesSkeleton = () => {
-  return (
-    <Box
-      className="grid justify-center"
-      sx={{
-        gridTemplateColumns: `repeat(auto-fit, minmax(${CARD_WIDTH}px, ${CARD_WIDTH}px))`,
-        gap: `${CARD_GAP}px`,
-      }}
-    >
-      {[...Array(4)].map((_, index) => (
-        <Card key={index} sx={{ borderRadius: 3 }}>
-          <Skeleton variant="rectangular" height={192} />
-          <CardContent>
-            <Skeleton variant="text" height={28} width="80%" />
-            <Skeleton variant="text" height={20} width="40%" />
-            <Skeleton variant="text" height={20} width="60%" />
-          </CardContent>
-        </Card>
-      ))}
-    </Box>
-  );
-};
-
-const PopularRecipes = async () => {
-  const response = await getRecipes("page=1&page_size=4");
-  return (
-    <Box
-      className="grid justify-center"
-      sx={{
-        gridTemplateColumns: `repeat(auto-fit, minmax(${CARD_WIDTH}px, ${CARD_WIDTH}px))`,
-        gap: `${CARD_GAP}px`,
-      }}
-    >
-      {response.content.map((recipe) => (
-        <RecipeListCardSmall key={recipe.id} recipe={recipe} />
-      ))}
-    </Box>
-  );
-};
-
-const FeatureCard = ({
-  icon,
-  title,
-  description,
-}: {
-  icon: React.ReactNode;
-  title: string;
-  description: string;
-}) => {
-  return (
-    <Box className="flex flex-col items-center text-center" sx={{ maxWidth: 300 }}>
-      <Box
-        className="mb-4 flex size-16 items-center justify-center rounded-full"
-        sx={{ bgcolor: "primary.main" }}
-      >
-        {icon}
-      </Box>
-      <Typography variant="h6" className="mb-2 font-bold" sx={{ color: "text.primary" }}>
-        {title}
-      </Typography>
-      <Typography variant="body2" sx={{ color: "text.secondary" }}>
-        {description}
-      </Typography>
-    </Box>
-  );
-};
-
-const LandingPage = () => {
+export default function LandingPage() {
   return (
     <Box>
       <Box className="bg-white">
         <Container maxWidth="xl" className="py-16">
-          <Box className="flex items-center gap-4 flex-row bg justify-evenly flex-wrap">
-            <Box className="flex flex-col gap-6 max-w-[500px] min-w-[500px] ">
+          <Box className="bg flex flex-row flex-wrap items-center justify-evenly gap-4">
+            <Box className="max-w-[500px] min-w-[500px] flex flex-col gap-6">
               <Typography variant="h2" fontWeight="bold" color="text.primary">
                 Discover & share recipes you&apos;ll love
               </Typography>
@@ -102,12 +33,12 @@ const LandingPage = () => {
                 cook delicious meals every day.
               </Typography>
 
-              <Box className="flex gap-4 w-full">
+              <Box className="flex w-full gap-4">
                 <Button
                   variant="contained"
                   size="large"
                   href={ROUTES.RECIPES}
-                  className="p-3 flex-1"
+                  className="flex-1 p-3"
                 >
                   <Typography variant="body1" color="text.primaryLight" fontWeight="bold">
                     Browse Recipes
@@ -119,7 +50,7 @@ const LandingPage = () => {
                   variant="outlined"
                   size="large"
                   href={ROUTES.REGISTER}
-                  className="p-3 flex-1"
+                  className="flex-1 p-3"
                 >
                   <Typography variant="body1" fontWeight="bold">
                     Share Your Recipe
@@ -156,7 +87,7 @@ const LandingPage = () => {
             </Box>
 
             <Box className="flex justify-center">
-              <Box className="relative overflow-hidden w-[500px] h-[560px] rounded-3xl shadow-xl">
+              <Box className="relative h-[560px] w-[500px] overflow-hidden rounded-3xl shadow-xl">
                 <Image
                   src={imgHeroRecipe}
                   alt="Delicious recipe"
@@ -231,7 +162,7 @@ const LandingPage = () => {
         <Container maxWidth="xl">
           <Box className="grid grid-cols-1 items-center gap-12 lg:grid-cols-2">
             <Box className="flex justify-center">
-              <Box className="relative overflow-hidden w-[400px] h-[500px] rounded-3xl shadow-2xl">
+              <Box className="relative h-[500px] w-[400px] overflow-hidden rounded-3xl shadow-2xl">
                 <Image
                   src={imgKitchen}
                   alt="Kitchen setup"
@@ -263,6 +194,4 @@ const LandingPage = () => {
       </Box>
     </Box>
   );
-};
-
-export default LandingPage;
+}

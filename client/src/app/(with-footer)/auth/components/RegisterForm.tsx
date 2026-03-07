@@ -10,10 +10,8 @@ import { useForm } from "react-hook-form";
 
 import { createUser } from "@/lib/actions/user";
 import { APPLICATION_NAME } from "@/lib/constants";
-
-import { ROUTES, UserSchema } from "../types";
-
-import type { NewUser } from "../types";
+import { ROUTES, UserSchema } from "@/types";
+import type { NewUser } from "@/types";
 
 const RegisterForm = () => {
   const [error, setError] = useState("");
@@ -59,6 +57,7 @@ const RegisterForm = () => {
 
       <form onSubmit={handleSubmit(handleFormSubmit)}>
         <TextField
+          id="register-email"
           margin="normal"
           required
           fullWidth
@@ -69,6 +68,7 @@ const RegisterForm = () => {
           helperText={errors.email?.message}
         />
         <TextField
+          id="register-username"
           margin="normal"
           required
           fullWidth
@@ -79,6 +79,7 @@ const RegisterForm = () => {
           {...register("username")}
         />
         <TextField
+          id="register-password"
           margin="normal"
           required
           fullWidth
@@ -89,6 +90,7 @@ const RegisterForm = () => {
           {...register("password")}
         />
         <TextField
+          id="register-confirm-password"
           margin="normal"
           required
           fullWidth

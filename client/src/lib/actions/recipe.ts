@@ -2,7 +2,13 @@
 
 import { apiClient } from "../apiClient";
 
-import type { CommentForm, Recipe, RecipeListItem, RecipeRatingType } from "@/types";
+import type {
+  CommentForm,
+  CreateRecipePayload,
+  Recipe,
+  RecipeListItem,
+  RecipeRatingType,
+} from "@/types";
 
 interface Response {
   content: RecipeListItem[];
@@ -24,11 +30,25 @@ export const findRecipeById = async (recipeId: string) => {
   return response.data;
 };
 
-export const createRecipe = async (formData: FormData) => {
-  const response = await apiClient.post(`${endpoint}`, formData, {
+export const createRecipe = async (recipe: CreateRecipePayload) => {
+  const response = await apiClient.post<Recipe>(`${endpoint}`, recipe);
+
+  return response.data;
+};
+
+export const uploadRecipeImage = async (recipeId: number, image: File) => {
+  const formData = new FormData();
+  formData.append("image", image);
+
+  const response = await apiClient.post<Recipe>(`${endpoint}/${recipeId}/image`, formData, {
     headers: { "Content-Type": "multipart/form-data" },
   });
 
+  return response.data;
+};
+
+export const generateRecipeImage = async (recipeId: number) => {
+  const response = await apiClient.post<Recipe>(`${endpoint}/${recipeId}/image/generate`);
   return response.data;
 };
 

@@ -6,14 +6,13 @@ import { Add, Person, Settings } from "@mui/icons-material";
 import { Box, Button, Typography } from "@mui/material";
 import Avatar from "@mui/material/Avatar";
 import Divider from "@mui/material/Divider";
-import ListItemIcon from "@mui/material/ListItemIcon";
 import Menu from "@mui/material/Menu";
-import MenuItem from "@mui/material/MenuItem";
 import Tooltip from "@mui/material/Tooltip";
 import Link from "next/link";
 
 import { ROUTES } from "@/types";
 
+import MenuItemWithIcon from "./MenuItemWithIcon";
 import SignOutModal from "./SignOutModal";
 
 import type { Session } from "next-auth";
@@ -22,37 +21,18 @@ interface Props {
   user: Session["user"];
 }
 
-const MenuItemWithIcon = ({
-  icon,
-  label,
-  onClick,
-}: {
-  icon: React.ReactNode;
-  label: string;
-  onClick: () => void;
-}) => {
-  return (
-    <MenuItem onClick={onClick}>
-      <ListItemIcon>{icon}</ListItemIcon>
-      <Typography variant="body1" color="text.secondary" fontWeight="medium">
-        {label}
-      </Typography>
-    </MenuItem>
-  );
-};
-
 export default function AccountMenu({ user }: Props) {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
 
   const open = Boolean(anchorEl);
 
-  const handleClick = (event: React.MouseEvent<HTMLElement>) => {
+  function handleClick(event: React.MouseEvent<HTMLElement>) {
     setAnchorEl(event.currentTarget);
-  };
+  }
 
-  const handleClose = () => {
+  function handleClose() {
     setAnchorEl(null);
-  };
+  }
 
   return (
     <>
@@ -80,7 +60,7 @@ export default function AccountMenu({ user }: Props) {
             <MenuItemWithIcon
               icon={<Person fontSize="medium" color="inherit" />}
               label="Profile"
-              onClick={() => handleClose()}
+              onClick={handleClose}
             />
           </Link>
 
@@ -88,7 +68,7 @@ export default function AccountMenu({ user }: Props) {
             <MenuItemWithIcon
               icon={<Add fontSize="medium" />}
               label="Create Recipe"
-              onClick={() => handleClose()}
+              onClick={handleClose}
             />
           </Link>
 
@@ -96,7 +76,7 @@ export default function AccountMenu({ user }: Props) {
             <MenuItemWithIcon
               icon={<Settings fontSize="medium" color="inherit" />}
               label="Settings"
-              onClick={() => handleClose()}
+              onClick={handleClose}
             />
           </Link>
 

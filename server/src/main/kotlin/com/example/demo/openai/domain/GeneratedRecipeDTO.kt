@@ -11,6 +11,5 @@ data class GeneratedRecipeDTO(
     val difficulty: String = "",
     val ingredients: List<String> = emptyList(),
     val instructions: List<String> = emptyList(),
-    val tags: List<String> = emptyList(),
     val adjustments: List<String> = emptyList(),
 )

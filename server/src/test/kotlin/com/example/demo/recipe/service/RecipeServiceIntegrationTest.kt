@@ -62,7 +62,6 @@ class RecipeServiceIntegrationTest {
                         servings = recipes[0].servings,
                         category = "breakfast",
                     ),
-                imageName = null,
             )
 
         val recipe2 =
@@ -78,7 +77,6 @@ class RecipeServiceIntegrationTest {
                         servings = recipes[1].servings,
                         category = "dinner",
                     ),
-                imageName = null,
             )
 
         testUser = user
@@ -169,7 +167,7 @@ class RecipeServiceIntegrationTest {
                 category = null,
             )
 
-        val createdRecipe = recipeService.createRecipe(createRecipeDTO, null)
+        val createdRecipe = recipeService.createRecipe(createRecipeDTO)
         assertEquals(createRecipeDTO.title, createdRecipe.title)
         assertEquals(createRecipeDTO.description, createdRecipe.description)
         assertEquals(testUser.id, createdRecipe.author.id)

@@ -2,15 +2,11 @@
 
 import { useCallback } from "react";
 
-import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import AutoAwesomeIcon from "@mui/icons-material/AutoAwesome";
-import PeopleOutlineIcon from "@mui/icons-material/PeopleOutline";
-import RestaurantIcon from "@mui/icons-material/Restaurant";
 import SendIcon from "@mui/icons-material/Send";
 import {
   Box,
   Button,
-  Chip,
   Container,
   IconButton,
   InputAdornment,
@@ -50,12 +46,6 @@ const QUICK_START_CARDS = [
     image: "/r4.jpg",
     alt: "Elegant dinner table setting",
   },
-];
-
-const FILTER_CHIPS = [
-  { id: "time", label: "Time-based", icon: AccessTimeIcon },
-  { id: "servings", label: "Serving sizes", icon: PeopleOutlineIcon },
-  { id: "diet", label: "Diet preferences", icon: RestaurantIcon },
 ];
 
 export default function RecipeChatInitialView({
@@ -102,6 +92,7 @@ export default function RecipeChatInitialView({
           <Box className="w-full max-w-2xl">
             <form onSubmit={handleSubmit}>
               <TextField
+                id="recipe-chat-prompt"
                 fullWidth
                 multiline
                 maxRows={4}
@@ -169,18 +160,6 @@ export default function RecipeChatInitialView({
                     </Typography>
                   </Box>
                 </Button>
-              ))}
-            </Box>
-
-            <Box className="flex flex-wrap justify-center gap-2">
-              {FILTER_CHIPS.map(({ id, label, icon: Icon }) => (
-                <Chip
-                  key={id}
-                  icon={<Icon className="text-[18px]" />}
-                  label={label}
-                  variant="outlined"
-                  className="rounded-full border-gray-200 bg-gray-50 transition-colors hover:border-secondary-main hover:bg-secondary-main/5"
-                />
               ))}
             </Box>
           </Box>
