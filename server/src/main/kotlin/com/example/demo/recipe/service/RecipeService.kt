@@ -3,7 +3,7 @@ package com.example.demo.recipe.service
 import com.example.demo.auth.service.AuthService
 import com.example.demo.config.RecipeNotFoundException
 import com.example.demo.domain.PageResult
-import com.example.demo.openai.service.OpenAiImageService
+import com.example.demo.openai.service.OpenAiService
 import com.example.demo.recipe.domain.CreateRecipeCommentDTO
 import com.example.demo.recipe.domain.CreateRecipeDTO
 import com.example.demo.recipe.domain.CreateRecipeRatingDTO
@@ -22,7 +22,7 @@ class RecipeService(
     private val s3Service: S3Service,
     private val recipeRepository: RecipeRepository,
     private val authService: AuthService,
-    private val openAiImageService: OpenAiImageService,
+    private val openAiService: OpenAiService,
 ) {
     fun getAll(
         recipeTitle: String,
@@ -65,7 +65,12 @@ class RecipeService(
         val recipe = requireRecipe(recipeId)
         requireCurrentUserToBeAuthor(recipe)
 
-        val imageName = s3Service.uploadFile(image)
+        val imageName =
+            s3Service.uploadBytes(
+                image.bytes,
+                image.originalFilename?.substringAfterLast('.', "") ?: "",
+                image.contentType ?: "application/octet-stream",
+            )
         recipeRepository.updateRecipeImage(recipeId, imageName)
 
         return findById(recipeId)
@@ -75,7 +80,7 @@ class RecipeService(
         val recipe = requireRecipe(recipeId)
         requireCurrentUserToBeAuthor(recipe)
 
-        val imageName = openAiImageService.generateRecipeImage(recipe)
+        val imageName = openAiService.generateRecipeImage(recipe)
         recipeRepository.updateRecipeImage(recipeId, imageName)
 
         return findById(recipeId)

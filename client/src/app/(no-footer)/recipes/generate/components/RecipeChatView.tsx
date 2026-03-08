@@ -36,7 +36,7 @@ export default function RecipeChatView({
     }
   }, [assistantThinking, messages]);
 
-  const handleKeyDown = (e: React.KeyboardEvent) => {
+  const handlePressEnter = (e: React.KeyboardEvent) => {
     if (e.key === "Enter" && !e.shiftKey) {
       e.preventDefault();
       onSend(input);
@@ -47,7 +47,7 @@ export default function RecipeChatView({
   return (
     <Box className="flex min-h-0 flex-1 flex-col overflow-hidden bg-gray-100">
       <Box ref={scrollContainerRef} className="flex-1 overflow-y-auto py-6">
-        <Box className="mx-auto flex w-full max-w-[860px] flex-col gap-3 px-3">
+        <Box className="mx-auto flex w-full max-w-4xl flex-col gap-3 px-3">
           {messages.map((message) =>
             message.role === ChatRole.User ? (
               <Box key={message.id} className="flex items-start justify-end gap-3">
@@ -100,7 +100,7 @@ export default function RecipeChatView({
         </Box>
       </Box>
 
-      <Box className="border-t border-gray-200 bg-white p-5 shadow-[0_-1px_3px_rgba(0,0,0,0.1)]">
+      <Box className="border-t border-gray-200 bg-white p-5">
         <Box className="mx-auto max-w-4xl">
           <TextField
             fullWidth
@@ -109,7 +109,7 @@ export default function RecipeChatView({
             placeholder="Describe what you'd like to cook next..."
             value={input}
             onChange={(e) => onInputChange(e.target.value)}
-            onKeyDown={handleKeyDown}
+            onKeyDown={handlePressEnter}
             variant="outlined"
             InputProps={{
               endAdornment: (
@@ -119,7 +119,7 @@ export default function RecipeChatView({
                     disabled={!canSend}
                     color={canSend ? "primary" : "default"}
                   >
-                    <SendIcon className="text-base" />
+                    <SendIcon />
                   </IconButton>
                 </InputAdornment>
               ),

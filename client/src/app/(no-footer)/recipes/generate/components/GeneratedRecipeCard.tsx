@@ -3,12 +3,12 @@
 import { useState } from "react";
 
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
+import AutoAwesomeIcon from "@mui/icons-material/AutoAwesome";
 import BookmarkBorderIcon from "@mui/icons-material/BookmarkBorder";
 import CircleIcon from "@mui/icons-material/Circle";
 import ExpandLessIcon from "@mui/icons-material/ExpandLess";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import PeopleOutlineIcon from "@mui/icons-material/PeopleOutline";
-import RestaurantIcon from "@mui/icons-material/Restaurant";
 import WhatshotIcon from "@mui/icons-material/Whatshot";
 import { Box, Button, Chip, Snackbar, Typography } from "@mui/material";
 import Image from "next/image";
@@ -36,8 +36,6 @@ export default function GeneratedRecipeCard({ recipe, onAdjust }: GeneratedRecip
   const router = useRouter();
 
   function handleSaveRecipe() {
-    if (isSaving || savedRecipeId) return;
-
     setIsSaving(true);
     setActionError(undefined);
 
@@ -60,15 +58,13 @@ export default function GeneratedRecipeCard({ recipe, onAdjust }: GeneratedRecip
   }
 
   function handleGenerateImage() {
-    if (!savedRecipeId || isGeneratingImage) return;
+    if (!savedRecipeId) return;
 
     setIsGeneratingImage(true);
     setActionError(undefined);
 
     generateRecipeImage(savedRecipeId)
-      .then((updatedRecipe) => {
-        setSavedImageUrl(updatedRecipe.image ?? undefined);
-      })
+      .then((updatedRecipe) => setSavedImageUrl(updatedRecipe.image ?? undefined))
       .catch((error) => setActionError(`Failed to generate image: ${error.message}`))
       .finally(() => setIsGeneratingImage(false));
   }
@@ -84,42 +80,40 @@ export default function GeneratedRecipeCard({ recipe, onAdjust }: GeneratedRecip
         {savedImageUrl ? (
           <>
             <Image src={savedImageUrl} alt={recipe.title} fill className="object-cover" />
-            <Box className="pointer-events-none absolute inset-0 bg-[linear-gradient(to_top,rgba(0,0,0,0.72),rgba(0,0,0,0.25)_52%,transparent)]" />
+            <Box className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/70 via-black/25 to-transparent" />
           </>
         ) : (
           <>
-            <Box className="h-full w-full bg-[radial-gradient(circle_at_top,_#f59e0b,_#fb923c_45%,_#111827)]" />
-            <Box className="pointer-events-none absolute inset-0 bg-[linear-gradient(135deg,rgba(255,255,255,0.16),transparent_35%,rgba(255,255,255,0.08)_58%,transparent_82%)]" />
-            <Box className="pointer-events-none absolute -left-10 top-10 h-40 w-40 rounded-full bg-white/10 blur-3xl" />
-            <Box className="pointer-events-none absolute inset-0 bg-[linear-gradient(to_top,rgba(0,0,0,0.45),rgba(0,0,0,0.15)_52%,transparent)]" />
+            <Box className="h-full w-full bg-orange-500" />
+            <Box className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
           </>
         )}
 
-        <Button
-          size="small"
-          onClick={handleGenerateImage}
-          disabled={!savedRecipeId || isGeneratingImage}
-          className="!absolute right-4 top-4 !rounded-full !border !border-white/25 !bg-white/15 !px-3 !py-1.5 !text-xs !font-semibold !normal-case !text-white !backdrop-blur-sm"
-        >
-          {isGeneratingImage ? "Generating..." : "Generate image"}
-        </Button>
+        {savedRecipeId && (
+          <Button
+            size="small"
+            onClick={handleGenerateImage}
+            disabled={isGeneratingImage}
+            loading={isGeneratingImage}
+            loadingPosition="start"
+            startIcon={<AutoAwesomeIcon sx={{ fontSize: "12px !important" }} />}
+            className="!absolute right-4 top-4 !rounded-full !border !border-white/25 !bg-white/15 !px-3 !py-1.5 !text-xs !font-semibold !normal-case !text-white !backdrop-blur-sm"
+          >
+            {isGeneratingImage ? "Generating..." : "Generate image"}
+          </Button>
+        )}
 
         <Box className="absolute bottom-0 left-0 right-0 z-10 p-5">
-          <Box className="mb-3 flex items-center gap-3">
-            <Box className="flex size-11 shrink-0 items-center justify-center rounded-xl border border-white/30 bg-white/20 backdrop-blur-sm">
-              <RestaurantIcon className="text-white" style={{ fontSize: 22 }} />
-            </Box>
-            <Box className="min-w-0">
-              <Typography
-                variant="h5"
-                className="truncate font-bold tracking-tight text-white drop-shadow-lg"
-              >
-                {recipe.title}
-              </Typography>
-              <Typography className="text-sm leading-relaxed text-white/85 drop-shadow-md">
-                {recipe.description}
-              </Typography>
-            </Box>
+          <Box className="mb-3 min-w-0">
+            <Typography
+              variant="h5"
+              className="truncate font-bold tracking-tight text-white drop-shadow-lg"
+            >
+              {recipe.title}
+            </Typography>
+            <Typography className="text-sm leading-relaxed text-white/85 drop-shadow-md">
+              {recipe.description}
+            </Typography>
           </Box>
 
           <Box className="flex flex-wrap gap-3">
@@ -158,7 +152,7 @@ export default function GeneratedRecipeCard({ recipe, onAdjust }: GeneratedRecip
             fullWidth
             color="secondary"
             onClick={() => setIngredientsOpen(!ingredientsOpen)}
-            className="!justify-between rounded-[14px] px-2 py-2 normal-case"
+            className="!justify-between rounded-xl px-2 py-2 normal-case"
             endIcon={ingredientsOpen ? <ExpandLessIcon /> : <ExpandMoreIcon />}
           >
             <Box className="flex items-center gap-2">
@@ -170,14 +164,12 @@ export default function GeneratedRecipeCard({ recipe, onAdjust }: GeneratedRecip
               </Typography>
             </Box>
           </Button>
+
           {ingredientsOpen && (
             <Box className="grid grid-cols-2 gap-x-6 gap-y-2">
               {recipe.ingredients.map((item, i) => (
                 <Box key={i} className="flex items-center gap-4">
-                  <CircleIcon
-                    className="flex justify-center items-center size-[6px]"
-                    color="primary"
-                  />
+                  <CircleIcon className="size-1.5" color="primary" />
                   <Typography variant="body1" color="text.secondary">
                     {item}
                   </Typography>
@@ -192,7 +184,7 @@ export default function GeneratedRecipeCard({ recipe, onAdjust }: GeneratedRecip
             fullWidth
             color="secondary"
             onClick={() => setInstructionsOpen(!instructionsOpen)}
-            className="!justify-between rounded-[14px] px-2 py-2 normal-case"
+            className="!justify-between rounded-xl px-2 py-2 normal-case"
             endIcon={instructionsOpen ? <ExpandLessIcon /> : <ExpandMoreIcon />}
           >
             <Box className="flex items-center gap-2">
@@ -204,6 +196,7 @@ export default function GeneratedRecipeCard({ recipe, onAdjust }: GeneratedRecip
               </Typography>
             </Box>
           </Button>
+
           {instructionsOpen && (
             <Box className="flex flex-col gap-3">
               {recipe.instructions.map((step, i) => (

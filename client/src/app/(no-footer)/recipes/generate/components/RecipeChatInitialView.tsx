@@ -1,7 +1,5 @@
 "use client";
 
-import { useCallback } from "react";
-
 import AutoAwesomeIcon from "@mui/icons-material/AutoAwesome";
 import SendIcon from "@mui/icons-material/Send";
 import {
@@ -53,23 +51,17 @@ export default function RecipeChatInitialView({
   onPromptChange,
   onStartChat,
 }: RecipeChatInitialViewProps) {
-  const handleSubmit = useCallback(
-    (event?: React.FormEvent) => {
-      event?.preventDefault();
-      onStartChat(prompt);
-    },
-    [onStartChat, prompt]
-  );
+  function handleSubmit(event?: React.FormEvent) {
+    event?.preventDefault();
+    onStartChat(prompt);
+  }
 
-  const handleKeyDown = useCallback(
-    (event: React.KeyboardEvent) => {
-      if (event.key === "Enter" && !event.shiftKey) {
-        event.preventDefault();
-        handleSubmit();
-      }
-    },
-    [handleSubmit]
-  );
+  function handleKeyDown(event: React.KeyboardEvent) {
+    if (event.key === "Enter" && !event.shiftKey) {
+      event.preventDefault();
+      handleSubmit();
+    }
+  }
 
   return (
     <Box className="flex-1 overflow-y-auto">
@@ -77,7 +69,7 @@ export default function RecipeChatInitialView({
         <Box className="flex flex-col items-center gap-8">
           <Box className="flex items-center gap-6">
             <Box className="flex size-16 items-center justify-center rounded-xl bg-gradient-to-br from-orange-400 via-secondary-main to-orange-700 shadow-lg shadow-secondary-main/40">
-              <AutoAwesomeIcon className="text-[32px] text-white" />
+              <AutoAwesomeIcon className="text-3xl text-white" />
             </Box>
             <Box className="text-left">
               <Typography variant="h3" className="mb-1 font-bold text-primary-main">
@@ -115,7 +107,6 @@ export default function RecipeChatInitialView({
                     </InputAdornment>
                   ),
                 }}
-                className="[&_.MuiOutlinedInput-root]:rounded-lg [&_.MuiOutlinedInput-root]:bg-backgroundWhite [&_.MuiOutlinedInput-root.Mui-focused_.MuiOutlinedInput-notchedOutline]:border-secondary-main"
               />
               <Typography
                 variant="caption"
@@ -150,7 +141,7 @@ export default function RecipeChatInitialView({
                       fill
                       className="object-cover transition-transform duration-200 group-hover:scale-105"
                     />
-                    <Box className="pointer-events-none absolute inset-0 bg-[linear-gradient(to_top,rgba(0,0,0,0.99),transparent_60%)]" />
+                    <Box className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black to-transparent" />
 
                     <Typography
                       variant="body2"

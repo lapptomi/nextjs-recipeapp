@@ -41,7 +41,9 @@ class SecurityConfig(private val rateLimiterFilter: RateLimiterFilter, private v
     fun securityFilterChain(http: HttpSecurity): SecurityFilterChain {
         http
             .cors(Customizer.withDefaults())
-            .authorizeHttpRequests { requests -> requests.anyRequest().permitAll() }
+            .authorizeHttpRequests { requests ->
+                requests.requestMatchers("/api/openai/**").authenticated().anyRequest().permitAll()
+            }
             .addFilterBefore(rateLimiterFilter, UsernamePasswordAuthenticationFilter::class.java)
             .oauth2ResourceServer {
                 // Add JWT Bearer token automatically to the security context

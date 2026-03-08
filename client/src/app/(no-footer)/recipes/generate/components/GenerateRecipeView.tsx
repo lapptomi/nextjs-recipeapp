@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useState } from "react";
+import { useState } from "react";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { Box, Button, Typography } from "@mui/material";
 import RecipeChatSession from "./RecipeChatSession";
@@ -10,17 +10,17 @@ export default function GenerateRecipeView() {
   const [hasActiveChat, setHasActiveChat] = useState(false);
   const [startInChatMode, setStartInChatMode] = useState(false);
 
-  const handleBackToInitialView = useCallback(() => {
+  function handleBackToInitialView() {
     setHasActiveChat(false);
     setStartInChatMode(false);
     setChatSessionKey((prev) => prev + 1);
-  }, []);
+  }
 
-  const handleNewChat = useCallback(() => {
+  function handleNewChat() {
     setHasActiveChat(true);
     setStartInChatMode(true);
     setChatSessionKey((prev) => prev + 1);
-  }, []);
+  }
 
   return (
     <Box className="flex min-h-0 flex-1 flex-col bg-white">

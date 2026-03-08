@@ -57,33 +57,6 @@ export default function LandingPage() {
                   </Typography>
                 </Button>
               </Box>
-
-              <Box className="flex flex-wrap gap-8 border-t pt-6">
-                <Box>
-                  <Typography variant="h4" className="font-bold" color="text.primary">
-                    500+
-                  </Typography>
-                  <Typography variant="body2" color="text.secondary">
-                    Recipes
-                  </Typography>
-                </Box>
-                <Box>
-                  <Typography variant="h4" className="font-bold" color="text.primary">
-                    10K+
-                  </Typography>
-                  <Typography variant="body2" color="text.secondary">
-                    Home Cooks
-                  </Typography>
-                </Box>
-                <Box>
-                  <Typography variant="h4" className="font-bold" color="text.primary">
-                    4.8★
-                  </Typography>
-                  <Typography variant="body2" color="text.secondary">
-                    Avg Rating
-                  </Typography>
-                </Box>
-              </Box>
             </Box>
 
             <Box className="flex justify-center">
