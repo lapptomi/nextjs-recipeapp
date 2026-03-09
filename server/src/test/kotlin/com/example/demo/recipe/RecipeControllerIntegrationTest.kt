@@ -110,12 +110,12 @@ class RecipeControllerIntegrationTest {
     }
 
     @Test
-    fun `getAll should support sort and pageSize aliases`() {
+    fun `getAll should use snake case query params for sorting and page size`() {
         mockMvc
             .perform(
                 get(ApiPath.RECIPES_API)
-                    .param("sort", "date_desc")
-                    .param("pageSize", "1")
+                    .param("sort_by", "date_desc")
+                    .param("page_size", "1")
                     .contentType(MediaType.APPLICATION_JSON)
             )
             .andExpect(status().isOk)
