@@ -47,7 +47,7 @@ export default function RecipeFilters() {
     : "all";
 
   const [selectedCategory, setSelectedCategory] = useState<CategoryValue>(initialCategory);
-  const [selectedSort, setSelectedSort] = useState(searchParams.get("sort") || "date_desc");
+  const [selectedSort, setSelectedSort] = useState(searchParams.get("sort_by") || "date_desc");
   const [searchQuery, setSearchQuery] = useState(searchParams.get("title") || "");
 
   // Debounce search query
@@ -80,7 +80,7 @@ export default function RecipeFilters() {
   const handleSortChange = (sort: SortOption) => {
     setSelectedSort(sort);
     const params = new URLSearchParams(searchParams.toString());
-    params.set("sort", sort);
+    params.set("sort_by", sort);
     router.push(`${ROUTES.RECIPES}?${params.toString()}`);
   };
 

@@ -9,10 +9,10 @@ import RecipesList from "./components/RecipesList";
 interface Params {
   searchParams: Promise<{
     page?: string;
-    pageSize?: string;
+    page_size?: string;
     title?: string;
     category?: string;
-    sort?: string;
+    sort_by?: string;
   }>;
 }
 
