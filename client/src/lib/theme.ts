@@ -57,15 +57,20 @@ export const theme = createTheme({
             boxShadow: "none",
           },
         },
-        outlinedDefault: {
-          color: "#000000",
-          borderColor: "#d1d5db",
-          "&:hover": {
-            borderColor: "#9ca3af",
-            backgroundColor: "rgba(0, 0, 0, 0.04)",
+      },
+      variants: [
+        {
+          props: { variant: "outlined", color: "default" },
+          style: {
+            color: "#000000",
+            borderColor: "#d1d5db",
+            "&:hover": {
+              borderColor: "#9ca3af",
+              backgroundColor: "rgba(0, 0, 0, 0.04)",
+            },
           },
         },
-      },
+      ],
     },
   },
   palette: {
