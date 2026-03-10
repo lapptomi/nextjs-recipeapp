@@ -8,6 +8,24 @@ declare module "@mui/material/styles" {
     primaryLight: string;
     secondaryLight: string;
   }
+  interface Palette {
+    default: Palette["primary"];
+  }
+  interface PaletteOptions {
+    default?: PaletteOptions["primary"];
+  }
+}
+
+declare module "@mui/material/Button" {
+  interface ButtonPropsColorOverrides {
+    default: true;
+  }
+}
+
+declare module "@mui/material/IconButton" {
+  interface IconButtonPropsColorOverrides {
+    default: true;
+  }
 }
 
 export const theme = createTheme({
@@ -40,6 +58,19 @@ export const theme = createTheme({
           },
         },
       },
+      variants: [
+        {
+          props: { variant: "outlined", color: "default" },
+          style: {
+            color: "#000000",
+            borderColor: "#d1d5db",
+            "&:hover": {
+              borderColor: "#9ca3af",
+              backgroundColor: "rgba(0, 0, 0, 0.04)",
+            },
+          },
+        },
+      ],
     },
   },
   palette: {
@@ -50,6 +81,12 @@ export const theme = createTheme({
     secondary: {
       main: "#000000",
       contrastText: "#ffffff", // White text on secondary color
+    },
+    default: {
+      main: "#9e9e9e",
+      light: "#cfcfcf",
+      dark: "#707070",
+      contrastText: "#ffffff",
     },
     info: {
       main: "#ffffff",

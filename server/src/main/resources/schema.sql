@@ -29,7 +29,6 @@ CREATE TABLE IF NOT EXISTS recipes
     title        VARCHAR(200)  NOT NULL,
     description  VARCHAR(1000) NOT NULL,
     image        VARCHAR(5000),
-    ingredients  VARCHAR(5000) NOT NULL,
     cooking_time INT           NOT NULL,
     servings     INT                    DEFAULT 0,
     category     VARCHAR(100),
@@ -37,6 +36,14 @@ CREATE TABLE IF NOT EXISTS recipes
     user_id      INT           NOT NULL,
     created_at   TIMESTAMP     NOT NULL DEFAULT CURRENT_TIMESTAMP,
     CONSTRAINT fk_user FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE CASCADE
+);
+
+CREATE TABLE IF NOT EXISTS recipe_ingredients
+(
+    id         SERIAL PRIMARY KEY,
+    recipe_id  INT          NOT NULL,
+    ingredient VARCHAR(500) NOT NULL,
+    CONSTRAINT fk_ingredient_recipe FOREIGN KEY (recipe_id) REFERENCES recipes (id) ON DELETE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS recipe_comments
