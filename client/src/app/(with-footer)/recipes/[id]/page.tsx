@@ -24,6 +24,7 @@ import { ROUTES } from "@/types";
 import SearchIcon from "@mui/icons-material/Search";
 import LikeButtons from "./components/LikeButtons";
 import RecipeCommentForm from "./components/RecipeCommentForm";
+import ShoppingListQRModal from "./components/ShoppingListQRModal";
 
 interface Props {
   params: Promise<{ id: string }>;
@@ -158,16 +159,19 @@ export default async function RecipeDetailPage({ params }: Props) {
       <Container maxWidth="lg" className="py-8">
         <Card className="mb-8 overflow-hidden rounded-2xl border border-gray-200">
           <CardContent className="p-8">
-            <Box className="mb-6 flex items-center gap-3">
-              <Box
-                className="flex size-10 items-center justify-center rounded-full "
-                sx={{ bgcolor: "primary.main" }}
-              >
-                <RestaurantIcon className="text-white" fontSize="small" />
+            <Box className="mb-6 flex items-center justify-between gap-3">
+              <Box className="flex items-center gap-3">
+                <Box
+                  className="flex size-10 items-center justify-center rounded-full "
+                  sx={{ bgcolor: "primary.main" }}
+                >
+                  <RestaurantIcon className="text-white" fontSize="small" />
+                </Box>
+                <Typography variant="h5" color="text.primary" fontWeight="medium">
+                  Ingredients
+                </Typography>
               </Box>
-              <Typography variant="h5" color="text.primary" fontWeight="medium">
-                Ingredients
-              </Typography>
+              <ShoppingListQRModal recipeId={recipe.id} />
             </Box>
 
             <Box className="grid grid-cols-1 gap-x-8 gap-y-2 md:grid-cols-2">
