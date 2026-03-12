@@ -4,7 +4,6 @@
 [![Test And Deploy To Vercel](https://github.com/lapptomi/nextjs-recipeapp/actions/workflows/pipeline.yml/badge.svg)](https://github.com/lapptomi/nextjs-recipeapp/actions/workflows/pipeline.yml)
 
 ### https://recipeapp-pro.com
-> **Note:** Traffic is currently restricted to Finland, so the app will respond with status 403 if trying to access it outside.
 
 
 **A full-stack web application for creating, rating, and sharing recipes**
