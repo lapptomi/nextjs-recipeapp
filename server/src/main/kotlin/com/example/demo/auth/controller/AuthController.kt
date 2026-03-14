@@ -3,6 +3,7 @@ package com.example.demo.auth.controller
 import com.example.demo.ApiPath
 import com.example.demo.auth.domain.JwtTokenDto
 import com.example.demo.auth.domain.LoginDTO
+import com.example.demo.auth.domain.RefreshTokenRequestDto
 import com.example.demo.auth.domain.SocialLoginRequestDTO
 import com.example.demo.auth.service.AuthService
 import com.example.demo.user.domain.User
@@ -34,5 +35,10 @@ class AuthController(private val authService: AuthService) {
     fun socialLogin(@RequestBody credentials: SocialLoginRequestDTO): ResponseEntity<JwtTokenDto> {
         val jwtToken = authService.socialLogin(credentials)
         return ResponseEntity.ok(jwtToken)
+    }
+
+    @PostMapping("/refresh")
+    fun refresh(@RequestBody request: RefreshTokenRequestDto): ResponseEntity<JwtTokenDto> {
+        return ResponseEntity.ok(authService.refreshToken(request.refreshToken))
     }
 }

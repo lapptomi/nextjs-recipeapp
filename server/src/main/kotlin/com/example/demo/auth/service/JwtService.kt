@@ -17,8 +17,25 @@ class JwtService(@Value("\${jwt.secret}") private val jwtSecret: String) {
             .claims()
             .subject(userId.toString())
             .issuedAt(Date(System.currentTimeMillis()))
-            .expiration(Date(System.currentTimeMillis() + 60 * 60 * 1000)) // Expires in 1 hour
+            .expiration(Date(System.currentTimeMillis() + 60 * 30 * 1000)) // Expires in 30 minutes
             .and()
             .signWith(getSecretKey())
             .compact()
+
+    fun generateRefreshToken(userId: Int): String =
+        Jwts.builder()
+            .claims()
+            .subject(userId.toString())
+            .add("type", "refresh")
+            .issuedAt(Date(System.currentTimeMillis()))
+            .expiration(Date(System.currentTimeMillis() + 30L * 24 * 60 * 60 * 1000)) // Expires in 30 days
+            .and()
+            .signWith(getSecretKey())
+            .compact()
+
+    fun parseRefreshToken(token: String): Int {
+        val claims = Jwts.parser().verifyWith(getSecretKey()).build().parseSignedClaims(token).payload
+        require(claims["type"] == "refresh") { "Not a refresh token" }
+        return claims.subject.toInt()
+    }
 }

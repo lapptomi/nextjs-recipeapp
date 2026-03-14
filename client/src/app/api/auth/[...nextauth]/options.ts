@@ -9,39 +9,49 @@ import type { JwtTokenResponse } from "@/types";
 import type { NextAuthOptions, User } from "next-auth";
 import { apiClient } from "@/lib/apiClient";
 
-type SocialLoginProvider = "github" | "google";
-
-interface SocialLoginCredentials {
-  name: string;
-  email: string;
-  providerId: string;
-  provider: SocialLoginProvider;
-  image: string | null;
-}
-
 type CustomUser = User & {
   id: string;
-  jwt: string;
+  accessToken: string;
+  refreshToken: string;
   name: string;
 };
 
-const fetchJwtToken = async (
-  user: User,
-  provider: SocialLoginProvider
-): Promise<JwtTokenResponse> => {
-  const credentials: SocialLoginCredentials = {
-    name: user.name as string,
-    email: user.email as string,
-    providerId: user.id as string,
-    provider: provider,
+function getTokenExpiry(token: string): number {
+  const payload = JSON.parse(Buffer.from(token.split(".")[1], "base64url").toString());
+  return payload.exp as number; // Unix epoch seconds, set by the backend
+}
+
+async function fetchJwtToken(user: User, provider: "github" | "google"): Promise<JwtTokenResponse> {
+  const { data } = await apiClient.post<JwtTokenResponse>("/auth/social-login", {
+    name: user.name,
+    email: user.email,
+    providerId: user.id,
+    provider,
     image: user.image ?? null,
+  });
+  return data;
+}
+
+async function refreshAccessToken(refreshToken: string): Promise<{
+  accessToken: string;
+  refreshToken: string;
+  accessTokenExpires: number;
+}> {
+  const res = await fetch(`${process.env.NEXT_APP_API_URL}/api/auth/refresh`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ refreshToken }),
+  });
+  if (!res.ok) {
+    throw new Error(`Refresh token expired or invalid (${res.status})`);
+  }
+  const data = (await res.json()) as JwtTokenResponse;
+  return {
+    accessToken: data.token,
+    refreshToken: data.refreshToken,
+    accessTokenExpires: getTokenExpiry(data.token),
   };
-  const { data: jwtToken } = await apiClient.post<JwtTokenResponse>(
-    "/auth/social-login",
-    credentials
-  );
-  return jwtToken;
-};
+}
 
 export const options: NextAuthOptions = {
   secret: NEXTAUTH_SECRET,
@@ -49,40 +59,54 @@ export const options: NextAuthOptions = {
     signIn: ROUTES.LOGIN,
     signOut: "/auth/logout",
   },
-  /*
-  When using JSON Web Tokens the jwt() callback is invoked before the session() callback,
-  so anything you add to the JSON Web Token will be immediately available
-  in the session callback, like for example an access_token or id from a provider.
-  */
   callbacks: {
     async jwt({ token, user, account, trigger, session }) {
-      // If the user is updating their name, update the session with the new name
+      console.log("[jwt callback]", { trigger, user, token });
+      // Called when the user updates their profile (e.g. username change)
       if (trigger === "update") {
         token.username = session?.name;
       }
 
+      // Called once on initial sign-in — populate the token with data from the backend
       if (user && account) {
+        // Social login (GitHub / Google) — exchange OAuth user for a backend JWT
         if (account.provider === "github" || account.provider === "google") {
-          // If using social login provider, such as GitHub or Google, fetch the user's JWT and add it to the token
           const jwtToken = await fetchJwtToken(user, account.provider);
-          token.jwt = jwtToken.token;
-          token.id = jwtToken.userId;
-          token.username = jwtToken.username;
-        } else if (account.provider === "credentials") {
-          // If using credentials provider, add the user's ID and JWT to the token
-          token.id = user.id;
-          token.jwt = (user as CustomUser).jwt;
-          token.username = (user as CustomUser).name;
+          return {
+            ...token,
+            id: jwtToken.userId.toString(),
+            accessToken: jwtToken.token,
+            refreshToken: jwtToken.refreshToken,
+            accessTokenExpires: getTokenExpiry(jwtToken.token),
+            username: jwtToken.username,
+          };
         }
+        // Credentials login — token fields come from the authorize() callback
+        return {
+          ...token,
+          id: user.id,
+          accessToken: (user as CustomUser).accessToken,
+          refreshToken: (user as CustomUser).refreshToken,
+          accessTokenExpires: getTokenExpiry((user as CustomUser).accessToken),
+          username: (user as CustomUser).name,
+        };
       }
 
-      return token;
+      // Token still valid (more than 1 minute left), no refresh needed
+      if ((token.accessTokenExpires ?? 0) - Math.floor(Date.now() / 1000) > 60) return token;
+
+      // Access token expired or expiring soon — refresh it
+      const refreshed = await refreshAccessToken(token.refreshToken!);
+      return { ...token, ...refreshed };
     },
     async session({ session, token }) {
+      console.log("[session callback]", { session, token });
       if (session.user) {
         session.user.id = token.id as string;
-        session.user.jwt = token.jwt as string;
+        session.user.accessToken = token.accessToken as string;
         session.user.name = token.username as string;
+        session.user.refreshToken = token.refreshToken as string;
+        session.user.accessTokenExpires = token.accessTokenExpires as number;
       }
       return session;
     },
@@ -96,38 +120,26 @@ export const options: NextAuthOptions = {
       clientId: process.env.GOOGLE_ID!,
       clientSecret: process.env.GOOGLE_SECRET!,
     }),
-
     CredentialsProvider({
       credentials: {
-        email: {
-          label: "Email:",
-          type: "text",
-        },
-        password: {
-          label: "Password:",
-          type: "password",
-        },
+        email: { label: "Email:", type: "text" },
+        password: { label: "Password:", type: "password" },
       },
-      async authorize(credentials): Promise<any> {
-        if (!credentials || !credentials?.email || !credentials?.password) {
+      async authorize(credentials): Promise<CustomUser | null> {
+        if (!credentials || !credentials.email || !credentials.password) {
           throw new Error("Invalid or missing credentials");
         }
-
         const { data: jwtToken } = await apiClient.post<JwtTokenResponse>(
           "/auth/login",
           credentials
         );
-
-        if (!jwtToken.token) {
-          return null;
-        }
-
         return {
           id: jwtToken.userId.toString(),
           email: jwtToken.email,
           name: jwtToken.username,
-          jwt: jwtToken.token,
-        } as CustomUser;
+          accessToken: jwtToken.token,
+          refreshToken: jwtToken.refreshToken,
+        };
       },
     }),
   ],

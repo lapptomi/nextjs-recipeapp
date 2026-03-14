@@ -166,6 +166,7 @@ export interface RecipeListItem {
 
 export interface JwtTokenResponse {
   token: string;
+  refreshToken: string;
   email: string;
   userId: number;
   username: string;
