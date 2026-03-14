@@ -54,32 +54,40 @@ export default async function RecipeDetailPage({ params }: Props) {
 
   return (
     <Box className="min-h-screen bg-gray-50">
-      <Box className="relative h-[460px] w-full bg-gray-900">
-        {recipe.image ? (
-          <Image
-            src={recipe.image}
-            alt={recipe.title}
-            fill
-            className="object-cover opacity-80"
-            priority
-          />
-        ) : (
-          <Box className="flex h-full items-center justify-center">
+      <Box className="relative w-full bg-gray-900">
+        {/* Image sits behind everything, absolutely positioned */}
+        {recipe.image && (
+          <Box className="absolute inset-0">
+            <Image
+              src={recipe.image}
+              alt={recipe.title}
+              fill
+              className="object-cover opacity-80"
+              priority
+            />
+          </Box>
+        )}
+        {!recipe.image && (
+          <Box className="absolute inset-0 flex items-center justify-center">
             <RestaurantIcon className="text-gray-600" style={{ fontSize: 120 }} />
           </Box>
         )}
 
-        <Box className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent">
-          <Container maxWidth="lg" className="relative h-full">
-            <Box className="pt-6">
+        {/* Gradient + content — height is driven by content, no absolute positioning */}
+        <Box className="relative bg-gradient-to-t from-black/80 to-transparent">
+          <Container
+            maxWidth="lg"
+            className="flex min-h-[300px] flex-col justify-between gap-4 py-4 sm:min-h-[460px] sm:py-6"
+          >
+            <Box>
               <Link href={ROUTES.RECIPES}>
-                <Button startIcon={<ArrowBackIcon />} variant="contained" color="info" size="small">
+                <Button startIcon={<ArrowBackIcon />} variant="outlined" color="info" size="small">
                   Back to Recipes
                 </Button>
               </Link>
             </Box>
 
-            <Box className="absolute bottom-8 left-8 right-8 flex flex-col gap-3">
+            <Box className="flex flex-col gap-3 pb-2 sm:pb-4">
               {recipe.category && (
                 <Chip
                   size="small"
@@ -90,17 +98,25 @@ export default async function RecipeDetailPage({ params }: Props) {
               <Typography
                 variant="h3"
                 className="font-bold"
-                sx={{ color: "common.white", textShadow: "0 2px 4px rgba(0,0,0,0.3)" }}
+                sx={{
+                  color: "common.white",
+                  textShadow: "0 2px 4px rgba(0,0,0,0.3)",
+                  fontSize: { xs: "1.5rem", sm: "2rem", md: "3rem" },
+                }}
               >
                 {recipe.title}
               </Typography>
-              <Typography variant="h6" color="textSecondaryLight">
+              <Typography
+                variant="h6"
+                color="textSecondaryLight"
+                sx={{ fontSize: { xs: "0.875rem", sm: "1.25rem" } }}
+              >
                 {recipe.description}
               </Typography>
 
               <Link href={`${ROUTES.PROFILES}/${recipe.author.id}`}>
                 <Box className="flex flex-row items-center gap-2">
-                  <Avatar className="size-12 bg-[rgb(255_255_255_/_0.20)]">
+                  <Avatar className="size-8 bg-[rgb(255_255_255_/_0.20)] sm:size-12">
                     {recipe.author.username[0].toUpperCase()}
                   </Avatar>
                   <Box>
@@ -158,7 +174,7 @@ export default async function RecipeDetailPage({ params }: Props) {
 
       <Container maxWidth="lg" className="py-8">
         <Card className="mb-8 overflow-hidden rounded-2xl border border-gray-200">
-          <CardContent className="p-8">
+          <CardContent className="p-4 sm:p-8">
             <Box className="mb-6 flex items-center justify-between gap-3">
               <Box className="flex items-center gap-3">
                 <Box
@@ -200,7 +216,7 @@ export default async function RecipeDetailPage({ params }: Props) {
         </Card>
 
         <Card className="mb-8 overflow-hidden rounded-2xl border border-gray-200">
-          <CardContent className="p-8">
+          <CardContent className="p-4 sm:p-8">
             <Box className="mb-6 flex items-center gap-3">
               <Box
                 className="flex size-10 items-center justify-center rounded-full"

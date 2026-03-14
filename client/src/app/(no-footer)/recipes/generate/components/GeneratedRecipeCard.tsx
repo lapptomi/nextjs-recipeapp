@@ -22,10 +22,15 @@ import { ROUTES } from "@/types";
 interface GeneratedRecipeCardProps {
   recipe: GeneratedRecipe;
   onAdjust: (adjustment: string) => void;
+  onSave?: () => void;
 }
 
-export default function GeneratedRecipeCard({ recipe, onAdjust }: GeneratedRecipeCardProps) {
-  const [ingredientsOpen, setIngredientsOpen] = useState(true);
+export default function GeneratedRecipeCard({
+  recipe,
+  onAdjust,
+  onSave,
+}: GeneratedRecipeCardProps) {
+  const [ingredientsOpen, setIngredientsOpen] = useState(false);
   const [instructionsOpen, setInstructionsOpen] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
   const [isGeneratingImage, setIsGeneratingImage] = useState(false);
@@ -52,6 +57,7 @@ export default function GeneratedRecipeCard({ recipe, onAdjust }: GeneratedRecip
       .then((createdRecipe) => {
         setSavedRecipeId(createdRecipe.id);
         setShowSaveSuccessSnackbar(true);
+        onSave?.();
       })
       .catch((error) => setActionError(`Failed to save recipe: ${error.message}`))
       .finally(() => setIsSaving(false));
@@ -166,7 +172,7 @@ export default function GeneratedRecipeCard({ recipe, onAdjust }: GeneratedRecip
           </Button>
 
           {ingredientsOpen && (
-            <Box className="grid grid-cols-2 gap-x-6 gap-y-2">
+            <Box className="grid grid-cols-1 gap-x-6 gap-y-2 sm:grid-cols-2">
               {recipe.ingredients.map((item, i) => (
                 <Box key={i} className="flex items-center gap-4">
                   <CircleIcon className="size-1.5" color="primary" />

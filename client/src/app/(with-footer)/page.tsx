@@ -23,9 +23,14 @@ export default function LandingPage() {
     <Box>
       <Box className="bg-white">
         <Container maxWidth="xl" className="py-16">
-          <Box className="bg flex flex-row flex-wrap items-center justify-evenly gap-4">
-            <Box className="max-w-[500px] min-w-[500px] flex flex-col gap-6">
-              <Typography variant="h2" fontWeight="bold" color="text.primary">
+          <Box className="bg flex flex-col items-center justify-evenly gap-8 md:flex-row md:flex-wrap">
+            <Box className="w-full max-w-[500px] flex flex-col gap-6">
+              <Typography
+                variant="h2"
+                fontWeight="bold"
+                color="text.primary"
+                sx={{ fontSize: { xs: "1.75rem", sm: "2.5rem", md: "3.75rem" } }}
+              >
                 Discover & share recipes you&apos;ll love
               </Typography>
               <Typography variant="h6" color="text.secondary" fontWeight="normal">
@@ -59,8 +64,8 @@ export default function LandingPage() {
               </Box>
             </Box>
 
-            <Box className="flex justify-center">
-              <Box className="relative h-[560px] w-[500px] overflow-hidden rounded-3xl shadow-xl">
+            <Box className="flex w-full justify-center md:w-auto">
+              <Box className="relative h-[280px] w-full overflow-hidden rounded-3xl shadow-xl sm:h-[400px] md:h-[560px] md:w-[500px]">
                 <Image
                   src={imgHeroRecipe}
                   alt="Delicious recipe"
@@ -135,7 +140,7 @@ export default function LandingPage() {
         <Container maxWidth="xl">
           <Box className="grid grid-cols-1 items-center gap-12 lg:grid-cols-2">
             <Box className="flex justify-center">
-              <Box className="relative h-[500px] w-[400px] overflow-hidden rounded-3xl shadow-2xl">
+              <Box className="relative h-[280px] w-full overflow-hidden rounded-3xl shadow-2xl sm:h-[380px] sm:w-[350px] md:h-[500px] md:w-[400px]">
                 <Image
                   src={imgKitchen}
                   alt="Kitchen setup"
@@ -147,17 +152,33 @@ export default function LandingPage() {
             </Box>
 
             <Box className="flex flex-col gap-6">
-              <Typography variant="h3" className="font-bold leading-tight" color="text.primary">
+              <Typography
+                variant="h3"
+                className="font-bold leading-tight"
+                color="text.primary"
+                sx={{ fontSize: { xs: "1.5rem", sm: "2rem", md: "3rem" } }}
+              >
                 Start your culinary journey today
               </Typography>
               <Typography variant="h6" color="text.secondary" fontWeight="normal">
                 Sign up for a seasoned Chef {APPLICATION_NAME}, have you discover new flavors,
                 master techniques, and share your passion with a community that cares.
               </Typography>
-              <Box>
+              <Box className="flex flex-wrap gap-4">
                 <Button variant="contained" size="large" href={ROUTES.REGISTER} className="p-4">
                   <Typography variant="body1" color="text.primaryLight" fontWeight="bold">
                     Sign Up To Create Your Free Recipe
+                  </Typography>
+                </Button>
+                <Button
+                  variant="outlined"
+                  color="secondary"
+                  size="large"
+                  href={ROUTES.RECIPES}
+                  className="p-4"
+                >
+                  <Typography variant="body1" fontWeight="bold">
+                    Browse Recipes
                   </Typography>
                 </Button>
               </Box>

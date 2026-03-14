@@ -125,7 +125,7 @@ export default function RecipeFilters() {
               label={category.label}
               onClick={() => handleCategoryChange(category.value)}
               variant={selectedCategory === category.value ? "filled" : "outlined"}
-              color={selectedCategory === category.value ? "primary" : "default"}
+              color={selectedCategory === category.value ? "primary" : undefined}
               size="small"
             />
           ))}

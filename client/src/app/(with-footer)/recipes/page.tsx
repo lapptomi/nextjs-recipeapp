@@ -25,10 +25,14 @@ export default async function BrowseRecipesPage({ searchParams }: Params) {
     .join("&");
 
   return (
-    <Box className="mx-8 min-h-screen bg-gray-50">
+    <Box className="min-h-screen bg-gray-50">
       <Container maxWidth="xl" className="py-8">
         <Box className="mb-8 flex flex-col gap-2">
-          <Typography variant="h3" className="font-bold text-gray-900">
+          <Typography
+            variant="h3"
+            className="font-bold text-gray-900"
+            sx={{ fontSize: { xs: "1.75rem", md: "3rem" } }}
+          >
             Browse Recipes
           </Typography>
           <Typography variant="body1" className="text-gray-600">

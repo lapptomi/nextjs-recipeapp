@@ -41,7 +41,10 @@ export default function RecipeGrid({
       <Box
         className="grid justify-center"
         sx={{
-          gridTemplateColumns: `repeat(auto-fit, minmax(${CARD_WIDTH}px, ${CARD_WIDTH}px))`,
+          gridTemplateColumns: {
+            xs: "1fr",
+            sm: `repeat(auto-fit, minmax(${CARD_WIDTH}px, ${CARD_WIDTH}px))`,
+          },
           gap: `${CARD_GAP}px`,
         }}
       >

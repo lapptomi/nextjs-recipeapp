@@ -6,7 +6,7 @@ import { ROUTES } from "@/types";
 
 export default function ErrorPage({ error }: { readonly error: Error & { digest?: string } }) {
   return (
-    <Box className="flex min-h-screen flex-col items-center justify-center gap-5">
+    <Box className="flex min-h-screen flex-col items-center justify-center gap-5 px-4 text-center">
       <Typography variant="h1">404</Typography>
       <Typography variant="h5">
         Something went wrong or the page you are looking for does not exist.

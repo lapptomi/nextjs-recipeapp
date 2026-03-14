@@ -1,4 +1,3 @@
-import { Facebook, Instagram, LinkedIn } from "@mui/icons-material";
 import SoupKitchenOutlinedIcon from "@mui/icons-material/SoupKitchenOutlined";
 import { Box, Container, Link, Typography } from "@mui/material";
 
@@ -14,7 +13,7 @@ export default function Footer() {
         <Box
           className="grid gap-12 pb-16"
           sx={{
-            gridTemplateColumns: { xs: "1fr", sm: "repeat(2, 1fr)", md: "repeat(4, 1fr)" },
+            gridTemplateColumns: { xs: "1fr", sm: "repeat(2, 1fr)", md: "repeat(3, 1fr)" },
           }}
         >
           <Box className="flex flex-col gap-4">
@@ -33,29 +32,6 @@ export default function Footer() {
               Your go-to platform for discovering, creating, and sharing delicious recipes with a
               passionate community.
             </Typography>
-            <Box className="flex items-center gap-3">
-              <Box
-                component="a"
-                href="#"
-                className="flex size-9 items-center justify-center rounded-lg bg-zinc-700 transition-colors duration-200 hover:bg-zinc-800"
-              >
-                <Instagram sx={{ color: "common.white", fontSize: 16 }} />
-              </Box>
-              <Box
-                component="a"
-                href="#"
-                className="flex size-9 items-center justify-center rounded-lg bg-zinc-700 transition-colors duration-200 hover:bg-zinc-800"
-              >
-                <Facebook sx={{ color: "common.white", fontSize: 16 }} />
-              </Box>
-              <Box
-                component="a"
-                href="#"
-                className="flex size-9 items-center justify-center rounded-lg bg-zinc-700 transition-colors duration-200 hover:bg-zinc-800"
-              >
-                <LinkedIn sx={{ color: "common.white", fontSize: 16 }} />
-              </Box>
-            </Box>
           </Box>
 
           <Box className="flex flex-col gap-4">
@@ -69,51 +45,16 @@ export default function Footer() {
               <Link href={ROUTES.CREATE_RECIPE} variant="body2" color="text.secondaryLight">
                 Create Recipe
               </Link>
-              <Link href="#" variant="body2" color="text.secondaryLight">
-                Collections
-              </Link>
-              <Link href="#" variant="body2" color="text.secondaryLight">
-                Meal Planner
-              </Link>
             </Box>
           </Box>
 
           <Box className="flex flex-col gap-4">
             <Typography variant="h6" className="font-semibold" sx={{ color: "common.white" }}>
-              Company
+              Legal
             </Typography>
             <Box className="flex flex-col gap-3">
-              <Link href="#" variant="body2" color="text.secondaryLight">
-                About Us
-              </Link>
-              <Link href="#" variant="body2" color="text.secondaryLight">
-                Blog
-              </Link>
-              <Link href="#" variant="body2" color="text.secondaryLight">
-                Careers
-              </Link>
-              <Link href="#" variant="body2" color="text.secondaryLight">
-                Contact
-              </Link>
-            </Box>
-          </Box>
-
-          <Box className="flex flex-col gap-4">
-            <Typography variant="h6" className="font-semibold" sx={{ color: "common.white" }}>
-              Resources
-            </Typography>
-            <Box className="flex flex-col gap-3">
-              <Link href="#" variant="body2" color="text.secondaryLight">
-                Help Center
-              </Link>
-              <Link href="#" variant="body2" color="text.secondaryLight">
-                Community
-              </Link>
               <Link href="/privacy" variant="body2" color="text.secondaryLight">
                 Privacy Policy
-              </Link>
-              <Link href="#" variant="body2" color="text.secondaryLight">
-                Terms of Service
               </Link>
             </Box>
           </Box>
@@ -125,8 +66,6 @@ export default function Footer() {
           </Typography>
           <Box className="flex gap-6">
             <FooterLink href="/privacy">Privacy</FooterLink>
-            <FooterLink href="#">Terms</FooterLink>
-            <FooterLink href="#">Cookies</FooterLink>
           </Box>
         </Box>
       </Container>
