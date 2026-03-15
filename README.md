@@ -1,14 +1,14 @@
 <div align="center">
 
 # RecipeApp Pro 
+[![Test And Deploy To Vercel](https://github.com/lapptomi/nextjs-recipeapp/actions/workflows/pipeline.yml/badge.svg)](https://github.com/lapptomi/nextjs-recipeapp/actions/workflows/pipeline.yml)
+
 ### https://recipeapp-pro.com
 
 
-[![Test And Deploy To Vercel](https://github.com/lapptomi/nextjs-recipeapp/actions/workflows/pipeline.yml/badge.svg)](https://github.com/lapptomi/nextjs-recipeapp/actions/workflows/pipeline.yml)
-
 **A full-stack web application for creating, rating, and sharing recipes**
 
-[Live Demo](https://recipeapp.dev) • [API Documentation](https://api.nextjs-recipeapp-prod.click/swagger-ui/swagger-ui/index.html) • [Report Bug](https://github.com/lapptomi/nextjs-recipeapp/issues)
+[Live Demo](https://recipeapp.dev) • [API Documentation](https://api.nextjs-recipeapp-prod.click/swagger-ui/swagger-ui/index.html)
 
 <img src="https://github.com/lapptomi/nextjs-recipeapp/blob/main/assets/header.png?raw=true" width="700" alt="RecipeApp Screenshot" style="box-shadow: 0 4px 20px 4px rgba(0,0,0,0.25); border-radius: 8px;">
 
