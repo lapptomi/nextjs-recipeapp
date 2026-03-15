@@ -44,6 +44,14 @@ export const theme = createTheme({
         },
       },
     },
+    MuiChip: {
+      styleOverrides: {
+        colorDefault: {
+          color: "#171717",
+          borderColor: "#d1d5db",
+        },
+      },
+    },
     MuiButton: {
       styleOverrides: {
         root: {
@@ -83,7 +91,7 @@ export const theme = createTheme({
       contrastText: "#ffffff", // White text on secondary color
     },
     default: {
-      main: "#9e9e9e",
+      main: "#171717",
       light: "#cfcfcf",
       dark: "#707070",
       contrastText: "#ffffff",

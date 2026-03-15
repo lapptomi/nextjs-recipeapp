@@ -23,14 +23,14 @@ export default function LandingPage() {
     <Box>
       <Box className="bg-white">
         <Container maxWidth="xl" className="py-16">
-          <Box className="bg flex flex-row flex-wrap items-center justify-evenly gap-4">
-            <Box className="max-w-[500px] min-w-[500px] flex flex-col gap-6">
+          <Box className="bg flex flex-col items-center justify-evenly gap-8 md:flex-row md:flex-wrap">
+            <Box className="w-full max-w-[500px] flex flex-col gap-6">
               <Typography variant="h2" fontWeight="bold" color="text.primary">
                 Discover & share recipes you&apos;ll love
               </Typography>
-              <Typography variant="h6" color="text.secondary" fontWeight="normal">
-                Join thousands of home cooks sharing their favorite recipes. Browse, create, and
-                cook delicious meals every day.
+              <Typography variant="h6" fontWeight="normal" color="text.secondary">
+                Join other of home cooks sharing their favorite recipes. Browse, create, and cook
+                delicious meals every day.
               </Typography>
 
               <Box className="flex w-full gap-4">
@@ -59,8 +59,8 @@ export default function LandingPage() {
               </Box>
             </Box>
 
-            <Box className="flex justify-center">
-              <Box className="relative h-[560px] w-[500px] overflow-hidden rounded-3xl shadow-xl">
+            <Box className="flex w-full justify-center md:w-auto">
+              <Box className="relative h-[280px] w-full overflow-hidden rounded-3xl shadow-xl sm:h-[400px] md:h-[560px] md:w-[500px]">
                 <Image
                   src={imgHeroRecipe}
                   alt="Delicious recipe"
@@ -79,7 +79,7 @@ export default function LandingPage() {
           <Box className="mb-8 flex items-center justify-center">
             <Box className="flex w-full max-w-[1200px] items-center justify-between">
               <Box>
-                <Typography variant="h4" className="mb-2 font-bold" color="text.primary">
+                <Typography variant="h4" className="mb-2" fontWeight="bold" color="text.primary">
                   Popular Recipes
                 </Typography>
                 <Typography variant="body2" color="text.secondary">
@@ -103,7 +103,7 @@ export default function LandingPage() {
       <Box className="bg-white py-16">
         <Container maxWidth="lg">
           <Box className="mb-12 text-center">
-            <Typography variant="h4" className="mb-2 font-bold" color="text.primary">
+            <Typography variant="h4" className="mb-2" fontWeight="bold" color="text.primary">
               Everything you need to cook better
             </Typography>
             <Typography variant="body1" color="text.secondary">
@@ -135,7 +135,7 @@ export default function LandingPage() {
         <Container maxWidth="xl">
           <Box className="grid grid-cols-1 items-center gap-12 lg:grid-cols-2">
             <Box className="flex justify-center">
-              <Box className="relative h-[500px] w-[400px] overflow-hidden rounded-3xl shadow-2xl">
+              <Box className="relative h-[280px] w-full overflow-hidden rounded-3xl shadow-2xl sm:h-[380px] sm:w-[350px] md:h-[500px] md:w-[400px]">
                 <Image
                   src={imgKitchen}
                   alt="Kitchen setup"
@@ -147,17 +147,33 @@ export default function LandingPage() {
             </Box>
 
             <Box className="flex flex-col gap-6">
-              <Typography variant="h3" className="font-bold leading-tight" color="text.primary">
+              <Typography
+                variant="h3"
+                className="leading-tight"
+                fontWeight="bold"
+                color="text.primary"
+              >
                 Start your culinary journey today
               </Typography>
-              <Typography variant="h6" color="text.secondary" fontWeight="normal">
+              <Typography variant="h6" fontWeight="normal" color="text.secondary">
                 Sign up for a seasoned Chef {APPLICATION_NAME}, have you discover new flavors,
                 master techniques, and share your passion with a community that cares.
               </Typography>
-              <Box>
+              <Box className="flex flex-wrap gap-4">
                 <Button variant="contained" size="large" href={ROUTES.REGISTER} className="p-4">
                   <Typography variant="body1" color="text.primaryLight" fontWeight="bold">
                     Sign Up To Create Your Free Recipe
+                  </Typography>
+                </Button>
+                <Button
+                  variant="outlined"
+                  color="secondary"
+                  size="large"
+                  href={ROUTES.RECIPES}
+                  className="p-4"
+                >
+                  <Typography variant="body1" fontWeight="bold">
+                    Browse Recipes
                   </Typography>
                 </Button>
               </Box>

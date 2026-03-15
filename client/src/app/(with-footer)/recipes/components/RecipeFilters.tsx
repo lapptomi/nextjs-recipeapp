@@ -116,7 +116,7 @@ export default function RecipeFilters() {
 
       <Box className="flex flex-wrap items-center justify-between gap-4">
         <Box className="flex flex-wrap items-center gap-2">
-          <Typography variant="body2" className="mr-2 font-medium" color="text.secondary">
+          <Typography variant="body2" className="mr-2" color="text.secondary">
             Filter:
           </Typography>
           {categoryOptions.map((category) => (
@@ -125,14 +125,14 @@ export default function RecipeFilters() {
               label={category.label}
               onClick={() => handleCategoryChange(category.value)}
               variant={selectedCategory === category.value ? "filled" : "outlined"}
-              color={selectedCategory === category.value ? "primary" : "default"}
+              color={selectedCategory === category.value ? "primary" : undefined}
               size="small"
             />
           ))}
         </Box>
 
         <Box className="flex items-center gap-2">
-          <Typography variant="body2" className="font-medium" color="text.secondary">
+          <Typography variant="body2" color="text.secondary">
             Sort by:
           </Typography>
           <Select

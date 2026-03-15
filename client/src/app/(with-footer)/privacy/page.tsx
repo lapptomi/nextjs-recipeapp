@@ -3,24 +3,23 @@ import { Box, Container, Link, Typography } from "@mui/material";
 export default function PrivacyPolicy() {
   return (
     <Container maxWidth="md" sx={{ py: 4 }}>
-      <Typography variant="h4" component="h1" sx={{ mb: 1, fontWeight: "bold" }}>
+      <Typography variant="h4" component="h1" className="mb-2" fontWeight="bold">
         Privacy Policy
       </Typography>
 
-      <Typography variant="body1" color="text.secondary" sx={{ mb: 3 }}>
+      <Typography variant="body1" color="text.secondary" className="mb-6">
         Last Updated: {new Date().toLocaleDateString()}
       </Typography>
 
-      <Typography variant="body1" sx={{ mb: 3 }}>
+      <Typography variant="body1" className="mb-6">
         This policy explains how we manage your personal data when you use our website.
       </Typography>
 
-      {/* Section 1 */}
       <Box component="section" sx={{ mb: 3 }}>
-        <Typography variant="h6" component="h2" sx={{ fontWeight: "bold", mb: 1 }}>
+        <Typography variant="h6" component="h2" className="mb-2" fontWeight="bold">
           1. Data Collection
         </Typography>
-        <Typography variant="body1" sx={{ mb: 1 }}>
+        <Typography variant="body1" className="mb-2">
           We collect the minimum data required for authentication and security:
         </Typography>
         <Box component="ul" sx={{ m: 0, pl: 2 }}>
@@ -40,9 +39,8 @@ export default function PrivacyPolicy() {
         </Box>
       </Box>
 
-      {/* Section 2 */}
       <Box component="section" sx={{ mb: 3 }}>
-        <Typography variant="h6" component="h2" sx={{ fontWeight: "bold", mb: 1 }}>
+        <Typography variant="h6" component="h2" className="mb-2" fontWeight="bold">
           2. Use of Data
         </Typography>
         <Typography variant="body1">
@@ -51,12 +49,11 @@ export default function PrivacyPolicy() {
         </Typography>
       </Box>
 
-      {/* Section 3 */}
       <Box component="section" sx={{ mb: 3 }}>
-        <Typography variant="h6" component="h2" sx={{ fontWeight: "bold", mb: 1 }}>
+        <Typography variant="h6" component="h2" className="mb-2" fontWeight="bold">
           3. Infrastructure & Retention
         </Typography>
-        <Typography variant="body1" sx={{ mb: 1 }}>
+        <Typography variant="body1" className="mb-2">
           <strong>Hosting & Database:</strong> We utilize secure, industry-standard cloud
           infrastructure providers to host our services and store data. Passwords are securely
           hashed using industry-standard algorithms. Other personal data, such as email, name, and
@@ -70,12 +67,11 @@ export default function PrivacyPolicy() {
         </Typography>
       </Box>
 
-      {/* Section 4 */}
       <Box component="section" sx={{ mb: 3 }}>
-        <Typography variant="h6" component="h2" sx={{ fontWeight: "bold", mb: 1 }}>
+        <Typography variant="h6" component="h2" className="mb-2" fontWeight="bold">
           4. Your Rights
         </Typography>
-        <Typography variant="body1" sx={{ mb: 1 }}>
+        <Typography variant="body1" className="mb-2">
           You have the right to access, correct, or delete your data, or withdraw consent for
           processing.
         </Typography>

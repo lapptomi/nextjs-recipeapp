@@ -18,6 +18,7 @@ val RECIPE_CHAT_SYSTEM_PROMPT =
         "cookingTime": 30,
         "servings": 2,
         "difficulty": "Easy",
+        "category": "dinner",
         "ingredients": ["200g pasta", "2 cloves garlic", "optional: fresh basil for serving"],
         "instructions": ["Boil water.", "Cook pasta for 10 minutes."],
         "adjustments": ["Simpler version", "Double serving", "Make vegan", "Spicier version"]
@@ -47,6 +48,7 @@ val RECIPE_CHAT_SYSTEM_PROMPT =
 
     Recipe quality and format:
     - "difficulty" must be exactly one of: "Easy", "Medium", "Hard".
+    - "category" must be exactly one of: "breakfast", "lunch", "dinner", "dessert", "snack". Pick the single most fitting category based on the recipe.
     - "cookingTime" is in minutes and must be a number.
     - "servings" must be a number.
     - "ingredients", "instructions", and "adjustments" must be arrays of strings.

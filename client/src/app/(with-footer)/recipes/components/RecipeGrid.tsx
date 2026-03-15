@@ -25,10 +25,10 @@ export default function RecipeGrid({
     return (
       <Box className="flex justify-center py-20">
         <Box className="text-center">
-          <Typography variant="h5" className="mb-2 font-bold text-gray-900">
+          <Typography variant="h5" className="mb-2" fontWeight="bold" color="text.primary">
             No recipes found
           </Typography>
-          <Typography variant="body1" className="text-gray-600">
+          <Typography variant="body1" color="text.secondary">
             Be the first to create one!
           </Typography>
         </Box>
@@ -41,7 +41,10 @@ export default function RecipeGrid({
       <Box
         className="grid justify-center"
         sx={{
-          gridTemplateColumns: `repeat(auto-fit, minmax(${CARD_WIDTH}px, ${CARD_WIDTH}px))`,
+          gridTemplateColumns: {
+            xs: "1fr",
+            sm: `repeat(auto-fit, minmax(${CARD_WIDTH}px, ${CARD_WIDTH}px))`,
+          },
           gap: `${CARD_GAP}px`,
         }}
       >
@@ -53,7 +56,7 @@ export default function RecipeGrid({
       <Box className="flex flex-col items-center justify-center gap-4">
         <RecipePagination currentPage={currentPage} totalPages={totalPages} />
         <Box>
-          <Typography variant="body2" className="text-gray-600">
+          <Typography variant="body2" color="text.secondary">
             Showing {currentPage * 12 - 12 + 1}-{currentPage * 12} of {totalElements} recipes
           </Typography>
         </Box>

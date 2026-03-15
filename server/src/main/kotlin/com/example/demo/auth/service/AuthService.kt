@@ -42,6 +42,7 @@ class AuthService(
 
         return JwtTokenDto(
             token = jwtService.generateToken(user.id),
+            refreshToken = jwtService.generateRefreshToken(user.id),
             email = user.email,
             username = user.username,
             userId = user.id,
@@ -61,6 +62,21 @@ class AuthService(
 
         return JwtTokenDto(
             token = jwtService.generateToken(user.id),
+            refreshToken = jwtService.generateRefreshToken(user.id),
+            email = user.email,
+            username = user.username,
+            userId = user.id,
+        )
+    }
+
+    fun refreshToken(refreshToken: String): JwtTokenDto {
+        val userId = jwtService.parseRefreshToken(refreshToken)
+        val user =
+            userRepository.findUserByIdOrNull(userId)
+                ?: throw BadCredentialsException("User not found for provided refresh token")
+        return JwtTokenDto(
+            token = jwtService.generateToken(user.id),
+            refreshToken = jwtService.generateRefreshToken(user.id),
             email = user.email,
             username = user.username,
             userId = user.id,

@@ -46,18 +46,13 @@ export default function RecipeCommentForm({ recipe }: { recipe: Recipe }) {
   return (
     <Card className="overflow-hidden rounded-2xl border border-gray-200">
       <CardContent className="p-8">
-        <Typography variant="h5" className="mb-6" color="text.primary" fontWeight="medium">
+        <Typography variant="h5" className="mb-6" color="text.primary">
           Comments
         </Typography>
 
         {session.data?.user ? (
           <Box className="mb-8">
-            <Typography
-              variant="subtitle1"
-              className="mb-3"
-              color="text.secondary"
-              fontWeight="medium"
-            >
+            <Typography variant="subtitle1" className="mb-3" color="text.secondary">
               Leave a Comment
             </Typography>
             <TextField
@@ -96,7 +91,7 @@ export default function RecipeCommentForm({ recipe }: { recipe: Recipe }) {
           </Box>
         ) : (
           <Box className="mb-8 rounded-lg bg-gray-100 p-4 text-center">
-            <Typography variant="body2" sx={{ color: "text.secondary" }}>
+            <Typography variant="body2" color="text.secondary">
               Please{" "}
               <Link href={ROUTES.LOGIN} className="underline">
                 <Typography component="span" color="primary" className="hover:underline">
@@ -125,13 +120,14 @@ export default function RecipeCommentForm({ recipe }: { recipe: Recipe }) {
                       <Link href={`${ROUTES.PROFILES}/${comment.author.id}`}>
                         <Typography
                           variant="subtitle2"
-                          className="font-semibold hover:underline"
-                          sx={{ color: "text.primary" }}
+                          className="hover:underline"
+                          fontWeight="bold"
+                          color="text.primary"
                         >
                           @{comment.author.username}
                         </Typography>
                       </Link>
-                      <Typography variant="caption" sx={{ color: "text.secondary" }}>
+                      <Typography variant="caption" color="text.secondary">
                         {comment.createdAt &&
                           new Date(comment.createdAt).toLocaleDateString("en-US", {
                             year: "numeric",
@@ -152,7 +148,7 @@ export default function RecipeCommentForm({ recipe }: { recipe: Recipe }) {
           </List>
         ) : (
           <Box className="py-1 text-center">
-            <Typography variant="body1" color="text.secondary" fontWeight="medium">
+            <Typography variant="body1" color="text.secondary">
               No comments yet. Be the first to share your thoughts!
             </Typography>
           </Box>

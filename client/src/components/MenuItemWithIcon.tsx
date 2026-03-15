@@ -14,7 +14,7 @@ export default function MenuItemWithIcon({ icon, label, onClick }: MenuItemWithI
   return (
     <MenuItem onClick={onClick}>
       <ListItemIcon>{icon}</ListItemIcon>
-      <Typography variant="body1" color="text.secondary" fontWeight="medium">
+      <Typography variant="body1" color="text.secondary">
         {label}
       </Typography>
     </MenuItem>

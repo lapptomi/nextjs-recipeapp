@@ -29,7 +29,12 @@ class SecurityConfig(private val rateLimiterFilter: RateLimiterFilter, private v
             override fun addCorsMappings(registry: CorsRegistry) {
                 registry
                     .addMapping("/**") // Allow all paths
-                    .allowedOrigins("https://api.nextjs-recipeapp-prod.click", "http://localhost:8080")
+                    .allowedOrigins(
+                        "https://api.nextjs-recipeapp-prod.click",
+                        "https://nextjs-recipeapp-prod.click",
+                        "http://localhost:3000",
+                        "http://localhost:8080",
+                    )
                     .allowedMethods("*")
                     .allowedHeaders("*")
                     .allowCredentials(true)

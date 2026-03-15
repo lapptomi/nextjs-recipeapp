@@ -73,7 +73,7 @@ export enum ChatRole {
   Assistant = "assistant",
 }
 
-export interface GeneratedRecipe extends Omit<CreateRecipePayload, "instructions" | "category"> {
+export interface GeneratedRecipe extends Omit<CreateRecipePayload, "instructions"> {
   difficulty: string;
   instructions: string[];
   adjustments: string[];
@@ -166,6 +166,7 @@ export interface RecipeListItem {
 
 export interface JwtTokenResponse {
   token: string;
+  refreshToken: string;
   email: string;
   userId: number;
   username: string;

@@ -1,3 +1,4 @@
+import { decodeJwt } from "jose";
 import CredentialsProvider from "next-auth/providers/credentials";
 import GithubProvider from "next-auth/providers/github";
 import GoogleProvider from "next-auth/providers/google";
@@ -9,39 +10,32 @@ import type { JwtTokenResponse } from "@/types";
 import type { NextAuthOptions, User } from "next-auth";
 import { apiClient } from "@/lib/apiClient";
 
-type SocialLoginProvider = "github" | "google";
+type CustomUser = User & {
+  accessToken: string;
+  refreshToken: string;
+};
 
-interface SocialLoginCredentials {
-  name: string;
-  email: string;
-  providerId: string;
-  provider: SocialLoginProvider;
-  image: string | null;
+async function fetchJwtToken(user: User, provider: "github" | "google"): Promise<JwtTokenResponse> {
+  const { data } = await apiClient.post<JwtTokenResponse>("/auth/social-login", {
+    name: user.name,
+    email: user.email,
+    providerId: user.id,
+    provider,
+    image: user.image ?? null,
+  });
+  return data;
 }
 
-type CustomUser = User & {
-  id: string;
-  jwt: string;
-  name: string;
-};
-
-const fetchJwtToken = async (
-  user: User,
-  provider: SocialLoginProvider
-): Promise<JwtTokenResponse> => {
-  const credentials: SocialLoginCredentials = {
-    name: user.name as string,
-    email: user.email as string,
-    providerId: user.id as string,
-    provider: provider,
-    image: user.image ?? null,
+async function refreshAccessToken(refreshToken: string): Promise<{
+  accessToken: string;
+  refreshToken: string;
+}> {
+  const { data } = await apiClient.post<JwtTokenResponse>("/auth/refresh", { refreshToken });
+  return {
+    accessToken: data.token,
+    refreshToken: data.refreshToken,
   };
-  const { data: jwtToken } = await apiClient.post<JwtTokenResponse>(
-    "/auth/social-login",
-    credentials
-  );
-  return jwtToken;
-};
+}
 
 export const options: NextAuthOptions = {
   secret: NEXTAUTH_SECRET,
@@ -49,40 +43,54 @@ export const options: NextAuthOptions = {
     signIn: ROUTES.LOGIN,
     signOut: "/auth/logout",
   },
-  /*
-  When using JSON Web Tokens the jwt() callback is invoked before the session() callback,
-  so anything you add to the JSON Web Token will be immediately available
-  in the session callback, like for example an access_token or id from a provider.
-  */
   callbacks: {
     async jwt({ token, user, account, trigger, session }) {
-      // If the user is updating their name, update the session with the new name
       if (trigger === "update") {
         token.username = session?.name;
       }
 
+      // Called when the user signs in
       if (user && account) {
+        // Social login (GitHub / Google)
         if (account.provider === "github" || account.provider === "google") {
-          // If using social login provider, such as GitHub or Google, fetch the user's JWT and add it to the token
           const jwtToken = await fetchJwtToken(user, account.provider);
-          token.jwt = jwtToken.token;
-          token.id = jwtToken.userId;
-          token.username = jwtToken.username;
-        } else if (account.provider === "credentials") {
-          // If using credentials provider, add the user's ID and JWT to the token
-          token.id = user.id;
-          token.jwt = (user as CustomUser).jwt;
-          token.username = (user as CustomUser).name;
+          return {
+            ...token,
+            id: jwtToken.userId.toString(),
+            accessToken: jwtToken.token,
+            refreshToken: jwtToken.refreshToken,
+            username: jwtToken.username,
+          };
         }
+
+        // Credentials login (email/password)
+        const { accessToken, refreshToken } = user as CustomUser;
+        return {
+          ...token,
+          id: user.id,
+          accessToken,
+          refreshToken,
+          username: user.name ?? undefined,
+        };
       }
 
-      return token;
+      // If the access token is not set, throw an error
+      if (!token.accessToken) {
+        throw new Error("Access token is required");
+      }
+      // If the access token is still valid (more than 1 minute left), return the token
+      if (decodeJwt(token.accessToken).exp! - Math.floor(Date.now() / 1000) > 60) return token;
+
+      // If the access token is expired, refresh it
+      const refreshed = await refreshAccessToken(token.refreshToken!);
+      return { ...token, ...refreshed };
     },
     async session({ session, token }) {
       if (session.user) {
         session.user.id = token.id as string;
-        session.user.jwt = token.jwt as string;
+        session.user.accessToken = token.accessToken as string;
         session.user.name = token.username as string;
+        session.user.refreshToken = token.refreshToken as string;
       }
       return session;
     },
@@ -96,38 +104,26 @@ export const options: NextAuthOptions = {
       clientId: process.env.GOOGLE_ID!,
       clientSecret: process.env.GOOGLE_SECRET!,
     }),
-
     CredentialsProvider({
       credentials: {
-        email: {
-          label: "Email:",
-          type: "text",
-        },
-        password: {
-          label: "Password:",
-          type: "password",
-        },
+        email: { label: "Email:", type: "text" },
+        password: { label: "Password:", type: "password" },
       },
-      async authorize(credentials): Promise<any> {
-        if (!credentials || !credentials?.email || !credentials?.password) {
+      async authorize(credentials): Promise<CustomUser | null> {
+        if (!credentials?.email || !credentials?.password) {
           throw new Error("Invalid or missing credentials");
         }
-
         const { data: jwtToken } = await apiClient.post<JwtTokenResponse>(
           "/auth/login",
           credentials
         );
-
-        if (!jwtToken.token) {
-          return null;
-        }
-
         return {
           id: jwtToken.userId.toString(),
           email: jwtToken.email,
           name: jwtToken.username,
-          jwt: jwtToken.token,
-        } as CustomUser;
+          accessToken: jwtToken.token,
+          refreshToken: jwtToken.refreshToken,
+        };
       },
     }),
   ],

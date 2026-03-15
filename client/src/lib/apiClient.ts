@@ -12,8 +12,8 @@ apiClient.interceptors.request.use(
   async (config) => {
     // Automatically add JWT token to every request
     const session = await getSession();
-    if (session?.user.jwt) {
-      config.headers.Authorization = `Bearer ${session.user.jwt}`;
+    if (session?.user.accessToken) {
+      config.headers.Authorization = `Bearer ${session.user.accessToken}`;
     }
 
     return config;
@@ -29,13 +29,17 @@ apiClient.interceptors.response.use(
   (response) => {
     return response;
   },
-  (error) => {
+  async (error) => {
     // This runs for error responses (4xx, 5xx status codes)
     console.error("API Error:", error.response?.status, error.message);
 
     // Handle specific errors
     if (error.response?.status === 401) {
-      console.error("Unauthorized - redirect to login");
+      console.error("Unauthorized — signing out");
+      if (typeof window !== "undefined") {
+        const { signOut } = await import("next-auth/react");
+        await signOut({ callbackUrl: "/auth/login" });
+      }
     }
 
     if (error.response?.status === 403) {

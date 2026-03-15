@@ -14,13 +14,7 @@ export default function FollowersTabView({ users }: FollowersTabViewProps) {
         <Box key={user.id} className="flex items-center gap-2 rounded-lg bg-white p-4">
           <Avatar src={user.image ?? undefined} />
           <Box>
-            <Link
-              underline="hover"
-              color="secondary"
-              href={`/profiles/${user.id}`}
-              variant="body1"
-              fontWeight="medium"
-            >
+            <Link underline="hover" color="secondary" href={`/profiles/${user.id}`} variant="body1">
               {user.username}
             </Link>
             <Typography color="text.secondary" variant="body2">

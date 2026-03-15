@@ -37,17 +37,22 @@ export default function RecipeListCardSmall({ recipe }: { recipe: RecipeListItem
           )}
           <Box className="absolute right-2 top-2 flex items-center gap-1 rounded-lg bg-white px-2 py-1 shadow-sm">
             <StarIcon sx={{ color: "primary.main", fontSize: 16 }} />
-            <Typography variant="caption" className="font-semibold">
+            <Typography variant="caption" fontWeight="bold">
               {recipe.averageRating.toFixed(1)}
             </Typography>
           </Box>
         </Box>
 
         <CardContent className="p-4">
-          <Typography color="text.primary" variant="h6" className="mb-1 line-clamp-1 font-semibold">
+          <Typography
+            color="text.primary"
+            variant="h6"
+            className="mb-1 line-clamp-1"
+            fontWeight="bold"
+          >
             {recipe.title}
           </Typography>
-          <Typography variant="body2" className="mb-2 text-gray-600">
+          <Typography variant="body2" className="mb-2" color="text.secondary">
             @{recipe.author.username}
           </Typography>
           <Box className="flex items-center gap-4">

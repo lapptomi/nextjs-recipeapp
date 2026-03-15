@@ -17,10 +17,10 @@ export default function FeatureCard({ icon, title, description }: FeatureCardPro
       >
         {icon}
       </Box>
-      <Typography variant="h6" className="mb-2 font-bold" sx={{ color: "text.primary" }}>
+      <Typography variant="h6" className="mb-2" fontWeight="bold" color="text.primary">
         {title}
       </Typography>
-      <Typography variant="body2" sx={{ color: "text.secondary" }}>
+      <Typography variant="body2" color="text.secondary">
         {description}
       </Typography>
     </Box>

@@ -49,7 +49,7 @@ export default function SignOutModal() {
         <ListItemIcon>
           <Logout color="error" fontSize="medium" />
         </ListItemIcon>
-        <Typography variant="body1" color="text.secondary" fontWeight="medium">
+        <Typography variant="body1" color="text.secondary">
           Logout
         </Typography>
       </MenuItem>

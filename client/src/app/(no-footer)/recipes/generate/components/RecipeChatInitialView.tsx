@@ -72,7 +72,7 @@ export default function RecipeChatInitialView({
               <AutoAwesomeIcon className="text-3xl text-white" />
             </Box>
             <Box className="text-left">
-              <Typography variant="h3" className="mb-1 font-bold text-primary-main">
+              <Typography variant="h3" className="mb-1" fontWeight="bold" color="primary">
                 What are you craving?
               </Typography>
               <Typography variant="body1" color="text.secondary">

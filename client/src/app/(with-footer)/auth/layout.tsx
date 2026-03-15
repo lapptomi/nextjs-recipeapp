@@ -13,8 +13,8 @@ const PageLayout = async ({ children }: any) => {
 
   return (
     <Box className="flex h-screen">
-      <Box className={styles.maingrid} />
-      <Box className="flex flex-col items-center bg-white p-8">{children}</Box>
+      <Box className={`${styles.maingrid} hidden md:block`} />
+      <Box className="flex w-full flex-col items-center bg-white p-8 md:w-auto">{children}</Box>
     </Box>
   );
 };

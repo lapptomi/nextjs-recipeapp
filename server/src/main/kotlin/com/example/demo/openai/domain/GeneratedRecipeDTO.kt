@@ -9,6 +9,7 @@ data class GeneratedRecipeDTO(
     val cookingTime: Int = 0,
     val servings: Int = 0,
     val difficulty: String = "",
+    val category: String = "",
     val ingredients: List<String> = emptyList(),
     val instructions: List<String> = emptyList(),
     val adjustments: List<String> = emptyList(),

@@ -127,7 +127,7 @@ export default function CreateRecipeForm() {
             <SoupKitchenOutlinedIcon color="primary" fontSize="large" />
           </Box>
           <Box>
-            <Typography variant="h4" className="font-bold" color="text.primary">
+            <Typography variant="h4" fontWeight="bold" color="text.primary">
               Create New Recipe
             </Typography>
             <Typography variant="body1" color="text.secondary">
@@ -146,14 +146,14 @@ export default function CreateRecipeForm() {
           <CardContent className="p-6">
             <Box className="mb-6 flex items-center gap-3">
               <Box className="h-5 w-1 rounded-full" />
-              <Typography variant="h6" className="font-semibold" color="text.primary">
+              <Typography variant="h6" fontWeight="bold" color="text.primary">
                 Basic Information
               </Typography>
             </Box>
 
             <Box className="flex flex-col gap-5">
               <Box>
-                <Typography variant="body2" className="mb-2 font-medium" color="text.primary">
+                <Typography variant="body2" className="mb-2" color="text.primary">
                   Recipe Title *
                 </Typography>
                 <TextField
@@ -167,7 +167,7 @@ export default function CreateRecipeForm() {
               </Box>
 
               <Box>
-                <Typography variant="body2" className="mb-2 font-medium" color="text.primary">
+                <Typography variant="body2" className="mb-2" color="text.primary">
                   Description
                 </Typography>
                 <TextField
@@ -190,7 +190,7 @@ export default function CreateRecipeForm() {
           <CardContent className="p-6">
             <Box className="mb-6 flex items-center gap-3">
               <Box className="h-5 w-1 rounded-full bg-orange-600" />
-              <Typography variant="h6" className="font-semibold" color="text.primary">
+              <Typography variant="h6" fontWeight="bold" color="text.primary">
                 Recipe Details
               </Typography>
             </Box>
@@ -215,7 +215,7 @@ export default function CreateRecipeForm() {
               <Box>
                 <Box className="mb-2 flex items-center gap-2">
                   <RestaurantMenuIcon className="text-base text-neutral-700" />
-                  <Typography variant="body2" className="font-medium" color="text.secondary">
+                  <Typography variant="body2" color="text.secondary">
                     Servings
                   </Typography>
                 </Box>
@@ -229,7 +229,7 @@ export default function CreateRecipeForm() {
               </Box>
 
               <Box>
-                <Typography variant="body2" className="mb-2 font-medium" color="text.primary">
+                <Typography variant="body2" className="mb-2" color="text.primary">
                   Category
                 </Typography>
                 <Select
@@ -263,7 +263,7 @@ export default function CreateRecipeForm() {
             <Box className="mb-6 flex items-center justify-between">
               <Box className="flex items-center gap-3">
                 <Box className="h-5 w-1 rounded-full bg-orange-600" />
-                <Typography variant="h6" className="font-semibold" color="text.primary">
+                <Typography variant="h6" fontWeight="bold" color="text.primary">
                   Ingredients
                 </Typography>
               </Box>
@@ -276,9 +276,7 @@ export default function CreateRecipeForm() {
               {ingredientsFields.map((_, index) => (
                 <Box key={index} className="flex items-center gap-2">
                   <Box className="flex size-6 shrink-0 items-center justify-center rounded bg-gray-100">
-                    <Typography variant="caption" className="font-medium">
-                      {index + 1}
-                    </Typography>
+                    <Typography variant="caption">{index + 1}</Typography>
                   </Box>
 
                   <TextField
@@ -358,7 +356,7 @@ export default function CreateRecipeForm() {
             <Box className="mb-6 flex items-center justify-between">
               <Box className="flex items-center gap-3">
                 <Box className="h-5 w-1 rounded-full bg-orange-600" />
-                <Typography variant="h6" className="font-semibold" color="text.primary">
+                <Typography variant="h6" fontWeight="bold" color="text.primary">
                   Instructions
                 </Typography>
               </Box>
@@ -371,7 +369,7 @@ export default function CreateRecipeForm() {
               {instructionsFields.map((_, index) => (
                 <Box key={index} className="flex items-start gap-3">
                   <Box className="flex size-8 shrink-0 items-center justify-center rounded-full bg-amber-100">
-                    <Typography variant="body2" className="font-semibold text-orange-600">
+                    <Typography variant="body2" color="primary" fontWeight="bold">
                       {index + 1}
                     </Typography>
                   </Box>
@@ -428,7 +426,7 @@ export default function CreateRecipeForm() {
           <CardContent className="p-6">
             <Box className="mb-6 flex items-center gap-3">
               <Box className="h-5 w-1 rounded-full" />
-              <Typography variant="h6" className="font-semibold" color="text.primary">
+              <Typography variant="h6" fontWeight="bold" color="text.primary">
                 Recipe Photo
               </Typography>
             </Box>
