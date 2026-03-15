@@ -34,8 +34,8 @@ export default function LandingPage() {
                 Discover & share recipes you&apos;ll love
               </Typography>
               <Typography variant="h6" color="text.secondary" fontWeight="normal">
-                Join thousands of home cooks sharing their favorite recipes. Browse, create, and
-                cook delicious meals every day.
+                Join other of home cooks sharing their favorite recipes. Browse, create, and cook
+                delicious meals every day.
               </Typography>
 
               <Box className="flex w-full gap-4">

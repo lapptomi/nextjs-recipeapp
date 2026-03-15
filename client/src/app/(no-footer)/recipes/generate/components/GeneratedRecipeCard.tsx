@@ -30,7 +30,7 @@ export default function GeneratedRecipeCard({
   onAdjust,
   onSave,
 }: GeneratedRecipeCardProps) {
-  const [ingredientsOpen, setIngredientsOpen] = useState(false);
+  const [ingredientsOpen, setIngredientsOpen] = useState(true);
   const [instructionsOpen, setInstructionsOpen] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
   const [isGeneratingImage, setIsGeneratingImage] = useState(false);
@@ -51,6 +51,7 @@ export default function GeneratedRecipeCard({
       cookingTime: recipe.cookingTime,
       servings: recipe.servings,
       instructions: recipe.instructions.join("\n"),
+      category: recipe.category,
     };
 
     createRecipe(recipePayload)
@@ -82,72 +83,75 @@ export default function GeneratedRecipeCard({
 
   return (
     <Box className="w-full overflow-hidden rounded-2xl shadow-lg bg-white">
-      <Box className="relative h-56 w-full">
-        {savedImageUrl ? (
-          <>
-            <Image src={savedImageUrl} alt={recipe.title} fill className="object-cover" />
-            <Box className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/70 via-black/25 to-transparent" />
-          </>
-        ) : (
-          <>
-            <Box className="h-full w-full bg-orange-500" />
-            <Box className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
-          </>
+      <Box className="relative flex min-h-56 flex-col overflow-hidden bg-orange-500">
+        {savedImageUrl && (
+          <Image src={savedImageUrl} alt={recipe.title} fill className="object-cover" />
         )}
+        <Box className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/70 via-black/25 to-transparent" />
 
-        {savedRecipeId && (
-          <Button
-            size="small"
-            onClick={handleGenerateImage}
-            disabled={isGeneratingImage}
-            loading={isGeneratingImage}
-            loadingPosition="start"
-            startIcon={<AutoAwesomeIcon sx={{ fontSize: "12px !important" }} />}
-            className="!absolute right-4 top-4 !rounded-full !border !border-white/25 !bg-white/15 !px-3 !py-1.5 !text-xs !font-semibold !normal-case !text-white !backdrop-blur-sm"
-          >
-            {isGeneratingImage ? "Generating..." : "Generate image"}
-          </Button>
-        )}
-
-        <Box className="absolute bottom-0 left-0 right-0 z-10 p-5">
-          <Box className="mb-3 min-w-0">
-            <Typography
-              variant="h5"
-              className="truncate font-bold tracking-tight text-white drop-shadow-lg"
-            >
-              {recipe.title}
-            </Typography>
-            <Typography className="text-sm leading-relaxed text-white/85 drop-shadow-md">
-              {recipe.description}
-            </Typography>
+        <Box className="z-10 flex flex-1 flex-col justify-between p-5">
+          <Box className="flex items-start justify-between gap-2">
+            {recipe.category && <Chip label={recipe.category} size="small" className="bg-white" />}
+            {savedRecipeId && (
+              <Button
+                size="small"
+                onClick={handleGenerateImage}
+                disabled={isGeneratingImage}
+                loading={isGeneratingImage}
+                loadingPosition="start"
+                startIcon={<AutoAwesomeIcon sx={{ fontSize: "12px !important" }} />}
+                className="!ml-auto !rounded-full !border !border-white/25 !bg-white/15 !px-3 !py-1.5 !text-xs !font-semibold !normal-case !text-white !backdrop-blur-sm"
+              >
+                {isGeneratingImage ? "Generating..." : "Generate image"}
+              </Button>
+            )}
           </Box>
 
-          <Box className="flex flex-wrap gap-3">
-            <RecipeStatChip icon={<AccessTimeIcon className="text-base" />}>
-              <Box className="flex items-center gap-1">
-                <Typography variant="body2" fontWeight="bold">
-                  {recipe.cookingTime}
-                </Typography>
-                <Typography variant="caption" className="text-white">
-                  min
-                </Typography>
-              </Box>
-            </RecipeStatChip>
-            <RecipeStatChip icon={<PeopleOutlineIcon className="text-base" />}>
-              <Box className="flex items-center gap-1">
-                <Typography variant="body2" fontWeight="bold">
-                  {recipe.servings}
-                </Typography>
-                <Typography variant="caption" className="text-white">
-                  servings
-                </Typography>
-              </Box>
-            </RecipeStatChip>
-            <RecipeStatChip icon={<WhatshotIcon className="text-base" />}>
-              <Typography variant="body2" fontWeight="bold">
-                {recipe.difficulty}
+          <Box>
+            <Box className="mb-3 min-w-0">
+              <Typography
+                variant="h5"
+                color="text.primaryLight"
+                className="truncate font-bold tracking-tight drop-shadow-lg"
+              >
+                {recipe.title}
               </Typography>
-            </RecipeStatChip>
+              <Typography
+                variant="body2"
+                color="text.secondaryLight"
+                className="leading-relaxed drop-shadow-md"
+              >
+                {recipe.description}
+              </Typography>
+            </Box>
+
+            <Box className="flex flex-wrap gap-3">
+              <RecipeStatChip icon={<AccessTimeIcon className="text-base" />}>
+                <Box className="flex items-center gap-1">
+                  <Typography variant="body2" fontWeight="bold">
+                    {recipe.cookingTime}
+                  </Typography>
+                  <Typography variant="caption" color="text.primaryLight">
+                    min
+                  </Typography>
+                </Box>
+              </RecipeStatChip>
+              <RecipeStatChip icon={<PeopleOutlineIcon className="text-base" />}>
+                <Box className="flex items-center gap-1">
+                  <Typography variant="body2" fontWeight="bold">
+                    {recipe.servings}
+                  </Typography>
+                  <Typography variant="caption" color="text.primaryLight">
+                    servings
+                  </Typography>
+                </Box>
+              </RecipeStatChip>
+              <RecipeStatChip icon={<WhatshotIcon className="text-base" />}>
+                <Typography variant="body2" fontWeight="bold">
+                  {recipe.difficulty}
+                </Typography>
+              </RecipeStatChip>
+            </Box>
           </Box>
         </Box>
       </Box>

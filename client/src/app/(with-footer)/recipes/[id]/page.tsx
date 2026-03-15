@@ -187,7 +187,7 @@ export default async function RecipeDetailPage({ params }: Props) {
                   Ingredients
                 </Typography>
               </Box>
-              <ShoppingListQRModal recipeId={recipe.id} />
+              {session && <ShoppingListQRModal recipeId={recipe.id} />}
             </Box>
 
             <Box className="grid grid-cols-1 gap-x-8 gap-y-2 md:grid-cols-2">
