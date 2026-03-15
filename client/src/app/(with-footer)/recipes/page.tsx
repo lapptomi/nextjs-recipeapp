@@ -35,7 +35,7 @@ export default async function BrowseRecipesPage({ searchParams }: Params) {
           >
             Browse Recipes
           </Typography>
-          <Typography variant="body1" className="text-gray-600">
+          <Typography variant="body1" color="text.secondary">
             Discover delicious recipes from our community
           </Typography>
         </Box>

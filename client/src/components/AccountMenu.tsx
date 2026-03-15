@@ -41,7 +41,7 @@ export default function AccountMenu({ user }: Props) {
           <Avatar alt="profile" src={user?.image ?? undefined} className="size-8">
             {user?.name ? user.name[0] : ""}
           </Avatar>
-          <Typography variant="body1" color="text.secondary" fontWeight="medium">
+          <Typography variant="body1" color="text.secondary">
             {user?.name || ""}
           </Typography>
         </Button>

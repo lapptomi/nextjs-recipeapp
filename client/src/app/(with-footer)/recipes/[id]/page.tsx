@@ -55,7 +55,6 @@ export default async function RecipeDetailPage({ params }: Props) {
   return (
     <Box className="min-h-screen bg-gray-50">
       <Box className="relative w-full bg-gray-900">
-        {/* Image sits behind everything, absolutely positioned */}
         {recipe.image && (
           <Box className="absolute inset-0">
             <Image
@@ -73,7 +72,6 @@ export default async function RecipeDetailPage({ params }: Props) {
           </Box>
         )}
 
-        {/* Gradient + content — height is driven by content, no absolute positioning */}
         <Box className="relative bg-gradient-to-t from-black/80 to-transparent">
           <Container
             maxWidth="lg"
@@ -97,20 +95,13 @@ export default async function RecipeDetailPage({ params }: Props) {
               )}
               <Typography
                 variant="h3"
-                className="font-bold"
-                sx={{
-                  color: "common.white",
-                  textShadow: "0 2px 4px rgba(0,0,0,0.3)",
-                  fontSize: { xs: "1.5rem", sm: "2rem", md: "3rem" },
-                }}
+                color="text.primaryLight"
+                className="drop-shadow-lg"
+                fontWeight="bold"
               >
                 {recipe.title}
               </Typography>
-              <Typography
-                variant="h6"
-                color="textSecondaryLight"
-                sx={{ fontSize: { xs: "0.875rem", sm: "1.25rem" } }}
-              >
+              <Typography variant="h6" color="text.secondaryLight">
                 {recipe.description}
               </Typography>
 
@@ -120,10 +111,10 @@ export default async function RecipeDetailPage({ params }: Props) {
                     {recipe.author.username[0].toUpperCase()}
                   </Avatar>
                   <Box>
-                    <Typography variant="body1" color="text.secondaryLight" fontWeight="normal">
+                    <Typography variant="body1" color="text.secondaryLight">
                       Recipe by
                     </Typography>
-                    <Typography variant="body1" color="text.primaryLight" fontWeight="medium">
+                    <Typography variant="body1" color="text.primaryLight">
                       @{recipe.author.username}
                     </Typography>
                   </Box>
@@ -136,7 +127,7 @@ export default async function RecipeDetailPage({ params }: Props) {
                     <Typography variant="body2" fontWeight="bold">
                       {recipe.cookingTime}
                     </Typography>
-                    <Typography variant="caption" className="text-white">
+                    <Typography variant="caption" color="text.primaryLight">
                       min
                     </Typography>
                   </Box>
@@ -146,7 +137,7 @@ export default async function RecipeDetailPage({ params }: Props) {
                     <Typography variant="body2" fontWeight="bold">
                       {recipe.servings}
                     </Typography>
-                    <Typography variant="caption" className="text-white">
+                    <Typography variant="caption" color="text.primaryLight">
                       servings
                     </Typography>
                   </Box>
@@ -160,7 +151,7 @@ export default async function RecipeDetailPage({ params }: Props) {
                     icon={<StarIcon fontSize="inherit" className="text-yellow-400" />}
                     emptyIcon={<StarIcon fontSize="inherit" className="text-gray-400" />}
                   />
-                  <Typography variant="body1" color="textPrimaryLight">
+                  <Typography variant="body1" color="text.primaryLight">
                     {averageRating.toFixed(1)} ({recipe.ratings.length})
                   </Typography>
                 </Box>
@@ -183,7 +174,7 @@ export default async function RecipeDetailPage({ params }: Props) {
                 >
                   <RestaurantIcon className="text-white" fontSize="small" />
                 </Box>
-                <Typography variant="h5" color="text.primary" fontWeight="medium">
+                <Typography variant="h5" color="text.primary">
                   Ingredients
                 </Typography>
               </Box>
@@ -224,7 +215,7 @@ export default async function RecipeDetailPage({ params }: Props) {
               >
                 <SearchIcon className="text-white" fontSize="small" />
               </Box>
-              <Typography variant="h5" color="text.primary" fontWeight="medium">
+              <Typography variant="h5" color="text.primary">
                 Instructions
               </Typography>
             </Box>

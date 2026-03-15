@@ -36,7 +36,7 @@ export default function GenerateRecipeView() {
           </Button>
           <Box className="h-6 w-px bg-gray-200" />
           <Box className="flex flex-col">
-            <Typography variant="body1" className="font-bold">
+            <Typography variant="body1" fontWeight="bold">
               AI Recipe Generator
             </Typography>
             <Typography variant="caption" color="text.secondary">

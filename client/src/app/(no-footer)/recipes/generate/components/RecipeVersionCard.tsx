@@ -30,15 +30,13 @@ export default function RecipeVersionCard({
       }}
     >
       <Box>
-        <Typography variant="body2" fontWeight="medium">
-          {recipe.title}
-        </Typography>
+        <Typography variant="body2">{recipe.title}</Typography>
         <Box className="flex items-center gap-2">
           <Typography variant="caption" color="text.secondary">
             Version {version}
           </Typography>
           {saved && (
-            <Typography variant="caption" color="success.main" fontWeight="medium">
+            <Typography variant="caption" color="success.main">
               Saved
             </Typography>
           )}

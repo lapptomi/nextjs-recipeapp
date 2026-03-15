@@ -33,12 +33,7 @@ export default async function ProfilePage({ params }: { params: Promise<{ id: st
             <Box className="flex-1">
               <Box className="mb-4 flex flex-col gap-2 sm:mb-6 sm:flex-row sm:items-start sm:justify-between">
                 <Box>
-                  <Typography
-                    variant="h4"
-                    className="mb-1 font-bold"
-                    color="text.primary"
-                    sx={{ fontSize: { xs: "1.5rem", sm: "2.125rem" } }}
-                  >
+                  <Typography variant="h4" className="mb-1" fontWeight="bold" color="text.primary">
                     {user.username}
                   </Typography>
                   <Typography variant="body1" className="mb-2" color="text.secondary">
@@ -47,7 +42,7 @@ export default async function ProfilePage({ params }: { params: Promise<{ id: st
                   <Box className="flex items-center gap-4">
                     <Box className="flex items-center gap-1">
                       <CalendarTodayIcon sx={{ fontSize: 16, color: "text.secondary" }} />
-                      <Typography variant="body2" sx={{ color: "text.secondary" }}>
+                      <Typography variant="body2" color="text.secondary">
                         Joined{" "}
                         {new Date(user.createdAt).toLocaleDateString("en-US", {
                           month: "long",
@@ -73,34 +68,34 @@ export default async function ProfilePage({ params }: { params: Promise<{ id: st
 
               <Box className="flex flex-wrap gap-6 border-t pt-4 sm:gap-8 sm:pt-6">
                 <Box className="text-center">
-                  <Typography variant="h5" className="font-bold" color="text.primary">
+                  <Typography variant="h5" fontWeight="bold" color="text.primary">
                     {user.recipes.length}
                   </Typography>
-                  <Typography variant="body2" className="font-medium" color="text.secondary">
+                  <Typography variant="body2" color="text.secondary">
                     Recipes
                   </Typography>
                 </Box>
                 <Box className="text-center">
-                  <Typography variant="h5" className="font-bold" color="text.primary">
+                  <Typography variant="h5" fontWeight="bold" color="text.primary">
                     {userFollowers.length}
                   </Typography>
-                  <Typography variant="body2" className="font-medium" color="text.secondary">
+                  <Typography variant="body2" color="text.secondary">
                     Followers
                   </Typography>
                 </Box>
                 <Box className="text-center">
-                  <Typography variant="h5" className="font-bold" color="text.primary">
+                  <Typography variant="h5" fontWeight="bold" color="text.primary">
                     {userFollowing.length}
                   </Typography>
-                  <Typography variant="body2" className="font-medium" color="text.secondary">
+                  <Typography variant="body2" color="text.secondary">
                     Following
                   </Typography>
                 </Box>
                 <Box className="text-center">
-                  <Typography variant="h5" className="font-bold" color="text.primary">
+                  <Typography variant="h5" fontWeight="bold" color="text.primary">
                     {user.recipes.reduce((acc, recipe) => acc + recipe.totalRatings, 0)}
                   </Typography>
-                  <Typography variant="body2" className="font-medium" color="text.secondary">
+                  <Typography variant="body2" color="text.secondary">
                     Total Likes
                   </Typography>
                 </Box>

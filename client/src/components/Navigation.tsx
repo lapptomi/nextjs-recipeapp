@@ -43,14 +43,14 @@ export default async function Navigation() {
                 color="primary"
                 variant="outlined"
               >
-                <Typography variant="body2" color="text.secondary" fontWeight="medium">
+                <Typography variant="body2" color="text.secondary">
                   Generate Recipe
                 </Typography>
               </Button>
             </Tooltip>
 
             <Button size="small" href={ROUTES.RECIPES} startIcon={<Restaurant color="primary" />}>
-              <Typography variant="body2" color="text.secondary" fontWeight="medium">
+              <Typography variant="body2" color="text.secondary">
                 Browse Recipes
               </Typography>
             </Button>
@@ -58,7 +58,7 @@ export default async function Navigation() {
             <Tooltip title="Create new recipe">
               <Button size="small" href={ROUTES.CREATE_RECIPE}>
                 <Add color="primary" />
-                <Typography variant="body2" color="text.secondary" fontWeight="medium">
+                <Typography variant="body2" color="text.secondary">
                   Create
                 </Typography>
               </Button>
@@ -73,12 +73,12 @@ export default async function Navigation() {
               href={ROUTES.LOGIN}
               startIcon={<PersonOutlineOutlinedIcon />}
             >
-              <Typography variant="body2" color="text.secondary" fontWeight="medium">
+              <Typography variant="body2" color="text.secondary">
                 Sign in
               </Typography>
             </Button>
             <Button size="small" variant="contained" href={ROUTES.REGISTER} color="primary">
-              <Typography variant="body2" color="text.primaryLight" fontWeight="medium">
+              <Typography variant="body2" color="text.primaryLight">
                 Sign up
               </Typography>
             </Button>

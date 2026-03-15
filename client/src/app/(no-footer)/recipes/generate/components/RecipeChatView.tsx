@@ -158,7 +158,7 @@ export default function RecipeChatView({
                 ),
               }}
             />
-            <Typography variant="caption" color="textSecondary" className="mt-2 block text-center">
+            <Typography variant="caption" color="text.secondary" className="mt-2 block text-center">
               {assistantThinking
                 ? "AI is thinking..."
                 : "Press Enter to send, Shift + Enter for new line"}

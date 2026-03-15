@@ -24,7 +24,7 @@ export default function Footer() {
               >
                 <SoupKitchenOutlinedIcon sx={{ color: "primary.contrastText", fontSize: 20 }} />
               </Box>
-              <Typography variant="h6" className="font-bold" color="text.primaryLight">
+              <Typography variant="h6" fontWeight="bold" color="text.primaryLight">
                 {APPLICATION_NAME}
               </Typography>
             </Box>
@@ -35,7 +35,7 @@ export default function Footer() {
           </Box>
 
           <Box className="flex flex-col gap-4">
-            <Typography variant="h6" className="font-semibold" sx={{ color: "common.white" }}>
+            <Typography variant="h6" fontWeight="bold" color="text.primaryLight">
               Product
             </Typography>
             <Box className="flex flex-col gap-3">
@@ -49,7 +49,7 @@ export default function Footer() {
           </Box>
 
           <Box className="flex flex-col gap-4">
-            <Typography variant="h6" className="font-semibold" sx={{ color: "common.white" }}>
+            <Typography variant="h6" fontWeight="bold" color="text.primaryLight">
               Legal
             </Typography>
             <Box className="flex flex-col gap-3">
@@ -61,7 +61,7 @@ export default function Footer() {
         </Box>
 
         <Box className="flex flex-wrap items-center justify-between gap-4 border-t border-zinc-700 pt-6">
-          <Typography variant="body2" sx={{ color: "#a1a1a1" }}>
+          <Typography variant="body2" color="text.secondaryLight">
             © {new Date().getFullYear()} {APPLICATION_NAME}. All rights reserved
           </Typography>
           <Box className="flex gap-6">

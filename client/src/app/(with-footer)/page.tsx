@@ -25,15 +25,10 @@ export default function LandingPage() {
         <Container maxWidth="xl" className="py-16">
           <Box className="bg flex flex-col items-center justify-evenly gap-8 md:flex-row md:flex-wrap">
             <Box className="w-full max-w-[500px] flex flex-col gap-6">
-              <Typography
-                variant="h2"
-                fontWeight="bold"
-                color="text.primary"
-                sx={{ fontSize: { xs: "1.75rem", sm: "2.5rem", md: "3.75rem" } }}
-              >
+              <Typography variant="h2" fontWeight="bold" color="text.primary">
                 Discover & share recipes you&apos;ll love
               </Typography>
-              <Typography variant="h6" color="text.secondary" fontWeight="normal">
+              <Typography variant="h6" fontWeight="normal" color="text.secondary">
                 Join other of home cooks sharing their favorite recipes. Browse, create, and cook
                 delicious meals every day.
               </Typography>
@@ -84,7 +79,7 @@ export default function LandingPage() {
           <Box className="mb-8 flex items-center justify-center">
             <Box className="flex w-full max-w-[1200px] items-center justify-between">
               <Box>
-                <Typography variant="h4" className="mb-2 font-bold" color="text.primary">
+                <Typography variant="h4" className="mb-2" fontWeight="bold" color="text.primary">
                   Popular Recipes
                 </Typography>
                 <Typography variant="body2" color="text.secondary">
@@ -108,7 +103,7 @@ export default function LandingPage() {
       <Box className="bg-white py-16">
         <Container maxWidth="lg">
           <Box className="mb-12 text-center">
-            <Typography variant="h4" className="mb-2 font-bold" color="text.primary">
+            <Typography variant="h4" className="mb-2" fontWeight="bold" color="text.primary">
               Everything you need to cook better
             </Typography>
             <Typography variant="body1" color="text.secondary">
@@ -154,13 +149,13 @@ export default function LandingPage() {
             <Box className="flex flex-col gap-6">
               <Typography
                 variant="h3"
-                className="font-bold leading-tight"
+                className="leading-tight"
+                fontWeight="bold"
                 color="text.primary"
-                sx={{ fontSize: { xs: "1.5rem", sm: "2rem", md: "3rem" } }}
               >
                 Start your culinary journey today
               </Typography>
-              <Typography variant="h6" color="text.secondary" fontWeight="normal">
+              <Typography variant="h6" fontWeight="normal" color="text.secondary">
                 Sign up for a seasoned Chef {APPLICATION_NAME}, have you discover new flavors,
                 master techniques, and share your passion with a community that cares.
               </Typography>

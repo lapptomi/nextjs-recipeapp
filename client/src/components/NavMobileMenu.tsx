@@ -60,16 +60,14 @@ export default function NavMobileMenu({ user }: Props) {
                   <Avatar alt="profile" src={user.image ?? undefined} className="size-8">
                     {user.name ? user.name[0] : ""}
                   </Avatar>
-                  <Typography variant="body2" fontWeight="medium">
-                    {user.name}
-                  </Typography>
+                  <Typography variant="body2">{user.name}</Typography>
                 </Box>
                 <Divider />
                 <MenuItem component={Link} href={ROUTES.GENERATE_RECIPE} onClick={close}>
                   <ListItemIcon>
                     <AutoAwesomeIcon fontSize="medium" />
                   </ListItemIcon>
-                  <Typography variant="body1" color="text.secondary" fontWeight="medium">
+                  <Typography variant="body1" color="text.secondary">
                     Generate Recipe
                   </Typography>
                 </MenuItem>
@@ -77,7 +75,7 @@ export default function NavMobileMenu({ user }: Props) {
                   <ListItemIcon>
                     <Restaurant fontSize="medium" />
                   </ListItemIcon>
-                  <Typography variant="body1" color="text.secondary" fontWeight="medium">
+                  <Typography variant="body1" color="text.secondary">
                     Browse Recipes
                   </Typography>
                 </MenuItem>
@@ -85,7 +83,7 @@ export default function NavMobileMenu({ user }: Props) {
                   <ListItemIcon>
                     <Add fontSize="medium" />
                   </ListItemIcon>
-                  <Typography variant="body1" color="text.secondary" fontWeight="medium">
+                  <Typography variant="body1" color="text.secondary">
                     Create Recipe
                   </Typography>
                 </MenuItem>
@@ -93,7 +91,7 @@ export default function NavMobileMenu({ user }: Props) {
                   <ListItemIcon>
                     <Person fontSize="medium" />
                   </ListItemIcon>
-                  <Typography variant="body1" color="text.secondary" fontWeight="medium">
+                  <Typography variant="body1" color="text.secondary">
                     Profile
                   </Typography>
                 </MenuItem>
@@ -105,7 +103,7 @@ export default function NavMobileMenu({ user }: Props) {
                   <ListItemIcon>
                     <Settings fontSize="medium" />
                   </ListItemIcon>
-                  <Typography variant="body1" color="text.secondary" fontWeight="medium">
+                  <Typography variant="body1" color="text.secondary">
                     Settings
                   </Typography>
                 </MenuItem>
@@ -118,7 +116,7 @@ export default function NavMobileMenu({ user }: Props) {
                   <ListItemIcon>
                     <Restaurant fontSize="medium" />
                   </ListItemIcon>
-                  <Typography variant="body1" color="text.secondary" fontWeight="medium">
+                  <Typography variant="body1" color="text.secondary">
                     Browse Recipes
                   </Typography>
                 </MenuItem>
@@ -126,7 +124,7 @@ export default function NavMobileMenu({ user }: Props) {
                   <ListItemIcon>
                     <PersonOutlineOutlinedIcon fontSize="medium" />
                   </ListItemIcon>
-                  <Typography variant="body1" color="text.secondary" fontWeight="medium">
+                  <Typography variant="body1" color="text.secondary">
                     Sign in
                   </Typography>
                 </MenuItem>

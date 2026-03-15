@@ -67,7 +67,7 @@ export default function SettingsPage() {
 
       <Box className="flex flex-col">
         <Box className="flex flex-col gap-8 bg-slate-50 px-24 py-8">
-          <Typography variant="h3" sx={{ fontWeight: "bold" }}>
+          <Typography variant="h3" fontWeight="bold">
             Settings
           </Typography>
           <Box className="flex flex-row items-center gap-4">

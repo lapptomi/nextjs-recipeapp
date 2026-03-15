@@ -48,10 +48,15 @@ export default function RecipeCard({ recipe }: RecipeCardProps) {
 
         <CardContent className="flex flex-col gap-3 p-5">
           <Box className="flex flex-col gap-1">
-            <Typography variant="h6" className="line-clamp-1 text-lg font-semibold text-gray-900">
+            <Typography
+              variant="h6"
+              className="line-clamp-1"
+              fontWeight="bold"
+              color="text.primary"
+            >
               {recipe.title}
             </Typography>
-            <Typography variant="body2" color="textSecondary" className="text-sm">
+            <Typography variant="body2" color="text.secondary">
               @{recipe.author?.username}
             </Typography>
             <Typography variant="caption" className="line-clamp-2">
@@ -68,10 +73,10 @@ export default function RecipeCard({ recipe }: RecipeCardProps) {
               icon={<StarIcon fontSize="inherit" />}
               emptyIcon={<StarIcon fontSize="inherit" />}
             />
-            <Typography variant="body2" className="font-medium text-gray-700">
+            <Typography variant="body2" color="text.secondary">
               {recipe.averageRating?.toFixed(1)}
             </Typography>
-            <Typography variant="body2" className="text-gray-400">
+            <Typography variant="body2" color="text.disabled">
               ({recipe.totalRatings})
             </Typography>
           </Box>
@@ -79,13 +84,13 @@ export default function RecipeCard({ recipe }: RecipeCardProps) {
           <Box className="flex items-center gap-4">
             <Box className="flex items-center gap-1.5">
               <AccessTimeIcon className="text-gray-500" fontSize="small" />
-              <Typography variant="body2" className="text-sm text-gray-600">
+              <Typography variant="body2" color="text.secondary">
                 {recipe.cookingTime} min
               </Typography>
             </Box>
             <Box className="flex items-center gap-1.5">
               <RestaurantIcon className="text-gray-500" fontSize="small" />
-              <Typography variant="body2" className="text-sm text-gray-600">
+              <Typography variant="body2" color="text.secondary">
                 {recipe.servings} servings
               </Typography>
             </Box>
