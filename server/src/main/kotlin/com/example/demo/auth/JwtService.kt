@@ -1,4 +1,4 @@
-package com.example.demo.auth.service
+package com.example.demo.auth
 
 import io.jsonwebtoken.Jwts
 import io.jsonwebtoken.io.Decoders

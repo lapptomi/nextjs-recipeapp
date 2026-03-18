@@ -1,6 +1,6 @@
 package com.example.demo.config
 
-import com.example.demo.auth.service.JwtService
+import com.example.demo.auth.JwtService
 import com.example.demo.filter.RateLimiterFilter
 import jakarta.servlet.http.HttpServletResponse
 import org.springframework.context.annotation.Bean

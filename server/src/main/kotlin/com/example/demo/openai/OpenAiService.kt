@@ -1,4 +1,4 @@
-package com.example.demo.openai.service
+package com.example.demo.openai
 
 import com.example.demo.config.OpenAiException
 import com.example.demo.openai.domain.RecipeChatRequestDTO

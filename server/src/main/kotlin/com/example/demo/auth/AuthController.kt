@@ -1,11 +1,10 @@
-package com.example.demo.auth.controller
+package com.example.demo.auth
 
 import com.example.demo.ApiPath
 import com.example.demo.auth.domain.JwtTokenDto
 import com.example.demo.auth.domain.LoginDTO
 import com.example.demo.auth.domain.RefreshTokenRequestDto
 import com.example.demo.auth.domain.SocialLoginRequestDTO
-import com.example.demo.auth.service.AuthService
 import com.example.demo.user.domain.User
 import org.springframework.http.ResponseEntity
 import org.springframework.security.core.annotation.AuthenticationPrincipal

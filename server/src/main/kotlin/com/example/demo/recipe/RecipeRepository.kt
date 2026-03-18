@@ -1,4 +1,4 @@
-package com.example.demo.recipe.repository
+package com.example.demo.recipe
 
 import com.example.demo.recipe.domain.CreateRecipeDTO
 import com.example.demo.recipe.domain.Recipe

@@ -5,9 +5,8 @@ import com.example.demo.TextFixtures.recipes
 import com.example.demo.TextFixtures.users
 import com.example.demo.recipe.domain.CreateRecipeDTO
 import com.example.demo.recipe.domain.Recipe
-import com.example.demo.recipe.repository.RecipeRepository
+import com.example.demo.user.UserRepository
 import com.example.demo.user.domain.User
-import com.example.demo.user.repository.UserRepository
 import kotlin.test.Test
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach

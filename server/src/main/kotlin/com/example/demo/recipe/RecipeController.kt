@@ -1,4 +1,4 @@
-package com.example.demo.recipe.controller
+package com.example.demo.recipe
 
 import com.example.demo.ApiPath
 import com.example.demo.domain.PageResult
@@ -7,7 +7,6 @@ import com.example.demo.recipe.domain.CreateRecipeDTO
 import com.example.demo.recipe.domain.CreateRecipeRatingDTO
 import com.example.demo.recipe.domain.RecipeDTO
 import com.example.demo.recipe.domain.RecipeListItemDTO
-import com.example.demo.recipe.service.RecipeService
 import org.springframework.http.HttpStatus
 import org.springframework.http.MediaType
 import org.springframework.http.ResponseEntity

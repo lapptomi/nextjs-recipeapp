@@ -1,15 +1,13 @@
-package com.example.demo.user.service
+package com.example.demo.user
 
-import com.example.demo.auth.service.AuthService
+import com.example.demo.auth.AuthService
 import com.example.demo.config.UserNotFoundException
-import com.example.demo.recipe.mapper.toRecipeListItemDTO
-import com.example.demo.recipe.repository.RecipeRepository
+import com.example.demo.recipe.RecipeRepository
+import com.example.demo.recipe.toRecipeListItemDTO
 import com.example.demo.s3.S3Service
 import com.example.demo.user.domain.CreateUserRequestDTO
 import com.example.demo.user.domain.UpdateUserRequestDTO
 import com.example.demo.user.domain.UserDTO
-import com.example.demo.user.mapper.toUserDTO
-import com.example.demo.user.repository.UserRepository
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Service
 

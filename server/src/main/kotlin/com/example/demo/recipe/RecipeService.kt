@@ -1,18 +1,15 @@
-package com.example.demo.recipe.service
+package com.example.demo.recipe
 
-import com.example.demo.auth.service.AuthService
+import com.example.demo.auth.AuthService
 import com.example.demo.config.RecipeNotFoundException
 import com.example.demo.domain.PageResult
-import com.example.demo.openai.service.OpenAiService
+import com.example.demo.openai.OpenAiService
 import com.example.demo.recipe.domain.CreateRecipeCommentDTO
 import com.example.demo.recipe.domain.CreateRecipeDTO
 import com.example.demo.recipe.domain.CreateRecipeRatingDTO
 import com.example.demo.recipe.domain.Recipe
 import com.example.demo.recipe.domain.RecipeDTO
 import com.example.demo.recipe.domain.RecipeListItemDTO
-import com.example.demo.recipe.mapper.toRecipeDTO
-import com.example.demo.recipe.mapper.toRecipeListItemDTO
-import com.example.demo.recipe.repository.RecipeRepository
 import com.example.demo.s3.S3Service
 import org.springframework.stereotype.Service
 import org.springframework.web.multipart.MultipartFile

@@ -1,10 +1,9 @@
-package com.example.demo.user.service
+package com.example.demo.user
 
 import com.example.demo.TextFixtures.users
 import com.example.demo.config.UserNotFoundException
 import com.example.demo.user.domain.CreateUserRequestDTO
 import com.example.demo.user.domain.User
-import com.example.demo.user.repository.UserRepository
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import org.junit.jupiter.api.AfterEach

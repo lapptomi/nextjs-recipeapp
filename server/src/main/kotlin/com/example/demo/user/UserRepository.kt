@@ -1,4 +1,4 @@
-package com.example.demo.user.repository
+package com.example.demo.user
 
 import com.example.demo.config.UserNotFoundException
 import com.example.demo.user.domain.User

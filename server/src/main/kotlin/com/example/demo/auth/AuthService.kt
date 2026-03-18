@@ -1,10 +1,10 @@
-package com.example.demo.auth.service
+package com.example.demo.auth
 
 import com.example.demo.auth.domain.JwtTokenDto
 import com.example.demo.auth.domain.SocialLoginRequestDTO
 import com.example.demo.config.SecurityConfig
 import com.example.demo.domain.CurrentUser
-import com.example.demo.user.repository.UserRepository
+import com.example.demo.user.UserRepository
 import kotlin.text.toInt
 import org.springframework.security.authentication.BadCredentialsException
 import org.springframework.security.core.context.SecurityContextHolder

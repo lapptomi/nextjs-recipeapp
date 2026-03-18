@@ -1,9 +1,8 @@
-package com.example.demo.openai.controller
+package com.example.demo.openai
 
 import com.example.demo.ApiPath
 import com.example.demo.openai.domain.RecipeChatRequestDTO
 import com.example.demo.openai.domain.RecipeChatResponseDTO
-import com.example.demo.openai.service.OpenAiService
 import jakarta.validation.Valid
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.PostMapping

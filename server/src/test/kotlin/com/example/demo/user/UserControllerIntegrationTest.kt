@@ -1,12 +1,10 @@
 package com.example.demo.user
 
 import com.example.demo.ApiPath
-import com.example.demo.auth.service.JwtService
+import com.example.demo.auth.JwtService
 import com.example.demo.user.domain.CreateUserRequestDTO
 import com.example.demo.user.domain.UpdateUserRequestDTO
 import com.example.demo.user.domain.UserDTO
-import com.example.demo.user.repository.UserRepository
-import com.example.demo.user.service.UserService
 import com.fasterxml.jackson.databind.ObjectMapper
 import kotlin.test.assertTrue
 import org.junit.jupiter.api.AfterEach

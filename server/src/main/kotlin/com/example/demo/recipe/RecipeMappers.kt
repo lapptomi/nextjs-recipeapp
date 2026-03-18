@@ -1,4 +1,4 @@
-package com.example.demo.recipe.mapper
+package com.example.demo.recipe
 
 import com.example.demo.recipe.domain.Recipe
 import com.example.demo.recipe.domain.RecipeComment

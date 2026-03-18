@@ -1,17 +1,16 @@
-package com.example.demo.recipe.service
+package com.example.demo.recipe
 
 import com.example.demo.TextFixtures.recipes
 import com.example.demo.TextFixtures.users
-import com.example.demo.auth.service.AuthService
+import com.example.demo.auth.AuthService
 import com.example.demo.config.RecipeNotFoundException
 import com.example.demo.domain.CurrentUser
 import com.example.demo.recipe.domain.CreateRecipeDTO
 import com.example.demo.recipe.domain.CreateRecipeRatingDTO
 import com.example.demo.recipe.domain.Recipe
 import com.example.demo.recipe.domain.RecipeRatingType
-import com.example.demo.recipe.repository.RecipeRepository
+import com.example.demo.user.UserRepository
 import com.example.demo.user.domain.User
-import com.example.demo.user.repository.UserRepository
 import java.time.Instant
 import kotlin.test.Test
 import org.junit.jupiter.api.AfterEach

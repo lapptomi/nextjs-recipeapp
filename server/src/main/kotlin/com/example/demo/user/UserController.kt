@@ -1,10 +1,9 @@
-package com.example.demo.user.controller
+package com.example.demo.user
 
 import com.example.demo.ApiPath
 import com.example.demo.user.domain.CreateUserRequestDTO
 import com.example.demo.user.domain.UpdateUserRequestDTO
 import com.example.demo.user.domain.UserDTO
-import com.example.demo.user.service.UserService
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.DeleteMapping

@@ -1,4 +1,4 @@
-package com.example.demo.user.mapper
+package com.example.demo.user
 
 import com.example.demo.recipe.domain.RecipeListItemDTO
 import com.example.demo.user.domain.User

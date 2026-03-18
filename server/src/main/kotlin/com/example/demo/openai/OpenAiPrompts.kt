@@ -1,4 +1,4 @@
-package com.example.demo.openai.service
+package com.example.demo.openai
 
 val RECIPE_CHAT_SYSTEM_PROMPT =
     """
