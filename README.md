@@ -17,7 +17,6 @@
 ## 📋 Table of Contents
 
 - [About](#-about)
-- [Features](#-features)
 - [Tech Stack](#️-tech-stack)
 - [Architecture](#️-architecture)
 - [Getting Started](#-getting-started)
@@ -43,18 +42,6 @@ RecipeApp Pro is a full-stack web application where users can discover, create, 
 
 ---
 
-## ✨ Features
-
-- 🔐 **Authentication** - Email, GitHub, and Google sign-in
-- 📝 **Recipe Management** - Create, edit, and share recipes
-- ⭐ **Rating System** - Like/dislike recipes
-- 💬 **Comments** - Community discussions
-- 🖼️ **Image Upload** - AWS S3 integration
-- 👤 **User Profiles** - View profiles and their recipes
-- 🔍 **Search & Filter** - Find recipes easily
-- 📱 **Responsive Design** - Mobile-friendly UI
-
----
 
 ## 🛠️ Tech Stack
 
