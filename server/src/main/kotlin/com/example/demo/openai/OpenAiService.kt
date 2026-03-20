@@ -52,12 +52,12 @@ class OpenAiService(
         return parseResponse(rawContent)
     }
 
-    fun generateRecipeImage(recipe: Recipe): String =
+    fun generateRecipeImage(recipe: Recipe, ingredients: List<String>): String =
         try {
             val params =
                 ImageGenerateParams.builder()
                     .model(IMAGE_MODEL)
-                    .prompt(buildImagePrompt(recipe))
+                    .prompt(buildImagePrompt(recipe, ingredients))
                     .size(ImageGenerateParams.Size._1536X1024)
                     .quality(ImageGenerateParams.Quality.MEDIUM)
                     .outputFormat(ImageGenerateParams.OutputFormat.PNG)
@@ -98,13 +98,13 @@ class OpenAiService(
             throw OpenAiException("OpenAI request failed.", e)
         }
 
-    private fun buildImagePrompt(recipe: Recipe) =
+    private fun buildImagePrompt(recipe: Recipe, ingredients: List<String>) =
         """
         Create a realistic hero image for a recipe page.
 
         Recipe title: ${recipe.title}
         Recipe description: ${recipe.description}
-        Ingredients: ${recipe.ingredients.joinToString(", ")}
+        Ingredients: ${ingredients.joinToString(", ")}
 
         Style:
         - natural warm lighting

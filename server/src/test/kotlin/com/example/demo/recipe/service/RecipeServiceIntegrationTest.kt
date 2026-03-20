@@ -159,7 +159,7 @@ class RecipeServiceIntegrationTest {
             CreateRecipeDTO(
                 title = testRecipe.title,
                 description = testRecipe.description,
-                ingredients = testRecipe.ingredients,
+                ingredients = recipes[0].ingredients,
                 cookingTime = testRecipe.cookingTime,
                 instructions = testRecipe.instructions,
                 servings = testRecipe.servings,

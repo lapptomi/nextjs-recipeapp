@@ -7,11 +7,10 @@ data class Recipe(
     val title: String,
     val description: String,
     val image: String? = null,
-    val ingredients: List<String>,
     val cookingTime: Int,
     val servings: Int,
     val instructions: String,
-    val author: RecipeAuthorDTO,
+    val userId: Int,
     val createdAt: LocalDateTime,
     val category: String?,
 )

@@ -1,14 +1,13 @@
 package com.example.demo.user.domain
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 import java.time.LocalDateTime
 
-@JsonIgnoreProperties(ignoreUnknown = true)
-data class User(
+data class UserWithPassword(
     val id: Int,
     val image: String?,
     val username: String,
     val email: String,
+    val password: String?,
     val bio: String?,
     val createdAt: LocalDateTime = LocalDateTime.now(),
 )

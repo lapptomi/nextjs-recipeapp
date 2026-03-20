@@ -2,6 +2,9 @@ package com.example.demo.user
 
 import com.example.demo.config.UserNotFoundException
 import com.example.demo.user.domain.User
+import com.example.demo.user.domain.UserWithPassword
+import org.springframework.dao.EmptyResultDataAccessException
+import org.springframework.jdbc.core.DataClassRowMapper
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate
 import org.springframework.jdbc.support.GeneratedKeyHolder
@@ -10,40 +13,14 @@ import org.springframework.stereotype.Repository
 @Repository
 class UserRepository(val jdbcTemplate: NamedParameterJdbcTemplate) {
     fun fetchUsers(): List<User> {
-        val sql = "SELECT id, username, email, password, created_at FROM users"
-        val users =
-            jdbcTemplate.query(sql) { rs, _ ->
-                User(
-                    id = rs.getInt("id"),
-                    username = rs.getString("username"),
-                    email = rs.getString("email"),
-                    createdAt = rs.getTimestamp("created_at").toLocalDateTime(),
-                    bio = null,
-                    image = null,
-                )
-            }
-
-        return users
+        val sql = "SELECT id, username, email, image, bio, created_at FROM users"
+        return jdbcTemplate.query(sql, DataClassRowMapper(User::class.java))
     }
 
-    fun findByEmail(email: String): User {
+    fun findByEmail(email: String): UserWithPassword {
         val params = MapSqlParameterSource().addValue("email", email)
         val sql = "SELECT id, username, email, image, password, bio, created_at FROM users WHERE email = :email"
-
-        val user =
-            jdbcTemplate
-                .query(sql, params) { rs, _ ->
-                    User(
-                        id = rs.getInt("id"),
-                        username = rs.getString("username"),
-                        email = rs.getString("email"),
-                        createdAt = rs.getTimestamp("created_at").toLocalDateTime(),
-                        password = rs.getString("password"),
-                        bio = rs.getString("bio"),
-                        image = rs.getString("image"),
-                    )
-                }
-                .firstOrNull()
+        val user = jdbcTemplate.queryForObject(sql, params, DataClassRowMapper(UserWithPassword::class.java))
 
         return user ?: throw UserNotFoundException("User with email $email not found")
     }
@@ -51,22 +28,16 @@ class UserRepository(val jdbcTemplate: NamedParameterJdbcTemplate) {
     fun findUserByIdOrNull(id: Int): User? {
         val params = MapSqlParameterSource().addValue("id", id)
         val sql = "SELECT id, username, email, image, created_at, bio FROM users WHERE id = :id"
-        return jdbcTemplate
-            .query(sql, params) { rs, _ ->
-                User(
-                    id = rs.getInt("id"),
-                    username = rs.getString("username"),
-                    email = rs.getString("email"),
-                    createdAt = rs.getTimestamp("created_at").toLocalDateTime(),
-                    password = null,
-                    bio = rs.getString("bio"),
-                    image = rs.getString("image"),
-                )
-            }
-            .firstOrNull()
+        return try {
+            jdbcTemplate.queryForObject(sql, params, DataClassRowMapper(User::class.java))
+        } catch (e: EmptyResultDataAccessException) {
+            throw UserNotFoundException(id.toString())
+        }
     }
 
     fun createUser(username: String, email: String, password: String): User {
+        val sql =
+            "INSERT INTO users (username, email, password, provider) VALUES (:username, :email, :password, :provider)"
         val params =
             MapSqlParameterSource()
                 .addValue("username", username)
@@ -74,14 +45,10 @@ class UserRepository(val jdbcTemplate: NamedParameterJdbcTemplate) {
                 .addValue("password", password)
                 .addValue("provider", "credentials")
 
-        val sql =
-            "INSERT INTO users (username, email, password, provider) VALUES (:username, :email, :password, :provider)"
         val keyHolder = GeneratedKeyHolder()
         jdbcTemplate.update(sql, params, keyHolder, arrayOf("id"))
-        val id =
-            keyHolder.keys?.get("id")?.toString()?.toInt()
-                ?: keyHolder.key?.toInt()
-                ?: throw IllegalStateException("Failed to retrieve generated id")
+
+        val id = keyHolder.key?.toInt() ?: throw IllegalStateException("Failed to retrieve id after user insert")
 
         return User(id = id, username = username, email = email, bio = null, image = null)
     }
@@ -103,30 +70,19 @@ class UserRepository(val jdbcTemplate: NamedParameterJdbcTemplate) {
 
         val keyHolder = GeneratedKeyHolder()
         jdbcTemplate.update(sql, params, keyHolder, arrayOf("id"))
-        val id =
-            keyHolder.keys?.get("id")?.toString()?.toInt()
-                ?: keyHolder.key?.toInt()
-                ?: throw IllegalStateException("Failed to retrieve generated id")
+        val id = keyHolder.key?.toInt() ?: throw IllegalStateException("Failed to retrieve id after user insert")
 
         return User(id = id, username = username, email = email, bio = null, image = image)
     }
 
     fun findByProviderId(providerId: String): User? {
-        val sql = "SELECT * FROM users WHERE provider_id = :providerId"
+        val sql = "SELECT id, username, email, image, bio, created_at FROM users WHERE provider_id = :providerId"
         val params = MapSqlParameterSource().addValue("providerId", providerId)
-
-        return jdbcTemplate
-            .query(sql, params) { rs, _ ->
-                User(
-                    id = rs.getInt("id"),
-                    username = rs.getString("username"),
-                    email = rs.getString("email"),
-                    createdAt = rs.getTimestamp("created_at").toLocalDateTime(),
-                    bio = rs.getString("bio"),
-                    image = rs.getString("image"),
-                )
-            }
-            .firstOrNull()
+        return try {
+            jdbcTemplate.queryForObject(sql, params, DataClassRowMapper(User::class.java))
+        } catch (e: EmptyResultDataAccessException) {
+            throw UserNotFoundException(providerId)
+        }
     }
 
     fun deleteById(id: Int) {
@@ -136,8 +92,7 @@ class UserRepository(val jdbcTemplate: NamedParameterJdbcTemplate) {
     }
 
     fun deleteAll() {
-        val sql = "DELETE FROM users"
-        jdbcTemplate.update(sql, MapSqlParameterSource())
+        jdbcTemplate.update("DELETE FROM users", MapSqlParameterSource())
     }
 
     fun updateUser(userId: Int, username: String?, email: String?) {
@@ -148,13 +103,7 @@ class UserRepository(val jdbcTemplate: NamedParameterJdbcTemplate) {
 
         val params =
             MapSqlParameterSource().addValue("userId", userId).addValue("username", username).addValue("email", email)
-
-        val sql =
-            """
-            UPDATE users
-            SET ${fieldsToUpdate.joinToString(", ")}
-            WHERE id = :userId
-        """
+        val sql = "UPDATE users SET ${fieldsToUpdate.joinToString(", ")} WHERE id = :userId"
 
         jdbcTemplate.update(sql, params)
     }
@@ -169,46 +118,25 @@ class UserRepository(val jdbcTemplate: NamedParameterJdbcTemplate) {
     fun getUserFollowers(userId: Int): List<User> {
         val sql =
             """
-            SELECT u.id, u.username, u.email, u.password, u.created_at, u.image
+            SELECT u.id, u.username, u.email, u.created_at, u.image, u.bio
             FROM users u
             JOIN user_followers uf ON u.id = uf.follower_id
             WHERE uf.user_id = :userId
         """
         val params = MapSqlParameterSource().addValue("userId", userId)
-
-        return jdbcTemplate.query(sql, params) { rs, _ ->
-            User(
-                id = rs.getInt("id"),
-                username = rs.getString("username"),
-                email = rs.getString("email"),
-                createdAt = rs.getTimestamp("created_at").toLocalDateTime(),
-                bio = null,
-                image = rs.getString("image"),
-            )
-        }
+        return jdbcTemplate.query(sql, params, DataClassRowMapper(User::class.java))
     }
 
     fun getUserFollowing(userId: Int): List<User> {
         val sql =
             """
-            SELECT u.id, u.username, u.email, u.password, u.created_at
+            SELECT u.id, u.username, u.email, u.created_at, u.image, u.bio
             FROM users u
             JOIN user_followers uf ON u.id = uf.user_id
             WHERE uf.follower_id = :userId
         """
         val params = MapSqlParameterSource().addValue("userId", userId)
-
-        return jdbcTemplate.query(sql, params) { rs, _ ->
-            User(
-                id = rs.getInt("id"),
-                username = rs.getString("username"),
-                email = rs.getString("email"),
-                // password = rs.getString("password"),
-                createdAt = rs.getTimestamp("created_at").toLocalDateTime(),
-                bio = null,
-                image = null,
-            )
-        }
+        return jdbcTemplate.query(sql, params, DataClassRowMapper(User::class.java))
     }
 
     fun removeFollower(followerId: Int, userToUnfollowId: Int) {

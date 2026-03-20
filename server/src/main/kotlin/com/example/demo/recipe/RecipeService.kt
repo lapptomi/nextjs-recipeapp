@@ -29,10 +29,12 @@ class RecipeService(
         sortBy: String,
     ): PageResult<RecipeListItemDTO> {
         val recipes = recipeRepository.fetchRecipes(recipeTitle, category, page, pageSize, sortBy)
+
         return PageResult(
             content =
                 recipes.map {
                     it.toRecipeListItemDTO(
+                        author = recipeRepository.fetchAuthorByUserId(it.userId),
                         totalRatings = recipeRepository.fetchTotalRatingsForRecipe(it.id),
                         averageRating = recipeRepository.fetchAverageRatingForRecipe(it.id),
                         presignedUrl = it.image?.let { imageName -> s3Service.getPresignedUrl(imageName) },
@@ -47,15 +49,20 @@ class RecipeService(
 
     fun findById(id: Int): RecipeDTO {
         val recipe = requireRecipe(id)
-        val recipeComments = recipeRepository.fetchRecipeComments(recipe.id)
-        val recipeRatings = recipeRepository.fetchRecipeRatings(recipe.id)
+        val author = recipeRepository.fetchAuthorByUserId(recipe.userId)
+        val ingredients = recipeRepository.fetchIngredientsByRecipeId(recipe.id)
+        val comments = recipeRepository.fetchRecipeComments(recipe.id)
+        val ratings = recipeRepository.fetchRecipeRatings(recipe.id)
         val presignedUrl = recipe.image?.let { s3Service.getPresignedUrl(it) }
-        return recipe.toRecipeDTO(presignedUrl, recipeComments, recipeRatings)
+        return recipe.toRecipeDTO(author, ingredients, presignedUrl, comments, ratings)
     }
 
     fun createRecipe(createRecipeDTO: CreateRecipeDTO): RecipeDTO {
         val userId = authService.getCurrentUser().sub
-        return recipeRepository.createRecipe(userId, createRecipeDTO).toRecipeDTO()
+        val recipe = recipeRepository.createRecipe(userId, createRecipeDTO)
+        val author = recipeRepository.fetchAuthorByUserId(recipe.userId)
+        val ingredients = recipeRepository.fetchIngredientsByRecipeId(recipe.id)
+        return recipe.toRecipeDTO(author, ingredients)
     }
 
     fun uploadRecipeImage(recipeId: Int, image: MultipartFile): RecipeDTO {
@@ -77,7 +84,8 @@ class RecipeService(
         val recipe = requireRecipe(recipeId)
         requireCurrentUserToBeAuthor(recipe)
 
-        val imageName = openAiService.generateRecipeImage(recipe)
+        val ingredients = recipeRepository.fetchIngredientsByRecipeId(recipe.id)
+        val imageName = openAiService.generateRecipeImage(recipe, ingredients)
         recipeRepository.updateRecipeImage(recipeId, imageName)
 
         return findById(recipeId)
@@ -116,7 +124,7 @@ class RecipeService(
     private fun requireCurrentUserToBeAuthor(recipe: Recipe) {
         val currentUserId = authService.getCurrentUser().sub
 
-        if (recipe.author.id != currentUserId) {
+        if (recipe.userId != currentUserId) {
             throw IllegalArgumentException("Only the recipe author can modify the recipe image.")
         }
     }
