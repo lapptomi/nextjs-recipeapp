@@ -1,4 +1,5 @@
-import { Add, Restaurant } from "@mui/icons-material";
+import Add from "@mui/icons-material/Add";
+import Restaurant from "@mui/icons-material/Restaurant";
 import { Box, Button, Tooltip, Typography } from "@mui/material";
 import Link from "next/link";
 import { getSession } from "@/lib/actions/auth";

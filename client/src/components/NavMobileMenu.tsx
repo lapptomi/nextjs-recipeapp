@@ -2,7 +2,10 @@
 
 import { useState } from "react";
 
-import { Add, Person, Restaurant, Settings } from "@mui/icons-material";
+import Add from "@mui/icons-material/Add";
+import Person from "@mui/icons-material/Person";
+import Restaurant from "@mui/icons-material/Restaurant";
+import Settings from "@mui/icons-material/Settings";
 import AutoAwesomeIcon from "@mui/icons-material/AutoAwesome";
 import CloseIcon from "@mui/icons-material/Close";
 import MenuIcon from "@mui/icons-material/Menu";

@@ -1,6 +1,6 @@
 import React from "react";
 
-import { Logout } from "@mui/icons-material";
+import Logout from "@mui/icons-material/Logout";
 import {
   Box,
   Button,

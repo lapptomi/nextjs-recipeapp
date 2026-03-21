@@ -3,12 +3,16 @@ import CredentialsProvider from "next-auth/providers/credentials";
 import GithubProvider from "next-auth/providers/github";
 import GoogleProvider from "next-auth/providers/google";
 
-import { NEXTAUTH_SECRET } from "@/lib/constants";
+import { API_URL, NEXTAUTH_SECRET } from "@/lib/constants";
 import { ROUTES } from "@/types";
 
 import type { JwtTokenResponse } from "@/types";
 import type { NextAuthOptions, User } from "next-auth";
-import { apiClient } from "@/lib/apiClient";
+import axios from "axios";
+
+// Use a plain Axios instance without the session interceptor to avoid
+// a circular dependency: options → apiClient → getSession → options
+const authClient = axios.create({ baseURL: API_URL, timeout: 30000 });
 
 type CustomUser = User & {
   accessToken: string;
@@ -16,7 +20,7 @@ type CustomUser = User & {
 };
 
 async function fetchJwtToken(user: User, provider: "github" | "google"): Promise<JwtTokenResponse> {
-  const { data } = await apiClient.post<JwtTokenResponse>("/auth/social-login", {
+  const { data } = await authClient.post<JwtTokenResponse>("/auth/social-login", {
     name: user.name,
     email: user.email,
     providerId: user.id,
@@ -30,7 +34,7 @@ async function refreshAccessToken(refreshToken: string): Promise<{
   accessToken: string;
   refreshToken: string;
 }> {
-  const { data } = await apiClient.post<JwtTokenResponse>("/auth/refresh", { refreshToken });
+  const { data } = await authClient.post<JwtTokenResponse>("/auth/refresh", { refreshToken });
   return {
     accessToken: data.token,
     refreshToken: data.refreshToken,
@@ -113,7 +117,7 @@ export const options: NextAuthOptions = {
         if (!credentials?.email || !credentials?.password) {
           throw new Error("Invalid or missing credentials");
         }
-        const { data: jwtToken } = await apiClient.post<JwtTokenResponse>(
+        const { data: jwtToken } = await authClient.post<JwtTokenResponse>(
           "/auth/login",
           credentials
         );

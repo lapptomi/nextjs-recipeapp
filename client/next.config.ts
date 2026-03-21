@@ -13,6 +13,7 @@ const nextConfig: NextConfig = {
     ],
     // Cache images for 1 minute
     minimumCacheTTL: 60,
+    qualities: [75, 80],
     unoptimized: true,
   },
 };

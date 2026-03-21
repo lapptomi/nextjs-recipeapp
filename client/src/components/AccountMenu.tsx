@@ -2,7 +2,9 @@
 
 import React from "react";
 
-import { Add, Person, Settings } from "@mui/icons-material";
+import Add from "@mui/icons-material/Add";
+import Person from "@mui/icons-material/Person";
+import Settings from "@mui/icons-material/Settings";
 import { Box, Button, Typography } from "@mui/material";
 import Avatar from "@mui/material/Avatar";
 import Divider from "@mui/material/Divider";
