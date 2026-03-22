@@ -109,10 +109,11 @@ class RecipeRepository(val jdbcTemplate: NamedParameterJdbcTemplate) {
                     .addValue("recipeId", recipeId)
                     .addValue("userId", userId)
                     .addValue("message", message)
-            val sql =
-                "INSERT INTO recipe_comments (recipe_id, user_id, message, created_at) VALUES (:recipeId, :userId, :message, NOW())"
 
-            jdbcTemplate.update(sql, params)
+            jdbcTemplate.update(
+                "INSERT INTO recipe_comments (recipe_id, user_id, message, created_at) VALUES (:recipeId, :userId, :message, NOW())",
+                params,
+            )
         } catch (e: Exception) {
             throw IllegalStateException("Failed to create comment: ${e.message}", e)
         }
@@ -206,9 +207,7 @@ class RecipeRepository(val jdbcTemplate: NamedParameterJdbcTemplate) {
         val params = MapSqlParameterSource()
         params.addValue("ratingId", ratingId)
         params.addValue("type", type.name)
-        val sql = "UPDATE recipe_ratings SET type = :type WHERE id = :ratingId"
-
-        jdbcTemplate.update(sql, params)
+        jdbcTemplate.update("UPDATE recipe_ratings SET type = :type WHERE id = :ratingId", params)
     }
 
     fun createRecipeRating(recipeId: Int, userId: Int, type: RecipeRatingType) {
@@ -217,9 +216,11 @@ class RecipeRepository(val jdbcTemplate: NamedParameterJdbcTemplate) {
                 .addValue("recipeId", recipeId)
                 .addValue("userId", userId)
                 .addValue("type", type.name)
-        val sql = "INSERT INTO recipe_ratings (recipe_id, user_id, type) VALUES (:recipeId, :userId, :type)"
 
-        jdbcTemplate.update(sql, params)
+        jdbcTemplate.update(
+            "INSERT INTO recipe_ratings (recipe_id, user_id, type) VALUES (:recipeId, :userId, :type)",
+            params,
+        )
     }
 
     fun updateRecipeImage(recipeId: Int, imageName: String) {
