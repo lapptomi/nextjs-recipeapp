@@ -32,7 +32,6 @@ class OpenAiService(
             ChatCompletionCreateParams.builder()
                 .model(CHAT_MODEL)
                 .reasoningEffort(ReasoningEffort.LOW)
-                .maxCompletionTokens(1200)
                 .addSystemMessage(RECIPE_CHAT_SYSTEM_PROMPT)
 
         request.messages.forEach { message ->
