@@ -5,7 +5,6 @@ import com.example.demo.openai.domain.RecipeChatRequestDTO
 import com.example.demo.openai.domain.RecipeChatResponseDTO
 import com.example.demo.openai.domain.RecipeChatRole
 import com.example.demo.openai.domain.RecipeChatTurnDTO
-import com.example.demo.recipe.domain.Recipe
 import com.example.demo.s3.S3Service
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.openai.client.OpenAIClient
@@ -14,7 +13,6 @@ import com.openai.models.ReasoningEffort
 import com.openai.models.chat.completions.ChatCompletionCreateParams
 import com.openai.models.images.ImageGenerateParams
 import com.openai.models.images.ImageModel
-import java.util.Base64
 import org.springframework.stereotype.Service
 
 @Service
@@ -51,23 +49,23 @@ class OpenAiService(
         return parseResponse(rawContent)
     }
 
-    fun generateRecipeImage(recipe: Recipe, ingredients: List<String>): String =
+    fun generateRecipeImage(recipeTitle: String, recipeDescription: String, ingredients: List<String>): String {
         try {
             val params =
                 ImageGenerateParams.builder()
                     .model(IMAGE_MODEL)
-                    .prompt(buildImagePrompt(recipe, ingredients))
+                    .prompt(buildImagePrompt(recipeTitle, recipeDescription, ingredients))
                     .size(ImageGenerateParams.Size._1536X1024)
                     .quality(ImageGenerateParams.Quality.MEDIUM)
                     .outputFormat(ImageGenerateParams.OutputFormat.PNG)
                     .build()
 
             val b64 = openAIClient.images().generate(params).data().get().first().b64Json().get()
-
-            s3Service.uploadBytes(Base64.getDecoder().decode(b64), extension = "png", contentType = "image/png")
+            return b64
         } catch (e: Exception) {
             throw OpenAiException("OpenAI image generation failed.", e)
         }
+    }
 
     private fun parseResponse(rawContent: String): RecipeChatResponseDTO {
         return try {
@@ -97,12 +95,12 @@ class OpenAiService(
             throw OpenAiException("OpenAI request failed.", e)
         }
 
-    private fun buildImagePrompt(recipe: Recipe, ingredients: List<String>) =
+    private fun buildImagePrompt(recipeTitle: String, recipeDescription: String, ingredients: List<String>) =
         """
         Create a realistic hero image for a recipe page.
 
-        Recipe title: ${recipe.title}
-        Recipe description: ${recipe.description}
+        Recipe title: ${recipeTitle}
+        Recipe description: ${recipeDescription}
         Ingredients: ${ingredients.joinToString(", ")}
 
         Style:

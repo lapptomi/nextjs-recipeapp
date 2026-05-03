@@ -80,17 +80,6 @@ class RecipeService(
         return findById(recipeId)
     }
 
-    fun generateRecipeImage(recipeId: Int): RecipeDTO {
-        val recipe = requireRecipe(recipeId)
-        requireCurrentUserToBeAuthor(recipe)
-
-        val ingredients = recipeRepository.fetchIngredientsByRecipeId(recipe.id)
-        val imageName = openAiService.generateRecipeImage(recipe, ingredients)
-        recipeRepository.updateRecipeImage(recipeId, imageName)
-
-        return findById(recipeId)
-    }
-
     fun updateRating(recipeId: Int, ratingDto: CreateRecipeRatingDTO): RecipeDTO {
         val userId = authService.getCurrentUser().sub
 

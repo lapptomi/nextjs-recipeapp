@@ -47,11 +47,6 @@ export const uploadRecipeImage = async (recipeId: number, image: File) => {
   return response.data;
 };
 
-export const generateRecipeImage = async (recipeId: number) => {
-  const response = await apiClient.post<Recipe>(`${endpoint}/${recipeId}/image/generate`);
-  return response.data;
-};
-
 export const addComment = async (data: CommentForm) => {
   const response = await apiClient.post(`${endpoint}/${data.recipeId}/comments`, {
     message: data.message,

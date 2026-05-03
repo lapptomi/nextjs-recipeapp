@@ -57,10 +57,6 @@ class RecipeController(private val recipeService: RecipeService) {
     fun uploadImage(@PathVariable id: Int, @RequestPart("image") image: MultipartFile): ResponseEntity<RecipeDTO> =
         ResponseEntity.ok(recipeService.uploadRecipeImage(id, image))
 
-    @PostMapping("/{id}/image/generate")
-    fun generateImage(@PathVariable id: Int): ResponseEntity<RecipeDTO> =
-        ResponseEntity.ok(recipeService.generateRecipeImage(id))
-
     @PutMapping("/{id}/ratings")
     fun updateRating(@PathVariable id: Int, @RequestBody rating: CreateRecipeRatingDTO): ResponseEntity<RecipeDTO> =
         ResponseEntity.ok(recipeService.updateRating(id, rating))

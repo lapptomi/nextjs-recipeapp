@@ -32,15 +32,15 @@ export default function RecipeChatView({
   const [selectedMessageId, setSelectedMessageId] = useState<string>();
   const [savedMessageIds, setSavedMessageIds] = useState<string[]>([]);
 
-  const recipeMessages = messages.filter((m) => m.role === ChatRole.Assistant && m.recipe);
-  const latestRecipeMessageId = recipeMessages.at(-1)?.id;
+  const generatedRecipes = messages.filter((m) => m.role === ChatRole.Assistant && m.recipe);
+  const latestGeneratedRecipe = generatedRecipes.at(-1)?.id;
 
   // Auto-select the latest recipe when a new one arrives
   useEffect(() => {
-    if (latestRecipeMessageId) {
-      setSelectedMessageId(latestRecipeMessageId);
+    if (latestGeneratedRecipe) {
+      setSelectedMessageId(latestGeneratedRecipe);
     }
-  }, [latestRecipeMessageId]);
+  }, [latestGeneratedRecipe]);
 
   // Scroll to the bottom of the container when the assistant is thinking or when a new message is added
   useEffect(() => {
@@ -56,7 +56,7 @@ export default function RecipeChatView({
       onSend(input);
     }
   };
-  const canSend = input.trim().length > 0 && !assistantThinking;
+  const canSendMessage = input.trim().length > 0 && !assistantThinking;
 
   return (
     <Box className="flex min-h-0 flex-1 flex-col overflow-hidden md:flex-row">
@@ -96,20 +96,13 @@ export default function RecipeChatView({
                       </Typography>
                     </Box>
                     {message.recipe && (
-                      <>
-                        <Box className="hidden md:block">
-                          <RecipeVersionCard
-                            recipe={message.recipe}
-                            version={recipeMessages.indexOf(message) + 1}
-                            selected={message.id === selectedMessageId}
-                            saved={savedMessageIds.includes(message.id)}
-                            onClick={() => setSelectedMessageId(message.id)}
-                          />
-                        </Box>
-                        <Box className="md:hidden">
-                          <GeneratedRecipeCard recipe={message.recipe} onAdjust={onAdjust} />
-                        </Box>
-                      </>
+                      <RecipeVersionCard
+                        recipe={message.recipe}
+                        version={generatedRecipes.indexOf(message) + 1}
+                        selected={message.id === selectedMessageId}
+                        saved={savedMessageIds.includes(message.id)}
+                        onClick={() => setSelectedMessageId(message.id)}
+                      />
                     )}
                   </Box>
                 </Box>
@@ -149,8 +142,8 @@ export default function RecipeChatView({
                   <InputAdornment position="end">
                     <IconButton
                       onClick={() => onSend(input)}
-                      disabled={!canSend}
-                      color={canSend ? "primary" : "default"}
+                      disabled={!canSendMessage}
+                      color={canSendMessage ? "primary" : "default"}
                     >
                       <SendIcon />
                     </IconButton>
@@ -169,7 +162,7 @@ export default function RecipeChatView({
 
       <Box className="hidden flex-1 flex-col overflow-hidden md:flex">
         <Box className="flex-1 overflow-y-auto bg-gray-50 p-6">
-          {recipeMessages.length === 0 ? (
+          {generatedRecipes.length === 0 ? (
             <Box className="flex h-full items-center justify-center">
               <Box className="text-center">
                 <AutoAwesomeIcon sx={{ fontSize: 48, color: "text.disabled", mb: 1.5 }} />
@@ -179,7 +172,7 @@ export default function RecipeChatView({
               </Box>
             </Box>
           ) : (
-            recipeMessages.map((msg) => (
+            generatedRecipes.map((msg) => (
               <Box key={msg.id} sx={{ display: msg.id === selectedMessageId ? "block" : "none" }}>
                 <GeneratedRecipeCard
                   recipe={msg.recipe!}

@@ -29,7 +29,6 @@ val RECIPE_CHAT_SYSTEM_PROMPT =
     - Always include "message".
     - Include "recipe" ONLY when user intent is recipe creation or recipe modification.
     - While the safety gate is unresolved, return only "message" and do not include "recipe".
-    - Consider safety confirmed only after explicit user confirmation of either no restrictions or listed restrictions.
     - Once safety is confirmed in the conversation, do not ask again unless the user changes constraints.
     - If the request is underspecified, ask a concise clarifying question instead of guessing.
     - If the request is clear and safety is confirmed, generate the recipe immediately.
