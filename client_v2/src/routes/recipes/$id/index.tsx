@@ -1,17 +1,15 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { LinearProgress } from "@mui/material";
-import RecipePage from "../../../pages/Recipe";
-import { API_URL } from "../../../constants";
-import type { Recipe } from "../../../types";
+import { apiClient } from "../../../lib/apiClient";
+import type { Recipe } from "../../../types/recipe";
+import RecipePage from "./-RecipePage";
 
 export const Route = createFileRoute("/recipes/$id/")({
-  loader: async ({ params }): Promise<Recipe> => {
-    const res = await fetch(`${API_URL}/recipes/${params.id}`);
-    return res.json();
+  loader: ({ params }): Promise<Recipe> => {
+    return apiClient.get(`/recipes/${params.id}`);
   },
   pendingComponent: () => <LinearProgress color="primary" />,
-  component: function RecipeRoute() {
-    const recipe = Route.useLoaderData();
-    return <RecipePage recipe={recipe} />;
+  component: function RouteComponent() {
+    return <RecipePage recipe={Route.useLoaderData()} />;
   },
 });

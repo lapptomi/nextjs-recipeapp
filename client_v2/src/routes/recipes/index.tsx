@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import RecipesPage from "../../pages/Recipes";
+import RecipesPage from "./-RecipesPage";
 
 type RecipesSearch = {
   title: string;
@@ -17,7 +17,7 @@ export const Route = createFileRoute("/recipes/")({
     page: Number(search.page ?? 1),
     page_size: Number(search.page_size ?? 12),
   }),
-  component: function Recipes() {
+  component: function RouteComponent() {
     const { title, category, sort_by, page, page_size } = Route.useSearch();
     return (
       <RecipesPage
@@ -25,7 +25,7 @@ export const Route = createFileRoute("/recipes/")({
         category={category}
         sortBy={sort_by}
         page={page}
-        page_size={page_size}
+        pageSize={page_size}
       />
     );
   },
