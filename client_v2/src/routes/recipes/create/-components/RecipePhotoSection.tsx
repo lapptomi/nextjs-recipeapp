@@ -34,7 +34,7 @@ export function RecipePhotoSection() {
       <UploadArea>
         {selectedImage instanceof File ? (
           <PreviewBox>
-            <Typography variant="body1" color="text.secondary">
+            <Typography variant="body1" sx={{ color: "text.secondary" }}>
               {selectedImage.name}
             </Typography>
             <img
@@ -66,10 +66,10 @@ export function RecipePhotoSection() {
             <CloudUploadOutlinedIcon
               sx={{ fontSize: 48, color: "grey.500", mb: 1 }}
             />
-            <Typography variant="body1" color="text.primary">
+            <Typography variant="body1" sx={{ color: "text.primary" }}>
               Click to upload recipe photo
             </Typography>
-            <Typography variant="caption" color="text.secondary">
+            <Typography variant="caption" sx={{ color: "text.secondary" }}>
               PNG, JPG or WEBP (max. 1MB)
             </Typography>
             <Button

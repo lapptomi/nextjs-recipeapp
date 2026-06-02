@@ -79,7 +79,12 @@ export default function RecipeCard({
       >
         <StyledCard>
           <Box
-            sx={{ position: "relative", overflow: "hidden", backgroundColor: "#f3f4f6", height: imageHeight }}
+            sx={{
+              position: "relative",
+              overflow: "hidden",
+              backgroundColor: "#f3f4f6",
+              height: imageHeight,
+            }}
           >
             {recipe.image ? (
               <img
@@ -103,17 +108,16 @@ export default function RecipeCard({
             <Box sx={{ display: "flex", flexDirection: "column", gap: 0.5 }}>
               <Typography
                 variant="h6"
-                sx={{ fontWeight: "bold" }}
-                color="text.primary"
+                sx={{ fontWeight: "bold", color: "text.primary" }}
                 noWrap
               >
                 {recipe.title}
               </Typography>
               <Typography
                 variant="body2"
-                color="text.secondary"
                 sx={{
                   cursor: "pointer",
+                  color: "text.secondary",
                   "&:hover": { textDecoration: "underline" },
                 }}
                 onClick={(e) => {
@@ -126,9 +130,7 @@ export default function RecipeCard({
               >
                 @{recipe.author?.username}
               </Typography>
-              <ClampedText variant="caption">
-                {recipe.description}
-              </ClampedText>
+              <ClampedText variant="caption">{recipe.description}</ClampedText>
             </Box>
 
             <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
@@ -140,10 +142,10 @@ export default function RecipeCard({
                 icon={<StarIcon fontSize="inherit" />}
                 emptyIcon={<StarIcon fontSize="inherit" />}
               />
-              <Typography variant="body2" color="text.secondary">
+              <Typography variant="body2" sx={{ color: "text.secondary" }}>
                 {recipe.averageRating?.toFixed(1)}
               </Typography>
-              <Typography variant="body2" color="text.disabled">
+              <Typography variant="body2" sx={{ color: "text.disabled" }}>
                 ({recipe.totalRatings})
               </Typography>
             </Box>
@@ -153,7 +155,7 @@ export default function RecipeCard({
                 <AccessTimeIcon
                   sx={{ fontSize: 18, color: "text.secondary" }}
                 />
-                <Typography variant="body2" color="text.secondary">
+                <Typography variant="body2" sx={{ color: "text.secondary" }}>
                   {recipe.cookingTime} min
                 </Typography>
               </Box>
@@ -161,7 +163,7 @@ export default function RecipeCard({
                 <RestaurantIcon
                   sx={{ fontSize: 18, color: "text.secondary" }}
                 />
-                <Typography variant="body2" color="text.secondary">
+                <Typography variant="body2" sx={{ color: "text.secondary" }}>
                   {recipe.servings} servings
                 </Typography>
               </Box>

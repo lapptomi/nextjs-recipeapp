@@ -41,7 +41,7 @@ export default function LoginForm() {
   };
 
   return (
-    <FormWrapper component="form" onSubmit={handleSubmit(onSubmit)}>
+    <FormWrapper onSubmit={handleSubmit(onSubmit)}>
       <Typography variant="h5">Sign In</Typography>
 
       <Box>
@@ -96,11 +96,15 @@ export default function LoginForm() {
               {login.error.message}
             </Typography>
           )}
-          <Typography variant="body2" color="text.secondary" align="center">
+          <Typography
+            variant="body2"
+            sx={{ color: "text.secondary" }}
+            align="center"
+          >
             By signing in, you agree to our{" "}
-            <Link to="/privacy" style={{ color: "inherit" }}>
-              Privacy Policy
-            </Link>
+            <Typography style={{ color: "inherit" }}>
+              Privacy Policy (FIX THIS)
+            </Typography>
             .
           </Typography>
         </ButtonsColumn>
@@ -109,19 +113,22 @@ export default function LoginForm() {
       <Box sx={{ display: "flex", justifyContent: "space-between" }}>
         <Typography
           variant="body2"
-          color="text.primary"
-          sx={{ cursor: "pointer" }}
+          sx={{ color: "text.primary", cursor: "pointer" }}
         >
           Forgot password?
         </Typography>
         <Link to="/auth/register" style={{ textDecoration: "none" }}>
-          <Typography variant="body2" color="text.primary">
+          <Typography variant="body2" sx={{ color: "text.primary" }}>
             Don&apos;t have an account? Sign Up
           </Typography>
         </Link>
       </Box>
 
-      <Typography variant="body2" color="text.secondary" align="center">
+      <Typography
+        variant="body2"
+        sx={{ color: "text.secondary" }}
+        align="center"
+      >
         {`Copyright © ${APPLICATION_NAME} ${new Date().getFullYear()}.`}
       </Typography>
     </FormWrapper>

@@ -56,7 +56,7 @@ export default function CommentForm({ recipeId }: { recipeId: number }) {
   if (!user) {
     return (
       <NotSignedInBox>
-        <Typography variant="body2" color="text.secondary">
+        <Typography variant="body2" sx={{ color: "text.secondary" }}>
           Please{" "}
           <Link to="/auth/login" style={{ color: "inherit" }}>
             <Typography
@@ -78,7 +78,7 @@ export default function CommentForm({ recipeId }: { recipeId: number }) {
 
   return (
     <Box>
-      <Typography variant="subtitle1" sx={{ mb: 1.5 }} color="text.secondary">
+      <Typography variant="subtitle1" sx={{ mb: 1.5, color: "text.secondary" }}>
         Leave a Comment
       </Typography>
       <TextField

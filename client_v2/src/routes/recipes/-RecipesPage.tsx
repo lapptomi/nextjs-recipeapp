@@ -50,12 +50,11 @@ export default function RecipesPage({
         <Box sx={{ mb: 4, display: "flex", flexDirection: "column", gap: 1 }}>
           <Typography
             variant="h3"
-            sx={{ fontWeight: "bold" }}
-            color="text.primary"
+            sx={{ fontWeight: "bold", color: "text.primary" }}
           >
             Browse Recipes
           </Typography>
-          <Typography variant="body1" color="text.secondary">
+          <Typography variant="body1" sx={{ color: "text.secondary" }}>
             Discover delicious recipes from our community
           </Typography>
         </Box>

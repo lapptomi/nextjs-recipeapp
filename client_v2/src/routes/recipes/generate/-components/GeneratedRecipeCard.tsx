@@ -221,7 +221,7 @@ export default function GeneratedRecipeCard({
         <GeneratedRecipeInstructions instructions={recipe.instructions} />
 
         <Box sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
-          <Typography variant="caption" color="text.secondary">
+          <Typography variant="caption" sx={{ color: "text.secondary" }}>
             QUICK ADJUST
           </Typography>
           <Box sx={{ display: "flex", flexWrap: "wrap", gap: 1 }}>

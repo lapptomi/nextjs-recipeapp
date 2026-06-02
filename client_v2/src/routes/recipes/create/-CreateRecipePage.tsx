@@ -73,12 +73,11 @@ export default function CreateRecipePage() {
           <Box>
             <Typography
               variant="h4"
-              sx={{ fontWeight: "bold" }}
-              color="text.primary"
+              sx={{ fontWeight: "bold", color: "text.primary" }}
             >
               Create New Recipe
             </Typography>
-            <Typography variant="body1" color="text.secondary">
+            <Typography variant="body1" sx={{ color: "text.secondary" }}>
               Share your culinary creation with the community
             </Typography>
           </Box>

@@ -71,7 +71,7 @@ export default function GenerateRecipePage() {
             <Typography variant="body1" sx={{ fontWeight: "bold" }}>
               AI Recipe Generator
             </Typography>
-            <Typography variant="caption" color="text.secondary">
+            <Typography variant="caption" sx={{ color: "text.secondary" }}>
               Powered by AI
             </Typography>
           </Box>

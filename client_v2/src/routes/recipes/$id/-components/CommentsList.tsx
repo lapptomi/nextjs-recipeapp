@@ -10,7 +10,7 @@ export default function CommentsList({
   if (comments.length === 0) {
     return (
       <Box sx={{ py: 1, textAlign: "center", mb: 3 }}>
-        <Typography variant="body1" color="text.secondary">
+        <Typography variant="body1" sx={{ color: "text.secondary" }}>
           No comments yet. Be the first to share your thoughts!
         </Typography>
       </Box>

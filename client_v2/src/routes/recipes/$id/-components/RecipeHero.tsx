@@ -62,7 +62,9 @@ export default function RecipeHero({
   dislikes,
 }: Props) {
   return (
-    <Box sx={{ position: "relative", width: "100%", backgroundColor: "#111827" }}>
+    <Box
+      sx={{ position: "relative", width: "100%", backgroundColor: "#111827" }}
+    >
       {recipe.image ? (
         <HeroImage src={recipe.image} alt={recipe.title} />
       ) : (
@@ -71,7 +73,12 @@ export default function RecipeHero({
         </FallbackIconContainer>
       )}
 
-      <Box sx={{ position: "relative", background: "linear-gradient(to top, rgba(0,0,0,0.8), transparent)" }}>
+      <Box
+        sx={{
+          position: "relative",
+          background: "linear-gradient(to top, rgba(0,0,0,0.8), transparent)",
+        }}
+      >
         <HeroContainer maxWidth="lg">
           <Box>
             <Button
@@ -116,7 +123,13 @@ export default function RecipeHero({
               style={{ textDecoration: "none" }}
             >
               <AuthorLinkBox>
-                <Avatar sx={{ bgcolor: "rgba(255,255,255,0.2)", width: 40, height: 40 }}>
+                <Avatar
+                  sx={{
+                    bgcolor: "rgba(255,255,255,0.2)",
+                    width: 40,
+                    height: 40,
+                  }}
+                >
                   {recipe.author.username[0].toUpperCase()}
                 </Avatar>
                 <Box>

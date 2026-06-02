@@ -28,7 +28,7 @@ export default function GeneratedRecipeIngredients({
         {ingredients.map((item, i) => (
           <Box key={i} sx={{ display: "flex", alignItems: "center", gap: 1.5 }}>
             <CircleIcon sx={{ fontSize: 6 }} color="primary" />
-            <Typography variant="body1" color="text.secondary">
+            <Typography variant="body1" sx={{ color: "text.secondary" }}>
               {item}
             </Typography>
           </Box>

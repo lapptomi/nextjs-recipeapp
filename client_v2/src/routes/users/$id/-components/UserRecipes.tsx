@@ -18,7 +18,7 @@ export default function UserRecipes({ recipes }: Props) {
   if (!recipes.length) {
     return (
       <Box sx={{ display: "flex", justifyContent: "center", py: 12 }}>
-        <Typography variant="h6" color="text.secondary">
+        <Typography variant="h6" sx={{ color: "text.secondary" }}>
           No recipes yet.
         </Typography>
       </Box>

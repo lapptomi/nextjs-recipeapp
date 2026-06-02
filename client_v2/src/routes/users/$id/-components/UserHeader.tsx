@@ -51,14 +51,13 @@ export default function UserHeader({ user }: Props) {
         <Box sx={{ display: "flex", flexDirection: "column", gap: 1 }}>
           <Typography
             variant="h4"
-            sx={{ fontWeight: "bold" }}
-            color="text.primary"
+            sx={{ fontWeight: "bold", color: "text.primary" }}
           >
             @{user.username}
           </Typography>
 
           {user.bio && (
-            <Typography variant="body1" color="text.secondary">
+            <Typography variant="body1" sx={{ color: "text.secondary" }}>
               {user.bio}
             </Typography>
           )}
@@ -66,7 +65,7 @@ export default function UserHeader({ user }: Props) {
           <StatsRow>
             <Box sx={{ display: "flex", alignItems: "center", gap: 0.5 }}>
               <RestaurantIcon sx={{ fontSize: 18, color: "text.secondary" }} />
-              <Typography variant="body2" color="text.secondary">
+              <Typography variant="body2" sx={{ color: "text.secondary" }}>
                 {user.recipes.length} recipes
               </Typography>
             </Box>
@@ -74,7 +73,7 @@ export default function UserHeader({ user }: Props) {
               <CalendarTodayIcon
                 sx={{ fontSize: 16, color: "text.secondary" }}
               />
-              <Typography variant="body2" color="text.secondary">
+              <Typography variant="body2" sx={{ color: "text.secondary" }}>
                 Joined{" "}
                 {new Date(user.createdAt).toLocaleDateString("en-US", {
                   month: "long",

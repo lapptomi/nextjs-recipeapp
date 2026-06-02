@@ -32,7 +32,7 @@ export default function CollapsibleSection({
             {title}
           </Typography>
           {count && (
-            <Typography variant="caption" color="text.disabled">
+            <Typography variant="caption" sx={{ color: "text.disabled" }}>
               ({count})
             </Typography>
           )}

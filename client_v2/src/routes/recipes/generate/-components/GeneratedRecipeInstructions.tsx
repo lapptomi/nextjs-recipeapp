@@ -22,7 +22,7 @@ export default function GeneratedRecipeInstructions({
         {instructions.map((step, i) => (
           <Box key={i} sx={{ display: "flex", gap: 1.5 }}>
             <Typography variant="body1">{i + 1}.</Typography>
-            <Typography variant="body1" color="text.secondary">
+            <Typography variant="body1" sx={{ color: "text.secondary" }}>
               {step}
             </Typography>
           </Box>

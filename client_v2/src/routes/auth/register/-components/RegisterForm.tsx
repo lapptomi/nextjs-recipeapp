@@ -128,19 +128,22 @@ export default function RegisterForm() {
       <Box sx={{ display: "flex", justifyContent: "space-between" }}>
         <Typography
           variant="body2"
-          color="text.primary"
-          sx={{ cursor: "pointer" }}
+          sx={{ color: "text.primary", cursor: "pointer" }}
         >
           Forgot password?
         </Typography>
         <Link to="/auth/login" style={{ textDecoration: "none" }}>
-          <Typography variant="body2" color="text.primary">
+          <Typography variant="body2" sx={{ color: "text.primary" }}>
             Already have an account? Sign In
           </Typography>
         </Link>
       </Box>
 
-      <Typography variant="body2" color="text.secondary" align="center">
+      <Typography
+        variant="body2"
+        sx={{ color: "text.secondary" }}
+        align="center"
+      >
         {`Copyright © ${APPLICATION_NAME} ${new Date().getFullYear()}.`}
       </Typography>
     </FormWrapper>

@@ -15,7 +15,6 @@ const QuickStartSection = styled(Box)(({ theme }) => ({
   gap: theme.spacing(3),
 }));
 
-
 const CardGrid = styled(Box)(({ theme }) => ({
   display: "flex",
   flexWrap: "wrap",
@@ -45,7 +44,6 @@ const CardImage = styled("img")({
   transition: "transform 0.2s",
 });
 
-
 const CardLabel = styled(Typography)({
   position: "absolute",
   bottom: 12,
@@ -67,8 +65,7 @@ export default function QuickStartCards({ onSelect }: Props) {
         <Box sx={{ flex: 1, height: "1px", bgcolor: "grey.200" }} />
         <Typography
           variant="overline"
-          color="text.secondary"
-          sx={{ letterSpacing: 3 }}
+          sx={{ color: "text.secondary", letterSpacing: 3 }}
         >
           Quick Start
         </Typography>
@@ -79,7 +76,14 @@ export default function QuickStartCards({ onSelect }: Props) {
         {QUICK_START_CARDS.map(({ label, image }) => (
           <QuickStartCard key={label} onClick={() => onSelect(label)}>
             <CardImage src={image} alt={label} />
-            <Box sx={{ position: "absolute", inset: 0, background: "linear-gradient(to top, rgba(0,0,0,0.7), transparent)" }} />
+            <Box
+              sx={{
+                position: "absolute",
+                inset: 0,
+                background:
+                  "linear-gradient(to top, rgba(0,0,0,0.7), transparent)",
+              }}
+            />
             <CardLabel variant="body2">{label}</CardLabel>
           </QuickStartCard>
         ))}

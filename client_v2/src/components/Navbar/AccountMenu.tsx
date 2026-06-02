@@ -49,7 +49,7 @@ export default function AccountMenu({ user, onLogout }: Props) {
           <Avatar src={user.image ?? undefined} sx={{ width: 32, height: 32 }}>
             {user.username[0].toUpperCase()}
           </Avatar>
-          <Typography variant="body2" color="text.secondary">
+          <Typography variant="body2" sx={{ color: "text.secondary" }}>
             {user.username}
           </Typography>
         </Button>

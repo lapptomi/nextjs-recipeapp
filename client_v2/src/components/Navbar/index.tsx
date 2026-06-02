@@ -48,8 +48,7 @@ export default function Navbar() {
           </LogoIconWrapper>
           <Typography
             variant="h5"
-            sx={{ fontWeight: "bold" }}
-            color="text.primary"
+            sx={{ fontWeight: "bold", color: "text.primary" }}
           >
             {APPLICATION_NAME}
           </Typography>

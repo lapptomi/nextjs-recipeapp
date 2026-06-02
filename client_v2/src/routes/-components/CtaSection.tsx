@@ -17,29 +17,34 @@ const CtaImageWrapper = styled(Box)(({ theme }) => ({
   boxShadow: theme.shadows[12],
 }));
 
-
 export default function CtaSection() {
   return (
-    <Box sx={{ bgcolor: "grey.50", py: 6 }}>
+    <Box sx={{ py: 6, bgcolor: "grey.50" }}>
       <Container maxWidth="xl">
         <CtaGrid>
           <Box sx={{ display: "flex", justifyContent: "center" }}>
             <CtaImageWrapper>
-              <img src="/recipeimage2.jpg" alt="Kitchen setup" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+              <img
+                src="/recipeimage2.jpg"
+                alt="Kitchen setup"
+                style={{ width: "100%", height: "100%", objectFit: "cover" }}
+              />
             </CtaImageWrapper>
           </Box>
           <Box sx={{ display: "flex", flexDirection: "column", gap: 3 }}>
             <Typography
               variant="h3"
-              sx={{ fontWeight: "bold", lineHeight: 1.2 }}
-              color="text.primary"
+              sx={{
+                fontWeight: "bold",
+                lineHeight: 1.2,
+                color: "text.primary",
+              }}
             >
               Start your culinary journey today
             </Typography>
             <Typography
               variant="h6"
-              sx={{ fontWeight: "normal" }}
-              color="text.secondary"
+              sx={{ fontWeight: "normal", color: "text.secondary" }}
             >
               Sign up for a seasoned Chef {APPLICATION_NAME}, have you discover
               new flavors, master techniques, and share your passion with a

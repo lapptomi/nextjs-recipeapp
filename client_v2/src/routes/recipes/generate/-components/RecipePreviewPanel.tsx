@@ -25,7 +25,6 @@ const EmptyStateContainer = styled(Box)({
   textAlign: "center",
 });
 
-
 interface Props {
   generatedRecipes: ChatMessage[];
   selectedMessageId: string | undefined;
@@ -48,14 +47,17 @@ export default function RecipePreviewPanel({
               <AutoAwesomeIcon
                 sx={{ fontSize: 48, color: "text.disabled", mb: 1.5 }}
               />
-              <Typography variant="body1" color="text.secondary">
+              <Typography variant="body1" sx={{ color: "text.secondary" }}>
                 Your generated recipe will appear here
               </Typography>
             </Box>
           </EmptyStateContainer>
         ) : (
           generatedRecipes.map((msg) => (
-            <Box key={msg.id} sx={{ display: msg.id === selectedMessageId ? "block" : "none" }}>
+            <Box
+              key={msg.id}
+              sx={{ display: msg.id === selectedMessageId ? "block" : "none" }}
+            >
               <GeneratedRecipeCard
                 recipe={msg.recipe!}
                 onAdjust={onAdjust}

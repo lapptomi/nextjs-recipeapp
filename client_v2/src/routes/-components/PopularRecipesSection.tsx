@@ -23,7 +23,6 @@ const SectionHeader = styled(Box)({
   justifyContent: "space-between",
 });
 
-
 const NavButton = styled(IconButton)(({ theme }) => ({
   position: "absolute",
   top: "50%",
@@ -51,12 +50,11 @@ export default function PopularRecipesSection() {
           <Box>
             <Typography
               variant="h4"
-              sx={{ fontWeight: "bold", mb: 0.5 }}
-              color="text.primary"
+              sx={{ fontWeight: "bold", mb: 0.5, color: "text.primary" }}
             >
               Latest Recipes
             </Typography>
-            <Typography variant="body2" color="text.secondary">
+            <Typography variant="body2" sx={{ color: "text.secondary" }}>
               Trending dishes our community loves
             </Typography>
           </Box>

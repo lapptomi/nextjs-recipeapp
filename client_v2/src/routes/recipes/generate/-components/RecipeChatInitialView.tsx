@@ -83,7 +83,7 @@ export default function RecipeChatInitialView({ onStartChat }: Props) {
               >
                 What are you craving?
               </Typography>
-              <Typography variant="body1" color="text.secondary">
+              <Typography variant="body1" sx={{ color: "text.secondary" }}>
                 Describe your ideal meal and I'll create a personalized recipe
                 for you.
               </Typography>
@@ -117,7 +117,7 @@ export default function RecipeChatInitialView({ onStartChat }: Props) {
                 },
               }}
             />
-            <HintText variant="caption" color="text.secondary">
+            <HintText variant="caption" sx={{ color: "text.secondary" }}>
               Press Enter to send or choose a starter below
             </HintText>
           </PromptContainer>

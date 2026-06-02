@@ -45,7 +45,6 @@ const UserAvatar = styled(Box)(({ theme }) => ({
   flexShrink: 0,
 }));
 
-
 const AssistantAvatar = styled(Box)(({ theme }) => ({
   display: "flex",
   alignItems: "center",
@@ -80,7 +79,6 @@ const ThinkingBubble = styled(Box)(({ theme }) => ({
   backgroundColor: "white",
   padding: `${theme.spacing(2)} ${theme.spacing(2.5)}`,
 }));
-
 
 const ThinkingDot = styled(Box, {
   shouldForwardProp: (prop) => prop !== "delay",
@@ -132,7 +130,7 @@ export default function ChatMessageList({
                   </Typography>
                 </UserBubble>
                 <UserAvatar>
-                  <Typography variant="body1" color="text.secondary">
+                  <Typography variant="body1" sx={{ color: "text.secondary" }}>
                     You
                   </Typography>
                 </UserAvatar>
@@ -141,13 +139,16 @@ export default function ChatMessageList({
           }
 
           return (
-            <Box key={msg.id} sx={{ display: "flex", alignItems: "flex-start", gap: 1.5 }}>
+            <Box
+              key={msg.id}
+              sx={{ display: "flex", alignItems: "flex-start", gap: 1.5 }}
+            >
               <AssistantAvatar>
                 <AutoAwesomeIcon sx={{ fontSize: 20, color: "white" }} />
               </AssistantAvatar>
               <AssistantMessageContent>
                 <AssistantBubble>
-                  <Typography variant="body1" color="text.primary">
+                  <Typography variant="body1" sx={{ color: "text.primary" }}>
                     {msg.content}
                   </Typography>
                 </AssistantBubble>

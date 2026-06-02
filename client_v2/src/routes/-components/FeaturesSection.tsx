@@ -18,12 +18,11 @@ export default function FeaturesSection() {
         <Box sx={{ mb: 6, textAlign: "center" }}>
           <Typography
             variant="h4"
-            sx={{ fontWeight: "bold", mb: 1 }}
-            color="text.primary"
+            sx={{ fontWeight: "bold", mb: 1, color: "text.primary" }}
           >
             Everything you need to cook better
           </Typography>
-          <Typography variant="body1" color="text.secondary">
+          <Typography variant="body1" sx={{ color: "text.secondary" }}>
             All the tools and community support to become a better home cook
           </Typography>
         </Box>

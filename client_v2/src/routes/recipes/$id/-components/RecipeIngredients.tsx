@@ -43,7 +43,7 @@ export default function RecipeIngredients({ ingredients }: Props) {
           <SectionIconWrapper>
             <RestaurantIcon sx={{ color: "white", fontSize: 20 }} />
           </SectionIconWrapper>
-          <Typography variant="h5" color="text.primary">
+          <Typography variant="h5" sx={{ color: "text.primary" }}>
             Ingredients
           </Typography>
         </Box>
@@ -56,7 +56,7 @@ export default function RecipeIngredients({ ingredients }: Props) {
                 sx={{ display: "flex", alignItems: "flex-start", gap: 1.5 }}
               >
                 <IngredientBullet />
-                <Typography variant="body1" color="text.secondary">
+                <Typography variant="body1" sx={{ color: "text.secondary" }}>
                   {ingredient}
                 </Typography>
               </Box>
@@ -69,7 +69,7 @@ export default function RecipeIngredients({ ingredients }: Props) {
                 sx={{ display: "flex", alignItems: "flex-start", gap: 1.5 }}
               >
                 <IngredientBullet />
-                <Typography variant="body1" color="text.secondary">
+                <Typography variant="body1" sx={{ color: "text.secondary" }}>
                   {ingredient}
                 </Typography>
               </Box>

@@ -24,7 +24,6 @@ const HeroImageWrapper = styled(Box)(({ theme }) => ({
   boxShadow: theme.shadows[8],
 }));
 
-
 export default function HeroSection() {
   return (
     <Box>
@@ -33,15 +32,13 @@ export default function HeroSection() {
           <HeroText>
             <Typography
               variant="h2"
-              sx={{ fontWeight: "bold" }}
-              color="text.primary"
+              sx={{ fontWeight: "bold", color: "text.primary" }}
             >
               Discover & share recipes you&apos;ll love
             </Typography>
             <Typography
               variant="h6"
-              sx={{ fontWeight: "normal" }}
-              color="text.secondary"
+              sx={{ fontWeight: "normal", color: "text.secondary" }}
             >
               Join other home cooks sharing their favorite recipes. Browse,
               create, and cook delicious meals every day.
@@ -75,7 +72,11 @@ export default function HeroSection() {
 
           <Box sx={{ display: "flex", justifyContent: "center" }}>
             <HeroImageWrapper>
-              <img src="/recipeimage.jpeg" alt="Delicious recipe" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+              <img
+                src="/recipeimage.jpeg"
+                alt="Delicious recipe"
+                style={{ width: "100%", height: "100%", objectFit: "cover" }}
+              />
             </HeroImageWrapper>
           </Box>
         </HeroContent>

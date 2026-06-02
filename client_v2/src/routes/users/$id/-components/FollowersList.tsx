@@ -38,7 +38,7 @@ export default function FollowersList({ userId, type }: Props) {
   if (!users?.length) {
     return (
       <Box sx={{ display: "flex", justifyContent: "center", py: 8 }}>
-        <Typography variant="body1" color="text.secondary">
+        <Typography variant="body1" sx={{ color: "text.secondary" }}>
           No {type} yet.
         </Typography>
       </Box>
@@ -63,8 +63,7 @@ export default function FollowersList({ userId, type }: Props) {
             </Avatar>
             <Typography
               variant="body1"
-              sx={{ fontWeight: "bold" }}
-              color="text.primary"
+              sx={{ fontWeight: "bold", color: "text.primary" }}
             >
               @{user.username}
             </Typography>

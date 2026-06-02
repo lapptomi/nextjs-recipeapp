@@ -28,7 +28,7 @@ export function RecipeDetailsSection() {
         <Box>
           <Box sx={{ display: "flex", alignItems: "center", gap: 1, mb: 1 }}>
             <AccessTimeIcon fontSize="small" color="action" />
-            <Typography variant="body2" color="text.secondary">
+            <Typography variant="body2" sx={{ color: "text.secondary" }}>
               Cooking Time (minutes)
             </Typography>
           </Box>
@@ -43,7 +43,7 @@ export function RecipeDetailsSection() {
         <Box>
           <Box sx={{ display: "flex", alignItems: "center", gap: 1, mb: 1 }}>
             <RestaurantMenuIcon fontSize="small" color="action" />
-            <Typography variant="body2" color="text.secondary">
+            <Typography variant="body2" sx={{ color: "text.secondary" }}>
               Servings
             </Typography>
           </Box>
@@ -56,7 +56,7 @@ export function RecipeDetailsSection() {
           />
         </Box>
         <Box>
-          <Typography variant="body2" color="text.primary" sx={{ mb: 1 }}>
+          <Typography variant="body2" sx={{ color: "text.primary", mb: 1 }}>
             Category
           </Typography>
           <Select

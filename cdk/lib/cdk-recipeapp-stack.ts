@@ -1,6 +1,9 @@
 import * as cdk from "aws-cdk-lib";
 import { Construct } from "constructs";
 import * as s3 from "aws-cdk-lib/aws-s3";
+import * as s3deploy from "aws-cdk-lib/aws-s3-deployment";
+import * as cloudfront from "aws-cdk-lib/aws-cloudfront";
+import * as origins from "aws-cdk-lib/aws-cloudfront-origins";
 import * as apprunner from "aws-cdk-lib/aws-apprunner";
 import * as iam from "aws-cdk-lib/aws-iam";
 import * as ecr_assets from "aws-cdk-lib/aws-ecr-assets";
@@ -146,6 +149,56 @@ export class CdkRecipeAppStack extends cdk.Stack {
       }
     );
 
+    // Frontend S3 bucket (private, accessed only via CloudFront)
+    const frontendBucket = new s3.Bucket(this, "FrontendBucket", {
+      bucketName: `cdk-recipeapp-frontend-${this.account}`,
+      removalPolicy: cdk.RemovalPolicy.DESTROY,
+      autoDeleteObjects: true,
+      blockPublicAccess: s3.BlockPublicAccess.BLOCK_ALL,
+    });
+
+    // CloudFront origin access control
+    const oac = new cloudfront.S3OriginAccessControl(this, "FrontendOAC");
+
+    // CloudFront distribution
+    const distribution = new cloudfront.Distribution(
+      this,
+      "FrontendDistribution",
+      {
+        defaultBehavior: {
+          origin: origins.S3BucketOrigin.withOriginAccessControl(
+            frontendBucket,
+            { originAccessControl: oac }
+          ),
+          viewerProtocolPolicy:
+            cloudfront.ViewerProtocolPolicy.REDIRECT_TO_HTTPS,
+          cachePolicy: cloudfront.CachePolicy.CACHING_OPTIMIZED,
+        },
+        defaultRootObject: "index.html",
+        // Redirect all 404/403 to index.html so TanStack Router handles routing
+        errorResponses: [
+          {
+            httpStatus: 404,
+            responseHttpStatus: 200,
+            responsePagePath: "/index.html",
+          },
+          {
+            httpStatus: 403,
+            responseHttpStatus: 200,
+            responsePagePath: "/index.html",
+          },
+        ],
+      }
+    );
+
+    // Upload built dist/ to S3 and invalidate CloudFront cache on deploy
+    new s3deploy.BucketDeployment(this, "FrontendDeployment", {
+      sources: [s3deploy.Source.asset("../client_v2/dist")],
+      destinationBucket: frontendBucket,
+      distribution,
+      distributionPaths: ["/*"],
+    });
+
     new cdk.CfnOutput(this, "DockerImageUri", {
       value: dockerImageAsset.imageUri,
     });
@@ -164,6 +217,10 @@ export class CdkRecipeAppStack extends cdk.Stack {
 
     new cdk.CfnOutput(this, "AutoScalingConfigurationArn", {
       value: autoScalingConfiguration.attrAutoScalingConfigurationArn,
+    });
+
+    new cdk.CfnOutput(this, "FrontendUrl", {
+      value: `https://${distribution.distributionDomainName}`,
     });
   }
 }

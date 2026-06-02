@@ -1,4 +1,11 @@
-import { Box, Button, IconButton, TextField, Typography, styled } from "@mui/material";
+import {
+  Box,
+  Button,
+  IconButton,
+  TextField,
+  Typography,
+  styled,
+} from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import CloseIcon from "@mui/icons-material/Close";
 import { useFormContext, useFieldArray } from "react-hook-form";
@@ -46,7 +53,7 @@ export function InstructionsSection() {
     <SectionCard
       title="Instructions"
       trailing={
-        <Typography variant="caption" color="text.secondary">
+        <Typography variant="caption" sx={{ color: "text.secondary" }}>
           {fields.length} step{fields.length !== 1 ? "s" : ""}
         </Typography>
       }

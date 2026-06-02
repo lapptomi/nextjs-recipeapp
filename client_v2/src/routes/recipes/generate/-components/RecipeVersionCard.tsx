@@ -18,7 +18,9 @@ const VersionCardBox = styled(Box, {
   paddingBottom: theme.spacing(1.5),
   cursor: "pointer",
   "&:hover": {
-    borderColor: selected ? theme.palette.primary.main : theme.palette.grey[400],
+    borderColor: selected
+      ? theme.palette.primary.main
+      : theme.palette.grey[400],
   },
 }));
 
@@ -42,7 +44,7 @@ export default function RecipeVersionCard({
       <Box>
         <Typography variant="body2">{recipe.title}</Typography>
         <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
-          <Typography variant="caption" color="text.secondary">
+          <Typography variant="caption" sx={{ color: "text.secondary" }}>
             Version {version}
           </Typography>
           {saved && (

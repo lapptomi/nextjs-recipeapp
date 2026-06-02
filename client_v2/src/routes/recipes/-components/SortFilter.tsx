@@ -25,7 +25,7 @@ export default function SortFilter({ sortBy }: Props) {
 
   return (
     <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
-      <Typography variant="body2" color="text.secondary">
+      <Typography variant="body2" sx={{ color: "text.secondary" }}>
         Sort by:
       </Typography>
       <Select

@@ -23,7 +23,7 @@ export default function LoggedInActions({ user, onLogout }: Props) {
           color="primary"
           variant="outlined"
         >
-          <Typography variant="body2" color="text.secondary">
+          <Typography variant="body2" sx={{ color: "text.secondary" }}>
             Generate Recipe
           </Typography>
         </Button>
@@ -36,7 +36,7 @@ export default function LoggedInActions({ user, onLogout }: Props) {
         color="inherit"
         startIcon={<Restaurant color="primary" />}
       >
-        <Typography variant="body2" color="text.secondary">
+        <Typography variant="body2" sx={{ color: "text.secondary" }}>
           Browse Recipes
         </Typography>
       </Button>
@@ -49,7 +49,7 @@ export default function LoggedInActions({ user, onLogout }: Props) {
           color="inherit"
         >
           <Add color="primary" />
-          <Typography variant="body2" color="text.secondary">
+          <Typography variant="body2" sx={{ color: "text.secondary" }}>
             Create
           </Typography>
         </Button>

@@ -19,7 +19,7 @@ export default function RecipeComments({ recipeId, comments }: Props) {
       }}
     >
       <CardContent sx={{ p: 4 }}>
-        <Typography variant="h5" sx={{ mb: 3 }} color="text.primary">
+        <Typography variant="h5" sx={{ mb: 3, color: "text.primary" }}>
           Comments
         </Typography>
         <CommentsList comments={comments} />

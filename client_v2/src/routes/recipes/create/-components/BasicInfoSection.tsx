@@ -15,7 +15,7 @@ export function BasicInfoSection() {
     <SectionCard title="Basic Information">
       <Box sx={{ display: "flex", flexDirection: "column", gap: 2.5 }}>
         <Box>
-          <Typography variant="body2" color="text.primary" sx={{ mb: 1 }}>
+          <Typography variant="body2" sx={{ color: "text.primary", mb: 1 }}>
             Recipe Title *
           </Typography>
           <TextField
@@ -28,7 +28,7 @@ export function BasicInfoSection() {
           />
         </Box>
         <Box>
-          <Typography variant="body2" color="text.primary" sx={{ mb: 1 }}>
+          <Typography variant="body2" sx={{ color: "text.primary", mb: 1 }}>
             Description
           </Typography>
           <TextField
@@ -39,7 +39,7 @@ export function BasicInfoSection() {
             placeholder="Brief description of your recipe... What makes it special?"
             slotProps={fieldSlotProps}
           />
-          <Typography variant="caption" color="text.secondary">
+          <Typography variant="caption" sx={{ color: "text.secondary" }}>
             {watch("description")?.length ?? 0}/500 characters
           </Typography>
         </Box>

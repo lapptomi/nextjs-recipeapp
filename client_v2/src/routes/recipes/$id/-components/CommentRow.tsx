@@ -29,12 +29,11 @@ export default function CommentRow({ comment }: { comment: RecipeComment }) {
           <Box sx={{ display: "flex", alignItems: "center", gap: 1, mb: 0.5 }}>
             <Typography
               variant="subtitle2"
-              sx={{ fontWeight: "bold" }}
-              color="text.primary"
+              sx={{ fontWeight: "bold", color: "text.primary" }}
             >
               @{comment.author.username}
             </Typography>
-            <Typography variant="caption" color="text.secondary">
+            <Typography variant="caption" sx={{ color: "text.secondary" }}>
               {comment.createdAt &&
                 new Date(comment.createdAt).toLocaleDateString("en-US", {
                   year: "numeric",
@@ -45,7 +44,7 @@ export default function CommentRow({ comment }: { comment: RecipeComment }) {
           </Box>
         }
         secondary={
-          <Typography variant="body2" color="text.secondary">
+          <Typography variant="body2" sx={{ color: "text.secondary" }}>
             {comment.message}
           </Typography>
         }

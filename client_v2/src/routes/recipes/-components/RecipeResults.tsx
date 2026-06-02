@@ -40,12 +40,11 @@ export default function RecipeResults({ recipes, isLoading }: Props) {
       <EmptyState>
         <Typography
           variant="h5"
-          color="text.primary"
-          sx={{ fontWeight: "bold" }}
+          sx={{ color: "text.primary", fontWeight: "bold" }}
         >
           No recipes found
         </Typography>
-        <Typography variant="body1" color="text.secondary">
+        <Typography variant="body1" sx={{ color: "text.secondary" }}>
           Try adjusting your search or filters
         </Typography>
       </EmptyState>

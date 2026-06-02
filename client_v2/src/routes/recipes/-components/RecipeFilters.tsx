@@ -44,7 +44,7 @@ export default function RecipeFilters({ category }: Props) {
     <Box
       sx={{ display: "flex", alignItems: "center", gap: 1, flexWrap: "wrap" }}
     >
-      <Typography variant="body2" color="text.secondary" sx={{ mr: 1 }}>
+      <Typography variant="body2" sx={{ color: "text.secondary", mr: 1 }}>
         Filter:
       </Typography>
       {CATEGORY_OPTIONS.map((c) => (

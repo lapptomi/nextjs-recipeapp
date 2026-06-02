@@ -30,7 +30,7 @@ export default function RecipeInstructions({ instructions }: Props) {
           <SectionIconWrapper>
             <SearchIcon sx={{ color: "white", fontSize: 20 }} />
           </SectionIconWrapper>
-          <Typography variant="h5" color="text.primary">
+          <Typography variant="h5" sx={{ color: "text.primary" }}>
             Instructions
           </Typography>
         </Box>
@@ -47,7 +47,7 @@ export default function RecipeInstructions({ instructions }: Props) {
               >
                 {i + 1}.
               </Typography>
-              <Typography variant="body1" color="text.secondary">
+              <Typography variant="body1" sx={{ color: "text.secondary" }}>
                 {step}
               </Typography>
             </Box>
