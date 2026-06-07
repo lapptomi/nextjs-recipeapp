@@ -1,7 +1,6 @@
 /* eslint-disable react-refresh/only-export-components */
-import { createContext, useContext, useEffect, useState } from "react";
-import { apiClient } from "../lib/apiClient";
-import { getStoredAuth, removeStoredAuth } from "../lib/storage";
+import { createContext, useContext, useState } from "react";
+import { getStoredAuth } from "../lib/storage";
 import type { AuthUser } from "../types/auth";
 
 interface AuthContextValue {
@@ -11,17 +10,20 @@ interface AuthContextValue {
 
 export const AuthContext = createContext<AuthContextValue>(null!);
 
+function storedAuthToUser(): AuthUser | null {
+  const stored = getStoredAuth();
+  if (!stored) return null;
+  return {
+    id: stored.userId,
+    username: stored.username,
+    email: stored.email,
+    image: null,
+    bio: null,
+  };
+}
+
 export function AuthProvider({ children }: { children: React.ReactNode }) {
-  const [user, setUser] = useState<AuthUser | null>(null);
-
-  useEffect(() => {
-    if (!getStoredAuth()) return;
-
-    apiClient
-      .get("/auth/me")
-      .then((data: AuthUser) => setUser(data))
-      .catch(() => removeStoredAuth());
-  }, []);
+  const [user, setUser] = useState<AuthUser | null>(storedAuthToUser);
 
   return (
     <AuthContext.Provider value={{ user, setUser }}>

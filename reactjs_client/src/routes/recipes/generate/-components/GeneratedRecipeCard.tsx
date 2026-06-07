@@ -5,6 +5,7 @@ import BookmarkBorderIcon from "@mui/icons-material/BookmarkBorder";
 import PeopleOutlineIcon from "@mui/icons-material/PeopleOutlined";
 import WhatshotIcon from "@mui/icons-material/Whatshot";
 import { Box, Button, Chip, Snackbar, Typography, styled } from "@mui/material";
+import { useMutation } from "@tanstack/react-query";
 import { useNavigate } from "@tanstack/react-router";
 import { apiClient } from "../../../../lib/apiClient";
 import type { GeneratedRecipe } from "../../../../types/generate";
@@ -105,19 +106,11 @@ export default function GeneratedRecipeCard({
   onSave,
 }: Props) {
   const navigate = useNavigate();
-  const [isSaving, setIsSaving] = useState(false);
-  const [isGeneratingImage, setIsGeneratingImage] = useState(false);
-  const [savedRecipeId, setSavedRecipeId] = useState<number | undefined>();
-  const [generatedImage, setGeneratedImage] = useState<string | undefined>();
-  const [actionError, setActionError] = useState<string | undefined>();
   const [showSnackbar, setShowSnackbar] = useState(false);
 
-  function handleSaveRecipe() {
-    setIsSaving(true);
-    setActionError(undefined);
-
-    apiClient
-      .post("/recipes", {
+  const saveRecipeMutation = useMutation<{ id: number }, Error>({
+    mutationFn: () =>
+      apiClient.post("/recipes", {
         title: recipe.title,
         description: recipe.description,
         ingredients: recipe.ingredients,
@@ -125,38 +118,30 @@ export default function GeneratedRecipeCard({
         servings: recipe.servings,
         instructions: recipe.instructions.join("\n"),
         category: recipe.category,
-      })
-      .then((created) => {
-        setSavedRecipeId(created.id);
-        setShowSnackbar(true);
-        onSave?.();
-      })
-      .catch((e) => setActionError(`Failed to save recipe: ${e.message}`))
-      .finally(() => setIsSaving(false));
-  }
+      }),
+    onSuccess: () => {
+      setShowSnackbar(true);
+      onSave?.();
+    },
+  });
 
-  function handleGenerateImage() {
-    setIsGeneratingImage(true);
-    setActionError(undefined);
-
-    apiClient
-      .post("/openai/generate-recipe-image", {
+  const generateImageMutation = useMutation<{ imageBase64: string }, Error>({
+    mutationFn: () =>
+      apiClient.post("/openai/generate-recipe-image", {
         title: recipe.title,
         description: recipe.description,
         ingredients: recipe.ingredients,
-      })
-      .then(({ imageBase64 }) =>
-        setGeneratedImage(`data:image/png;base64,${imageBase64}`),
-      )
-      .catch((e) => setActionError(`Failed to generate image: ${e.message}`))
-      .finally(() => setIsGeneratingImage(false));
-  }
+      }),
+  });
 
   return (
     <RecipeCardContainer>
       <RecipeHeroSection sx={{ bgcolor: "primary.main" }}>
-        {generatedImage && (
-          <RecipeHeroImage src={generatedImage} alt={recipe.title} />
+        {generateImageMutation.data && (
+          <RecipeHeroImage
+            src={`data:image/png;base64,${generateImageMutation.data.imageBase64}`}
+            alt={recipe.title}
+          />
         )}
         <Box
           sx={{
@@ -170,13 +155,13 @@ export default function GeneratedRecipeCard({
           <Box sx={{ display: "flex", justifyContent: "flex-end" }}>
             <GenerateImageButton
               size="small"
-              onClick={handleGenerateImage}
-              loading={isGeneratingImage}
+              onClick={() => generateImageMutation.mutate()}
+              loading={generateImageMutation.isPending}
               startIcon={
                 <AutoAwesomeIcon sx={{ fontSize: "12px !important" }} />
               }
             >
-              {isGeneratingImage ? "Generating..." : "Generate image"}
+              {generateImageMutation.isPending ? "Generating..." : "Generate image"}
             </GenerateImageButton>
           </Box>
           <Box>
@@ -236,30 +221,35 @@ export default function GeneratedRecipeCard({
           </Box>
 
           <ActionButtons>
-            {actionError && (
+            {saveRecipeMutation.error && (
               <Typography variant="caption" color="error">
-                {actionError}
+                Failed to save recipe: {saveRecipeMutation.error.message}
+              </Typography>
+            )}
+            {generateImageMutation.error && (
+              <Typography variant="caption" color="error">
+                Failed to generate image: {generateImageMutation.error.message}
               </Typography>
             )}
             <Box sx={{ display: "flex", gap: 1 }}>
               <Button
                 variant="contained"
                 size="small"
-                onClick={handleSaveRecipe}
-                disabled={isSaving || Boolean(savedRecipeId)}
-                loading={isSaving}
+                onClick={() => saveRecipeMutation.mutate()}
+                disabled={saveRecipeMutation.isPending || Boolean(saveRecipeMutation.data?.id)}
+                loading={saveRecipeMutation.isPending}
                 startIcon={<BookmarkBorderIcon />}
               >
-                {savedRecipeId ? "Saved" : "Save Recipe"}
+                {saveRecipeMutation.data ? "Saved" : "Save Recipe"}
               </Button>
-              {savedRecipeId && (
+              {saveRecipeMutation.data && (
                 <Button
                   variant="outlined"
                   size="small"
                   onClick={() =>
                     navigate({
                       to: "/recipes/$id",
-                      params: { id: String(savedRecipeId) },
+                      params: { id: String(saveRecipeMutation.data.id) },
                     })
                   }
                 >

@@ -52,7 +52,7 @@ const AssistantAvatar = styled(Box)(({ theme }) => ({
   width: 40,
   height: 40,
   borderRadius: Number(theme.shape.borderRadius) * 3,
-  background: "linear-gradient(135deg, #fbbf24, #1c1c1c)",
+  background: "linear-gradient(135deg, #fbbf24, #ed6c02)",
   boxShadow: theme.shadows[2],
   flexShrink: 0,
 }));
@@ -125,7 +125,7 @@ export default function ChatMessageList({
             return (
               <UserMessageRow key={msg.id}>
                 <UserBubble>
-                  <Typography variant="body1" color="white">
+                  <Typography variant="body1" sx={{ color: "text.primaryLight" }}>
                     {msg.content}
                   </Typography>
                 </UserBubble>
