@@ -41,7 +41,7 @@ export default function LoginForm() {
   };
 
   return (
-    <FormWrapper component="form" onSubmit={handleSubmit(onSubmit)}>
+    <FormWrapper as="form" onSubmit={handleSubmit(onSubmit)}>
       <Typography variant="h5">Sign In</Typography>
 
       <Box>

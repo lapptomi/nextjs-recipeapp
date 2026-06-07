@@ -193,7 +193,7 @@ export class CdkRecipeAppStack extends cdk.Stack {
 
     // Upload built dist/ to S3 and invalidate CloudFront cache on deploy
     new s3deploy.BucketDeployment(this, "FrontendDeployment", {
-      sources: [s3deploy.Source.asset("../client_v2/dist")],
+      sources: [s3deploy.Source.asset("../reactjs_client/dist")],
       destinationBucket: frontendBucket,
       distribution,
       distributionPaths: ["/*"],
