@@ -35,7 +35,7 @@ export default function LaptopShowcaseSection() {
               variant="h3"
               sx={{ fontWeight: "bold", color: "text.primary" }}
             >
-              Easy recipe generation with our{" "}
+              Easy recipe generation with the{" "}
               <span
                 style={{
                   fontWeight: "bold",
