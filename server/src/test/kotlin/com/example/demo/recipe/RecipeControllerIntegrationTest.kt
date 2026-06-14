@@ -3,8 +3,8 @@ package com.example.demo.recipe
 import com.example.demo.ApiPath
 import com.example.demo.TextFixtures.recipes
 import com.example.demo.TextFixtures.users
-import com.example.demo.recipe.domain.CreateRecipeDTO
-import com.example.demo.recipe.domain.Recipe
+import com.example.demo.recipe.domain.CreateRecipeRequest
+import com.example.demo.recipe.domain.RecipeDetail
 import com.example.demo.user.UserRepository
 import com.example.demo.user.domain.User
 import kotlin.test.Test
@@ -30,7 +30,7 @@ class RecipeControllerIntegrationTest {
     @Autowired private lateinit var userRepository: UserRepository
 
     private lateinit var testUser: User
-    private lateinit var testRecipe: Recipe
+    private lateinit var testRecipe: RecipeDetail
 
     @BeforeEach
     fun setUp() {
@@ -45,7 +45,7 @@ class RecipeControllerIntegrationTest {
             recipeRepository.createRecipe(
                 userId = user.id,
                 createRecipeDTO =
-                    CreateRecipeDTO(
+                    CreateRecipeRequest(
                         title = recipes[0].title,
                         description = recipes[0].description,
                         ingredients = recipes[0].ingredients,
@@ -58,7 +58,7 @@ class RecipeControllerIntegrationTest {
         recipeRepository.createRecipe(
             userId = user.id,
             createRecipeDTO =
-                CreateRecipeDTO(
+                CreateRecipeRequest(
                     title = recipes[1].title,
                     description = recipes[1].description,
                     ingredients = recipes[1].ingredients,

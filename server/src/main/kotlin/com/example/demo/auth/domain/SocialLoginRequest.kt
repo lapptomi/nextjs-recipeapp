@@ -1,6 +1,6 @@
 package com.example.demo.auth.domain
 
-data class SocialLoginRequestDTO(
+data class SocialLoginRequest(
     val name: String,
     val email: String,
     val providerId: String,

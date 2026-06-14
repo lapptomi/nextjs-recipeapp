@@ -8,8 +8,8 @@ const SectionWrapper = styled(Box)({
   justifyContent: "center",
   backgroundColor: theme.palette.background.default,
   paddingLeft: theme.spacing(8),
-  paddingTop: theme.spacing(18),
-  paddingBottom: theme.spacing(18),
+  paddingTop: theme.spacing(10),
+  paddingBottom: theme.spacing(10),
 });
 
 const ContentRow = styled(Box)({

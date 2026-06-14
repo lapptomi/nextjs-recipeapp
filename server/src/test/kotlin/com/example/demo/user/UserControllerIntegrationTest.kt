@@ -2,9 +2,9 @@ package com.example.demo.user
 
 import com.example.demo.ApiPath
 import com.example.demo.auth.JwtService
-import com.example.demo.user.domain.CreateUserRequestDTO
-import com.example.demo.user.domain.UpdateUserRequestDTO
-import com.example.demo.user.domain.UserDTO
+import com.example.demo.user.domain.CreateUserRequest
+import com.example.demo.user.domain.UpdateUserRequest
+import com.example.demo.user.domain.UserResponse
 import com.fasterxml.jackson.databind.ObjectMapper
 import kotlin.test.assertTrue
 import org.junit.jupiter.api.AfterEach
@@ -29,18 +29,18 @@ class UserControllerIntegrationTest {
     @Autowired private lateinit var jwtService: JwtService
     @Autowired private lateinit var objectMapper: ObjectMapper
 
-    private lateinit var testUser: UserDTO
-    private lateinit var secondUser: UserDTO
+    private lateinit var testUser: UserResponse
+    private lateinit var secondUser: UserResponse
 
     @BeforeEach
     fun setUp() {
         testUser =
             userService.createUser(
-                CreateUserRequestDTO(username = "testuser", email = "hello@world.com", password = "testpassword")
+                CreateUserRequest(username = "testuser", email = "hello@world.com", password = "testpassword")
             )
         secondUser =
             userService.createUser(
-                CreateUserRequestDTO(username = "otheruser", email = "other@world.com", password = "testpassword")
+                CreateUserRequest(username = "otheruser", email = "other@world.com", password = "testpassword")
             )
     }
 
@@ -72,7 +72,7 @@ class UserControllerIntegrationTest {
 
     @Test
     fun `createUser should return created user`() {
-        val newUser = CreateUserRequestDTO("uniqueusername", "unique@example.com", "testpassword")
+        val newUser = CreateUserRequest("uniqueusername", "unique@example.com", "testpassword")
 
         mockMvc
             .perform(
@@ -106,7 +106,7 @@ class UserControllerIntegrationTest {
     @Test
     fun `updateUser me should return 200 and update current user when token is valid`() {
         val updateUserRequest =
-            UpdateUserRequestDTO(username = "updated-user", email = "updated@world.com", password = null)
+            UpdateUserRequest(username = "updated-user", email = "updated@world.com", password = null)
         val token = jwtService.generateToken(testUser.id)
 
         mockMvc
@@ -128,7 +128,7 @@ class UserControllerIntegrationTest {
     @Test
     fun `updateUser me should return 401 when token is missing`() {
         val updateUserRequest =
-            UpdateUserRequestDTO(username = "updated-user", email = "updated@world.com", password = null)
+            UpdateUserRequest(username = "updated-user", email = "updated@world.com", password = null)
 
         mockMvc
             .perform(

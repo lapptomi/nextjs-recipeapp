@@ -2,11 +2,11 @@ package com.example.demo.recipe
 
 import com.example.demo.ApiPath
 import com.example.demo.domain.PageResult
-import com.example.demo.recipe.domain.CreateRecipeCommentDTO
-import com.example.demo.recipe.domain.CreateRecipeDTO
-import com.example.demo.recipe.domain.CreateRecipeRatingDTO
-import com.example.demo.recipe.domain.RecipeDTO
-import com.example.demo.recipe.domain.RecipeListItemDTO
+import com.example.demo.recipe.domain.CreateRecipeCommentRequest
+import com.example.demo.recipe.domain.CreateRecipeRatingRequest
+import com.example.demo.recipe.domain.CreateRecipeRequest
+import com.example.demo.recipe.domain.GetRecipeResponse
+import com.example.demo.recipe.domain.RecipeListItemResponse
 import org.springframework.http.HttpStatus
 import org.springframework.http.MediaType
 import org.springframework.http.ResponseEntity
@@ -24,7 +24,7 @@ class RecipeController(private val recipeService: RecipeService) {
         @RequestParam(name = "page", defaultValue = "1", required = false) page: Int,
         @RequestParam(name = "page_size", defaultValue = "12", required = false) pageSize: Int,
         @RequestParam(name = "sort_by", defaultValue = "date_desc", required = false) sortBy: String,
-    ): ResponseEntity<PageResult<RecipeListItemDTO>> {
+    ): ResponseEntity<PageResult<RecipeListItemResponse>> {
         val normalizedCategory = category?.trim()?.lowercase()?.takeIf { it.isNotEmpty() && it != "all" }
 
         return ResponseEntity.ok(
@@ -39,25 +39,36 @@ class RecipeController(private val recipeService: RecipeService) {
     }
 
     @GetMapping("/{id}")
-    fun getRecipeById(@PathVariable id: Int): ResponseEntity<RecipeDTO> = ResponseEntity.ok(recipeService.findById(id))
+    fun getRecipeById(@PathVariable id: Int): ResponseEntity<GetRecipeResponse> =
+        ResponseEntity.ok(recipeService.findById(id))
 
     @PostMapping
-    fun createRecipe(@RequestBody createRecipeDTO: CreateRecipeDTO): ResponseEntity<RecipeDTO> =
+    fun createRecipe(@RequestBody createRecipeDTO: CreateRecipeRequest): ResponseEntity<GetRecipeResponse> =
         ResponseEntity.status(HttpStatus.CREATED).body(recipeService.createRecipe(createRecipeDTO))
 
     @PostMapping("/{id}/comments")
-    fun addComment(@PathVariable id: Int, @RequestBody commentDto: CreateRecipeCommentDTO): ResponseEntity<RecipeDTO> =
+    fun addComment(
+        @PathVariable id: Int,
+        @RequestBody commentDto: CreateRecipeCommentRequest,
+    ): ResponseEntity<GetRecipeResponse> =
         ResponseEntity.status(HttpStatus.CREATED).body(recipeService.addComment(id, commentDto))
 
     @PostMapping("/{id}/ratings")
-    fun addRating(@PathVariable id: Int, @RequestBody rating: CreateRecipeRatingDTO): ResponseEntity<RecipeDTO> =
+    fun addRating(
+        @PathVariable id: Int,
+        @RequestBody rating: CreateRecipeRatingRequest,
+    ): ResponseEntity<GetRecipeResponse> =
         ResponseEntity.status(HttpStatus.CREATED).body(recipeService.createRecipeRating(id, rating))
 
     @PostMapping("/{id}/image", consumes = [MediaType.MULTIPART_FORM_DATA_VALUE])
-    fun uploadImage(@PathVariable id: Int, @RequestPart("image") image: MultipartFile): ResponseEntity<RecipeDTO> =
-        ResponseEntity.ok(recipeService.uploadRecipeImage(id, image))
+    fun uploadImage(
+        @PathVariable id: Int,
+        @RequestPart("image") image: MultipartFile,
+    ): ResponseEntity<GetRecipeResponse> = ResponseEntity.ok(recipeService.uploadRecipeImage(id, image))
 
     @PutMapping("/{id}/ratings")
-    fun updateRating(@PathVariable id: Int, @RequestBody rating: CreateRecipeRatingDTO): ResponseEntity<RecipeDTO> =
-        ResponseEntity.ok(recipeService.updateRating(id, rating))
+    fun updateRating(
+        @PathVariable id: Int,
+        @RequestBody rating: CreateRecipeRatingRequest,
+    ): ResponseEntity<GetRecipeResponse> = ResponseEntity.ok(recipeService.updateRating(id, rating))
 }

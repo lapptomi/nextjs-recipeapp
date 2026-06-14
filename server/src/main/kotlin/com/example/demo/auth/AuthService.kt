@@ -1,7 +1,7 @@
 package com.example.demo.auth
 
 import com.example.demo.auth.domain.JwtTokenDto
-import com.example.demo.auth.domain.SocialLoginRequestDTO
+import com.example.demo.auth.domain.SocialLoginRequest
 import com.example.demo.config.SecurityConfig
 import com.example.demo.domain.CurrentUser
 import com.example.demo.user.UserRepository
@@ -49,7 +49,7 @@ class AuthService(
         )
     }
 
-    fun socialLogin(credentials: SocialLoginRequestDTO): JwtTokenDto {
+    fun socialLogin(credentials: SocialLoginRequest): JwtTokenDto {
         val user =
             userRepository.findByProviderId(credentials.providerId)
                 ?: userRepository.createSocialUser(

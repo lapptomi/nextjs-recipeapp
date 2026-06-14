@@ -55,3 +55,6 @@ h2_storage/
 
 .cursor/
 .mcp/
+
+# vite cache
+**/.vite

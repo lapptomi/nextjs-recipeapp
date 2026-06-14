@@ -1,80 +1,88 @@
 package com.example.demo.recipe
 
 import com.example.demo.config.RecipeNotFoundException
-import com.example.demo.recipe.domain.CreateRecipeDTO
+import com.example.demo.recipe.domain.CreateRecipeRequest
 import com.example.demo.recipe.domain.Recipe
-import com.example.demo.recipe.domain.RecipeAuthorDTO
+import com.example.demo.recipe.domain.RecipeAuthor
 import com.example.demo.recipe.domain.RecipeComment
+import com.example.demo.recipe.domain.RecipeDetail
+import com.example.demo.recipe.domain.RecipeListItem
+import com.example.demo.recipe.domain.RecipePage
 import com.example.demo.recipe.domain.RecipeRating
 import com.example.demo.recipe.domain.RecipeRatingType
 import java.sql.Types
-import org.springframework.dao.EmptyResultDataAccessException
 import org.springframework.jdbc.core.DataClassRowMapper
+import org.springframework.jdbc.core.RowMapper
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate
 import org.springframework.jdbc.support.GeneratedKeyHolder
 import org.springframework.jdbc.support.KeyHolder
 import org.springframework.stereotype.Repository
 
-@Repository
-class RecipeRepository(val jdbcTemplate: NamedParameterJdbcTemplate) {
+private val recipeRowMapper = DataClassRowMapper(Recipe::class.java)
 
-    fun fetchRecipes(recipeTitle: String, category: String?, page: Int, pageSize: Int, sortBy: String): List<Recipe> {
+private val recipeListItemRowMapper = DataClassRowMapper(RecipeListItem::class.java)
+
+private val recipeRatingRowMapper =
+    RowMapper<RecipeRating> { rs, _ ->
+        RecipeRating(
+            id = rs.getInt("rating_id"),
+            type = RecipeRatingType.valueOf(rs.getString("rating_type")),
+            author = RecipeAuthor(id = rs.getInt("author_id"), username = rs.getString("author_username")),
+        )
+    }
+
+@Repository
+class RecipeRepository(private val jdbcTemplate: NamedParameterJdbcTemplate) {
+
+    fun fetchRecipesByPage(
+        recipeTitle: String,
+        category: String?,
+        page: Int,
+        pageSize: Int,
+        sortBy: String,
+    ): RecipePage {
+        val filterParams =
+            MapSqlParameterSource().addValue("recipeTitle", recipeTitle).addValue("category", category, Types.VARCHAR)
+
+        val whereClause =
+            "r.title ILIKE '%' || :recipeTitle || '%' AND (:category IS NULL OR LOWER(r.category) = LOWER(:category))"
+
+        val totalCount =
+            jdbcTemplate.queryForObject(
+                "SELECT COUNT(DISTINCT r.id) FROM recipes r WHERE $whereClause",
+                filterParams,
+                Long::class.java,
+            )
+
         val params =
-            MapSqlParameterSource()
-                .addValue("recipeTitle", recipeTitle)
-                .addValue("category", category, Types.VARCHAR)
+            filterParams
                 .addValue("limit", pageSize)
                 .addValue("offset", (page - 1) * pageSize)
                 .addValue("sortBy", sortBy)
 
         val sql =
             """
-        SELECT id, title, description, image, cooking_time, servings, instructions,
-               category, user_id, created_at
-        FROM recipes
-        WHERE title ILIKE '%' || :recipeTitle || '%'
-          AND (:category IS NULL OR LOWER(category) = LOWER(:category))
-        ORDER BY CASE WHEN :sortBy = 'date_asc' THEN created_at END ASC,
-                 CASE WHEN :sortBy = 'date_desc' THEN created_at END DESC
-        LIMIT :limit OFFSET :offset
-        """
+            SELECT r.id, r.title, r.description, r.image, r.cooking_time, r.servings, r.category, r.user_id, r.created_at, u.id AS author_id, u.username AS author_username,
+                   COUNT(rr.id) AS total_ratings,
+                   COALESCE(AVG(CASE WHEN rr.type = 'LIKE' THEN 5 WHEN rr.type = 'DISLIKE' THEN 0 END), 0.0) AS average_rating
+            FROM recipes r
+            JOIN users u ON r.user_id = u.id
+            LEFT JOIN recipe_ratings rr ON rr.recipe_id = r.id
+            WHERE $whereClause
+            GROUP BY r.id, u.id
+            ORDER BY CASE WHEN :sortBy = 'date_asc' THEN r.created_at END ASC,
+                     CASE WHEN :sortBy = 'date_desc' THEN r.created_at END DESC
+            LIMIT :limit OFFSET :offset
+            """
                 .trimIndent()
 
-        return jdbcTemplate.query(sql, params, DataClassRowMapper(Recipe::class.java))
+        val items = jdbcTemplate.query(sql, params, recipeListItemRowMapper)
+
+        return RecipePage(items = items, totalCount = totalCount ?: 0)
     }
 
-    fun fetchAverageRatingForRecipe(recipeId: Int): Double {
-        val params = MapSqlParameterSource("recipeId", recipeId)
-
-        return jdbcTemplate.queryForObject(
-            "SELECT AVG(CASE WHEN type = 'LIKE' THEN 5 WHEN type = 'DISLIKE' THEN 0 END) FROM recipe_ratings WHERE recipe_id = :recipeId",
-            params,
-            Double::class.java,
-        ) ?: 0.0
-    }
-
-    fun fetchTotalRatingsForRecipe(recipeId: Int): Int {
-        val params = MapSqlParameterSource("recipeId", recipeId)
-        return jdbcTemplate.queryForObject(
-            "SELECT COUNT(*) FROM recipe_ratings WHERE recipe_id = :recipeId",
-            params,
-            Int::class.java,
-        ) ?: 0
-    }
-
-    fun fetchTotalRecipesCount(recipeTitle: String, category: String?): Long {
-        val params =
-            MapSqlParameterSource().addValue("recipeTitle", recipeTitle).addValue("category", category, Types.VARCHAR)
-
-        return jdbcTemplate.queryForObject(
-            "SELECT COUNT(*) FROM recipes WHERE title ILIKE '%' || :recipeTitle || '%' AND (:category IS NULL OR LOWER(category) = LOWER(:category))",
-            params,
-            Long::class.java,
-        ) ?: 0L
-    }
-
-    fun createRecipe(userId: Int, createRecipeDTO: CreateRecipeDTO): Recipe {
+    fun createRecipe(userId: Int, createRecipeDTO: CreateRecipeRequest): RecipeDetail {
         val params =
             MapSqlParameterSource()
                 .addValue("userId", userId)
@@ -87,9 +95,9 @@ class RecipeRepository(val jdbcTemplate: NamedParameterJdbcTemplate) {
 
         val sql =
             """
-        INSERT INTO recipes (user_id, title, description, cooking_time, servings, instructions, category, created_at)
-        VALUES (:userId, :title, :description, :cookingTime, :servings, :instructions, :category, NOW())
-        """
+            INSERT INTO recipes (user_id, title, description, cooking_time, servings, instructions, category, created_at)
+            VALUES (:userId, :title, :description, :cookingTime, :servings, :instructions, :category, NOW())
+            """
                 .trimIndent()
 
         val keyHolder: KeyHolder = GeneratedKeyHolder()
@@ -98,8 +106,7 @@ class RecipeRepository(val jdbcTemplate: NamedParameterJdbcTemplate) {
 
         insertIngredients(generatedId, createRecipeDTO.ingredients)
 
-        return findByIdOrNull(generatedId)
-            ?: throw IllegalStateException("Recipe was created but could not be loaded by id: $generatedId")
+        return findRecipeWithDetailsById(generatedId)
     }
 
     fun createRecipeComment(recipeId: Int, userId: Int, message: String) {
@@ -119,54 +126,88 @@ class RecipeRepository(val jdbcTemplate: NamedParameterJdbcTemplate) {
         }
     }
 
-    fun fetchUserRecipes(userId: Int): List<Recipe> {
-        val params = MapSqlParameterSource().addValue("userId", userId)
+    fun fetchUserRecipesWithStats(userId: Int): List<RecipeListItem> {
+        val params = MapSqlParameterSource("userId", userId)
         val sql =
             """
-            SELECT id, title, description, image, cooking_time, servings, instructions, category, user_id, created_at
-            FROM recipes
-            WHERE user_id = :userId
-            ORDER BY created_at DESC
+            SELECT r.id, r.title, r.description, r.image, r.cooking_time, r.servings, r.category, r.user_id, r.created_at, u.id AS author_id, u.username AS author_username,
+                   COUNT(rr.id) AS total_ratings,
+                   COALESCE(AVG(CASE WHEN rr.type = 'LIKE' THEN 5 WHEN rr.type = 'DISLIKE' THEN 0 END), 0.0) AS average_rating
+            FROM recipes r
+            JOIN users u ON r.user_id = u.id
+            LEFT JOIN recipe_ratings rr ON rr.recipe_id = r.id
+            WHERE r.user_id = :userId
+            GROUP BY r.id, u.id
+            ORDER BY r.created_at DESC
             """
-
-        return jdbcTemplate.query(sql, params, DataClassRowMapper(Recipe::class.java))
-    }
-
-    fun findByIdOrNull(recipeId: Int): Recipe? {
-        val params = MapSqlParameterSource("recipeId", recipeId)
-        val sql =
-            """
-            SELECT id, title, description, image, cooking_time, servings, instructions, category, user_id, created_at
-            FROM recipes
-            WHERE id = :recipeId
-            """
-
-        return try {
-            jdbcTemplate.queryForObject(sql, params, DataClassRowMapper(Recipe::class.java))
-        } catch (e: EmptyResultDataAccessException) {
-            throw RecipeNotFoundException(recipeId.toString())
-        }
-    }
-
-    fun fetchRecipeRatings(recipeId: Int): List<RecipeRating> {
-        val params = MapSqlParameterSource("recipeId", recipeId)
-        val sql =
-            """
-        SELECT rating.id AS rating_id, rating.type AS rating_type,
-               u.id AS user_id, u.username AS username
-        FROM recipe_ratings rating
-        JOIN users u ON rating.user_id = u.id
-        WHERE rating.recipe_id = :recipeId
-        """
                 .trimIndent()
 
-        return jdbcTemplate.query(sql, params) { rs, _ ->
-            RecipeRating(
-                id = rs.getInt("rating_id"),
-                type = RecipeRatingType.valueOf(rs.getString("rating_type")),
-                author = RecipeAuthorDTO(id = rs.getInt("user_id"), username = rs.getString("username")),
+        return jdbcTemplate.query(sql, params, recipeListItemRowMapper)
+    }
+
+    fun findRecipeWithDetailsById(recipeId: Int): RecipeDetail {
+        val params = MapSqlParameterSource("recipeId", recipeId)
+
+        val recipe =
+            jdbcTemplate
+                .query(
+                    "SELECT id, title, description, image, cooking_time, servings, instructions, category, user_id, created_at FROM recipes WHERE id = :recipeId",
+                    params,
+                    recipeRowMapper,
+                )
+                .firstOrNull() ?: throw RecipeNotFoundException(recipeId.toString())
+
+        val author =
+            jdbcTemplate.queryForObject(
+                "SELECT id, username FROM users WHERE id = :userId",
+                MapSqlParameterSource("userId", recipe.userId),
+            ) { rs, _ ->
+                RecipeAuthor(rs.getInt("id"), rs.getString("username"))
+            }!!
+
+        val ingredients =
+            jdbcTemplate.queryForList(
+                "SELECT ingredient FROM recipe_ingredients WHERE recipe_id = :recipeId ORDER BY id",
+                params,
+                String::class.java,
             )
-        }
+
+        val comments =
+            jdbcTemplate.query(
+                "SELECT c.id AS comment_id, c.message, c.created_at AS comment_created_at, u.id AS author_id, u.username AS author_username FROM recipe_comments c JOIN users u ON c.user_id = u.id WHERE c.recipe_id = :recipeId",
+                params,
+            ) { rs, _ ->
+                RecipeComment(
+                    id = rs.getInt("comment_id"),
+                    message = rs.getString("message"),
+                    createdAt = rs.getTimestamp("comment_created_at").toLocalDateTime(),
+                    author = RecipeAuthor(rs.getInt("author_id"), rs.getString("author_username")),
+                )
+            }
+
+        val ratings =
+            jdbcTemplate.query(
+                "SELECT rr.id AS rating_id, rr.type AS rating_type, u.id AS author_id, u.username AS author_username FROM recipe_ratings rr JOIN users u ON rr.user_id = u.id WHERE rr.recipe_id = :recipeId",
+                params,
+                recipeRatingRowMapper,
+            )
+
+        return RecipeDetail(
+            id = recipe.id,
+            title = recipe.title,
+            description = recipe.description,
+            image = recipe.image,
+            cookingTime = recipe.cookingTime,
+            servings = recipe.servings,
+            instructions = recipe.instructions,
+            userId = recipe.userId,
+            createdAt = recipe.createdAt,
+            category = recipe.category,
+            author = author,
+            ingredients = ingredients,
+            comments = comments,
+            ratings = ratings,
+        )
     }
 
     fun existsByRecipeIdAndAuthorId(recipeId: Int, userId: Int): Boolean {
@@ -184,23 +225,15 @@ class RecipeRepository(val jdbcTemplate: NamedParameterJdbcTemplate) {
         val params = MapSqlParameterSource().addValue("recipeId", recipeId).addValue("userId", userId)
         val sql =
             """
-        SELECT rating.id AS rating_id, rating.type AS rating_type,
-               u.id AS author_id, u.username AS author_username
-        FROM recipe_ratings rating
-        JOIN users u ON rating.user_id = u.id
-        WHERE rating.recipe_id = :recipeId AND rating.user_id = :userId
-        """
+            SELECT rating.id AS rating_id, rating.type AS rating_type,
+                   u.id AS author_id, u.username AS author_username
+            FROM recipe_ratings rating
+            JOIN users u ON rating.user_id = u.id
+            WHERE rating.recipe_id = :recipeId AND rating.user_id = :userId
+            """
                 .trimIndent()
 
-        return jdbcTemplate
-            .query(sql, params) { rs, _ ->
-                RecipeRating(
-                    id = rs.getInt("rating_id"),
-                    type = RecipeRatingType.valueOf(rs.getString("rating_type")),
-                    author = RecipeAuthorDTO(id = rs.getInt("author_id"), username = rs.getString("author_username")),
-                )
-            }
-            .firstOrNull()
+        return jdbcTemplate.query(sql, params, recipeRatingRowMapper).firstOrNull()
     }
 
     fun updateRecipeRating(ratingId: Int, type: RecipeRatingType) {
@@ -228,23 +261,6 @@ class RecipeRepository(val jdbcTemplate: NamedParameterJdbcTemplate) {
         jdbcTemplate.update("UPDATE recipes SET image = :image WHERE id = :recipeId", params)
     }
 
-    fun fetchIngredientsByRecipeId(recipeId: Int): List<String> {
-        val params = MapSqlParameterSource("recipeId", recipeId)
-        return jdbcTemplate.queryForList(
-            "SELECT ingredient FROM recipe_ingredients WHERE recipe_id = :recipeId ORDER BY id",
-            params,
-            String::class.java,
-        )
-    }
-
-    fun fetchAuthorByUserId(userId: Int): RecipeAuthorDTO {
-        val params = MapSqlParameterSource("userId", userId)
-
-        return jdbcTemplate.queryForObject("SELECT id, username FROM users WHERE id = :userId", params) { rs, _ ->
-            RecipeAuthorDTO(id = rs.getInt("id"), username = rs.getString("username"))
-        } ?: throw IllegalStateException("Author not found for user id: $userId")
-    }
-
     private fun insertIngredients(recipeId: Int, ingredients: List<String>) {
         val batchParams =
             ingredients
@@ -256,27 +272,5 @@ class RecipeRepository(val jdbcTemplate: NamedParameterJdbcTemplate) {
             "INSERT INTO recipe_ingredients (recipe_id, ingredient) VALUES (:recipeId, :ingredient)",
             batchParams,
         )
-    }
-
-    fun fetchRecipeComments(recipeId: Int): List<RecipeComment> {
-        val params = MapSqlParameterSource("recipeId", recipeId)
-        val sql =
-            """
-        SELECT c.id AS comment_id, c.message AS comment_message, c.created_at AS comment_created_at,
-               u.id AS author_id, u.username AS author_username
-        FROM recipe_comments c
-        JOIN users u ON c.user_id = u.id
-        WHERE c.recipe_id = :recipeId
-        """
-                .trimIndent()
-
-        return jdbcTemplate.query(sql, params) { rs, _ ->
-            RecipeComment(
-                id = rs.getInt("comment_id"),
-                message = rs.getString("comment_message"),
-                createdAt = rs.getTimestamp("comment_created_at").toLocalDateTime(),
-                author = RecipeAuthorDTO(id = rs.getInt("author_id"), username = rs.getString("author_username")),
-            )
-        }
     }
 }

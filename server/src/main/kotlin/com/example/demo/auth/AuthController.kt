@@ -2,9 +2,9 @@ package com.example.demo.auth
 
 import com.example.demo.ApiPath
 import com.example.demo.auth.domain.JwtTokenDto
-import com.example.demo.auth.domain.LoginDTO
+import com.example.demo.auth.domain.LoginRequest
 import com.example.demo.auth.domain.RefreshTokenRequestDto
-import com.example.demo.auth.domain.SocialLoginRequestDTO
+import com.example.demo.auth.domain.SocialLoginRequest
 import com.example.demo.user.domain.User
 import org.springframework.http.ResponseEntity
 import org.springframework.security.core.annotation.AuthenticationPrincipal
@@ -25,13 +25,13 @@ class AuthController(private val authService: AuthService) {
 
     // Used for standard email/password login
     @PostMapping("/login")
-    fun login(@RequestBody authRequest: LoginDTO): ResponseEntity<JwtTokenDto> {
+    fun login(@RequestBody authRequest: LoginRequest): ResponseEntity<JwtTokenDto> {
         return ResponseEntity.ok(authService.login(authRequest.email, authRequest.password))
     }
 
     // Used for social login (e.g., Google, Facebook, GitHub etc.)
     @PostMapping("/social-login")
-    fun socialLogin(@RequestBody credentials: SocialLoginRequestDTO): ResponseEntity<JwtTokenDto> {
+    fun socialLogin(@RequestBody credentials: SocialLoginRequest): ResponseEntity<JwtTokenDto> {
         val jwtToken = authService.socialLogin(credentials)
         return ResponseEntity.ok(jwtToken)
     }

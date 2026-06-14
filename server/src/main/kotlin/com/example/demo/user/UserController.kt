@@ -1,9 +1,9 @@
 package com.example.demo.user
 
 import com.example.demo.ApiPath
-import com.example.demo.user.domain.CreateUserRequestDTO
-import com.example.demo.user.domain.UpdateUserRequestDTO
-import com.example.demo.user.domain.UserDTO
+import com.example.demo.user.domain.CreateUserRequest
+import com.example.demo.user.domain.UpdateUserRequest
+import com.example.demo.user.domain.UserResponse
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.DeleteMapping
@@ -19,21 +19,22 @@ import org.springframework.web.bind.annotation.RestController
 @RequestMapping(ApiPath.USERS_API)
 class UserController(private val userService: UserService) {
 
-    @GetMapping fun getUsers(): ResponseEntity<List<UserDTO>> = ResponseEntity.ok(userService.getAll())
+    @GetMapping fun getUsers(): ResponseEntity<List<UserResponse>> = ResponseEntity.ok(userService.getAll())
 
     @PostMapping
-    fun createUser(@RequestBody user: CreateUserRequestDTO): ResponseEntity<UserDTO> =
+    fun createUser(@RequestBody user: CreateUserRequest): ResponseEntity<UserResponse> =
         ResponseEntity.status(HttpStatus.CREATED).body(userService.createUser(user))
 
     @GetMapping("/{id}")
-    fun findUserById(@PathVariable id: Int): ResponseEntity<UserDTO> = ResponseEntity.ok(userService.findUserById(id))
+    fun findUserById(@PathVariable id: Int): ResponseEntity<UserResponse> =
+        ResponseEntity.ok(userService.findUserById(id))
 
     @GetMapping("/{id}/followers")
-    fun getFollowers(@PathVariable id: Int): ResponseEntity<List<UserDTO>> =
+    fun getFollowers(@PathVariable id: Int): ResponseEntity<List<UserResponse>> =
         ResponseEntity.ok(userService.getUserFollowers(id))
 
     @GetMapping("/{id}/following")
-    fun getFollowing(@PathVariable id: Int): ResponseEntity<List<UserDTO>> =
+    fun getFollowing(@PathVariable id: Int): ResponseEntity<List<UserResponse>> =
         ResponseEntity.ok(userService.getUserFollowing(id))
 
     @DeleteMapping("/{id}/followers")
@@ -43,7 +44,7 @@ class UserController(private val userService: UserService) {
     }
 
     @PutMapping("/me")
-    fun updateUser(@RequestBody updatedUserInfo: UpdateUserRequestDTO): ResponseEntity<Void> {
+    fun updateUser(@RequestBody updatedUserInfo: UpdateUserRequest): ResponseEntity<Void> {
         userService.updateUser(updatedUserInfo)
         return ResponseEntity.ok().build()
     }

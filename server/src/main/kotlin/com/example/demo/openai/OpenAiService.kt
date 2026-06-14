@@ -1,11 +1,10 @@
 package com.example.demo.openai
 
 import com.example.demo.config.OpenAiException
-import com.example.demo.openai.domain.RecipeChatRequestDTO
-import com.example.demo.openai.domain.RecipeChatResponseDTO
+import com.example.demo.openai.domain.RecipeChatRequest
+import com.example.demo.openai.domain.RecipeChatResponse
 import com.example.demo.openai.domain.RecipeChatRole
-import com.example.demo.openai.domain.RecipeChatTurnDTO
-import com.example.demo.s3.S3Service
+import com.example.demo.openai.domain.RecipeChatTurn
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.openai.client.OpenAIClient
 import com.openai.models.ChatModel
@@ -16,12 +15,8 @@ import com.openai.models.images.ImageModel
 import org.springframework.stereotype.Service
 
 @Service
-class OpenAiService(
-    private val openAIClient: OpenAIClient,
-    private val objectMapper: ObjectMapper,
-    private val s3Service: S3Service,
-) {
-    fun generateRecipeChatReply(request: RecipeChatRequestDTO): RecipeChatResponseDTO {
+class OpenAiService(private val openAIClient: OpenAIClient, private val objectMapper: ObjectMapper) {
+    fun generateRecipeChatReply(request: RecipeChatRequest): RecipeChatResponse {
         if (request.messages.isEmpty()) {
             throw OpenAiException("Request must contain at least one message.")
         }
@@ -67,16 +62,16 @@ class OpenAiService(
         }
     }
 
-    private fun parseResponse(rawContent: String): RecipeChatResponseDTO {
+    private fun parseResponse(rawContent: String): RecipeChatResponse {
         return try {
-            val parsed = objectMapper.readValue(rawContent, RecipeChatResponseDTO::class.java)
-            if (parsed.message.isBlank()) RecipeChatResponseDTO(message = rawContent) else parsed
+            val parsed = objectMapper.readValue(rawContent, RecipeChatResponse::class.java)
+            if (parsed.message.isBlank()) RecipeChatResponse(message = rawContent) else parsed
         } catch (_: Exception) {
-            RecipeChatResponseDTO(message = rawContent)
+            RecipeChatResponse(message = rawContent)
         }
     }
 
-    private fun serializeConversationTurn(message: RecipeChatTurnDTO): String {
+    private fun serializeConversationTurn(message: RecipeChatTurn): String {
         if (message.recipe == null) {
             return message.content
         }
@@ -99,8 +94,8 @@ class OpenAiService(
         """
         Create a realistic hero image for a recipe page.
 
-        Recipe title: ${recipeTitle}
-        Recipe description: ${recipeDescription}
+        Recipe title: $recipeTitle
+        Recipe description: $recipeDescription
         Ingredients: ${ingredients.joinToString(", ")}
 
         Style:

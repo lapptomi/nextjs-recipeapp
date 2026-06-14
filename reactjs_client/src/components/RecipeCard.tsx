@@ -12,7 +12,7 @@ import {
   styled,
 } from "@mui/material";
 import type { SxProps, Theme } from "@mui/material";
-import type { RecipeListItem } from "../../types/recipe";
+import type { RecipeListItem } from "../types/recipe";
 
 const StyledCard = styled(Card)({
   height: "100%",

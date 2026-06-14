@@ -3,7 +3,7 @@ package com.example.demo.openai.domain
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-data class GeneratedRecipeDTO(
+data class GeneratedRecipeResponse(
     val title: String = "",
     val description: String = "",
     val cookingTime: Int = 0,

@@ -2,7 +2,7 @@ package com.example.demo.user
 
 import com.example.demo.TextFixtures.users
 import com.example.demo.config.UserNotFoundException
-import com.example.demo.user.domain.CreateUserRequestDTO
+import com.example.demo.user.domain.CreateUserRequest
 import com.example.demo.user.domain.User
 import kotlin.test.Test
 import kotlin.test.assertEquals
@@ -49,7 +49,7 @@ class UserServiceIntegrationTest {
     @Test
     fun `createUser saves a new user`() {
         assertEquals(users.size, userService.getAll().size)
-        val newUser = CreateUserRequestDTO("email3", "user3", "password3")
+        val newUser = CreateUserRequest("email3", "user3", "password3")
         val createdUser = userService.createUser(newUser)
 
         assertEquals(newUser.username, createdUser.username)

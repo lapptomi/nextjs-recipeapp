@@ -5,9 +5,9 @@ import com.example.demo.TextFixtures.users
 import com.example.demo.auth.AuthService
 import com.example.demo.config.RecipeNotFoundException
 import com.example.demo.domain.CurrentUser
-import com.example.demo.recipe.domain.CreateRecipeDTO
-import com.example.demo.recipe.domain.CreateRecipeRatingDTO
-import com.example.demo.recipe.domain.Recipe
+import com.example.demo.recipe.domain.CreateRecipeRatingRequest
+import com.example.demo.recipe.domain.CreateRecipeRequest
+import com.example.demo.recipe.domain.RecipeDetail
 import com.example.demo.recipe.domain.RecipeRatingType
 import com.example.demo.user.UserRepository
 import com.example.demo.user.domain.User
@@ -34,8 +34,8 @@ class RecipeServiceIntegrationTest {
     @MockBean private lateinit var authService: AuthService
 
     private lateinit var testUser: User
-    private lateinit var testRecipe: Recipe
-    private lateinit var testRecipe2: Recipe
+    private lateinit var testRecipe: RecipeDetail
+    private lateinit var testRecipe2: RecipeDetail
     private lateinit var mockCurrentUser: CurrentUser
 
     @BeforeEach
@@ -52,7 +52,7 @@ class RecipeServiceIntegrationTest {
             reicpeRepository.createRecipe(
                 userId = user.id,
                 createRecipeDTO =
-                    CreateRecipeDTO(
+                    CreateRecipeRequest(
                         title = recipes[0].title,
                         description = recipes[0].description,
                         ingredients = recipes[0].ingredients,
@@ -67,7 +67,7 @@ class RecipeServiceIntegrationTest {
             reicpeRepository.createRecipe(
                 userId = user.id,
                 createRecipeDTO =
-                    CreateRecipeDTO(
+                    CreateRecipeRequest(
                         title = recipes[1].title,
                         description = recipes[1].description,
                         ingredients = recipes[1].ingredients,
@@ -156,7 +156,7 @@ class RecipeServiceIntegrationTest {
     @Test
     fun `createRecipe saves a new recipe`() {
         val createRecipeDTO =
-            CreateRecipeDTO(
+            CreateRecipeRequest(
                 title = testRecipe.title,
                 description = testRecipe.description,
                 ingredients = recipes[0].ingredients,
@@ -178,18 +178,18 @@ class RecipeServiceIntegrationTest {
 
     @Test
     fun `addRating creates new rating to the recipe`() {
-        val rating = CreateRecipeRatingDTO(type = RecipeRatingType.DISLIKE)
+        val rating = CreateRecipeRatingRequest(type = RecipeRatingType.DISLIKE)
         val updatedRecipe = recipeService.createRecipeRating(testRecipe.id, rating)
         assertEquals(rating.type, updatedRecipe.ratings[0].type)
     }
 
     @Test
     fun `updateRating updates the rating of the user`() {
-        val rating = CreateRecipeRatingDTO(type = RecipeRatingType.DISLIKE)
+        val rating = CreateRecipeRatingRequest(type = RecipeRatingType.DISLIKE)
         val updatedRecipe = recipeService.createRecipeRating(testRecipe.id, rating)
         assertEquals(rating.type, updatedRecipe.ratings[0].type)
 
-        val updatedRating = CreateRecipeRatingDTO(type = RecipeRatingType.LIKE)
+        val updatedRating = CreateRecipeRatingRequest(type = RecipeRatingType.LIKE)
         val updatedRecipe2 = recipeService.updateRating(testRecipe.id, updatedRating)
         assertEquals(updatedRating.type, updatedRecipe2.ratings[0].type)
     }
@@ -197,7 +197,7 @@ class RecipeServiceIntegrationTest {
     /*
     @Test
     fun `addRating does not create a new rating if the user has already rated the recipe`() {
-        val rating = CreateRecipeRatingDTO(type = RecipeRatingType.DISLIKE)
+        val rating = CreateRecipeRatingRequest(type = RecipeRatingType.DISLIKE)
         val updatedRecipe = recipeService.addRating(testUser, testRecipe.id, rating)
         assertEquals(testRecipe.ratings.size + 1, updatedRecipe.ratings.size)
 
@@ -212,7 +212,7 @@ class RecipeServiceIntegrationTest {
 
     @Test
     fun `addComment creates a new comment`() {
-        val comment = CreateRecipeCommentDTO(message = "comment")
+        val comment = CreateRecipeCommentRequest(message = "comment")
         val updatedRecipe = recipeService.addComment(testUser, testRecipe.id, comment)
 
         assertEquals(testRecipe.comments.size + 1, updatedRecipe.comments.size)

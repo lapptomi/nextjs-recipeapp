@@ -3,11 +3,11 @@ package com.example.demo.user
 import com.example.demo.auth.AuthService
 import com.example.demo.config.UserNotFoundException
 import com.example.demo.recipe.RecipeRepository
-import com.example.demo.recipe.toRecipeListItemDTO
+import com.example.demo.recipe.toRecipeListItemResponse
 import com.example.demo.s3.S3Service
-import com.example.demo.user.domain.CreateUserRequestDTO
-import com.example.demo.user.domain.UpdateUserRequestDTO
-import com.example.demo.user.domain.UserDTO
+import com.example.demo.user.domain.CreateUserRequest
+import com.example.demo.user.domain.UpdateUserRequest
+import com.example.demo.user.domain.UserResponse
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Service
 
@@ -20,29 +20,24 @@ class UserService(
     private val s3Service: S3Service,
 ) {
 
-    fun getAll(): List<UserDTO> {
+    fun getAll(): List<UserResponse> {
         val users = userRepository.fetchUsers()
         return users.map { it.toUserDTO() }
     }
 
-    fun createUser(newUser: CreateUserRequestDTO): UserDTO {
+    fun createUser(newUser: CreateUserRequest): UserResponse {
         val password = validatePassword(newUser.password)
         val passwordHash = passwordEncoder.encode(password)
         val createdUser = userRepository.createUser(newUser.username, newUser.email, passwordHash)
         return createdUser.toUserDTO()
     }
 
-    fun findUserById(id: Int): UserDTO {
+    fun findUserById(id: Int): UserResponse {
         val user = requireUser(id)
-        val userRecipes = recipeRepository.fetchUserRecipes(user.id)
-        val author = recipeRepository.fetchAuthorByUserId(user.id)
         val recipes =
-            userRecipes.map {
-                it.toRecipeListItemDTO(
-                    author = author,
-                    totalRatings = recipeRepository.fetchTotalRatingsForRecipe(it.id),
-                    averageRating = recipeRepository.fetchAverageRatingForRecipe(it.id),
-                    presignedUrl = it.image?.let { imageName -> s3Service.getPresignedUrl(imageName) },
+            recipeRepository.fetchUserRecipesWithStats(user.id).map {
+                it.toRecipeListItemResponse(
+                    presignedUrl = it.image?.let { imageName -> s3Service.getPresignedUrl(imageName) }
                 )
             }
         return user.toUserDTO(recipes)
@@ -53,7 +48,7 @@ class UserService(
         userRepository.deleteById(userId)
     }
 
-    fun updateUser(updatedUser: UpdateUserRequestDTO) {
+    fun updateUser(updatedUser: UpdateUserRequest) {
         val userId = authService.getCurrentUser().sub
         userRepository.updateUser(userId, updatedUser.username, updatedUser.email)
     }
@@ -74,7 +69,7 @@ class UserService(
         userRepository.addFollower(followerId, userToFollowId)
     }
 
-    fun getUserFollowers(userId: Int): List<UserDTO> {
+    fun getUserFollowers(userId: Int): List<UserResponse> {
         val followers = userRepository.getUserFollowers(userId)
         return followers.map { it.toUserDTO() }
     }
@@ -84,7 +79,7 @@ class UserService(
         userRepository.removeFollower(followerId, userToUnfollowId)
     }
 
-    fun getUserFollowing(userId: Int): List<UserDTO> {
+    fun getUserFollowing(userId: Int): List<UserResponse> {
         val following = userRepository.getUserFollowing(userId)
         return following.map { it.toUserDTO() }
     }

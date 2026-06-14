@@ -1,6 +1,6 @@
 package com.example.demo.recipe.domain
 
-data class CreateRecipeDTO(
+data class CreateRecipeRequest(
     val title: String,
     val description: String,
     val ingredients: List<String>,

@@ -27,6 +27,13 @@ export default function RatingButtons({ recipe, likes, dislikes }: Props) {
   const hasLiked = userRating?.type === "LIKE";
   const hasDisliked = userRating?.type === "DISLIKE";
 
+  const disabledSx = {
+    "&.Mui-disabled": {
+      color: "info.main",
+      borderColor: "grey.600",
+    },
+  };
+
   return (
     <Box sx={{ display: "flex", gap: 1, mt: 1 }}>
       <Button
@@ -36,6 +43,7 @@ export default function RatingButtons({ recipe, likes, dislikes }: Props) {
         size="small"
         disabled={!user || ratingMutation.isPending}
         onClick={() => ratingMutation.mutate("LIKE")}
+        sx={disabledSx}
       >
         {likes}
       </Button>
@@ -46,6 +54,7 @@ export default function RatingButtons({ recipe, likes, dislikes }: Props) {
         size="small"
         disabled={!user || ratingMutation.isPending}
         onClick={() => ratingMutation.mutate("DISLIKE")}
+        sx={disabledSx}
       >
         {dislikes}
       </Button>
